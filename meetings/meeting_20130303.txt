@@ -1,0 +1,323 @@
+2013-03-03 14:19:21	KaiSforza	============ okay, meeting starting now =============
+2013-03-03 14:20:17	gtmanfred	ok
+2013-03-03 14:20:27	gtmanfred	soooo, what exactly do we want to do in classrooms... 
+2013-03-03 14:20:46	gtmanfred	are we actually going to sit down and explain everything, or say, here is the wiki page on this stuff, here are some examples, any questions?
+2013-03-03 14:20:50	KaiSforza	teach people things about arch...
+2013-03-03 14:20:59	numeral	stick to one subject and teach it thoroughly!
+2013-03-03 14:21:09	KaiSforza	well, i think that the latter can happen without this channel
+2013-03-03 14:21:27	KaiSforza	so it shouls probably be the former.
+2013-03-03 14:21:45	gtmanfred	so how do you want to explain something?
+2013-03-03 14:21:48	KaiSforza	I know arch isn't a huge 'hold your hand' distro, but sometimes it's needed.
+2013-03-03 14:22:20	gtmanfred	and if we are doing it that way, what exactly is the point of the classroom wiki pages existing with infor mation before the class?
+2013-03-03 14:22:50	KaiSforza	hmm. I was thinking we could put together pdfs with info on them, distribute them to people that come, and then essentially teach it like a normal college like class.
+2013-03-03 14:23:12	fsckd	there's a suggestion in a-w redmine issue tracker, half  amoment
+2013-03-03 14:23:33	KaiSforza	to put the teaching stuff into latex documents, i remember.
+2013-03-03 14:23:48	KaiSforza	or, pdfs.
+2013-03-03 14:23:51	KaiSforza	http://redmine.archwomen.org/issues/2
+2013-03-03 14:23:52	phrik	Title: Suggestion #2: PDF files - Beginners Guide to Package Maintaining - Arch Linux Women: Project Manager (at redmine.archwomen.org)
+2013-03-03 14:24:06	fsckd	yeah that
+2013-03-03 14:24:12	gtmanfred	KaiSforza: then the point of the #a-c would be to give a challenge, based on the documentation, then explain it, and walk through it, and answer questions afterwards?
+2013-03-03 14:24:24	-->	MrElendig (~oh@archlinux/op/pdpc.supporter.active.mrelendig) has joined #archlinux-classroom
+2013-03-03 14:25:01	KaiSforza	gtmanfred: it would be to have a kind of lecture-like classroom on a topic, then to walk people through it, and anser questions.
+2013-03-03 14:25:29	gtmanfred	i think that is basically what i just said no?
+2013-03-03 14:26:14	KaiSforza	i guess.
+2013-03-03 14:26:33	KaiSforza	I'm just thinking of how my college classes work now
+2013-03-03 14:26:56	gtmanfred	i agree, the only problem is, your classes do not exist only in the text medium
+2013-03-03 14:27:53	KaiSforza	gtmanfred: true. hence we would link to a pdf or something in the topic (or a web page) that people could follow along with
+2013-03-03 14:28:12	gtmanfred	right, but then how do you lecture?
+2013-03-03 14:28:29	gtmanfred	would there be a point to typing it all out again when it is just on the wiki/pdf?
+2013-03-03 14:28:34	fsckd	are you guys aware of the classroom stuff run by Ubuntu?
+2013-03-03 14:28:46	gtmanfred	fsckd: i looked through it breifly a while ago
+2013-03-03 14:29:04	KaiSforza	fsckd: i am not
+2013-03-03 14:29:14	fsckd	it was brought up in past meetings
+2013-03-03 14:29:17	gtmanfred	https://wiki.ubuntu.com/Classroom/Submissions
+2013-03-03 14:29:18	phrik	Title: Classroom/Submissions - Ubuntu Wiki (at wiki.ubuntu.com)
+2013-03-03 14:29:33	KaiSforza	gtmanfred: but if they're good slides, then they're not going to have all the information, just outlines, diagrams, and images.
+2013-03-03 14:30:05	gtmanfred	KaiSforza: ok, but then they aren't usefull information to be saved for later
+2013-03-03 14:30:30	fsckd	gtmanfred: yes, that :)
+2013-03-03 14:30:44	fsckd	that site also has logs
+2013-03-03 14:30:54	KaiSforza	gtmanfred: true. tbh, i was thinking of using something like sphinx to generate a simple pdf, but that could actually be put into a simple website used for teaching purposes
+2013-03-03 14:31:09	gtmanfred	ok, let me explain what I was envisioning
+2013-03-03 14:32:19	gtmanfred	we have a wiki page or a pdf per class session, basically does all the notes for what you should know and everything, then there is a small portion of time doing an overview of the notes, (kind of like a lecture, elaborating wher eyou want to) so it isn't a straight outline, but it isn't all the information
+2013-03-03 14:32:46	gtmanfred	for about 20 minutes, then about 10 minutes where an 2 or 3 examples are introduced and explained
+2013-03-03 14:33:07	gtmanfred	then there is a do it yourself challange question, ending with critiquing solutions/answers and answering questions
+2013-03-03 14:33:26	KaiSforza	that actually sounds awesome.
+2013-03-03 14:33:41	gtmanfred	ok, good so that is what we want?
+2013-03-03 14:33:45	akamus	gtmanfred: yes nice idea
+2013-03-03 14:33:53	KaiSforza	i would be game for that.
+2013-03-03 14:33:58	gtmanfred	excellent
+2013-03-03 14:34:55	gtmanfred	now, we need a template for what is required to introduce a new class subject ( each subject could be multiple sessions, liek PKGBUILDs would have multiple sessions, standard PKGBUILDs, vcs pkgbuilds, split pkgbuilds, and then troubleshooting buildnig with pkgbuilds etc) 
+2013-03-03 14:35:10	gtmanfred	but have an overview page on the wiki or on arch-women.org
+2013-03-03 14:35:37	gtmanfred	so a template for the actual class, then a template for a subject under a class
+2013-03-03 14:35:56	KaiSforza	makes sense
+2013-03-03 14:36:02	gtmanfred	the subject page would be what is provided in the pdf / the actual information that will be gone over in that session
+2013-03-03 14:36:20	gtmanfred	including when it is, who is doing it, the basic information
+2013-03-03 14:37:11	gtmanfred	so we need 2 templates, anyone want to volunteer for that, or KaiSforza do you want to hammer them out on tuesday when we meed about PKGBUILDs and we can discover what we need as we go?
+2013-03-03 14:37:42	KaiSforza	i'd say that we set up a few classes and learn from experience
+2013-03-03 14:38:03	gtmanfred	ok sounds good to me
+2013-03-03 14:39:00	gtmanfred	what else did i have...
+2013-03-03 14:39:07	gtmanfred	ahh a calendar
+2013-03-03 14:39:17	gtmanfred	fsckd: is there still a calendar on arch-women? or is that still down?
+2013-03-03 14:39:26	fsckd	that's down
+2013-03-03 14:39:30	fsckd	afaik
+2013-03-03 14:39:32	gtmanfred	yeah
+2013-03-03 14:39:37	akamus	what is schedule? or it is standard? sorry I' m new
+2013-03-03 14:39:38	fsckd	meskarune would know more
+2013-03-03 14:39:40	KaiSforza	http://redmine.archwomen.org/projects/packaging101/issues/gantt
+2013-03-03 14:39:41	phrik	Title: Gantt - Beginners Guide to Package Maintaining - Arch Linux Women: Project Manager (at redmine.archwomen.org)
+2013-03-03 14:40:00	gtmanfred	eww gantt charts
+2013-03-03 14:40:23	KaiSforza	the calendar seems to be loading fine, too.
+2013-03-03 14:40:46	gtmanfred	where is it?
+2013-03-03 14:40:57	gtmanfred	oh how have i never seen this page
+2013-03-03 14:41:00	KaiSforza	lol
+2013-03-03 14:41:04	gtmanfred	nice
+2013-03-03 14:41:18	gtmanfred	anyway, scratch that concern 
+2013-03-03 14:41:43	gtmanfred	wait, that is just for tracking issues
+2013-03-03 14:41:50	gtmanfred	not for scheduleing stuff
+2013-03-03 14:42:08	fsckd	yeah, its a chart for issues
+2013-03-03 14:42:53	gtmanfred	hold on one second, i need to ask thestinger something
+2013-03-03 14:43:02	gtmanfred	boo he isn't on
+2013-03-03 14:43:18	KaiSforza	it could easily be used for scheduling stuff, just use the tracker to set up meetings like that
+2013-03-03 14:43:21	gtmanfred	fsckd: what is used for the calendars there?
+2013-03-03 14:43:38	gtmanfred	KaiSforza: only if we can make another section on that that isn't titled issues
+2013-03-03 14:44:02	fsckd	i think gantt shows how much time was spent on issues
+2013-03-03 14:44:32	KaiSforza	shouldn't be too bad. just change the name, edit the access permissions for that part, and then use that for scheduling/suggestion.
+2013-03-03 14:44:37	gtmanfred	fsckd: what is that calendar made by?
+2013-03-03 14:44:40	fsckd	there's no calendaring on a-w redmine atm
+2013-03-03 14:44:48	gtmanfred	fsckd: http://redmine.archwomen.org/projects/packaging101/issues/calendar
+2013-03-03 14:44:49	fsckd	one sec
+2013-03-03 14:44:50	phrik	Title: Calendar - Beginners Guide to Package Maintaining - Arch Linux Women: Project Manager (at redmine.archwomen.org)
+2013-03-03 14:45:08	gtmanfred	ahh got it, the calendar is specific to just that
+2013-03-03 14:45:58	gtmanfred	i guess that would work fine...
+2013-03-03 14:46:14	fsckd	i didn't know there's a calendar lol
+2013-03-03 14:46:14	gtmanfred	KaiSforza: that calendar is specific just to the classroom portion of redmine?
+2013-03-03 14:46:23	KaiSforza	gtmanfred: it looks to be.
+2013-03-03 14:46:27	fsckd	it should be
+2013-03-03 14:46:32	KaiSforza	which is what we want, if i'm not mistaken.
+2013-03-03 14:46:47	gtmanfred	how do you add stuff to the calendar?
+2013-03-03 14:46:58	fsckd	http://www.redmine.org/projects/redmine/wiki/RedmineCalendar
+2013-03-03 14:46:59	phrik	Title: RedmineCalendar - Redmine (at www.redmine.org)
+2013-03-03 14:48:04	KaiSforza	like i said, i think it would require a classroom specific subset of 'Issues' for the calendar thing to work the way we want.
+2013-03-03 14:48:10	gtmanfred	fsckd: any way that would be possible to also put on the wiki in some format? 
+2013-03-03 14:48:19	gtmanfred	KaiSforza: there is
+2013-03-03 14:48:24	gtmanfred	http://redmine.archwomen.org/projects/classroom/issues/calendar 
+2013-03-03 14:48:26	phrik	Title: Calendar - Arch Classroom - Arch Linux Women: Project Manager (at redmine.archwomen.org)
+2013-03-03 14:48:40	gtmanfred	tht one is all the stuff that is underclassroom, so you make a new issue, and they all appear on that one
+2013-03-03 14:48:49	gtmanfred	but each subissue has its own calendar
+2013-03-03 14:49:25	fsckd	all issues for a project should appear in tha calendar of that project
+2013-03-03 14:49:32	fsckd	let me see for servers and feb
+2013-03-03 14:49:50	KaiSforza	gtmanfred: no, i mean a subset of issues, specifically for people requesting/planning classrooms.
+2013-03-03 14:50:09	fsckd	http://redmine.archwomen.org/projects/vps/issues/calendar?utf8=%E2%9C%93&set_filter=1&f%5B%5D=status_id&op%5Bstatus_id%5D=o&f%5B%5D=&month=2&year=2013
+2013-03-03 14:50:10	phrik	Title: Calendar - Server Administration - Arch Linux Women: Project Manager (at redmine.archwomen.org)
+2013-03-03 14:52:12	fsckd	nothing every gets closed in server proj?
+2013-03-03 14:52:42	gtmanfred	hrm?
+2013-03-03 14:52:46	fsckd	i think it could work for scheduling
+2013-03-03 14:52:52	fsckd	classrooms
+2013-03-03 14:53:21	fsckd	err
+2013-03-03 14:53:22	fsckd	wait
+2013-03-03 14:53:37	fsckd	you would have to open the issue that day
+2013-03-03 14:53:42	gtmanfred	ok, hold on, where on http://redmine.archwomen.org/projects/classroom this page do i get to the beginners packaging section?
+2013-03-03 14:53:44	phrik	Title: Overview - Arch Classroom - Arch Linux Women: Project Manager (at redmine.archwomen.org)
+2013-03-03 14:54:15	numeral	hrm, I'm not sure how viable it is to have classrooms at predefined times, the question really is how do you get a lot of people in one place at the same time (considering we're talking about people from all over the world)
+2013-03-03 14:54:39	gtmanfred	numeral: we have predefined times, then there will be logs
+2013-03-03 14:54:46	gtmanfred	and questions can always be answered
+2013-03-03 14:55:17	fsckd	gtmanfred: there's a link
+2013-03-03 14:55:22	gtmanfred	numeral: also, it should be presented around the time that the speaker is available and want to do it
+2013-03-03 14:55:26	gtmanfred	fsckd: i don't see it
+2013-03-03 14:55:29	fsckd	Subprojects: Beginners Guide to Package Maintaining
+2013-03-03 14:55:37	gtmanfred	ahh got it
+2013-03-03 14:55:43	fsckd	ok :)
+2013-03-03 14:55:58	gtmanfred	ok, so each sub project would be a new class... i guess we can work with this, for now
+2013-03-03 14:56:17	numeral	fsckd: we should add a few things to the website for classroom management, a calendar for one, and a classroom suggestion + voting system
+2013-03-03 14:56:38	gtmanfred	numeral: ... where the hell have you been... 
+2013-03-03 14:56:39	gtmanfred	read up
+2013-03-03 14:56:54	numeral	oh sorry, I thought you guys were only talking about redmine :/
+2013-03-03 14:57:07	gtmanfred	numeral: we are specifically talking about the calendar
+2013-03-03 14:57:34	gtmanfred	ok, anyway that calendar works for now, 
+2013-03-03 14:57:45	gtmanfred	fsckd: can i get added to wheel for that? i assume i need to make a redmine account
+2013-03-03 14:57:46	fsckd	numeral: those are good ideas, there was a calendar on the old site and intend on having one now
+2013-03-03 14:57:52	fsckd	gtmanfred: yes
+2013-03-03 14:58:26	fsckd	gtmanfred: actually... you should have lal perms necessary without being part of wheel
+2013-03-03 14:58:34	gtmanfred	lal?
+2013-03-03 14:58:36	fsckd	(and i plan on axing coordinators)
+2013-03-03 14:58:50	fsckd	gtmanfred: with a regular account
+2013-03-03 14:58:59	gtmanfred	ok
+2013-03-03 14:58:59	fsckd	when you register :P
+2013-03-03 14:59:21	fsckd	i have too many windows open, one moment, lcosing things
+2013-03-03 14:59:41	 *	Anuska arch is the best
+2013-03-03 15:00:03	fsckd	+1 :D
+2013-03-03 15:00:57	Anuska	;)
+2013-03-03 15:01:07	gtmanfred	ok, last thing i had, how do we want to accept classroom submissions ? https://wiki.ubuntu.com/Classroom/Submissions
+2013-03-03 15:01:09	phrik	Title: Classroom/Submissions - Ubuntu Wiki (at wiki.ubuntu.com)
+2013-03-03 15:01:51	fsckd	don't forget the pages on the arch wiki
+2013-03-03 15:02:09	gtmanfred	that is part of it
+2013-03-03 15:02:13	KaiSforza	gtmanfred: i think their process will work. 
+2013-03-03 15:02:25	fsckd	https://wiki.archlinux.org/index.php/Classroom
+2013-03-03 15:02:26	phrik	Title: Classroom - ArchWiki (at wiki.archlinux.org)
+2013-03-03 15:02:31	gtmanfred	fsckd: we are going to figure out the archwiki pages format/template on Tuesday as we go along
+2013-03-03 15:02:39	fsckd	ok
+2013-03-03 15:02:51	fsckd	tuesday is when the first class will be?
+2013-03-03 15:03:03	KaiSforza	no
+2013-03-03 15:03:14	KaiSforza	tuesday we actually plan the makepkg class.
+2013-03-03 15:03:18	fsckd	ok
+2013-03-03 15:03:23	fsckd	a second meeting
+2013-03-03 15:03:32	KaiSforza	basically.
+2013-03-03 15:03:43	fsckd	what time?
+2013-03-03 15:03:56	fsckd	i won't be here on tues.
+2013-03-03 15:03:57	gtmanfred	what i mean about submissions, should we just adopt theres? what should we require before a class is accepted? (i am thinking just an outline like what they have there, except you don't have to explain everything before it can be accepted, that should be added before you the first class though)
+2013-03-03 15:04:18	fsckd	nvm, set the time later :)
+2013-03-03 15:06:27	KaiSforza	gtmanfred: what do you mean? i think they should give us the information that the ubuntu people use, and then decide using that. Every classroom is going to have a different set of qualifications, so i think laying down something like that now is a bad idea.
+2013-03-03 15:07:25	gtmanfred	i am just saying, you don't have to have every lession planned out 100% to apply to present a classroom, but you should have an idea of what they will all be
+2013-03-03 15:08:24	KaiSforza	oh, yeah. at least a topic and a basic outline
+2013-03-03 15:11:06	KaiSforza	Alright, so we've got a basic outline of things that need to be done: Class format has been decided, calendar needs to be set up for scheduling, and we've got a basic submission process.
+2013-03-03 15:11:30	KaiSforza	s/need to be/need to be or have been/
+2013-03-03 15:11:37	gtmanfred	where do you make submisions?
+2013-03-03 15:11:49	gtmanfred	is it possible on redmine to request the creation of a subproject?
+2013-03-03 15:12:14	fsckd	ask anyone in wheel :)
+2013-03-03 15:12:46	-->	hh4a (~hh4a@BSN-182-69-100.dial-up.dsl.siol.net) has joined #archlinux-classroom
+2013-03-03 15:12:50	hh4a	yo
+2013-03-03 15:12:58	gtmanfred	fsckd: yeah but what is the submission process
+2013-03-03 15:13:01	KaiSforza	i think email would be the best way. just have a specific format that people need to follow so we don't filter things.
+2013-03-03 15:13:09	fsckd	oh
+2013-03-03 15:13:16	gtmanfred	do we need to set up a mailing list?
+2013-03-03 15:13:21	gtmanfred	can that be set in redmine?
+2013-03-03 15:13:38	fsckd	hmm not that i know of
+2013-03-03 15:13:51	fsckd	meskarune is working on a mailing list thing
+2013-03-03 15:13:57	Anuska	question in cron to run every hours at every day... 
+2013-03-03 15:14:08	Anuska	* * * * * /home/irina/upload
+2013-03-03 15:14:10	Anuska	ups
+2013-03-03 15:14:13	Anuska	* 1 * * * /home/irina/upload
+2013-03-03 15:14:14	Anuska	this ?
+2013-03-03 15:14:20	KaiSforza	Anuska: go to #archlinux for that.
+2013-03-03 15:14:25	gtmanfred	Anuska: is every minute from 1 to 2 am
+2013-03-03 15:15:01	Anuska	thanks
+2013-03-03 15:15:05	fsckd	Anuska: middle of a meeting in this channel, sorry ><
+2013-03-03 15:15:51	hh4a	ooh iam sorry, i will check redmine tomorrow, iam not in a "mood" today. regards
+2013-03-03 15:16:17	<--	hh4a (~hh4a@BSN-182-69-100.dial-up.dsl.siol.net) has quit (Quit: going away and always astray)
+2013-03-03 15:17:19	gtmanfred	ok, sooooooo where are submissions to be made?
+2013-03-03 15:17:52	gtmanfred	is there a chance that there is someway in redmine to make it possible to request the creation of subprojects?
+2013-03-03 15:19:06	gtmanfred	anyone?
+2013-03-03 15:19:08	fsckd	you wnat new classes to be submitted as new subprojects?
+2013-03-03 15:19:11	KaiSforza	they could open issues?
+2013-03-03 15:19:28	fsckd	i'd go with issues if redmien is to be used
+2013-03-03 15:19:38	fsckd	similarly for redmine
+2013-03-03 15:19:52	KaiSforza	till a mailing list is up and running, i think that's the best way.
+2013-03-03 15:20:18	gtmanfred	fsckd: yes, i want each class to be able to have it's own calendar and issue tracker, seperate from the main one
+2013-03-03 15:20:24	gtmanfred	and then they are all merged back together on the top
+2013-03-03 15:20:46	gtmanfred	i guess we could have submissions be issues, like how mirrors request to be added on the bug tracker
+2013-03-03 15:21:30	KaiSforza	exactly
+2013-03-03 15:21:37	gtmanfred	excellent
+2013-03-03 15:21:48	gtmanfred	so we can write that up in a minute / when we meet on tuesday
+2013-03-03 15:21:50	-->	mikeit (~mikeit@net-2-39-68-181.cust.dsl.vodafone.it) has joined #archlinux-classroom
+2013-03-03 15:21:59	<--	mikeit (~mikeit@net-2-39-68-181.cust.dsl.vodafone.it) has quit (Read error: Connection reset by peer)
+2013-03-03 15:22:04	gtmanfred	(i guess you could also make requests for classes as issues too)
+2013-03-03 15:22:27	gtmanfred	ok, i think that covers everything i wanted to talk about
+2013-03-03 15:22:36	gtmanfred	does anyone have anything else?
+2013-03-03 15:22:47	KaiSforza	i'm good.
+2013-03-03 15:23:04	gtmanfred	fsckd: anything else?
+2013-03-03 15:23:13	gtmanfred	if not i would like to do a quick over view then we can end
+2013-03-03 15:23:29	fsckd	we planned to involve Chakra, how do you think they could fit in?
+2013-03-03 15:23:48	KaiSforza	um...i've never used chakra, so i have no idea.
+2013-03-03 15:24:05	KaiSforza	this is going to be an archlinux classroom though.
+2013-03-03 15:24:10	gtmanfred	fsckd: what are we including them in?
+2013-03-03 15:24:38	gtmanfred	i remember discussing it, and i am ok with it, but i forget what they wanted to do?
+2013-03-03 15:24:45	fsckd	to coordinate classrooms, they use PKGBUILDs too
+2013-03-03 15:24:52	gtmanfred	oh right
+2013-03-03 15:24:54	gtmanfred	i remember now
+2013-03-03 15:24:57	-->	mikeit (~mikeit@net-2-39-68-181.cust.dsl.vodafone.it) has joined #archlinux-classroom
+2013-03-03 15:25:10	fsckd	abveritas is a Chakra dev
+2013-03-03 15:25:16	gtmanfred	anyone can help with classrooms, but i am not going to tell someone that uses chakra that something else is better
+2013-03-03 15:25:25	KaiSforza	i thought they used a modified pacman?
+2013-03-03 15:25:28	<--	mikeit (~mikeit@net-2-39-68-181.cust.dsl.vodafone.it) has quit (Read error: Connection reset by peer)
+2013-03-03 15:25:29	gtmanfred	KaiSforza: no
+2013-03-03 15:25:32	KaiSforza	are their pkgbuilds the same?
+2013-03-03 15:25:34	gtmanfred	yes
+2013-03-03 15:25:35	KaiSforza	oh. okay.
+2013-03-03 15:25:45	gtmanfred	when are we meeting on tuesday (in utc?)
+2013-03-03 15:25:54	KaiSforza	20:15
+2013-03-03 15:25:57	KaiSforza	iirc
+2013-03-03 15:26:02	 *	KaiSforza counts
+2013-03-03 15:26:05	KaiSforza	yeah.
+2013-03-03 15:26:09	abveritas	fsckd: gtmanfred it was the other way around :)
+2013-03-03 15:26:16	gtmanfred	abveritas: ping, are you available to meet about the pkgbuilds class on tuesday at 20:15
+2013-03-03 15:26:17	fsckd	oh
+2013-03-03 15:26:23	gtmanfred	abveritas: what was? we wanted to include chakra?
+2013-03-03 15:26:27	abveritas	archlinux-women asked if we wanted to help with classroom
+2013-03-03 15:26:39	fsckd	yeah that was it
+2013-03-03 15:26:45	-->	mikeit (~mikeit@net-2-39-68-181.cust.dsl.vodafone.it) has joined #archlinux-classroom
+2013-03-03 15:27:02	gtmanfred	meh ok, so here is what i see, as long as i don't have to give definitive answers about something that may be chakra specific, i couldn't care less 
+2013-03-03 15:27:06	abveritas	gtmanfred: 20:15 EST?  UTC?
+2013-03-03 15:27:11	gtmanfred	abveritas: UTC
+2013-03-03 15:27:12	KaiSforza	utc.
+2013-03-03 15:27:22	abveritas	I'll try
+2013-03-03 15:27:26	gtmanfred	abveritas: where are you located?
+2013-03-03 15:27:37	abveritas	50 miles from you :)
+2013-03-03 15:27:37	fsckd	i won't be here then
+2013-03-03 15:27:40	gtmanfred	oh lol
+2013-03-03 15:27:43	fsckd	haha
+2013-03-03 15:27:44	KaiSforza	also, the vcs pkgbuild class is going to be using the pacman that will (probably) be in arch's [testing] repo by the end of the week.
+2013-03-03 15:27:46	gtmanfred	abveritas: so lets just say EST
+2013-03-03 15:27:51	KaiSforza	abveritas:                   ↑
+2013-03-03 15:27:54	abveritas	White Plains, GA
+2013-03-03 15:28:01	gtmanfred	abveritas: what time are you available on tuesday?
+2013-03-03 15:28:17	abveritas	depends on the weather
+2013-03-03 15:28:24	abveritas	but I'll try to be here then
+2013-03-03 15:28:52	fsckd	2:15pm est?
+2013-03-03 15:28:54	gtmanfred	we can push it later if that would be better?
+2013-03-03 15:28:57	gtmanfred	fsckd: 3:15
+2013-03-03 15:28:58	KaiSforza	alright. well i've gotta get some corned beef ready. I'll trust you guys to wrap this up.
+2013-03-03 15:29:04	gtmanfred	KaiSforza: ok
+2013-03-03 15:29:11	KaiSforza	fsckd: 2:15 CST.
+2013-03-03 15:29:35	gtmanfred	anyway, abveritas chakra still uses vanilla up to date pacman?
+2013-03-03 15:29:38	abveritas	gtmanfred: and there is nothing Chakra specific about packaging for this
+2013-03-03 15:29:43	gtmanfred	excellent
+2013-03-03 15:29:57	abveritas	all I can add is some KDE specific tools
+2013-03-03 15:30:04	abveritas	but that is the same in SArch
+2013-03-03 15:30:09	abveritas	*Arch
+2013-03-03 15:30:35	abveritas	like we discussed here before, cli for patching, or kompare
+2013-03-03 15:30:41	gtmanfred	oh right
+2013-03-03 15:30:44	gtmanfred	so for classrooms + chakra, i am ok with chakra people that want to do presentations
+2013-03-03 15:31:13	gtmanfred	and i am ok with answering what i would know about chakra in here, or somewhere else, as long as it is kept out of #archlinux
+2013-03-03 15:31:21	abveritas	but I have no idea if there is anything anyone here would want to know from Chakra devs
+2013-03-03 15:31:24	<--	mikeit (~mikeit@net-2-39-68-181.cust.dsl.vodafone.it) has quit (Read error: Connection reset by peer)
+2013-03-03 15:31:30	<--	akamus (~kvirc@188.4.29.55.dsl.dyn.forthnet.gr) has left #archlinux-classroom
+2013-03-03 15:31:39	gtmanfred	classrooms isn't only supposed to be about the distro imo
+2013-03-03 15:31:53	gtmanfred	it could be about using C ... or using python if you wanted to
+2013-03-03 15:31:56	abveritas	so I'll just watch here when you do some classes
+2013-03-03 15:32:00	gtmanfred	someone could do a class about ruby
+2013-03-03 15:32:11	fsckd	or kde tools
+2013-03-03 15:32:15	gtmanfred	or kde tools
+2013-03-03 15:32:16	fsckd	or debugging
+2013-03-03 15:32:16	gtmanfred	right
+2013-03-03 15:32:19	gtmanfred	yar
+2013-03-03 15:32:27	fsckd	inb4 cheekymanfred :P
+2013-03-03 15:32:30	gtmanfred	pfft
+2013-03-03 15:32:41	abveritas	buildsystems might be nice too
+2013-03-03 15:33:00	fsckd	yeah
+2013-03-03 15:33:15	gtmanfred	basically, if you want to do something, it just needs to be outlined and submitted as an issue to the ArchWomen Classroom redmine issue tracker
+2013-03-03 15:33:18	gtmanfred	and then get approved
+2013-03-03 15:33:18	abveritas	to let newcomers know how to build in chroots, and not mess up their installs
+2013-03-03 15:33:41	gtmanfred	EZPZ pacman -Syu devtools, sudo extra-$(uname -m)-build :P
+2013-03-03 15:33:52	gtmanfred	anyway
+2013-03-03 15:34:03	gtmanfred	soooo i think that is everything? 
+2013-03-03 15:34:07	abveritas	so far, all I've done is tutor one on one for any packager interested in helping Chakr
+2013-03-03 15:34:14	abveritas	*Chakra
+2013-03-03 15:34:27	fsckd	abveritas: that's awesome
+2013-03-03 15:34:52	gtmanfred	anyone have anything else?
+2013-03-03 15:35:29	gtmanfred	i take that as a no, 
+2013-03-03 15:35:31	gtmanfred	to summarize
+2013-03-03 15:36:13	gtmanfred	1) descriptions of what happens in a class session is right after 14:31:09 gtmanfred | ok, let me explain what I was envisioning
+2013-03-03 15:37:11	gtmanfred	2) templates will be made/discussed as we go along (PKGBUILDs classroom meeting here on March 5th at 2015 UTC)
+2013-03-03 15:38:01	gtmanfred	3) classroom submissions should go to the issue tracker at http://redmine.archwomen.org/projects/classroom to have a subproject made, and a template needs to be made following similar to https://wiki.ubuntu.com/Classroom/Submissions
+2013-03-03 15:38:03	phrik	Title: Overview - Arch Classroom - Arch Linux Women: Project Manager (at redmine.archwomen.org)
+2013-03-03 15:38:32	gtmanfred	4) Anyone is welcome to present about anything, it doesn't have to be vanilla Arch Linux specific.
+2013-03-03 15:38:54	gtmanfred	did i miss anything?
+2013-03-03 15:40:14	gtmanfred	fsckd: abveritas KaiSforza ^^ ?
+2013-03-03 15:40:30	fsckd	sorry, i think you got it all
+2013-03-03 15:40:32	KaiSforza	looks good
+2013-03-03 15:40:38	abveritas	+1
+2013-03-03 15:40:49	gtmanfred	========= meeting ended =================
+2013-03-03 15:41:06	KaiSforza	should add a bit to 4: but no manjaro
+2013-03-03 15:41:38	gtmanfred	=========== reopened ===============
+2013-03-03 15:43:27	gtmanfred	4) if it is an addon to something besides Arch Linux ( such as the graphical installer in Manjaro) they will only be accepted on a submission to submission basis.  Just because the submission meets all the requirements, if the subject is deemed un necessary or harmful to Arch Linux as a named archlinux project, it will not be accepted.
+2013-03-03 15:43:37	gtmanfred	======= meeting ended v2 ===========
