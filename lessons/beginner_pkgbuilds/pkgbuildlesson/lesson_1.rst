@@ -1,5 +1,5 @@
-Beginners Guide to PKGBUILDs, Lesson 1
-**************************************
+Lesson 1: A Basic Introduction
+******************************
 
 Overview
 ========
