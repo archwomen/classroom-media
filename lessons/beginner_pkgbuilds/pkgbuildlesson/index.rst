@@ -6,8 +6,6 @@
 An Introduction to Writing PKGBUILDS for Arch Linux
 ===================================================
 
-Contents:
-
 .. toctree::
    :maxdepth: 2
    :glob:
