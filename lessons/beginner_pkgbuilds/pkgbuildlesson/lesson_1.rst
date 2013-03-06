@@ -113,7 +113,7 @@ possible ``PKGBUILD`` variables can be found in the `PKGBUILD article`_.
   package, which becomes the root directory of your built package.
 
 .. note::
-  ``makepkg``, and thus the ``build()`` and ``package()`` functions, are
+  ``makepkg``, and thus the :func:`build` and :func:`package` functions, are
   intended to be non-interactive.  Interactive utilities or scripts called
   in those functions may break ``makepkg``, particularly if it is invoked
   with build-logging enabled (``-l``). (See `bug 13214`_.)
@@ -122,23 +122,23 @@ possible ``PKGBUILD`` variables can be found in the `PKGBUILD article`_.
   Apart from the current package Maintainer, there may be previous
   maintainers listed above as Contributors.
 
-The ``build()`` function
-------------------------
+The :func:`build` function
+--------------------------
 
-Now you need to implement the ``build()`` function in the ``PKGBUILD`` file.
+Now you need to implement the :func:`build` function in the ``PKGBUILD`` file.
 This function uses common shell commands in `Bash`_ syntax to automatically
 compile software and create a ``pkg`` directory to install the software to.
 This allows ``makepkg`` to package files without having to sift through
 your filesystem.
 
-The first step in the ``build()`` function is to change into the directory
+The first step in the :func:`build` function is to change into the directory
 created by uncompressing the source tarball.  In most common cases the
 first command will look like this::
 
     $ cd "$srcdir/$pkgname-$pkgver"
 
 Now, you need to list the same commands you used when you manually compiled
-the software.  The ``build()`` function in essence automates everything you
+the software.  The :func:`build` function in essence automates everything you
 did by hand and compiles the software in the fakeroot build environment.
 If the software you are packaging uses a configure script, it is good
 practice to use ``1=--prefix=/usr`` when building packages for ``pacman``.
@@ -153,19 +153,19 @@ like this::
 
 .. note::
   If your software does not need to build anything, DO NOT use the
-  ``build()`` function. It is not required, but the ``package()`` function
+  :func:`build` function. It is not required, but the :func:`package` function
   is.
 
-The ``check()`` function
-------------------------
+The :func:`check` function
+--------------------------
 
 Place for calls to ``make check`` and similar testing routines. Users who
 don't need it (and occasionally maintainers who can not fix a package for
 this to pass) can disable it using ``!check`` in ``PKGBUILD``/``makepkg``
 options.
 
-The ``package()`` function
---------------------------
+The :func:`package` function
+----------------------------
 
 The final step is to put the compiled files in a directory where
 ``makepkg`` can retrieve them to create a package.  This by default is the
@@ -198,15 +198,15 @@ More often than not, the installation process of the software will create
 any sub-directories below the ``pkg`` directory. If it does not, however,
 ``makepkg`` will generate a lot of errors and you will need to manually
 create sub-directories by adding the appropriate ``mkdir -p`` commands in
-the ``build()`` function before the installation procedure is run.
+the :func:`build` function before the installation procedure is run.
 
-In old packages, there was no ``package()`` function. So, files were put
-into the ``pkg`` directory at the end of the ``build()`` function. If
-``package()`` is not present, ``build()`` runs via ``fakeroot``. In new
-packages, ``package()`` is required and runs via ``fakeroot`` instead, and
-``build()`` runs without any special privileges. 
+In old packages, there was no :func`package` function. So, files were put
+into the ``pkg`` directory at the end of the :func:`build` function. If
+:func:`package` is not present, :func:`build` runs via ``fakeroot``. In new
+packages, :func:`package` is required and runs via ``fakeroot`` instead, and
+:func:`build` runs without any special privileges.
 
-``makepkg --repackage`` runs only the ``package()`` function, so it creates
+``makepkg --repackage`` runs only the :func:`package` function, so it creates
 a ``*.pkg.*`` file without compiling the package. This may save time e.g.
 if you just have changed the ``depends`` variable of the package.
 
@@ -214,26 +214,26 @@ if you just have changed the ``depends`` variable of the package.
   The package() function is the only required function in a ``PKGBUILD``.
   If you must only copy files into their respective directories to install a
   program, do not put it in the build() function, put that in the
-  ``package()`` function.
+  :func:`package` function.
 
-The ``prepare()`` function (pacman >=4.1)
------------------------------------------
+The :func:`prepare` function (pacman >=4.1)
+-------------------------------------------
 
-Pacman 4.1 introduces the prepare() command. In this function commands that
+Pacman 4.1 introduces the :func:`prepare` command. In this function commands that
 are used to prepare sources for building are run, such as patch or
 configuring. This function is run before the build function and after the
 package extraction. If extraction is skipped (``makepkg -e``), then
-``prepare()`` is not run. 
+:func:`prepare` is not run.
 
 .. note::
   (From ``man PKGBUILD``) The function is run in bash -e mode, meaning any
   command that exits with a non-zero status will cause the function to exit.
 
-The ``pkgver()`` function (pacman >= 4.1)
------------------------------------------
+The :func:`pkgver` function (pacman >= 4.1)
+-------------------------------------------
 
 Beginning with pacman 4.1 (currently in the development version), you can
-update the pkgver variable during a makepkg. ``pkgver()`` is run right
+update the pkgver variable during a makepkg. :func:`pkgver` is run right
 after the sources are fetched and extracted.
 
 This is particularly useful if you are making git/svn/hg/etc. packages,
@@ -242,7 +242,7 @@ every day, even every hour. The old way of doing this was to put the date
 into the pkgver field which, if the software was not updated, makepkg would
 still rebuild it thinking the version had changed. Some useful commands for
 this are ``git describe``, ``hg identify -ni``, etc. Please test these
-before submitting a ``PKGBUILD``, as a failure in the ``pkgver()`` function can
+before submitting a ``PKGBUILD``, as a failure in the :func:`pkgver` function can
 stop a build in it's tracks. 
 
 .. note::
@@ -252,7 +252,7 @@ stop a build in it's tracks.
 Testing the ``PKGBUILD`` and package
 ====================================
 
-As you are writing the ``build()`` function, you will want to test your
+As you are writing the :func:`build` function, you will want to test your
 changes frequently to ensure there are no bugs. You can do this using the
 ``makepkg`` command in the directory containing the ``PKGBUILD`` file. With
 a properly formatted ``PKGBUILD``, makepkg will create a package; with a
@@ -291,7 +291,7 @@ After testing package functionality check it for errors using `namcap`_::
 Namcap will:
 
 * Check ``PKGBUILD`` contents for common errors and package file hierarchy for
-   unnecessary/misplaced files
+  unnecessary/misplaced files
 * Scan all ELF files in package using ``ldd``, automatically reporting
   which packages with required shared libraries are missing from
   ``depends`` and which can be omitted as transitive dependencies
@@ -345,8 +345,8 @@ Warnings
   work at all. However, ``makepkg`` needs to be completely autonomous, with
   no user input. Therefore if you need to edit the makefiles, you may have
   to bundle a custom patch with the ``PKGBUILD`` and install it from inside
-  the ``build()`` function, or you might have to issue some ``sed``
-  commands from inside the ``build()`` function.
+  the :func:`build` function, or you might have to issue some ``sed``
+  commands from inside the :func:`build` function.
 
 See Also
 ========
