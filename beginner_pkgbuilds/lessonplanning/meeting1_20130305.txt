@@ -1,0 +1,209 @@
+2013-03-05 19:03:45	gtmanfred	=======================PKGBUILDs Class meeting begins===============================
+2013-03-05 19:03:58	tigrmesh	awesome
+2013-03-05 19:03:59	gtmanfred	what the hell are we going to do?
+2013-03-05 19:04:05	KaiSforza	!grab gtmanfred 
+2013-03-05 19:04:07	phrik	KaiSforza: Tada!
+2013-03-05 19:04:09	KaiSforza	hmm.
+2013-03-05 19:04:14	gtmanfred	https://wiki.archlinux.org/index.php/Beginners_Guide_to_Package_Maintaining
+2013-03-05 19:04:16	phrik	Title: Beginners Guide to Package Maintaining - ArchWiki (at wiki.archlinux.org)
+2013-03-05 19:04:29	KaiSforza	i think that the first thing to do should be to just discuss how to write really damn simple pkgbuilds.
+2013-03-05 19:04:43	gtmanfred	what do we keep from this page, and what do we scrap/for some other page/stuff in the git
+2013-03-05 19:04:43	gtmanfred	?
+2013-03-05 19:05:07	gtmanfred	KaiSforza: nah nah not yet, we aren't to that, we have to set up the proposal stuff
+2013-03-05 19:05:18	KaiSforza	ah. mkay.
+2013-03-05 19:05:20	tigrmesh	abveritas: ping
+2013-03-05 19:05:22	gtmanfred	because we don't really have the starting page up yet
+2013-03-05 19:06:40	gtmanfred	KaiSforza: i say we get rid of all the lesson stuff to start with and start over with that
+2013-03-05 19:06:52	KaiSforza	yeah...
+2013-03-05 19:06:58	gtmanfred	because objectives are good, prereqs are fine
+2013-03-05 19:07:09	gtmanfred	meh to materials
+2013-03-05 19:07:21	gtmanfred	and then the last 3 are fine imo
+2013-03-05 19:07:31	KaiSforza	i do think there should be at least one example thing.
+2013-03-05 19:07:32	gtmanfred	remember this is just going to be the proposal page
+2013-03-05 19:08:03	gtmanfred	and onto it we add lesson 1 when it is ready to be posted about and announced etc
+2013-03-05 19:08:22	gtmanfred	at least that is my vision
+2013-03-05 19:08:25	gtmanfred	tell me what you think
+2013-03-05 19:08:38	KaiSforza	sounds good.
+2013-03-05 19:08:57	gtmanfred	ok
+2013-03-05 19:09:02	tigrmesh	will there be materials for the class itself?
+2013-03-05 19:09:15	KaiSforza	tigrmesh: yes
+2013-03-05 19:09:23	tigrmesh	great
+2013-03-05 19:09:29	gtmanfred	there will be actual materials for the class yes
+2013-03-05 19:10:13	tigrmesh	i'm not sure what the proposal is for
+2013-03-05 19:10:28	KaiSforza	i'm not really sure either...except as an outline of the classes.
+2013-03-05 19:10:31	tigrmesh	i mean, what proposal means in this context
+2013-03-05 19:10:34	gtmanfred	it is for anyone that wants to make a class
+2013-03-05 19:10:43	KaiSforza	oh, you mean the base template thing.
+2013-03-05 19:10:46	KaiSforza	right.
+2013-03-05 19:10:51	gtmanfred	basically this page... should first start as an issue on redmine
+2013-03-05 19:11:03	gtmanfred	then once it is accepted it gets moved here
+2013-03-05 19:11:06	gtmanfred	https://wiki.archlinux.org/index.php/Beginners_Guide_to_Package_Maintaining
+2013-03-05 19:11:08	phrik	Title: Beginners Guide to Package Maintaining - ArchWiki (at wiki.archlinux.org)
+2013-03-05 19:11:10	gtmanfred	wel...
+2013-03-05 19:11:14	gtmanfred	on the wiki
+2013-03-05 19:11:22	gtmanfred	anyway, so 
+2013-03-05 19:11:34	gtmanfred	we skiped the actual proposal, now we have to backtrack 
+2013-03-05 19:11:35	tigrmesh	what do you mean by accepted?  who would turn you down?
+2013-03-05 19:11:44	gtmanfred	tigrmesh: we aren't being turned down
+2013-03-05 19:11:48	gtmanfred	other classes might be
+2013-03-05 19:11:49	KaiSforza	tigrmesh: we mean for other people
+2013-03-05 19:11:49	tigrmesh	no shit
+2013-03-05 19:11:55	tigrmesh	ah
+2013-03-05 19:12:09	KaiSforza	tigrmesh: as an outline for how other people set up their wiki pages/class outlines
+2013-03-05 19:12:19	tigrmesh	ohhhh
+2013-03-05 19:12:19	gtmanfred	tigrmesh: remember, we are setting up what otehr poeple would have to do to get accepted also in this
+2013-03-05 19:12:34	tigrmesh	that's cool
+2013-03-05 19:13:38	gtmanfred	ok soooooo 
+2013-03-05 19:14:05	gtmanfred	I think the only other thing that we need is to add the last part that we were missing
+2013-03-05 19:14:27	gtmanfred	about the presentor(s) and why this class exists
+2013-03-05 19:15:29	KaiSforza	i think there should just be an 'about the presenter(s)' bit, no need for a 'why the class exists' part.
+2013-03-05 19:15:38	KaiSforza	that would be in the redmine proposal
+2013-03-05 19:15:41	KaiSforza	not the wiki
+2013-03-05 19:15:45	gtmanfred	sounds good
+2013-03-05 19:17:08	KaiSforza	Otherwise, what you did to the page looks fine
+2013-03-05 19:17:33	gtmanfred	excellent we can write that up in a bit
+2013-03-05 19:17:40	KaiSforza	mkay
+2013-03-05 19:18:05	KaiSforza	so, moving on to the pkgbuild class.
+2013-03-05 19:18:09	gtmanfred	right
+2013-03-05 19:18:12	gtmanfred	lesson one
+2013-03-05 19:19:09	gtmanfred	=============Lesson 1 Planning =================
+2013-03-05 19:19:35	KaiSforza	what was in the wiki before, about make/gcc/tar/gzip/etc i think is kind of unneeded. 
+2013-03-05 19:19:48	gtmanfred	KaiSforza: what should we start with? pkgtools' newpkg command, or copying from /usr/share/pacman/?
+2013-03-05 19:19:53	<--	oi_wtf (~wtf@p54ACF42A.dip.t-dialin.net) has quit (Quit: 3.7.9 -> 3.7.10)
+2013-03-05 19:20:27	gtmanfred	KaiSforza: we are starting fresh :)
+2013-03-05 19:20:37	KaiSforza	i'd say copying from /usr/share/pacman, since most of the people that are taking this should have abs installed.
+2013-03-05 19:20:49	gtmanfred	KaiSforza: you know what newpkg is right?
+2013-03-05 19:21:03	KaiSforza	gtmanfred: just looked it up. never used it.
+2013-03-05 19:21:11	KaiSforza	i usually write mine from scratch.
+2013-03-05 19:21:15	gtmanfred	it automagically pulls stuff from /usr/share/pacman/
+2013-03-05 19:21:23	gtmanfred	and replaces certain things
+2013-03-05 19:21:31	KaiSforza	well then, tell them about that. it'll be useful to a lot of people.
+2013-03-05 19:21:45	KaiSforza	s pc -S pkgtools
+2013-03-05 19:21:46	gtmanfred	especially the --sf flag
+2013-03-05 19:21:49	KaiSforza	oops.
+2013-03-05 19:21:51	gtmanfred	heh
+2013-03-05 19:22:09	tigrmesh	make sure you put that abs should be installed first
+2013-03-05 19:22:20	tigrmesh	or that this assumes you have abs installed
+2013-03-05 19:22:38	-->	oi_wtf (~wtf@84.172.244.42) has joined #archlinux-classroom
+2013-03-05 19:22:50	gtmanfred	abs is in the opt depends mentinoing for presets, but yeah
+2013-03-05 19:23:10	tigrmesh	but you're assuming it
+2013-03-05 19:23:23	KaiSforza	I think there should also be some explanation of what the different functions in a PKGBUILD are meant to do.
+2013-03-05 19:23:33	tigrmesh	yeah
+2013-03-05 19:23:36	gtmanfred	i am not going to
+2013-03-05 19:23:39	KaiSforza	particularly the difference between build() and package()
+2013-03-05 19:24:02	tigrmesh	i think all of them, or a link to where they are well explained
+2013-03-05 19:24:12	gtmanfred	!wiki pkgbuild
+2013-03-05 19:24:13	KaiSforza	well, for now it's just build and package.
+2013-03-05 19:24:14	phrik	gtmanfred: https://wiki.archlinux.org/index.php/PKGBUILD
+2013-03-05 19:24:22	gtmanfred	they are all explained there
+2013-03-05 19:24:36	gtmanfred	and anything beyond that should be answered in the q&a part of the class imo
+2013-03-05 19:24:43	tigrmesh	k
+2013-03-05 19:25:12	KaiSforza	https://wiki.archlinux.org/index.php/Creating_Packages
+2013-03-05 19:25:13	phrik	Title: Creating Packages - ArchWiki (at wiki.archlinux.org)
+2013-03-05 19:25:17	tigrmesh	if KaiSforza's read it, and still thinks that part should be explained, then maybe it's not explicit enough elsewherre
+2013-03-05 19:25:18	KaiSforza	what you were looking for
+2013-03-05 19:25:22	tigrmesh	k
+2013-03-05 19:25:32	KaiSforza	oh, i wrote part of that Creating PAckages page
+2013-03-05 19:25:50	KaiSforza	just that i think it's important, as people that don't use 'package()' functions are going to see warnings with 4.1
+2013-03-05 19:26:01	fsckd	uh oh
+2013-03-05 19:26:08	KaiSforza	yup
+2013-03-05 19:26:08	tigrmesh	?
+2013-03-05 19:26:11	KaiSforza	gonna be fun.
+2013-03-05 19:26:15	fsckd	heh
+2013-03-05 19:26:27	gtmanfred	permissions in build() and package() are different and it causes errors 
+2013-03-05 19:26:35	KaiSforza	that too.
+2013-03-05 19:26:48	gtmanfred	that is the main reason
+2013-03-05 19:26:52	KaiSforza	who here has used pacman>4.0.3?
+2013-03-05 19:26:54	gtmanfred	for the warning at least
+2013-03-05 19:27:21	gtmanfred	Me!
+2013-03-05 19:27:22	KaiSforza	also, i fyou have references to $pkgdir in the build() function, but also have a package() function, then you'll error out.
+2013-03-05 19:28:26	gtmanfred	OK
+2013-03-05 19:28:47	gtmanfred	so ... that creating packages page could basically be the whole first lesson
+2013-03-05 19:28:50	gtmanfred	i think...
+2013-03-05 19:30:01	KaiSforza	essentially
+2013-03-05 19:30:17	KaiSforza	although, is namcap up to snuff with 4.1?
+2013-03-05 19:30:21	gtmanfred	yes
+2013-03-05 19:30:28	gtmanfred	there is a pacman41 branch
+2013-03-05 19:30:34	gtmanfred	i envision the 2nd class just about finding dependencies
+2013-03-05 19:30:38	gtmanfred	though&*
+2013-03-05 19:30:47	gtmanfred	so that stuff needs to be moved in our pdf and stuff
+2013-03-05 19:31:03	KaiSforza	okay.
+2013-03-05 19:31:10	gtmanfred	and then the third be about different thinks other than make
+2013-03-05 19:31:16	gtmanfred	like finding out when you need to use cmake
+2013-03-05 19:31:21	gtmanfred	and some auto tools
+2013-03-05 19:31:35	gtmanfred	and then the 4th be about vcs pkgbuilds and other stuff in pacman 41
+2013-03-05 19:31:40	gtmanfred	and then wrap it
+2013-03-05 19:31:46	KaiSforza	well, that's just going to be reading documentation and whatnot.
+2013-03-05 19:31:49	KaiSforza	but yes
+2013-03-05 19:32:02	KaiSforza	three nice, discreet lessons sounds good to me.
+2013-03-05 19:32:08	gtmanfred	4*
+2013-03-05 19:32:13	gtmanfred	yeah some what documentation but sometimes the ./configure --help stuff is obscure
+2013-03-05 19:32:26	gtmanfred	and how to decide what to include in a pkgbuild
+2013-03-05 19:32:28	gtmanfred	which flags to enable
+2013-03-05 19:32:37	KaiSforza	lol yeah.
+2013-03-05 19:32:45	gtmanfred	because that is a big issue
+2013-03-05 19:32:56	fsckd	how many lessons in total do you anticipate?
+2013-03-05 19:33:04	KaiSforza	4, i'm seeing.
+2013-03-05 19:33:14	KaiSforza	but if i knew the future i wouldn't be here.
+2013-03-05 19:33:27	fsckd	y u no all-seeing?
+2013-03-05 19:33:32	fsckd	:P
+2013-03-05 19:33:34	KaiSforza	:<
+2013-03-05 19:33:44	 *	fsckd gives KaiSforza a sunsu bean
+2013-03-05 19:33:44	KaiSforza	but no, i think gtmanfred has it nicely set out.
+2013-03-05 19:34:25	fsckd	we'll see how it goes :)
+2013-03-05 19:34:33	KaiSforza	I was thinking, since you mentioned pdfs, of setting up a sphinx doc project for this, either one for each lesson, or one big one for the whole class.
+2013-03-05 19:34:40	gtmanfred	KaiSforza: sooo after this we can just take turns adding a short blurb about use, like 2 sentences and then why we are qualified about pkgbuilds, 1 to 2 sentences
+2013-03-05 19:35:01	gtmanfred	I am willing to try it to see how it looks
+2013-03-05 19:35:11	KaiSforza	gtmanfred: you can do that first. i've gotta go and shovel a butt ton of snow soon.
+2013-03-05 19:35:21	gtmanfred	lol ok
+2013-03-05 19:35:34	KaiSforza	also, with sphinx, people that can't get X working or don't want X working can get texinfo documentation to use.
+2013-03-05 19:35:55	KaiSforza	just a thought.
+2013-03-05 19:36:06	gtmanfred	well then, we just need to get the documentations started, i think we start with getting the create packages page done
+2013-03-05 19:36:18	gtmanfred	onto a pdf to see what sphinx looks like etc...
+2013-03-05 19:36:33	gtmanfred	then we can put a link on the wiki page for the beginners class
+2013-03-05 19:36:42	KaiSforza	mkay
+2013-03-05 19:36:45	gtmanfred	and once that is ready we set a date, and then go from there?
+2013-03-05 19:36:47	gtmanfred	sound good?
+2013-03-05 19:37:09	KaiSforza	if you want, i can just convert the wiki page to a .rst document and make the pdfs today
+2013-03-05 19:37:30	gtmanfred	as soon as it is ready i would be ready to set a date for the first class
+2013-03-05 19:37:37	KaiSforza	alright.
+2013-03-05 19:37:39	gtmanfred	:)
+2013-03-05 19:37:59	fsckd	yay
+2013-03-05 19:38:02	KaiSforza	since all but the fourth will only need 4.0.3, i think we'll be okay if it starts before allan tags 4.1-rc1
+2013-03-05 19:38:16	gtmanfred	that is the plan
+2013-03-05 19:38:20	KaiSforza	(though i wish updpkgsums was in 4.0.3's contrib.)
+2013-03-05 19:38:22	gtmanfred	anyway, i will add a small blurb about the 4 classes and 1 sentence about each one
+2013-03-05 19:38:28	KaiSforza	okay
+2013-03-05 19:38:35	gtmanfred	and then write my piece
+2013-03-05 19:38:52	KaiSforza	i'm gonna go shovel snow and then convert a wiki page to an rst doc so we can see how things go.
+2013-03-05 19:38:54	gtmanfred	and then we can talk later in the week about actually writing something up for #2
+2013-03-05 19:39:00	gtmanfred	once you get it in .rst
+2013-03-05 19:39:14	gtmanfred	please push that to the repo inside the um... hold on
+2013-03-05 19:39:18	KaiSforza	yup
+2013-03-05 19:39:34	KaiSforza	i was going to make a separate repo for the pkgbuild lessons.
+2013-03-05 19:39:43	gtmanfred	make a beginner_pkgbuilds directory and put it in there
+2013-03-05 19:39:49	KaiSforza	meh. okay.
+2013-03-05 19:39:54	fsckd	hold up
+2013-03-05 19:39:59	gtmanfred	fsckd: hrm?
+2013-03-05 19:40:04	KaiSforza	gtmanfred: but doing that, we
+2013-03-05 19:40:08	fsckd	want new repos for subdirs?
+2013-03-05 19:40:15	gtmanfred	fsckd: no, just subdirs
+2013-03-05 19:40:19	fsckd	ok
+2013-03-05 19:40:20	KaiSforza	i think that'll work.
+2013-03-05 19:40:35	KaiSforza	we can take pull requests for people that have other lesson documentation.
+2013-03-05 19:40:42	gtmanfred	right, then as people do stuff they can just submit pull requests to have their lesson documentation added
+2013-03-05 19:40:43	gtmanfred	right
+2013-03-05 19:40:43	KaiSforza	and put it all in the same place.
+2013-03-05 19:40:46	gtmanfred	yay
+2013-03-05 19:40:47	gtmanfred	\o/
+2013-03-05 19:40:50	KaiSforza	\o/
+2013-03-05 19:41:02	gtmanfred	and then it can feed straight into sphinx and be put on the wiki
+2013-03-05 19:41:07	fsckd	lemme know in -dev :)
+2013-03-05 19:41:12	gtmanfred	ok
+2013-03-05 19:41:23	KaiSforza	exactly :>
+2013-03-05 19:41:28	gtmanfred	is that everything?
+2013-03-05 19:41:47	 *	KaiSforza thinks so
+2013-03-05 19:41:57	gtmanfred	fsckd: tigrmesh ? anything else?
+2013-03-05 19:42:31	fsckd	not at the moment
+2013-03-05 19:44:10	gtmanfred	ok, so i think that is good for now, KaiSforza can go shovel snow, and i am going to go do that stuff right after a snack and to check on my resume stuff
+2013-03-05 19:44:18	gtmanfred	=======Lesson 1 planned=======
