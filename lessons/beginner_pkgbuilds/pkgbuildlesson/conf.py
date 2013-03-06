@@ -188,7 +188,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'PKGBUILDClassroom.tex', 'PKGBUILD Classroom Documentation',
+  ('index', 'PKGBUILDClassroom.tex', 'Introduction to PKGBUILDs',
    'Daniel Wallace, William Giokas', 'manual'),
 ]
 
@@ -198,7 +198,7 @@ latex_documents = [
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.
-#latex_use_parts = False
+latex_use_parts = False
 
 # If true, show page references after internal links.
 latex_show_pagerefs = True
@@ -218,7 +218,7 @@ latex_domain_indices = False
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'pkgbuildclassroom', 'PKGBUILD Classroom Documentation',
+    ('index', 'pkgbuildclassroom', 'Introduction to PKGBUILDs',
      ['Daniel Wallace, William Giokas'], 1)
 ]
 
@@ -232,7 +232,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'PKGBUILDClassroom', 'PKGBUILD Classroom Documentation',
+  ('index', 'PKGBUILDClassroom', 'Introduction to PKGBUILDs',
    'Daniel Wallace, William Giokas', 'PKGBUILDClassroom', 'One line description of project.',
    'Miscellaneous'),
 ]
