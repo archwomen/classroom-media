@@ -1,5 +1,5 @@
-Lesson 1: A Basic Introduction
-******************************
+A Basic Introduction
+********************
 
 Overview
 ========
@@ -29,11 +29,15 @@ makepkg:
   package. It is created by ``libarchive``. This is new in  pacman 4.1. See
   ``man 5 mtree`` for more information.
 
+This document uses standard shell syntax, ``$`` before a line to denote
+running it as a normal use, ``#`` as root. If you ware copying and pasting,
+please make sure to remove those symbols before you run the commands.
+
 Preparation
 ===========
 
-Prerequisite software
----------------------
+Prerequisites
+-------------
 
 First ensure that the necessary tools are installed. The package group 
 `base-devel`_ should be sufficient; it includes ``make``, ``gcc`` and
@@ -54,13 +58,26 @@ One of the key tools for building packages is ``makepkg`` (provided by
 * Stores the package file in the configured destination directory, which
   is the present working directory by default.
 
+To follow along in this class, we expect that you:
+
+* Have a basic understanding of the Linux filesystem
+* Know basic Linux commands
+* Know how to unarchive files
+* Know how to use a text editor (vim, nano, gedit, geany)
+* Have some basic knowledge of filesystem premissions
+
+While we are fine helping people write PKGBUILDs, we are not going to walk
+you through Linux 101.
+
 Download and test the installation
 ----------------------------------
 
 Download the source tarball of the software you want to package, extract
 it, and follow the author's steps to install the program.  Make a note of
 all commands and/or steps needed to compile and install it. You will be
-repeating those same commands in the ``PKGBUILD`` file.
+repeating those same commands in the ``PKGBUILD`` file. Usually there will
+be a ``README`` file along with the code that details how to install the
+software. If there is none, then you will have to experiment.
 
 Most software authors stick to the 3-step build cycle::
 
@@ -68,7 +85,9 @@ Most software authors stick to the 3-step build cycle::
     $ make
     # make install
 
-This is a good time to make sure the program is working correctly.
+This is a good time to make sure the program is working correctly. You will
+want to test this out, running the first two commands and seeing if the
+software compiles correctly first. Don't install it when you are testing.
 
 Creating a ``PKGBUILD``
 -----------------------
@@ -79,8 +98,14 @@ download the software's source code and compile it according to the
 instructions specified in the ``PKGBUILD`` file. The instructions must
 be fully interpretable by the `bash`_ shell. After successful completion,
 the resulting binaries and metadata of the package, i.e. package version
-and dependencies, are packed in a ``pkgname.pkg.tar.xz`` package
+and dependencies, are usually packed in a ``pkgname.pkg.tar.xz`` package
 file that can be installed with ``pacman -U <package file>``.
+
+.. note::
+  ``.pkg.tar.xz`` is not the only extension that packages can have. Some
+  users use ``.pkg.tar.gz``, ``.bz2`` or ``.tar``. These are all valid
+  archive extensions supported by pacman, though ``.tar.xz`` generally has
+  better compression than the other options.
 
 To begin with a new package, you should first create an empty working
 directory, (preferably ``~/abs/pkgname``), change into that directory,
@@ -95,7 +120,8 @@ Defining ``PKGBUILD`` variables
 Example ``PKGBUILD``s are located in ``/usr/share/pacman/``. An explanation of
 possible ``PKGBUILD`` variables can be found in the `PKGBUILD article`_.
 
-``makepkg`` defines three variables that you should use as part of the build and install process:
+``makepkg`` defines three shell variables that you should use as part of the
+build and install process:
 
 * ``srcdir``
   
@@ -290,7 +316,7 @@ Checking package sanity
 After testing package functionality check it for errors using `namcap`_::
 
     $ namcap PKGBUILD
-    $ namcap <package file name>.pkg.tar.xz
+    $ namcap <package name>-<full version>-<arch>.pkg.tar.xz
 
 Namcap will:
 
@@ -309,7 +335,9 @@ Submitting packages to the AUR
 ==============================
 
 Please read `Submitting packages`_ for a detailed description of the
-submission process.
+submission process. This lesson does not coverthis topic, though submitting
+your packages for others to use is considered good form. Please take
+criticism of your package well and attempt to fix anything that comes up.
 
 Summary
 =======
@@ -323,7 +351,7 @@ Summary
 * If not, repeat the last two steps.
 
 Warnings
---------
+========
 
 * Before you can automate the package building process, you should have
   done it manually at least once unless you know *exactly* what you are

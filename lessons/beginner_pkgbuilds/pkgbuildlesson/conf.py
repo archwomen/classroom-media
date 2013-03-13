@@ -189,7 +189,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'PKGBUILDClassroom.tex', 'Introduction to PKGBUILDs',
-   'Daniel Wallace, William Giokas', 'manual'),
+   'Daniel Wallace \\and William Giokas', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -204,7 +204,7 @@ latex_use_parts = False
 latex_show_pagerefs = True
 
 # If true, show URL addresses after external links.
-latex_show_urls = False
+#latex_show_urls = 'footnote'
 
 # Documents to append as an appendix to all manuals.
 #latex_appendices = []

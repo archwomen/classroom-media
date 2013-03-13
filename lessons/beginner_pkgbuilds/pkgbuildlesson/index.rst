@@ -10,4 +10,5 @@ An Introduction to Writing PKGBUILDS for Arch Linux
    :maxdepth: 2
    :glob:
 
+   about
    lesson_1
