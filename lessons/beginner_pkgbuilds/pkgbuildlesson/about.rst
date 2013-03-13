@@ -71,6 +71,27 @@ to the `pacman`_ project, most to the makepkg/contrib side of things.
 On IRC I go by the nickname ``KaiSforza``, and on many other services. If
 you have any questions about these lessons, please feel free to `email me`_.
 
+
+Daniel Wallace
+--------------
+
+I began using Linux 3 years ago.  I had ubuntu 10.10 installed for about 4
+hours before removing it in favor of Arch Linux and its packaging structure.
+After a year and a half of using archlinux, I decided I wanted to be a
+Trusted User, and began working towards that goal.  I began adopting any
+interesting package I could find in the AUR and updating it.
+
+I maintain 59 packages in the `aur`_, 86 packages in `community and
+multilib`_, and have submitted `several patches`_ to `pacman`_.  I also
+maintain my own `repository` made up mostly of the new VCS PKGBUILD formats.
+
+On IRC I go by ``gtmanfred``.  I can also me contacted by `email`_.
+
 .. _few patches: https://projects.archlinux.org/pacman.git/log/?qt=author&q=William+Giokas
 .. _pacman:   http://www.archlinux.org/pacman/
 .. _email me: 1007380@gmail.com
+.. _aur: https://aur.archlinux.org/packages/?SeB=m&K=gtmanfred
+.. _community and multilib: https://www.archlinux.org/packages/?maintainer=dwallace
+.. _several patches: https://projects.archlinux.org/pacman.git/log/?qt=author&q=Daniel+Wallace
+.. _repository: http://code.gtmanfred.com/gtmanfred
+.. _email: danielwallace@gtmanfred.com
