@@ -146,7 +146,7 @@ build and install process:
   ``makepkg``, and thus the :func:`build` and :func:`package` functions, are
   intended to be non-interactive.  Interactive utilities or scripts called
   in those functions may break ``makepkg``, particularly if it is invoked
-  with build-logging enabled (``-L``). (See `bug 13214`_.)
+  with build-logging enabled (``-L``). (See `FS#13214`_.)
 
 .. note::
   Apart from the current package Maintainer, there may be previous
@@ -377,22 +377,114 @@ Warnings
   work at all. However, ``makepkg`` needs to be completely autonomous, with
   no user input. Therefore if you need to edit the makefiles, you may have
   to bundle a custom patch with the ``PKGBUILD`` and install it from inside
-  the :func:`build` function, or you might have to issue some ``sed``
+  the :func:`build` function, or you might have to issue some `sed`
   commands from inside the :func:`build` function.
 
-See Also
+Practice
 ========
-`How to correctly create a patch file`_
 
-.. [#1] Converted to ReST from the Arch Linux Wiki.
+The previous sections have talked about what makes up a ``PKGBUILD`` and how
+to get the basics set up and tested. Now all you need is a bit of practice.
+There are hundreds of ``PKGBUILD``\s you can study in the ABS tree that are
+written by Trusted Users and Arch Developers. Looking through these should
+help you get a good idea of what is okay, and what is not okay when writing
+``PKGBUILD``\s. A few that you can take a good look at would be the `pacman`
+``PKGBUILD`` and the `sed` ``PKGBUILD``. Here we will dissect the `sed`
+``PKGBUILD``:
+
+.. code-block:: bash
+
+    # Maintainer: Allan McRae <allan@archlinux.org>
+    # Contributor: judd <jvinet@zeroflux.org>
+
+At the top of the file are two useful comments, one the name of the package
+maintainer, and the names of any contributors to the ``PKGBUILD``. If you
+edit a ``PKGBUILD``, it is good form to send either a patch or a full
+``PKGBUILD`` to the maintainer listed above, including your name and email
+as a contributor.
+
+.. code-block:: bash
+
+    pkgname=sed
+    pkgver=4.2.2
+    pkgrel=2
+    pkgdesc="GNU stream editor"
+    arch=('i686' 'x86_64')
+    url="http://www.gnu.org/software/sed"
+    license=('GPL3')
+    groups=('base' 'base-devel')
+    depends=('acl' 'sh')
+    makedepends=('gettext')
+    install=sed.install
+
+Here we have the basic variable setup, including arrays for groups, depends,
+and makedepends.
+
+.. code-block:: bash
+
+    source=(ftp://ftp.gnu.org/pub/gnu/sed/${pkgname}-${pkgver}.tar.gz{,.sig})
+    md5sums=('4111de4faa3b9848a0686b2f260c5056'
+             '86a5ab72f414d4cb38126e8e27cf0101')
+
+The source array uses some basic bash expansions, telling `makepkg` about two
+source files on one line. If you look in the directory in the ABS tree, you
+will notice that there is a file that is not specified in the source array,
+``sed.install``. This is specified outside of the source array, as you can
+see above.
+
+.. note::
+    This signature has recently been revoked, and will no longer verify the
+    source tarball. Use ``man makepkg`` to figure out what to do in this
+    situation.
+
+.. code-block:: bash
+
+    build() {
+      cd ${srcdir}/${pkgname}-${pkgver}
+      ./configure --prefix=/usr
+      make
+    }
+
+    check() {
+      cd ${srcdir}/${pkgname}-${pkgver}
+      make check
+    }
+
+    package() {
+      cd ${srcdir}/${pkgname}-${pkgver}
+      make DESTDIR=${pkgdir} install
+
+      mkdir $pkgdir/bin
+      ln -s ../usr/bin/sed $pkgdir/bin
+    }
+
+These are the basic building and packaging functions. Some software likes to
+install to ``/usr/local`` and this ``./configure`` line redirects the base
+to ``/usr``, the standard for Arch Linux. We can also see the use of a
+different ``DESTDIR`` for the `make install` line, telling makepkg to put
+the finished product into the ``$pkgdir`` not the actual filesystem. Note
+that the :func:`build` function does not include any tar commands. This is
+performed automatically by makepkg on any source files it thinks it can
+extract, notably ``tar.gz``, ``tar.bz2``, ``tar.xz``, ``zip`` and more. If
+possible, it is considered good form to include a :func:`check` function so
+that after building the binaries can be verified. This is especially
+important in software you intend to distribute, or development versions of
+software.
+
+While this is a very good model for most packages, each package will be
+different slightly, and you will have to debug the quirks for each package.
+Sometimes packages don't even come with a ``Makefile`` and require manual
+copying into the ``$pkgdir`` directory. We will discuss this kind of
+installation more in the lesson on packages that don't use `make`.
+
+.. Links
+
 .. _makepkg: https://wiki.archlinux.org/index.php/Makepkg
 .. _pacman: https://wiki.archlinux.org/index.php/Pacman
 .. _base-devel: https://www.archlinux.org/groups/i686/base-devel/
 .. _PKGBUILD article: https://wiki.archlinux.org/index.php/PKGBUILD
-.. _bug 13214: https://bugs.archlinux.org/task/13214
+.. _FS#13214: https://bugs.archlinux.org/task/13214
 .. _bash: http://en.wikipedia.org/wiki/Bash_(Unix_shell)
 .. _documented: https://www.gnu.org/software/automake/manual/automake.html#Install
 .. _namcap: https://wiki.archlinux.org/index.php/Namcap
 .. _submitting packages: https://wiki.archlinux.org/index.php/AUR_User_Guidelines#Submitting_packages
-.. _Package Guidelines: 
-.. _How to correctly create a patch file: https://bbs.archlinux.org/viewtopic.php?id=91408
