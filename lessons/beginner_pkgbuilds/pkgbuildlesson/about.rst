@@ -83,9 +83,9 @@ interesting package I could find in the AUR and updating it.
 
 I maintain 59 packages in the `aur`_, 86 packages in `community and
 multilib`_, and have submitted `several patches`_ to `pacman`_.  I also
-maintain my own `repository` made up mostly of the new VCS PKGBUILD formats.
+maintain my own `repository`_ made up mostly of the new VCS PKGBUILD formats.
 
-On IRC I go by ``gtmanfred``.  I can also me contacted by `email`_.
+On IRC I go by ``gtmanfred``.  I can also be contacted at `email`_.
 
 .. _few patches: https://projects.archlinux.org/pacman.git/log/?qt=author&q=William+Giokas
 .. _pacman:   http://www.archlinux.org/pacman/
