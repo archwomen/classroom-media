@@ -79,6 +79,16 @@ repeating those same commands in the ``PKGBUILD`` file. Usually there will
 be a ``README`` file along with the code that details how to install the
 software. If there is none, then you will have to experiment.
 
+Before extracting any sources, be sure to verify that they are what you
+think they are. While rare, bad things can happen when you don't know what
+is actually in the archives. Use ``md5sum <file>`` to check, or ``md5sum -c
+<listofsums>`` to automate the checking. If software comes with a gpg
+signature file (``.asc`` or ``.sig``) then it is good to check those. Later,
+when you learn to write a minimal ``PKGBUILD`` that just downloads the
+sources, you will see that it automatically verifies the files. Some sources
+use other methods of verification. If possible, test them first, making sure
+you have the right source.
+
 Most software authors stick to the 3-step build cycle::
 
     $ ./configure
@@ -88,6 +98,13 @@ Most software authors stick to the 3-step build cycle::
 This is a good time to make sure the program is working correctly. You will
 want to test this out, running the first two commands and seeing if the
 software compiles correctly first. Don't install it when you are testing.
+Before putting things into a package, it is also good to run the programs
+from the directory after ``make``::
+
+    $ ./programname
+
+Account for any errors, and remember what you did to fix the errors. You
+will later put them into the ``PKGBUILD``
 
 Creating a ``PKGBUILD``
 -----------------------
@@ -117,7 +134,7 @@ need to change a few options.
 Defining ``PKGBUILD`` variables
 -------------------------------
 
-Example ``PKGBUILD``s are located in ``/usr/share/pacman/``. An explanation of
+Example ``PKGBUILD``\s are located in ``/usr/share/pacman/``. An explanation of
 possible ``PKGBUILD`` variables can be found in the `PKGBUILD article`_.
 
 ``makepkg`` defines three shell variables that you should use as part of the
@@ -302,7 +319,7 @@ If the package looks sane, then you are done! However, if you plan on
 releasing the ``PKGBUILD`` file, it is imperative that you check and
 double-check the contents of the ``depends`` array. 
 
-Also ensure that the package binaries actually ``run`` flawlessly! It is
+Also ensure that the package binaries actually `run` flawlessly! It is
 annoying to release a package that contains all necessary files, but
 crashes because of some obscure configuration option that does not quite
 work well with the rest of the system. If you are only going to compile
