@@ -230,7 +230,7 @@ any sub-directories below the ``pkg`` directory. If it does not, however,
 create sub-directories by adding the appropriate ``mkdir -p`` commands in
 the :func:`build` function before the installation procedure is run.
 
-In old packages, there was no :func`package` function. So, files were put
+In old packages, there was no :func:`package` function. So, files were put
 into the ``pkg`` directory at the end of the :func:`build` function. If
 :func:`package` is not present, :func:`build` runs via ``fakeroot``. In new
 packages, :func:`package` is required and runs via ``fakeroot`` instead, and
