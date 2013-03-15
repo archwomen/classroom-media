@@ -241,10 +241,10 @@ a ``*.pkg.*`` file without compiling the package. This may save time e.g.
 if you just have changed the ``depends`` variable of the package.
 
 .. note::
-  The package() function is the only required function in a ``PKGBUILD``.
-  If you must only copy files into their respective directories to install a
-  program, do not put it in the build() function, put that in the
-  :func:`package` function.
+  The :func:`package` function is the only required function in a
+  ``PKGBUILD``. If you must only copy files into their respective
+  directories to install a program, do not put it in the :func:`build`
+  function, put that in the :func:`package` function.
 
 The :func:`prepare` function (pacman >=4.1)
 -------------------------------------------
