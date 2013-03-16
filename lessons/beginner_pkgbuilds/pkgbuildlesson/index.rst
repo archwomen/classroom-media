@@ -12,3 +12,4 @@ An Introduction to Writing PKGBUILDS for Arch Linux
 
    about
    lesson_1
+   lesson_2
