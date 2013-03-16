@@ -263,10 +263,12 @@ if you just have changed the ``depends`` variable of the package.
   directories to install a program, do not put it in the :func:`build`
   function, put that in the :func:`package` function.
 
-The :func:`prepare` function (pacman >=4.1)
--------------------------------------------
+The :func:`prepare` function
+----------------------------
 
-Pacman 4.1 introduces the :func:`prepare` command. In this function commands that
+.. versionadded:: 4.1
+
+The :func:`prepare` function specifies commands that
 are used to prepare sources for building are run, such as patch or
 configuring. This function is run before the build function and after the
 package extraction. If extraction is skipped (``makepkg -e``), then
@@ -276,12 +278,14 @@ package extraction. If extraction is skipped (``makepkg -e``), then
   (From ``man PKGBUILD``) The function is run in bash -e mode, meaning any
   command that exits with a non-zero status will cause the function to exit.
 
-The :func:`pkgver` function (pacman >= 4.1)
--------------------------------------------
+The :func:`pkgver` function
+---------------------------
 
-Beginning with pacman 4.1 (currently in the development version), you can
-update the pkgver variable during a makepkg. :func:`pkgver` is run right
-after the sources are fetched and extracted.
+.. versionadded:: 4.1
+
+`makepkg` can now automatically update the ``pkgver`` variable while being
+run. The :func:`pkgver` is run right after the sources are fetched and
+extracted.
 
 This is particularly useful if you are making git/svn/hg/etc. packages,
 where the build process may remain the same, but the source could be updated
