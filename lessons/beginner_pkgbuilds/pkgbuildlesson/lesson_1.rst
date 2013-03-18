@@ -48,15 +48,15 @@ additional tools needed for compiling from source::
 One of the key tools for building packages is ``makepkg`` (provided by
 ``pacman``) which does the following:
 
-* Checks if package dependencies are installed.
-* Downloads the source file(s) from the specified server(s).
-* Unpacks the source file(s).
-* Compiles the software and installs it under a fakeroot environment.
-* Strips symbols from binaries and libraries.
-* Generates the package meta file which is included with each package.
-* Compresses the fakeroot environment into a package file.
-* Stores the package file in the configured destination directory, which
-  is the present working directory by default.
+#. Checks if package dependencies are installed.
+#. Downloads the source file(s) from the specified server(s).
+#. Unpacks the source file(s).
+#. Compiles the software and installs it under a fakeroot environment.
+#. Strips symbols from binaries and libraries.
+#. Generates the package meta file which is included with each package.
+#. Compresses the fakeroot environment into a package file.
+#. Stores the package file in the configured destination directory, which
+   is the present working directory by default.
 
 To follow along in this class, we expect that you:
 
@@ -188,7 +188,7 @@ Now, you need to list the same commands you used when you manually compiled
 the software.  The :func:`build` function in essence automates everything you
 did by hand and compiles the software in the fakeroot build environment.
 If the software you are packaging uses a configure script, it is good
-practice to use ``1=--prefix=/usr`` when building packages for ``pacman``.
+practice to use ``--prefix=/usr`` when building packages for ``pacman``.
 A lot of software installs files relative to the ``/usr/local`` directory,
 which should only be done if you are manually building from source.  All
 Arch Linux packages should use the ``/usr`` directory.  As seen in the
@@ -234,7 +234,7 @@ software in the ``pkg`` directory::
   ``Makefile``; you may need to use ``prefix`` instead. If the package
   is built with ``autoconf``/``automake``, use ``DESTDIR``; this is what
   is `documented`_ in the manuals. If ``DESTDIR`` does not work, try
-  building with ``1=make prefix="$pkgdir/usr/" install``. If that does not
+  building with ``make prefix="$pkgdir/usr/" install``. If that does not
   work, you will have to look further into the install commands that are
   executed by ``make <...> install``.
 
@@ -269,10 +269,12 @@ The :func:`prepare` function
 .. versionadded:: 4.1
 
 The :func:`prepare` function specifies commands that
-are used to prepare sources for building are run, such as patch or
-configuring. This function is run before the build function and after the
-package extraction. If extraction is skipped (``makepkg -e``), then
-:func:`prepare` is not run.
+are used to prepare sources for building are run, such as patching. This
+function is run before the build function and after the package extraction.
+If extraction is skipped (``makepkg -e``), then :func:`prepare` is not run.
+
+The ``./configure`` part of the build should not be run in :func:`prepare`.
+This is part of the build, and should be run in :func:`build`.
 
 .. note::
   (From ``man PKGBUILD``) The function is run in bash -e mode, meaning any
@@ -348,6 +350,9 @@ Namcap will:
   ``depends`` and which can be omitted as transitive dependencies
 * Heuristically search for missing and redundant dependencies
 * and much more.
+
+.. note::
+    namcap is a guide. It is not the end all and be all of package sanity.
 
 Get into the habit of checking your packages with namcap to avoid having to
 fix the simplest mistakes after package submission.
