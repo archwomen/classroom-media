@@ -32,7 +32,7 @@ have a basic knowledge of:
 * the Linux filesystem
 * basic Linux commands (ls, cd, make, mkdir, install, etc.)
 * archiving and un-archiving files
-* text editors (vim, emacs, leafpad, geany, etc.)
+* at least one text editor (vim, emacs, leafpad, geany, etc.)
 * file and directory permissions
 
 Students will also need an up-to-date Arch Linux installation and an
