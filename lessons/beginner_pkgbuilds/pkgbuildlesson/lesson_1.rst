@@ -415,7 +415,7 @@ There are hundreds of ``PKGBUILD``\s you can study in the ABS tree that are
 written by Trusted Users and Arch Developers. Looking through these should
 help you get a good idea of what is okay, and what is not okay when writing
 ``PKGBUILD``\s. A few that you can take a good look at would be the `pacman`
-``PKGBUILD`` and the `sed` ``PKGBUILD``. Here we will dissect the `sed`
+``PKGBUILD`` and the `grep` ``PKGBUILD``. Here we will dissect the `grep`
 ``PKGBUILD``:
 
 .. code-block:: bash
@@ -431,43 +431,38 @@ as a contributor.
 
 .. code-block:: bash
 
-    pkgname=sed
-    pkgver=4.2.2
+    pkgname=grep
+    pkgver=2.14
     pkgrel=2
-    pkgdesc="GNU stream editor"
+    pkgdesc="A string search utility"
     arch=('i686' 'x86_64')
-    url="http://www.gnu.org/software/sed"
     license=('GPL3')
+    url="http://www.gnu.org/software/grep/grep.html"
     groups=('base' 'base-devel')
-    depends=('acl' 'sh')
-    makedepends=('gettext')
-    install=sed.install
+    depends=('glibc' 'pcre' 'sh')
+    makedepends=('texinfo')
+    install=${pkgname}.install
 
 Here we have the basic variable setup, including arrays for groups, depends,
 and makedepends.
 
 .. code-block:: bash
 
-    source=(ftp://ftp.gnu.org/pub/gnu/sed/${pkgname}-${pkgver}.tar.gz{,.sig})
-    md5sums=('4111de4faa3b9848a0686b2f260c5056'
-             '86a5ab72f414d4cb38126e8e27cf0101')
+    source=(ftp://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz{,.sig})
+    md5sums=('d4a3f03849d1e17ce56ab76aa5a24cab'
+             'b94fdcaa058b47a9a25099c26cd2e4c3')
 
 The source array uses some basic bash expansions, telling `makepkg` about two
 source files on one line. If you look in the directory in the ABS tree, you
 will notice that there is a file that is not specified in the source array,
-``sed.install``. This is specified outside of the source array, as you can
+``grep.install``. This is specified outside of the source array, as you can
 see above.
-
-.. note::
-    This signature has recently been revoked, and will no longer verify the
-    source tarball. Use ``man makepkg`` to figure out what to do in this
-    situation.
 
 .. code-block:: bash
 
     build() {
       cd ${srcdir}/${pkgname}-${pkgver}
-      ./configure --prefix=/usr
+      ./configure --prefix=/usr --without-included-regex
       make
     }
 
@@ -479,9 +474,6 @@ see above.
     package() {
       cd ${srcdir}/${pkgname}-${pkgver}
       make DESTDIR=${pkgdir} install
-
-      mkdir $pkgdir/bin
-      ln -s ../usr/bin/sed $pkgdir/bin
     }
 
 These are the basic building and packaging functions. Some software likes to

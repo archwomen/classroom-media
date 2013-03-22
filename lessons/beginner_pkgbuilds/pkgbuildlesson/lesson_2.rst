@@ -61,15 +61,15 @@ of a binary. Running it after you build the software is as simple as::
 
     $ ldd /path/to/binary
 
-Here is an example running `ldd` on the sed binary we created in the last
+Here is an example running `ldd` on the grep binary we created in the last
 chapter::
 
-    $ ldd /path/to/sed
-          linux-vdso.so.1 (0x00007fffcc1c0000)
-          libacl.so.1 => /usr/lib/libacl.so.1 (0x00007fba90726000)
-          libc.so.6 => /usr/lib/libc.so.6 (0x00007fba90379000)
-          libattr.so.1 => /usr/lib/libattr.so.1 (0x00007fba90174000)
-          /lib64/ld-linux-x86-64.so.2 (0x00007fba9092f000)
+    $ ldd /path/to/grep
+          linux-vdso.so.1 (0x00007fff8fffe000)
+          libpcre.so.1 => /usr/lib/libpcre.so.1 (0x00007f035d155000)
+          libc.so.6 => /usr/lib/libc.so.6 (0x00007f035cda8000)
+          libpthread.so.0 => /usr/lib/libpthread.so.0 (0x00007f035cb8c000)
+          /lib64/ld-linux-x86-64.so.2 (0x00007f035d3b8000)
 
 As you can see, it is somewhat cryptic, but once you know how to use it, the
 output is extremely meaningful. Using `pkgfile`, we can find out exactly
@@ -77,8 +77,8 @@ what package we need to include to make that binary work on a system. For
 example, say I want to know what package has the file ``libacl.so.1``, one
 would simply run::
 
-    $ pkgfile libacl.so.1
-    core/acl
+    $ pkgfile libpcre.so.1
+    core/pcre
 
 .. note::
     On systems with the multilib repository enabled, you may see packages in
@@ -86,11 +86,11 @@ would simply run::
     software you are building does not support a 64-bit architecture, then
     it is best not to use those packages in any depends array.
 
-This would tell me that in the `sed` project should depend on core/acl, and if
-you look at the ``pacman -Si sed`` output, you will see that it does in fact
+This would tell me that in the `grep` project should depend on core/acl, and if
+you look at the ``pacman -Si grep`` output, you will see that it does in fact
 depend on this package. You can go through all of the `.so` files and find
 all of the dependencies, but sometimes even that is not enough for some
-packages. `sed` also depends on `sh`, as it is a shell program. Most of the
+packages. `grep` also depends on `sh`, as it is a shell program. Most of the
 time, you can expect this to be installed from the `base`_ group, but it's
 not always the case with some things, and some are not even C programs.
 
