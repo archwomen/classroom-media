@@ -61,28 +61,24 @@ of a binary. Running it after you build the software is as simple as::
 
     $ ldd /path/to/binary
 
-Here is an example running `ldd` on dwm::
+Here is an example running `ldd` on the sed binary we created in the last
+chapter::
 
-    $ ldd /usr/bin/dwm
-        linux-vdso.so.1 (0x00007fff06f4e000)
-        libX11.so.6 => /usr/lib/libX11.so.6 (0x00007f575d0dc000)
-        libXinerama.so.1 => /usr/lib/libXinerama.so.1 (0x00007f575ced9000)
-        libc.so.6 => /usr/lib/libc.so.6 (0x00007f575cb2c000)
-        libxcb.so.1 => /usr/lib/libxcb.so.1 (0x00007f575c90d000)
-        libdl.so.2 => /usr/lib/libdl.so.2 (0x00007f575c709000)
-        libXext.so.6 => /usr/lib/libXext.so.6 (0x00007f575c4f6000)
-        /lib64/ld-linux-x86-64.so.2 (0x00007f575d415000)
-        libXau.so.6 => /usr/lib/libXau.so.6 (0x00007f575c2f2000)
-        libXdmcp.so.6 => /usr/lib/libXdmcp.so.6 (0x00007f575c0ec000)
+    $ ldd /path/to/sed
+          linux-vdso.so.1 (0x00007fffcc1c0000)
+          libacl.so.1 => /usr/lib/libacl.so.1 (0x00007fba90726000)
+          libc.so.6 => /usr/lib/libc.so.6 (0x00007fba90379000)
+          libattr.so.1 => /usr/lib/libattr.so.1 (0x00007fba90174000)
+          /lib64/ld-linux-x86-64.so.2 (0x00007fba9092f000)
 
 As you can see, it is somewhat cryptic, but once you know how to use it, the
 output is extremely meaningful. Using `pkgfile`, we can find out exactly
 what package we need to include to make that binary work on a system. For
-example, say I want to know what package has the file ``libX11.so.6``, I
+example, say I want to know what package has the file ``libacl.so.1``, one
 would simply run::
 
-    $ pkgfile libX11.so.6
-    extra/libx11
+    $ pkgfile libacl.so.1
+    core/acl
 
 .. note::
     On systems with the multilib repository enabled, you may see packages in
@@ -90,9 +86,13 @@ would simply run::
     software you are building does not support a 64-bit architecture, then
     it is best not to use those packages in any depends array.
 
-This would tell me that in the `dwm` project should depend on libx11, and if
-you look at the ``pacman -Si dwm`` output, you will see that it does in fact
-depend on this package.
+This would tell me that in the `sed` project should depend on core/acl, and if
+you look at the ``pacman -Si sed`` output, you will see that it does in fact
+depend on this package. You can go through all of the `.so` files and find
+all of the dependencies, but sometimes even that is not enough for some
+packages. `sed` also depends on `sh`, as it is a shell program. Most of the
+time, you can expect this to be installed from the `base`_ group, but it's
+not always the case with some things, and some are not even C programs.
 
 Investigation
 =============
@@ -119,3 +119,7 @@ is written in, to simply read the source files.
 Investigating and testing are usually the only ways to get the makedpends
 and checkdepends for a package. Read the error messages that are printed,
 and pay attention.
+
+
+.. links
+.. _base: https://www.archlinux.org/groups/i686/base/
