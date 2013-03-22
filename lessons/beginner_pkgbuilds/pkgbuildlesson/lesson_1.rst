@@ -107,7 +107,7 @@ Account for any errors, and remember what you did to fix the errors. You
 will later put them into the ``PKGBUILD``
 
 Creating a ``PKGBUILD``
------------------------
+=======================
 
 When you run ``makepkg``, it will look for a ``PKGBUILD`` file in the
 present working directory. If a ``PKGBUILD`` file is found it will
