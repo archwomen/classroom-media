@@ -1,0 +1,738 @@
+2013-09-14 11:45:44	kaictl	so it's pkgbuild class time soon
+2013-09-14 11:45:59	kaictl	who all is here for that already?
+2013-09-14 11:52:41	MindlessDrone	hi, me ready to learn
+2013-09-14 11:53:54	kaictl	https://wiki.archlinux.org/index.php/Beginners_Guide_to_Package_Maintaining
+2013-09-14 11:53:55	phrik	Title: Beginners Guide to Package Maintaining - ArchWiki (at wiki.archlinux.org)
+2013-09-14 11:54:21	kaictl	just going to leave this here. we'll be expecting the 2nd and 3rd sections to be fulfilled before the class
+2013-09-14 12:00:18	MindlessDrone	check
+2013-09-14 12:31:11	tigrmesh	kaictl: i'm here
+2013-09-14 12:31:21	kaictl	:)
+2013-09-14 12:53:05	kaictl	alright, for the people here, I made a quick poll on how confident you are in your PKGBUILD writing: http://strawpoll.me/438364
+2013-09-14 12:53:07	phrik	Title: Straw Poll (at strawpoll.me)
+2013-09-14 12:59:14	kaictl	Alright, just so you guys know, this is probably not going to be a long class, or at least i'm going to try to keep it pretty short.
+2013-09-14 12:59:43	kaictl	i'm also down a teacher, it would seem
+2013-09-14 13:00:24	tigrmesh	yeah
+2013-09-14 13:00:31	kaictl	Alright, so i'm guessing most of the people here are in for the PKGBUILD classroom
+2013-09-14 13:00:53	Fififox	maybe post a reminder on the main channel? I, for one, had completely forgotten about this until a google calendar notification popped up 10 minutes ago
+2013-09-14 13:01:00	meskarune	sweet
+2013-09-14 13:01:04	kaictl	good point
+2013-09-14 13:01:55	kaictl	http://strawpoll.me/438364 just reposting this
+2013-09-14 13:01:56	phrik	Title: Straw Poll (at strawpoll.me)
+2013-09-14 13:02:15	fsckd	KylieBrooks: are you here for the class?
+2013-09-14 13:02:37	kaictl	ah, more people.
+2013-09-14 13:02:51	meskarune	yay
+2013-09-14 13:03:04	KylieBrooks	hi, uh, fsckd, not really but i can join in
+2013-09-14 13:03:08	kaictl	someone put that strawpoll link in the topic
+2013-09-14 13:03:31	fsckd	KylieBrooks: sure, was wondering :)
+2013-09-14 13:03:42	kaictl	http://strawpoll.me/438364
+2013-09-14 13:03:43	phrik	Title: Straw Poll (at strawpoll.me)
+2013-09-14 13:04:48	fsckd	saturday :P
+2013-09-14 13:05:10	+kaictl	gotta get down on...wait, wrong day.
+2013-09-14 13:05:59	fsckd	!grab kaictl
+2013-09-14 13:05:59	phrik	fsckd: Tada!
+2013-09-14 13:06:28	tigrmesh	any other items to put in the topic?
+2013-09-14 13:06:42	+kaictl	don't think we need anything.
+2013-09-14 13:06:57	+kaictl	OKAY! let's get this class started. if you're here for the class, just write a one-liner introducing yourself and how long you've been using arch
+2013-09-14 13:07:30	tigrmesh	i'm tigrmesh, i've been using arch for 5 years
+2013-09-14 13:07:51	Spec-Chum	My name's Spec-Chum and I'm an alco... oh wrong class... been using arch for about 3 months
+2013-09-14 13:07:53	prototype7	prototype7, used arch for about half a year
+2013-09-14 13:08:00	prototype7	lol
+2013-09-14 13:08:16	kurohyou	using arch for about a year now
+2013-09-14 13:08:22	Xmkmy	hi there, im using arch for around 3 years
+2013-09-14 13:08:27	liara	liara, about a year
+2013-09-14 13:09:00	meskarune	hi, I'm meskarune and I've been using arch since about 2006? 
+2013-09-14 13:09:54	fsckd	I am fsckd, I first installed Arch in 2009
+2013-09-14 13:10:47	+kaictl	and just because i should probably do this too, I'm kaictl, and i started using arch in early 2011
+2013-09-14 13:10:57	meskarune	exciting. I like to see new and old users :D
+2013-09-14 13:11:17	+kaictl	yeah, we've got a good mix, i'd say. 
+2013-09-14 13:12:19	tigrmesh	Caleb: how long have you been using arch?
+2013-09-14 13:12:42	+kaictl	Alright, so ignoring grawity and Caleb who i'm pretty sure have written their fair share of pkgbuilds, we're going to go on to the first topic for the day: the structure of a PKGBUILD
+2013-09-14 13:13:30	Fififox	late one-liner: hi everyone, I've been using arch for around 4 or 5 years
+2013-09-14 13:13:59	+kaictl	Now, most of you said you'd never written a PKGBUILD before in the poll. If you've ever written or read bash, you're still in luck. PKGBUILDs are nothing more than bash scripts with pre-defined names for the functions and variables.
+2013-09-14 13:14:27	Caleb	tigrmesh: ummm i good while
+2013-09-14 13:14:31	tigrmesh	k
+2013-09-14 13:14:39	Caleb	kaictl: yeah never written one
+2013-09-14 13:14:43	+kaictl	Let's look at the grep PKGBUILD here: http://ix.io/83w (you can get this from the abs or in the svntogit repos)
+2013-09-14 13:14:46	+kaictl	Caleb: heh
+2013-09-14 13:14:53	⛔⛔★	Caleb is lazy
+2013-09-14 13:15:02	Caleb	and also ive always found what i was looking for 
+2013-09-14 13:15:11	>>>	Aster (~Sarah@april-fools/ninth/aster) has joined #archlinux-classroom
+2013-09-14 13:15:21	Caleb	a
+2013-09-14 13:15:54	+kaictl	Anyone who has seen bash is thinking "Well this is nothing special," and you'd be right.
+2013-09-14 13:16:35	+kaictl	If you look at the first three lines, those are simple comments. anything with a # in front of it is a comment (with some exceptions, but here everything is a comment.)
+2013-09-14 13:17:44	+kaictl	Two of them say '# Maintainer' and '# Contributor', these are just for reference when you distribute your PKGBUILD. They don't get put anywhere when the package is built.
+2013-09-14 13:17:59	>>>	Namarrgon (~glei@212.255.26.13) has joined #archlinux-classroom
+2013-09-14 13:18:02	+kaictl	(you can ignore the '# $Id$' line)
+2013-09-14 13:19:02	fsckd	so comments are ignored by the tools which build the package?
+2013-09-14 13:19:09	+kaictl	If you write your own PKGBUILD, or start to maintain one, then you generally put your name as the Maintainer along with an email address. just sending in patches to help things build you can add your name to the list of Contributors. This will help people that have build failures know who to blame
+2013-09-14 13:19:18	+kaictl	fsckd: yes. they are for human readability only.
+2013-09-14 13:19:32	meskarune	hehe, like allan? ;)
+2013-09-14 13:19:45	+kaictl	I think some tools do look for them and can read them, but makepkg does not.
+2013-09-14 13:20:25	meskarune	I know there is some sort of list of top package maintainers. allan has over 1000 pkgbuilds that he maintains
+2013-09-14 13:20:34	+kaictl	Moving on to lines 5-18: These are the variable declarations. A PKGBUILD has certain variables that describe the package that is going to be built.
+2013-09-14 13:20:48	+kaictl	meskarune: i believe that just looks at the builder on the official packages, not the comments.
+2013-09-14 13:21:01	meskarune	ooooh I see. ;)
+2013-09-14 13:21:17	+kaictl	that's something we'll cover later.
+2013-09-14 13:21:26	tigrmesh	what's the difference between the contributor and the maintainer?  and what do i do if i'm the second maintainer?
+2013-09-14 13:21:42	tigrmesh	oops.  didn't read up.  busted
+2013-09-14 13:21:44	+kaictl	You move the previous maintainers name to the contributor list and take over maintainership.
+2013-09-14 13:21:54	tigrmesh	ohh
+2013-09-14 13:21:56	tigrmesh	nc
+2013-09-14 13:22:03	meskarune	are all 18 of those variables required for a pkgbuild?
+2013-09-14 13:22:13	kurohyou	and are there more?
+2013-09-14 13:22:26	+kaictl	more variables? yes. and no, not all of them are required.
+2013-09-14 13:23:27	+kaictl	there are, i believe, 5 or 6 that are required: pkgname, pkgver, pkgrel, pkgdesc and license. And i'm not sure if pkgdesc is actually required, but it's terrible practice to distribute a pkbguild without one.
+2013-09-14 13:23:41	meskarune	and then source? ;)
+2013-09-14 13:24:10	+kaictl	and there are 27 possible variables you can have.
+2013-09-14 13:24:31	+kaictl	meskarune: no. a pkbuild does not actually require a source array.
+2013-09-14 13:24:34	meskarune	man pkgbuild lists all the things :D
+2013-09-14 13:24:40	+kaictl	yes ↑
+2013-09-14 13:24:44	meskarune	kaictl: oh, interesting. good to know :D
+2013-09-14 13:25:10	+kaictl	though most will have a source array, since you are severely limited without actual sources.
+2013-09-14 13:25:42	+kaictl	And now to go through the variables in the grep pkgbuild::
+2013-09-14 13:25:47	meskarune	so like a pkgbuild that uses awk to change files on your system instead of installing something?
+2013-09-14 13:25:48	Earnestly	Write a dummy package and see how many ommissions you can get away with
+2013-09-14 13:25:55	>>>	MrElendig (~oh@archlinux/op/pdpc.supporter.active.mrelendig) has joined #archlinux-classroom
+2013-09-14 13:26:03	meskarune	thats a good idea ;)
+2013-09-14 13:26:16	+kaictl	Earnestly: i should have before this, just got lazy. you may also need arch=.
+2013-09-14 13:26:59	+kaictl	But moving on. First and foremost, we have the pkgname. This is, obviously, required when writing a PKGBUILD, otherwise makepkg won't know what to call the package.
+2013-09-14 13:27:08	Earnestly	kaictl: I don’t believe you need license, it does warn you that it’s missing iirc.  "# warn if license array is not present or empty
+2013-09-14 13:27:18	+kaictl	ah.
+2013-09-14 13:28:00	meskarune	kaictl: we can use stuff in this class to add to the classroom stuff <3
+2013-09-14 13:28:08	MrElendig	if you don't know the license you should imo license='unknown'
+2013-09-14 13:28:34	+kaictl	licence=('custom:none') or 'custom:unknown'
+2013-09-14 13:28:56	+kaictl	there are some special things about license i will cover later.
+2013-09-14 13:29:05	+kaictl	back to the pkgname:
+2013-09-14 13:29:29	+kaictl	Usually the pkgname is the same as the upstream name for the software, but for certain things you may want a different name in case you are going to have conflicts with other packages. (ie: grep-kaictl if I add a patch to the official grep package, but want it to be seen separately)
+2013-09-14 13:30:16	+kaictl	There are also development packages that are called 'foo-git' or 'bar-svn', etc.
+2013-09-14 13:30:20	kurohyou	can you give an example why you would do that?
+2013-09-14 13:31:45	tigrmesh	he just did
+2013-09-14 13:31:46	+kaictl	kurohyou: say that the official grep package fails to work on my system because something is wrong with it, and i need to fix it. I could just edit the grep pkgbuild and add the patch without changing the name, however on the next -Syu, if the version of grep in the repos is higher than my local grep, it will replace mine with the official package.
+2013-09-14 13:32:10	Earnestly	kurohyou: Another example: I have custom PKGBUILDs for gtk3 which disables a few options and includes a patch to fix a focus issue.  I called the package gtk3-light-fixed so that it won’t conflict when pacman wants to update gtk3.
+2013-09-14 13:32:14	+kaictl	so changing the name would allow you to feel somewhat safer when running -Syu to update your system.
+2013-09-14 13:32:16	kurohyou	ok, now i understand,, so it's more for system depended things
+2013-09-14 13:32:50	+kaictl	well, it's to not get overwritten by official packages in [core] or another repo.
+2013-09-14 13:33:02	kurohyou	good to know, thnx
+2013-09-14 13:33:26	+kaictl	there are other precautions you have to take, but that's the basic idea.
+2013-09-14 13:33:40	Earnestly	(this relates to conflicts/provides arrays which I’ll leave to kaictl ❤)
+2013-09-14 13:33:55	+kaictl	(yup, getting to those later)
+2013-09-14 13:34:02	+kaictl	Next are two variables that go together: pkgver and pkgrel
+2013-09-14 13:34:53	+kaictl	While they both help to describe the full version of the package, they are separate. pkgver describes the upstream version, and pkgrel is used when something on the Arch side changes (ie, configure flags change, a rebuild is required, etc.)
+2013-09-14 13:35:31	meskarune	pkgver: "The variable is not allowed to contain colons or hyphens" (from pkgbuild manpage)
+2013-09-14 13:35:43	+kaictl	If you look at the grep website, you will see that upstream calls grep `grep-2.14`
+2013-09-14 13:35:44	meskarune	don't a lot of packages have hyphens in their version number?
+2013-09-14 13:36:00	+kaictl	meskarune: no. no arch package does.
+2013-09-14 13:36:07	>>>	ridikulus_rat (~keshavpad@117.206.114.25) has joined #archlinux-classroom
+2013-09-14 13:36:15	Earnestly	meskarune: None do.  the reason for this is due to how pacman finds the package version.
+2013-09-14 13:36:18	+kaictl	some upstreams use hyphens, but that is a special case.
+2013-09-14 13:36:29	+kaictl	and usually you replace them with periods (.)
+2013-09-14 13:36:42	+kaictl	or underscores (_)
+2013-09-14 13:37:08	kurohyou	why are there special cases, is it not easier to adhere to a standard
+2013-09-14 13:37:47	+kaictl	kurohyou: it is up to the maintainer. most will just replace them with periods, but some use underscores. they are both valid characters, unlike hyphens, so it works with makepkg and pacman.
+2013-09-14 13:38:03	meskarune	kaictl: oh I see. I think the linux kernel uses hyphens 
+2013-09-14 13:39:13	+kaictl	no, they use periods. however, when you start working with dev packages from git, `git describe` uses hyphens in its version description, so you have to replace those. We'll talk more about that in the functions part.
+2013-09-14 13:39:14	Earnestly	meskarune: It doesn’t.  The reason why hyphens are removed from the pkgver is because pacman uses hyphens as delimiters to determine the package name and version.
+2013-09-14 13:39:20	fsckd	meskarune: you liinux-next? the AUR package uses the date as teh version
+2013-09-14 13:39:45	meskarune	well on kernel.org, like for example 3.8.4-1
+2013-09-14 13:40:00	Earnestly	E.g. pkgname-0.0.0-rel-arch.tar.xz
+2013-09-14 13:40:04	meskarune	cool
+2013-09-14 13:40:08	+kaictl	no, that's an arch releasse.
+2013-09-14 13:40:31	meskarune	oooh 
+2013-09-14 13:40:33	meskarune	I see
+2013-09-14 13:40:46	Earnestly	Because it knows that there are only two hyphens it can search backwards to determine the pkgname and pkgver
+2013-09-14 13:40:51	Earnestly	Sorry, I mean .pkg.tar.xz
+2013-09-14 13:41:46	+kaictl	and now for the description strings, pkgdesc and url. These have no format, except that they must be a single 'word' as seen by bash. Note that a 'word' is anything in quotes, so "this is a single word to bash"
+2013-09-14 13:43:09	+kaictl	If you glance at the pkgbuild man page, they say to keep the description to 1 line, most of the time this means 80 characters or so. The url should send people to a place containing more verbose descriptions.
+2013-09-14 13:43:31	+kaictl	Usually this is a project website.
+2013-09-14 13:44:33	meskarune	so you shouldn't say "this installed xyz program" in the description?
+2013-09-14 13:44:34	+kaictl	Now bash also has arrays, which are used quite often in PKGBUILDs. Anything structured foo=('bar' 'baz') is an array foo with elements bar and baz.
+2013-09-14 13:45:01	Earnestly	(Here is the code which describes why no hyphens are allowed in the pkgver variable: <https://projects.archlinux.org/pacman.git/tree/lib/libalpm/util.c#n1060>.  It is also well commented.)
+2013-09-14 13:45:02	phrik	Title: pacman.git - The official pacman repository (at projects.archlinux.org)
+2013-09-14 13:45:09	meskarune	thanks Earnestly 
+2013-09-14 13:45:16	meskarune	I'm learning so much already 
+2013-09-14 13:45:25	+kaictl	makepkg will also check and yell at you if they are in there.
+2013-09-14 13:45:31	meskarune	cool
+2013-09-14 13:45:50	meskarune	an array is sorta like a list?
+2013-09-14 13:45:51	+kaictl	meskarune: but you should not have the packages name in the description.
+2013-09-14 13:46:07	+kaictl	meskarune: pretty much. an ordered list.
+2013-09-14 13:46:22	+kaictl	(if you use python, it's exactly like a list(), not a set().)
+2013-09-14 13:46:35	+kaictl	it's just how they're declared that's different.
+2013-09-14 13:47:01	+kaictl	but if we look at the next few variables, they are all arrays (besides 'install=')
+2013-09-14 13:47:33	+kaictl	I'll refer to arrays as arrayname=() and simple string variables as varname= for some clarity.
+2013-09-14 13:47:38	meskarune	ouch I see Earnestly, thanks for the link ;)
+2013-09-14 13:48:10	+kaictl	so if we look at the arch=() array, you can see that it contains the two arches that archlinux supports
+2013-09-14 13:48:24	tigrmesh	so the array is delimited by spaces, and every item needs to be in single quotes?
+2013-09-14 13:48:51	+kaictl	currently in the official arch linux (not archlinux arm or other derivatives) there are three choices for arch=(): 'i686', 'x86_64', and 'any'.
+2013-09-14 13:49:23	+kaictl	tigrmesh: it's good form to quote every variable, and single and double quotes both have different meanings.
+2013-09-14 13:49:49	Spec-Chum	is there a reason not to use 'any' instead of listing both 32 and 64 bit like in the example?
+2013-09-14 13:49:54	tigrmesh	even in variables?
+2013-09-14 13:49:54	kurohyou	so i guess, when i'm making a build for a raspberry pi i should use any?
+2013-09-14 13:49:55	Earnestly	tigrmesh: Each array element is delimited by something called the "IFS" (Internal Field Seperator).  By default this is set to " \n\t", so it will delimit on a space, a tab and a newline.
+2013-09-14 13:49:56	+kaictl	Spec-Chum: ues
+2013-09-14 13:49:59	+kaictl	*yes
+2013-09-14 13:50:11	tigrmesh	k
+2013-09-14 13:50:31	Earnestly	tigrmesh: From the bash manual: "The default value is ``<space><tab><newline>''."
+2013-09-14 13:50:32	Spec-Chum	on nm, I guess any would be for, example, a bash script which doesn't use compiled code
+2013-09-14 13:50:38	Spec-Chum	so can run on any machine
+2013-09-14 13:50:39	tigrmesh	k
+2013-09-14 13:50:51	+kaictl	if you use the 'i686' or 'x86_64', when the package is built it is created for the system that built it (if i build grep on my machine, it will it will make it x86_64, and won't run on i686 machines)
+2013-09-14 13:50:56	Earnestly	Spec-Chum: Indeed, or python scripts being another common example
+2013-09-14 13:51:06	+kaictl	'any' is used for scripts and things that are not arch dependent. 
+2013-09-14 13:51:20	Spec-Chum	so kinda like 'all' in pkg names
+2013-09-14 13:51:21	+kaictl	so when i build an 'any' package, the final product can be used anywhere.
+2013-09-14 13:52:28	+kaictl	or for things like docs, headers, etc.
+2013-09-14 13:52:55	+kaictl	really anything that i can run regardless of the cpu architecture. 
+2013-09-14 13:53:00	+kaictl	s/run/use/
+2013-09-14 13:53:43	+kaictl	This lets me build a single package for a python program, instead of throwing together two, one for i686 and one for x86_64.
+2013-09-14 13:53:43	meskarune	Spec-Chum: yeah, in archlinux-arm they use arch=('armv5' 'armv6' 'armv7')
+2013-09-14 13:54:29	meskarune	kaictl: are there cases where sepperate packages are required?
+2013-09-14 13:54:37	kurohyou	yeah, true, in the java jdk for example it is only armv5 and armv7
+2013-09-14 13:54:42	meskarune	for the different architetures?
+2013-09-14 13:54:57	+kaictl	meskarune: yes, for almost anything that compiles.
+2013-09-14 13:55:05	meskarune	kk
+2013-09-14 13:55:09	+kaictl	grep has two packages
+2013-09-14 13:55:28	+kaictl	most software in the repos is architecture specific, iirc.
+2013-09-14 13:55:43	tigrmesh	separate PKGBUILDS, or one that creates separate packages?
+2013-09-14 13:56:02	+kaictl	one pkgbuild, it just builds a different packge depending on what builds it.
+2013-09-14 13:56:09	tigrmesh	k
+2013-09-14 13:56:23	+kaictl	same name, same version, all that the same, just the arch=() that changes.
+2013-09-14 13:56:32	+kaictl	Next in line is the license=() array.
+2013-09-14 13:56:59	+kaictl	This is an array, not a single variable, because some packages use multiple licenses for their software. (you can see systemd for an example)
+2013-09-14 13:58:02	+kaictl	if you look in /usr/share/licenses/common/, you will see a list of licenses that you can use in your packages
+2013-09-14 13:58:54	+kaictl	if the license the package uses has been modified, then you should manually include it in the package function. if the package uses a totally different license, then you can use the 'custom:licensename' declaration. 
+2013-09-14 13:59:12	fsckd	in the systemd PKGBUILD, license=('GPL2' 'LGPL2.1' 'MIT')
+2013-09-14 13:59:24	Earnestly	Keep in mind that some licenses /require/ that it is shiped with the software.  Such as MIT or BSD-2clause.  Those packges need the LICENSE file to be installed.
+2013-09-14 13:59:39	+kaictl	↑
+2013-09-14 13:59:47	tigrmesh	is there an easy/consistent way to find the license for something i want to package?
+2013-09-14 14:00:13	+kaictl	Usually it will be called LICENSE in the source tree, but no. there is no set way to find the license in a source.
+2013-09-14 14:00:15	Earnestly	tigrmesh: It should be included in the source and/or the top of the source code files
+2013-09-14 14:00:23	tigrmesh	k
+2013-09-14 14:00:29	+kaictl	they can do whatever they want, we have no control over that.
+2013-09-14 14:01:03	+kaictl	Following that, we have groups=().
+2013-09-14 14:01:23	+kaictl	When you go to install arch linux from a live cd, you run `pacstrap base`
+2013-09-14 14:01:35	+kaictl	this is saying to install the base *group*
+2013-09-14 14:02:20	fsckd	if i'm packaging personally and i have no intention of releasing the code or PKGBUILD, would I use something like 'custom:private'
+2013-09-14 14:02:34	+kaictl	groups are collections of packages that are similar, gnome, kde, etc.
+2013-09-14 14:02:56	meskarune	can you search packages by license ?
+2013-09-14 14:02:59	+kaictl	fsckd: you can. it is usually preferable to have a license, as 'private' means nothing.
+2013-09-14 14:03:16	+kaictl	meskarune: there are ways. I don't think pacman -Ss searches licenses, though.
+2013-09-14 14:03:17	⛔⛔★	fsckd uses the IE license then :P
+2013-09-14 14:03:31	meskarune	make the fsckd license
+2013-09-14 14:03:40	meskarune	if people use the software, they are required to send you cookies
+2013-09-14 14:03:51	fsckd	win!
+2013-09-14 14:03:54	kurohyou	lol
+2013-09-14 14:04:07	+kaictl	A package can be part of multiple groups, as you see, grep is part of both base and base-devel. (you can use pacman -Sg <group> to see the packages in a group)
+2013-09-14 14:04:11	fsckd	!grab meskarune
+2013-09-14 14:04:12	phrik	fsckd: Tada!
+2013-09-14 14:04:21	kurohyou	chocolate chip
+2013-09-14 14:04:35	fsckd	always
+2013-09-14 14:04:37	+kaictl	all the cookies.
+2013-09-14 14:04:55	meskarune	kaictl: oh cool. I didn't even know you could list all the packages in a group with pacman
+2013-09-14 14:05:24	+kaictl	you can also use pacman -Qg to list installed members of a group.
+2013-09-14 14:06:00	tigrmesh	kaictl: if i am creating a PKGBUILD for the AUR for new package gnome-foo, would i put a group? like 'gnome'?
+2013-09-14 14:06:36	+kaictl	you can, you may want to put it in a group 'gnome-tigrmesh' and 'gnome', so you know that it's not part of the official gnome group.
+2013-09-14 14:06:48	tigrmesh	k
+2013-09-14 14:06:48	+kaictl	s/not/not really/
+2013-09-14 14:06:57	+kaictl	remember, groups can be anything.
+2013-09-14 14:07:13	kurohyou	so, if i want i want make a package that depends on base base-devel xorg for example and it should install everthing for me
+2013-09-14 14:07:15	+kaictl	it's just a convenient way to install multiple packages without typing each name.
+2013-09-14 14:07:20	tigrmesh	aha
+2013-09-14 14:07:54	+kaictl	kurohyou: i believe it will, however i would recommend listing out every package in a pkgbuild's depends arrays.
+2013-09-14 14:08:03	kurohyou	ok
+2013-09-14 14:08:12	+kaictl	you're not worried about typing things out on a command line, so you should do things the long way.
+2013-09-14 14:08:51	+kaictl	Now that you brought it up, we'll move onto the *depends=() arrays.
+2013-09-14 14:09:33	+kaictl	There are 4 of them, depends, makedepends, checkdepends, and optdepends, the first three of which have the same format. optdepends is special, we'll get to that later.
+2013-09-14 14:10:14	+kaictl	in these three arrays, you specify the different depends. depends=() is for things that are required /after/ the build, sometimes known as runtime dependencies.
+2013-09-14 14:10:36	+kaictl	You may need them to build, but you also need them to run the final product.
+2013-09-14 14:11:20	+kaictl	makedepends=() are only required for building the package. for most -git packgaes, 'git' is a makedepend. It's required to build the package, but whatever came out the other side doesn't need git to run.
+2013-09-14 14:12:07	+kaictl	Some packages have a check() function to make sure things built correctly, and may require extra packages for running these checks. You would include these packages in the checkdepends=() array.
+2013-09-14 14:12:39	+kaictl	This allows people using --no-check not to get those packages that are only needed for checking.
+2013-09-14 14:12:51	tigrmesh	what would be an example?
+2013-09-14 14:12:57	+kaictl	pacman.
+2013-09-14 14:13:29	tigrmesh	oh.  like using namcap?
+2013-09-14 14:13:33	kurohyou	so it's more to speed up the install
+2013-09-14 14:13:34	+kaictl	the pacman test suite is written in python2, however pacman itself is only bash and C
+2013-09-14 14:14:03	+kaictl	kurohyou: and also to separate out depends. it gets useful later on when things change in the package you are building.
+2013-09-14 14:14:03	kurohyou	with the --no-check i mean
+2013-09-14 14:14:03	tigrmesh	a test suite.  ok
+2013-09-14 14:14:21	+kaictl	tigrmesh: well, anything run in the check() function.
+2013-09-14 14:14:40	tigrmesh	would namcap be an example of that?
+2013-09-14 14:15:02	+kaictl	if you're going to run namcap in the check() function, yes, but you really can't.
+2013-09-14 14:15:14	+kaictl	check() is run before package(), so you have no package to namcap
+2013-09-14 14:15:22	+kaictl	it's for things like `make check`, etc.
+2013-09-14 14:15:34	meskarune	oh, can you change the order of the variables in the pkgbuild ?
+2013-09-14 14:15:40	meskarune	or do they have to be in the order listed?
+2013-09-14 14:15:50	+kaictl	they can be in any order.
+2013-09-14 14:15:53	meskarune	ok :)
+2013-09-14 14:16:01	+kaictl	i could declare the pkgname at the last line, if i was silly.
+2013-09-14 14:16:17	⛔⛔★	meskarune puts them in alphabetical order...
+2013-09-14 14:16:23	+kaictl	just a note on how the PKGBUILD is used:
+2013-09-14 14:16:24	meskarune	;D
+2013-09-14 14:16:42	+kaictl	makepkg sources the pkgbuild, setting the variables and functions, *then* it does the stuff you tell it to.
+2013-09-14 14:16:50	meskarune	ok
+2013-09-14 14:17:26	+kaictl	some things may need to be described earlier, if say source=('http://foo.bar/${pkgname}.tar.xz'), you would need pkgname= to be before source=()
+2013-09-14 14:17:59	+kaictl	as I said, it's just a bash script with functions and variable declarations.
+2013-09-14 14:18:25	meskarune	kk
+2013-09-14 14:18:36	+kaictl	if you look at the pacman pkgbuild you can see more depends magic: http://ix.io/83D
+2013-09-14 14:18:45	meskarune	that makes sense. how would it know what variable foo is if it wasn't defined before hand? :D
+2013-09-14 14:19:06	+kaictl	yup. some are defined in makepkg, but those are special.
+2013-09-14 14:19:51	+kaictl	usually you do variable declarations first, then functions, but sometimes people do them different ways.
+2013-09-14 14:20:02	+kaictl	(and split packages make things a whole new level of fun)
+2013-09-14 14:20:02	Earnestly	(Regarding pacman’s depends: keep in mind that if you use comparison operators, such as '>' and '<=', etc. in an array it MUST be single quoted.)
+2013-09-14 14:20:30	meskarune	in the md5sum array for pacman it has 'skip'
+2013-09-14 14:20:42	+kaictl	yes. ignore that line.
+2013-09-14 14:20:45	fsckd	bash checks the value of a variable when it is called for, not when a function is defined
+2013-09-14 14:20:47	+kaictl	we'll get there in a minute.
+2013-09-14 14:20:50	meskarune	hehe ok
+2013-09-14 14:20:51	meskarune	:)
+2013-09-14 14:20:56	Earnestly	depends=(bash>=3.2) will fail whereas depends=('bash>=3.2') will work.  This is just how bash works.
+2013-09-14 14:21:21	+kaictl	fsckd: yes, in functions. however in the variable declaration section things do need to be declared before they are used.
+2013-09-14 14:21:26	meskarune	will makepkg tell you about that sort of syntax error?
+2013-09-14 14:21:34	+kaictl	meskarune: no, bash will though.
+2013-09-14 14:21:38	meskarune	kk
+2013-09-14 14:21:58	Earnestly	(Other than hyphens in the pkgver of course)
+2013-09-14 14:21:59	meskarune	you should break a package and make us try to fix it. (much later)
+2013-09-14 14:22:26	fsckd	haha
+2013-09-14 14:22:27	+kaictl	also, it is generally discouraged to use the version comparison stuff, as that requires rebuilds each time your requirements change.
+2013-09-14 14:22:47	+kaictl	meskarune: good idea
+2013-09-14 14:23:13	+kaictl	Now the optdepends array is a bit different.
+2013-09-14 14:23:41	+kaictl	If you look at it, each word is more than just a pkgname, it's a 'pkgname: reason why'.
+2013-09-14 14:24:25	+kaictl	this just lets people know dependencies that are not required for the software to run, but may be for things that are useful or extra functionality.
+2013-09-14 14:24:57	+kaictl	you can look at 'pacman -Sii pacman' to see what that looks like to an end user. 
+2013-09-14 14:25:16	kurohyou	yeah, seen that when installing packages, it always tells also if it's already installed are not
+2013-09-14 14:25:41	+kaictl	yes, that's part of pacman, not part of the PKGBUILD.
+2013-09-14 14:26:02	kurohyou	good to know where it came from
+2013-09-14 14:26:03	+kaictl	(you can't know it's installed before someone has even installed the package. :))
+2013-09-14 14:26:30	+kaictl	and now we look at the provides, conflicts, and replaces arrays.
+2013-09-14 14:26:37	Earnestly	kurohyou: That’s a fairly new feature and requires the strict format of 'foo: reason for foo' so pacman can determine if foo is installed or not.
+2013-09-14 14:26:50	+kaictl	↑
+2013-09-14 14:27:15	Earnestly	If you use anything else like 'foo - reason for foo', it won’t be able to tell you if it’s installed or not.
+2013-09-14 14:27:51	+kaictl	so basically, follow protocol and your users will like you.
+2013-09-14 14:28:20	+kaictl	And now we look at the provides, conflicts, and replaces arrays.
+2013-09-14 14:28:47	+kaictl	First up, the provides=() array. This array is used to give pacman 'virtual packages'.
+2013-09-14 14:29:49	<<<	ridikulus_rat (~keshavpad@117.206.114.25) has quit (Ping timeout: 256 seconds)
+2013-09-14 14:30:05	+kaictl	In the past, pacman was a split package, including pacman and pacman-contrib. Some packages required scripts in pacman-contrib, and have not been updated in the AUR or the official packages yet, so if you tried to install them without the provides array in pacman, you would get an error
+2013-09-14 14:30:12	>>>	ridikulus_rat (~keshavpad@117.206.112.19) has joined #archlinux-classroom
+2013-09-14 14:30:28	+kaictl	since nothing you have matches pacman-contrib and nothing in the repos is called pacman-contrib
+2013-09-14 14:30:57	tigrmesh	i wondered about that
+2013-09-14 14:31:13	+kaictl	virtual dependencies solve this problem. Now, with pacman installed, the other package will see that pacman *provides* another package as well.
+2013-09-14 14:31:49	+kaictl	Most of the time this is used for development packages, or for patched apckages, like the 'grep-kaictl' package i mentioned earlier.
+2013-09-14 14:32:06	>>>	Scimmia (~Unknown@dhcp-83-97-212-67.cf-res.cfu.net) has joined #archlinux-classroom
+2013-09-14 14:32:33	+kaictl	Because 'grep' is required by a whole bunch of stuff, i would add 'provides=('grep')' to my grep-kaictl pkgbuild so that those packages can continue to see grep installed on my system.
+2013-09-14 14:33:39	+kaictl	But usually just providing a package is not enough. Because your package provides the files in package-2, you also have to conflict with package-2 so that users can't try to install 2 of the same packages.
+2013-09-14 14:34:26	+kaictl	if I managed to get an old pacman-contrib package from somewhere and install it to my system right now, it wouldn't let me because pacman conflicts with pacman-contrib (it provides the same files).
+2013-09-14 14:34:49	+kaictl	otherwise you get errors later on when pacman checks for filesystem conflicts.
+2013-09-14 14:35:27	+kaictl	Now the next field, replaces=(), is one that is rarely used. Most AUR packages should not use it, but I'm going to tell you what it does nonetheless.
+2013-09-14 14:36:39	+kaictl	As you can see in pacman, pacman and pacman-contrib were combined into a single package. This means that pacman replaces pacman-contrib. if it was just a conflict, then there would be a choice to keep /either/ pacman or pacman-contrib. with replaces, pacman takes precedence.
+2013-09-14 14:36:52	>>>	psii (~psi@gateway/tor-sasl/foopsi) has joined #archlinux-classroom
+2013-09-14 14:37:06	+kaictl	I said it before, but it should really only be used for combined or renamed packages.
+2013-09-14 14:37:13	tigrmesh	because it has "replaces" and the other doesn'?
+2013-09-14 14:37:15	+kaictl	not for development packages.
+2013-09-14 14:37:21	tigrmesh	*doesn't?
+2013-09-14 14:37:30	+kaictl	yes. (well, pacman-contrib doesn't have either because it no longer exists.)
+2013-09-14 14:37:36	+kaictl	s/either/any/
+2013-09-14 14:39:01	+kaictl	are there any other questions about provides, conflicts, and/or replaces?
+2013-09-14 14:40:39	+kaictl	looks like there are none. we'll get into that more when we get to development package, as well.
+2013-09-14 14:41:36	+kaictl	Under replaces there is an array called backup=(). if your package installs configuration files to /etc, then usually you want to put them in the backup=() array so pacman does not blindly overwrite them.
+2013-09-14 14:42:04	meskarune	so it makes .pacsave files ?
+2013-09-14 14:42:05	tigrmesh	is that how we get .pacnew files?
+2013-09-14 14:42:05	+kaictl	this is how we get .pacnew and .pacsave files, if you've ever upgraded packages with backup files.
+2013-09-14 14:42:07	meskarune	or .pacnew ?
+2013-09-14 14:42:12	tigrmesh	lol
+2013-09-14 14:42:13	meskarune	oh hehe
+2013-09-14 14:42:28	fsckd	mass jinx :P
+2013-09-14 14:42:32	kurohyou	:p
+2013-09-14 14:42:34	meskarune	how does it decide to make it a save vs. new ?
+2013-09-14 14:42:36	+kaictl	yes, .pacnew files are created when a new backup file is installed, so as not to overwirte the original
+2013-09-14 14:42:54	+kaictl	.pacsaves are backups that are genearted after you remove a pacakge.
+2013-09-14 14:43:19	+kaictl	a pacsave cannot be created on an upgrade, and a pacnew cannot be created on a removal.
+2013-09-14 14:43:54	meskarune	cool
+2013-09-14 14:44:03	+kaictl	You should only put files that you expect the user to edit in place. don't put files in /usr/share/doc or anything in there when the user is expected to cpy them to /etc or some other location.
+2013-09-14 14:44:38	meskarune	so like, php.ini or mirrorlist ?
+2013-09-14 14:44:43	+kaictl	yes
+2013-09-14 14:45:17	+kaictl	you can see the status of your installed backup files with pacman -Qii
+2013-09-14 14:45:26	+kaictl	it will tell you if they've been modified or not.
+2013-09-14 14:46:20	tigrmesh	could your rephrase the part about editing the files in place?  i get confused when files need to be moved around
+2013-09-14 14:46:25	<<<	Scimmia (~Unknown@dhcp-83-97-212-67.cf-res.cfu.net) has left #archlinux-classroom ("Leaving")
+2013-09-14 14:46:53	+kaictl	Say you have an example config file in /usr/share/doc (the usual place)
+2013-09-14 14:46:54	tigrmesh	udev, i think, does that.  haven't had to edit one of those in a long time, though
+2013-09-14 14:47:06	+kaictl	you do *not* add that to the backups array since those will be moved before being used.
+2013-09-14 14:47:12	tigrmesh	ok
+2013-09-14 14:47:39	+kaictl	if it's something that is already where it's going to be used by a program, then you hsould add it to the backup array.
+2013-09-14 14:47:50	+kaictl	so /etc/pacman.conf is an example
+2013-09-14 14:48:25	tigrmesh	k
+2013-09-14 14:48:28	+kaictl	but /usr/share/pacman/*.proto are not thigns that should be added to the array.
+2013-09-14 14:48:49	<<<	ridikulus_rat (~keshavpad@117.206.112.19) has quit (Ping timeout: 264 seconds)
+2013-09-14 14:49:03	tigrmesh	because you put those in place yourself.  gotcha
+2013-09-14 14:49:06	+kaictl	yes.
+2013-09-14 14:49:36	+kaictl	Now onto one of the very important fields: source=().
+2013-09-14 14:49:40	tigrmesh	and that's where the pkgbuild prototypes are
+2013-09-14 14:50:06	+kaictl	yes, though i wouldn't look at them if I were you. the vcs ones there are old and not useful now.
+2013-09-14 14:50:10	+kaictl	but back to source=()
+2013-09-14 14:50:54	+kaictl	The source array contains the sources you will be using. In pacman.conf, you can see two of the 3 types: an external link and a local file.
+2013-09-14 14:51:29	+kaictl	both of these will be transferred to the $srcdir, and extracted if need be.
+2013-09-14 14:52:47	+kaictl	if you don't use an http, ftp, etc. link to the source, you need to put the source=() files into the $SRCDEST or $startdir. (SRCDEST can be set in your makepkg.conf, and is just a place to download source files, like $HOME/.cache/pacman/src)
+2013-09-14 14:53:35	+kaictl	As you can see, any bash syntax is acceptable here, and while there is only one line of 'ftp://', there are actually two network files.
+2013-09-14 14:53:47	tigrmesh	makepkg usually makes those.  so we need to manually make the /src dir?
+2013-09-14 14:54:01	+kaictl	no, $srcdir is not the same as $SRCDEST
+2013-09-14 14:54:05	meskarune	$srcdir is the source directory or install directory?
+2013-09-14 14:54:30	+kaictl	$SRCDEST is where source tarballs and files are downloaded, $srcdir is where they are extracted to.
+2013-09-14 14:54:38	meskarune	awesome
+2013-09-14 14:54:57	+kaictl	by default, $SRCDEST goes to $startdir, not to $BUILDDIR/src
+2013-09-14 14:55:09	+kaictl	okay, fun variables that some of you don't know about yet. woo.
+2013-09-14 14:55:29	+kaictl	basically, if you need source files to do things, put them in the source=() array.
+2013-09-14 14:55:43	+kaictl	and now for the source checksums.
+2013-09-14 14:56:19	+kaictl	there are 5 different types of checksums you can have for the source files, md5, sha1, sha256, sha384, and sha512 checksums.
+2013-09-14 14:56:37	+kaictl	You only need ONE of these. Some people like to put in more than one, but that's really not needed.
+2013-09-14 14:57:05	+kaictl	each file in the source array MUST have a value in the *sum array.
+2013-09-14 14:57:21	meskarune	and they have to be in the same order?
+2013-09-14 14:57:26	+kaictl	meskarune: yes.
+2013-09-14 14:58:02	+kaictl	However, if you look at the md5sums=() in pacman, there is one that says 'SKIP'. This is used for files that are constantly changed, or things where an md5sum would not be appropriate. Usually it is used for VCS sources.
+2013-09-14 14:58:19	+kaictl	'SKIP' is a valid sum in pacman's eyes, and it will skip validation of that file.
+2013-09-14 14:58:39	+kaictl	s/that file/the file that 'SKIP' corresponds to./
+2013-09-14 14:58:57	+kaictl	Whew! alright, 2 hours of talking about variables. good times.
+2013-09-14 14:59:14	meskarune	haha
+2013-09-14 14:59:14	+kaictl	Now, are there any questions on the mass of information i just spouted?
+2013-09-14 14:59:24	meskarune	so skip is good to use for git stuff too?
+2013-09-14 14:59:36	meskarune	vcs = version control system ?
+2013-09-14 14:59:51	meskarune	in case not everyone knows/uses them ;)
+2013-09-14 14:59:53	+kaictl	Yes. because the checksum for a git directory will constantly be changing, you can't distribute a checksum for it and say it will be right.
+2013-09-14 15:00:02	+kaictl	yes, vcs is version control system.
+2013-09-14 15:00:32	+kaictl	also, most vcs's have their own source checking. (git uses sha1 sums for damn near everything, so you're good there.)
+2013-09-14 15:01:08	+kaictl	Also, you can use 'makepkg -g' to generate a list of checksums for the sources a PKGBUILD.
+2013-09-14 15:01:29	+kaictl	(and there is a script called updpkgsums that can be used to update them inline.)
+2013-09-14 15:01:53	kurohyou	that's handy to know
+2013-09-14 15:02:03	meskarune	yeah it is
+2013-09-14 15:02:25	fsckd	cool, it comes part of pacman
+2013-09-14 15:02:25	meskarune	I knew that you could use md5sum to check what the sum was for a file, but not about makepkg -g
+2013-09-14 15:02:26	+kaictl	updpkgsums and makepkg -g will also download the sources if they aren't already there.
+2013-09-14 15:02:56	+kaictl	in the makepkg.conf file you can set what type of sum makepkg -g will spit out, as well.
+2013-09-14 15:03:12	+kaictl	in case you want to use sha512 because scrity.
+2013-09-14 15:03:19	kurohyou	wich one do you recommend
+2013-09-14 15:03:30	+kaictl	just plain md5sum.
+2013-09-14 15:03:31	tigrmesh	will you be covering the differences between $srcdir and $SRCDEST?  because i totally did not get that
+2013-09-14 15:03:54	+kaictl	yes, that'll be later. those are things that makepkg gives us, so not things in the 
+2013-09-14 15:03:57	+kaictl	PKGBUILD.
+2013-09-14 15:04:02	meskarune	cool
+2013-09-14 15:04:09	tigrmesh	k
+2013-09-14 15:04:16	+kaictl	(though they can be...<_< so there's that too.)
+2013-09-14 15:04:38	meskarune	so variables are foo= and $foo is a variable that makepkg adds in?
+2013-09-14 15:04:48	+kaictl	forgot to mention, any variable declared in makepkg.conf can also be declared in the PKGBUILD to overwirte that of the config file.
+2013-09-14 15:04:58	+kaictl	generally.
+2013-09-14 15:05:22	+kaictl	the PKGBUILD can add any variable it wants to, so long as it doesn't conflict with internal makepkg vars.
+2013-09-14 15:05:25	kurohyou	generally?
+2013-09-14 15:05:39	+kaictl	you can't define things like srcdir= and pkgdir= in a pkgbuild.
+2013-09-14 15:05:57	meskarune	does it break makepkg?
+2013-09-14 15:06:02	fsckd	does makepkg error or will it just mess up?
+2013-09-14 15:06:04	meskarune	or just fail?
+2013-09-14 15:06:05	Spec-Chum	meskarune: no, foo= defines foo and gives it a value, you reference that value with $foo
+2013-09-14 15:06:06	meskarune	haha fsckd 
+2013-09-14 15:06:06	+kaictl	we'll talk about those after the questions.
+2013-09-14 15:06:12	fsckd	XD
+2013-09-14 15:06:24	+kaictl	meskarune: the vars will be overwritten by makepkg, so they won't do anything.
+2013-09-14 15:06:36	meskarune	kk
+2013-09-14 15:07:14	+kaictl	Okay, any more questions? of not i'm going to do a quick overview of the fun stuff in makepkg.conf.
+2013-09-14 15:07:44	meskarune	Spec-Chum: yeah I see, like $pkgname
+2013-09-14 15:07:58	Spec-Chum	yep
+2013-09-14 15:08:15	+kaictl	for non-official variables, it's good practice to use something like _pkgname=foobar
+2013-09-14 15:08:25	kurohyou	arch is one that can't be overridden if i'm not mistakenn
+2013-09-14 15:08:33	+kaictl	so precede your unofficial variables with an underscore so there is no namespace conflict.
+2013-09-14 15:08:39	+kaictl	kurohyou: yeah, that's just silly to do.
+2013-09-14 15:08:44	meskarune	so makepkg creates packages and pacman installs and manages them?
+2013-09-14 15:08:48	+kaictl	yes
+2013-09-14 15:08:52	meskarune	kk
+2013-09-14 15:08:56	+kaictl	makepkg is just a 2k+ line bash script.
+2013-09-14 15:09:06	+kaictl	(which is being split up, maybe...but we don't talk about that)
+2013-09-14 15:09:08	meskarune	if your packages wants something from aur then you do _pkgname ?
+2013-09-14 15:09:17	+kaictl	no?
+2013-09-14 15:09:18	meskarune	kaictl: haha
+2013-09-14 15:09:37	meskarune	oh, what is non-official?
+2013-09-14 15:09:59	+kaictl	say you're making a package, pkgname=pacman-git, but the sources and the directory it extracts to are going to be pacman, so you use _pkgname=pacman in the same file to make things easier.
+2013-09-14 15:10:17	meskarune	oooh
+2013-09-14 15:10:33	+kaictl	then makepkg will know the package is pacman-git, but you have an easy way to reference the real name of the repo and source directory.
+2013-09-14 15:10:53	+kaictl	for the grep-kaictl thing, i would have a _pgkname=grep.
+2013-09-14 15:11:11	Spec-Chum	cou;d you just use mypkgname=grep?
+2013-09-14 15:11:36	+kaictl	Spec-Chum: yes, you can. though if in the future makepkg uses mypkgname, then you're SOL.
+2013-09-14 15:11:51	+kaictl	makepkg will never internally use anything with an underscore in front of it, so those are always safe.
+2013-09-14 15:11:58	Spec-Chum	k
+2013-09-14 15:12:14	+kaictl	(you can use two if you want, but meh. so long as there is at least one.)
+2013-09-14 15:13:20	+kaictl	also, there are some other options in the PKGBUILD that you can see, but those you can read about in man PKGBUILD. (they're used a lot less, and usually for special cases)
+2013-09-14 15:14:14	+kaictl	okay, so questions...last call for questions...
+2013-09-14 15:14:25	+kaictl	and then we'll be moving on...
+2013-09-14 15:15:00	Spec-Chum	just 1, why do we need the same package in provides and conflicts?
+2013-09-14 15:15:17	Spec-Chum	surely if it provides it it conflicts by definition
+2013-09-14 15:15:27	+kaictl	not always.
+2013-09-14 15:15:35	Spec-Chum	I'm looking at the pacman example
+2013-09-14 15:15:45	+kaictl	there are some cases, say language packs, where something needs to have a language pack.
+2013-09-14 15:16:15	+kaictl	however, the langpacks don't have the same files, but they provide a virtual package so taht the thing that depends on one of them knows one is installed.
+2013-09-14 15:16:24	+kaictl	you can look at libreoffice for what i'm talking about.
+2013-09-14 15:16:47	Spec-Chum	ok, thanks
+2013-09-14 15:16:49	+kaictl	(libreoffice-en-US, libreoffice-en-GB, etc.)
+2013-09-14 15:17:19	+kaictl	since you can't depend on a group, really, this is the next best thing.
+2013-09-14 15:17:38	+kaictl	if you have multiple options for a packages dependencies.
+2013-09-14 15:17:55	meskarune	could take the ubuntu approach and install ALL of them >.>
+2013-09-14 15:18:11	+kaictl	you can, since they don't conflict, but you would have to specify each one manually.
+2013-09-14 15:18:16	+kaictl	since they are not part of a group.
+2013-09-14 15:18:24	meskarune	and have lots of disk space :D
+2013-09-14 15:19:20	+kaictl	actually, you can refer to them by the virtual package name, however that's only for when that virtual package name doesn't already have a physical package.
+2013-09-14 15:20:01	+kaictl	so I have pacman and pacman-git on my system, but saying pacman -S pacman doesn't give me a choice, though pacman -S libreoffice-langpack does.
+2013-09-14 15:20:51	+kaictl	alright, i'll be right back... take a break, get a drink whatever. you all probably need a strong one right about now.
+2013-09-14 15:20:54	Spec-Chum	lol, from libre office git change log MAKEPKG: ## changed all instances of $_gitname to $_gitname
+2013-09-14 15:20:56	Spec-Chum	hehe
+2013-09-14 15:21:35	meskarune	haha
+2013-09-14 15:22:31	+kaictl	and here's me thinking this would be short.
+2013-09-14 15:23:22	kurohyou	;)
+2013-09-14 15:23:55	td123	oh btw are you guys familiar with http://pkgbuild.com/git/aur-mirror.git/ ?
+2013-09-14 15:23:57	phrik	Title: aur-mirror.git - Git clone of the Arch User Repository. (at pkgbuild.com)
+2013-09-14 15:24:21	+kaictl	i am, though i would first direct them to the svntogit repos for the official packages.
+2013-09-14 15:24:41	>>>	manfred (root@archlinux/trusteduser/gtmanfred) has joined #archlinux-classroom
+2013-09-14 15:25:00	+kaictl	hey, it's here!
+2013-09-14 15:26:11	Earnestly	kaictl: Where’s Daniel btw?
+2013-09-14 15:26:15	+kaictl	right there.
+2013-09-14 15:26:27	⛔⛔★	Earnestly squints
+2013-09-14 15:26:35	manfred	sorry, my bad, i thought it was tomorrow at noon, I was in Austin last night playing poker at our austin office
+2013-09-14 15:26:37	+kaictl	he wasn't at home for the first part.
+2013-09-14 15:26:49	Earnestly	Playing poker, tsk tsk :p
+2013-09-14 15:26:55	+kaictl	badmanfred
+2013-09-14 15:27:18	td123	okmanfred
+2013-09-14 15:27:26	meskarune	haha kaictl <3
+2013-09-14 15:27:34	Spec-Chum	poker is like sex, if you don't have a good partner you need a good hand
+2013-09-14 15:27:43	manfred	cheekymanfred
+2013-09-14 15:27:48	kurohyou	i have to leave, i hopped in because i was curious and enjoyed the tutorial kaictl, thank you
+2013-09-14 15:27:49	+kaictl	oh well, he can do the build/prepare/pkgver()/package/check functions.
+2013-09-14 15:27:58	+kaictl	kurohyou: thanks for coming
+2013-09-14 15:28:01	manfred	nah you got this
+2013-09-14 15:28:06	manfred	i wanna watch
+2013-09-14 15:28:11	+kaictl	kurohyou: remember, man PKGBUILD is good.
+2013-09-14 15:28:23	+kaictl	manfred: you like to watch?
+2013-09-14 15:28:26	kurohyou	i will leave this channel open so i can read this later also
+2013-09-14 15:28:30	manfred	kurohyou: always
+2013-09-14 15:28:32	manfred	bah
+2013-09-14 15:28:35	manfred	kaictl: always
+2013-09-14 15:28:43	meskarune	!grab Spec-Chum 
+2013-09-14 15:28:45	phrik	meskarune: Tada!
+2013-09-14 15:28:49	+kaictl	kurohyou: alright. we'll be posting logs, too.
+2013-09-14 15:30:14	+kaictl	alright, so it looks like people are back. i've got my drink and we can move on.
+2013-09-14 15:30:47	meskarune	\o/
+2013-09-14 15:31:03	+kaictl	So previously i mentioned variables like BUILDDIR and SRCDEST, and whatnot
+2013-09-14 15:31:21	+kaictl	and I bet that most of you have no idea what I'm talking about since those are not used in PKGBUILDs at all.
+2013-09-14 15:32:14	meskarune	hehe
+2013-09-14 15:32:24	Spec-Chum	I scrolled up hah
+2013-09-14 15:32:38	Spec-Chum	I was like, ooh, crap, missed a bit
+2013-09-14 15:32:40	+kaictl	Just a quick rundown on what the different kinds of variables in makepkg are:: lowercase: internal pkgbuild or makepkg variable, _lowercase: custom variables used in PKGBUILDs, ALL_CAPS: used in makepkg.conf and makepkg internally.
+2013-09-14 15:32:59	+kaictl	We've already gone over most of the first two, and now we're going to talk about the last type.
+2013-09-14 15:34:15	+kaictl	if you go and open up your makepkg.conf, (in /etc or ~/.makepkg.conf) you will see a whole bunch of these ALL_CAPS variables. Most of them should go unchanged, and are pretty sane defaults for building things. However, to understand where makepkg does its stuff, we need to see a few of them.
+2013-09-14 15:34:49	+kaictl	There are 7 real sections in makepkg.conf, all but 3 of which should be left alone.
+2013-09-14 15:35:14	+kaictl	I'm going to be talking about 2 of them, BUILD ENVIRONMENT and PACKAGE OUTPUT.
+2013-09-14 15:35:57	+kaictl	BUILD ENVIRONMENT contains just what it says, variables that describe where to build things and what to do a little bit.
+2013-09-14 15:36:21	+kaictl	Mostly what we're going to look at is BUILDDIR.
+2013-09-14 15:37:31	+kaictl	BUILDDIR says where the $pkgdir and $srcdir are going to be put.
+2013-09-14 15:38:02	+kaictl	now, there are defaults for all of these, and you can see how things are determined for some of the ALL_CAPS variables here: https://projects.archlinux.org/pacman.git/tree/scripts/makepkg.sh.in?id=v4.1.2#n2680
+2013-09-14 15:38:03	phrik	Title: pacman.git - The official pacman repository (at projects.archlinux.org)
+2013-09-14 15:38:35	+kaictl	but to make it simple, if you don't declare a BUILDDIR, your build will take place in $startdir, or where you ran makepkg from.
+2013-09-14 15:38:53	+kaictl	NOTE: THIS IS NOT WHERE THE PKGBUILD IS ALL THE TIME. just be warned and never use $startdir in a pkgbuild.
+2013-09-14 15:39:03	+kaictl	unless you have a damn good reason.
+2013-09-14 15:39:57	+kaictl	I usually say to set a BUILDDIR, just because it makes cleanup a whole lot easier.
+2013-09-14 15:40:36	+kaictl	but you can do what you want. If you're using an ssd and have 8+ gb RAM, then putting it somewhere in /tmp may not be a bad idea.
+2013-09-14 15:40:44	+kaictl	(saves some reads/writes.
+2013-09-14 15:40:47	+kaictl	)
+2013-09-14 15:42:30	+kaictl	$srcdir is generally $BUILDDIR/$pkgname/src, and $pkgdir the same but with /pkg, though not always. if you build a package without a BUILDDIR set, it will use $BUILDDIR/src and $BUILDDIR/pkg
+2013-09-14 15:43:09	+kaictl	Any questions on $BUILDDIR?
+2013-09-14 15:44:03	Spec-Chum	so if it's not set (it'commented out by default) it's assigned to what?
+2013-09-14 15:44:18	+kaictl	https://projects.archlinux.org/pacman.git/tree/scripts/makepkg.sh.in?id=v4.1.2#n2786 <-- setting $srcdir and $pkgdirbase
+2013-09-14 15:44:19	phrik	Title: pacman.git - The official pacman repository (at projects.archlinux.org)
+2013-09-14 15:44:26	+kaictl	$startdir
+2013-09-14 15:44:32	+kaictl	which is where you ran makepkg.
+2013-09-14 15:44:42	Spec-Chum	right, ok, cool
+2013-09-14 15:45:23	+kaictl	anything else?
+2013-09-14 15:45:31	Spec-Chum	not from me :)
+2013-09-14 15:46:14	+kaictl	alright then, moving on to the next section: PACKAGE OUTPUT
+2013-09-14 15:46:47	+kaictl	you remember that SRCDEST is where the files in sources=() are downloaded, well this is where you set that.
+2013-09-14 15:47:22	+kaictl	You can set this to any valid filesystem path, be it a NFS drive or what have you.
+2013-09-14 15:47:26	meskarune	could I tell makepkg to use aria2 for example as a download manager?
+2013-09-14 15:48:01	+kaictl	yes, but i wouldn't recommend it. (look at DLAGENTS at the top)
+2013-09-14 15:48:51	+kaictl	the ones that are listed there Just Work
+2013-09-14 15:49:09	+kaictl	and there are special handlers for vcs packages.
+2013-09-14 15:49:20	manfred	meskarune: if you are trying to download source from a torrent, yeah it can be done
+2013-09-14 15:50:54	meskarune	how come there isn't an open source torrent tracker just for open source packages?
+2013-09-14 15:51:11	+kaictl	because...meh?
+2013-09-14 15:51:19	+kaictl	also, you wouldn't be seeding so it wouldn't be that great.
+2013-09-14 15:52:06	meskarune	I'd have a few servers that helped seed. 
+2013-09-14 15:52:07	+kaictl	but yes, torrents are possible, but i would recommend just downloading it separately then manually copying/moving it to the SRCDEST
+2013-09-14 15:52:29	+kaictl	but yeah...idgaf about foss torrents. lol
+2013-09-14 15:52:34	meskarune	haha
+2013-09-14 15:52:44	+kaictl	Moving on to PKGDEST.
+2013-09-14 15:52:58	+kaictl	This specifies where your finished packages are going to go.
+2013-09-14 15:53:00	manfred	meskarune: there isn't really anything that needs to be torrent, because there isn't that much source that is big enough to need it
+2013-09-14 15:53:11	manfred	meskarune: even the kernel
+2013-09-14 15:53:17	+kaictl	and what isn't a torrent is a git repo.
+2013-09-14 15:53:22	+kaictl	which is fine.
+2013-09-14 15:53:23	manfred	everything is for the most part under 50 gigs
+2013-09-14 15:53:30	meskarune	yeah, I was just thinking of the days not so long ago when I had dailup 
+2013-09-14 15:53:48	meskarune	living out in the middle of no-where ftw
+2013-09-14 15:53:59	meskarune	updating was a study in patience 
+2013-09-14 15:54:07	+kaictl	heh
+2013-09-14 15:54:16	+kaictl	By default PKGDEST will be set to $startdir, though if you want to keep organized at all, then it's a good idea to use a PKGDEST.
+2013-09-14 15:54:31	+kaictl	(lets you easily create a local repo using repo-add or another tool.)
+2013-09-14 15:54:55	+kaictl	You will also probably want to set PACKAGER, though it's not required.
+2013-09-14 15:54:58	⛔⛔★	kaictl looks at manfred
+2013-09-14 15:55:15	meskarune	I have a slightly off topic question, after you install something, does makepkg remove all that stuff it used to build the package? or does pacman clean that ?
+2013-09-14 15:55:26	manfred	meskarune: no
+2013-09-14 15:55:33	manfred	meskarune: makepkg -r will
+2013-09-14 15:55:41	+kaictl	makepkg -r will remove the packages.
+2013-09-14 15:55:47	+kaictl	makepkg -c will clean up the BUILDDIR
+2013-09-14 15:56:01	+kaictl	(so makepkg -rc will clean up both)
+2013-09-14 15:56:05	meskarune	kk
+2013-09-14 15:56:10	+kaictl	but it uses pacman internally.
+2013-09-14 15:56:15	+kaictl	for the package part.
+2013-09-14 15:56:26	meskarune	should you be running that to clean your system?
+2013-09-14 15:56:41	+kaictl	no, makepkg -c will just clean up the stuff that was used in the previous makepkg.
+2013-09-14 15:56:46	meskarune	kk
+2013-09-14 15:56:51	+kaictl	only for the package it is run for
+2013-09-14 15:56:58	meskarune	I have an arch install that is like 4 years old >.>
+2013-09-14 15:57:02	+kaictl	you can just use rm to clean the whole thing.
+2013-09-14 15:57:19	meskarune	and I don't think I have ever removed those files
+2013-09-14 15:57:29	manfred	meskarune: pacman -Qqdt |sudo pacman -Rns - 
+2013-09-14 15:57:33	meskarune	haha
+2013-09-14 15:57:35	meskarune	<3
+2013-09-14 15:57:36	+kaictl	they get removed before you do a build and repopulated.
+2013-09-14 15:57:41	manfred	that will remove anything that is installed and not required by anything currently installed
+2013-09-14 15:57:42	meskarune	oh ok
+2013-09-14 15:58:26	+kaictl	So that's the real meat and potatoes of the makepkg config file.
+2013-09-14 15:58:38	meskarune	thanks kaictl 
+2013-09-14 15:58:39	meskarune	:D
+2013-09-14 15:58:47	+kaictl	any questions on that stuff as a whole?
+2013-09-14 15:59:01	+kaictl	did i cook it long enough? etc.
+2013-09-14 15:59:27	manfred	questions, comments, concerns, elephants?
+2013-09-14 15:59:36	+kaictl	repo-elephant
+2013-09-14 15:59:40	meskarune	so what is up with the vim: blah line at the bottom of my makepkg.conf ?
+2013-09-14 15:59:46	meskarune	its commented
+2013-09-14 15:59:46	+kaictl	that's just a vim modeline.
+2013-09-14 15:59:50	meskarune	oooh ok
+2013-09-14 16:00:03	+kaictl	ignore it. unless you use vim. in which case it's nice and sets some things for you.
+2013-09-14 16:00:08	manfred	meskarune: to specify how to format the file, overridding your .vimrc
+2013-09-14 16:00:11	+kaictl	and then still ignore it.
+2013-09-14 16:00:34	manfred	meskarune: makeing it easy to merge changes latter if you add stuff, because it will maintain the same format
+2013-09-14 16:00:40	meskarune	cool
+2013-09-14 16:01:01	manfred	later*
+2013-09-14 16:01:03	+kaictl	usually used for stuff like tabs and spaces and the like.
+2013-09-14 16:01:20	manfred	and filetype=sh so you get the correct syntax highlighting
+2013-09-14 16:01:51	meskarune	right since there isn't a line thingy at the top to stay its bash
+2013-09-14 16:02:02	manfred	that wouldn't matter
+2013-09-14 16:02:15	manfred	vim chooses syntax highlighting based on filename suffix
+2013-09-14 16:02:32	meskarune	oooh, and not #!/bin/foo ?
+2013-09-14 16:02:45	manfred	yeah, by filename suffix
+2013-09-14 16:02:48	+kaictl	Oh, I forgot, you can specify any of the variables directly in the PKGBUILD, too, and it will override the makepkg.conf.
+2013-09-14 16:02:59	manfred	but you shouldn't
+2013-09-14 16:03:08	meskarune	haha ok :)
+2013-09-14 16:03:09	manfred	unless there is no other choice
+2013-09-14 16:03:33	+kaictl	for things like CFLAGS and MAKEFLAGS, it can be imperative, though.
+2013-09-14 16:03:34	manfred	or if you have something that is just going to take forever to compress. like a 15gig binary game package, then you can add something like PKGEXT=.pkg.tar
+2013-09-14 16:03:36	manfred	so it won't gzip
+2013-09-14 16:03:46	+kaictl	heh
+2013-09-14 16:04:31	+kaictl	Alright...last call for questions on this stuff...
+2013-09-14 16:06:20	+kaictl	sooo...moving on
+2013-09-14 16:06:30	+kaictl	FUNCTION TIME!
+2013-09-14 16:07:37	+kaictl	so if you look at pkgbuilds, you will see the first section we talked about, the variable declarations, and a second section, the function declearations.
+2013-09-14 16:08:10	+kaictl	There are 5 functions used by pacman, prepare(), pkgver(), build(), check(), and package()
+2013-09-14 16:10:54	+kaictl	They are run in that order.
+2013-09-14 16:11:00	meskarune	so the functions tell pacman how to build and install the package?
+2013-09-14 16:11:34	+kaictl	yes. you can have custom functions that are called in one of the official functions, but only those 5 will be called by makepkg.
+2013-09-14 16:12:06	+kaictl	as you can probably infer, prepare() is used to set up sources, apply patches, run sed, etc.
+2013-09-14 16:13:04	+kaictl	if your package has a ./configure, it should *not* go in prepare(), however, and should be in build().
+2013-09-14 16:13:35	<<<	kurohyou (~kurohyou@ip-81-11-172-145.dsl.scarlet.be) has quit (Ping timeout: 256 seconds)
+2013-09-14 16:13:49	+kaictl	i'm going to skip the pkgver function for now, and get back to that later...
+2013-09-14 16:14:28	+kaictl	the build() function is where actual building should go on. For sources with a Makefile, that's usually just './configure && make'
+2013-09-14 16:14:31	meskarune	so the install instructions for software goes into the build function, and instead of installing manually with (./configure; make; make install) you stick that into the build function?
+2013-09-14 16:14:50	meskarune	and then the package can be managed by pacman instead of you having to manually keep track
+2013-09-14 16:14:54	+kaictl	build is just for building.
+2013-09-14 16:14:56	+kaictl	not for installing.
+2013-09-14 16:14:57	meskarune	kk
+2013-09-14 16:15:07	+kaictl	you'll see.
+2013-09-14 16:15:12	manfred	build can no longer touch anything in $pkgdir
+2013-09-14 16:15:25	meskarune	oh I see
+2013-09-14 16:15:28	meskarune	good to know
+2013-09-14 16:15:32	+kaictl	so build() is where you build files. This is not a required function, however, and you don't need it.
+2013-09-14 16:15:48	+kaictl	if you're just installing some scripts to /usr/bin, don't do that in build.
+2013-09-14 16:15:57	+kaictl	(in fact, you can't, as manfred just pointed out)
+2013-09-14 16:16:04	manfred	so if everything is prebuilt, and it just needs to be organized, you can use just the package() function, but you always have to have at least package, having only build() is no longer supported
+2013-09-14 16:16:23	meskarune	makes sense
+2013-09-14 16:16:58	+kaictl	next is the check() function, which as i mentioned before is for checking the sanity of the build.
+2013-09-14 16:17:30	+kaictl	if it returns anything but 0, makepkg will exit saying the checks failed.
+2013-09-14 16:17:55	manfred	not just check, but anything in the pkgbuild that returns a non 0 will make the whole thing stop
+2013-09-14 16:18:11	+kaictl	well, yes. anything that has a non-0 exit status will cause makepkg to fail.
+2013-09-14 16:19:08	meskarune	and it prints out the error?
+2013-09-14 16:19:11	manfred	generally check is only used for major system packages, like glibc or gcc or pacman, etc
+2013-09-14 16:19:12	+kaictl	(so putting in '|| return 1' is just a waste of  text.
+2013-09-14 16:19:36	meskarune	heh
+2013-09-14 16:19:41	+kaictl	)
+2013-09-14 16:20:06	+kaictl	It's also useful for development packages to make sure things will work after it's been installed.
+2013-09-14 16:20:28	fsckd	some old PKGBUILDs which haven't been changed in a long time have || return everywhere. i saw one recently
+2013-09-14 16:21:00	+kaictl	yes, it's a rollover from gentoo packages.. 
+2013-09-14 16:21:08	meskarune	hehe
+2013-09-14 16:21:09	+kaictl	it's still valid, but just a wate.
+2013-09-14 16:21:12	+kaictl	*waste.
+2013-09-14 16:21:21	manfred	fsckd: not just old ones, some people who haven't written one in a while still put them in
+2013-09-14 16:21:23	meskarune	I have used patches from gentoo to make something work in arch before ;)
+2013-09-14 16:21:47	+kaictl	well, it's from their build scripts. not from their patches.
+2013-09-14 16:21:49	meskarune	but don't have a real understanding of it
+2013-09-14 16:21:55	fsckd	manfred: eep
+2013-09-14 16:21:58	meskarune	so this class is really helping :D
+2013-09-14 16:22:06	+kaictl	but now moving on to the package() function, the only one  that is actually required in a PKGBUILD.
+2013-09-14 16:22:32	+kaictl	if you look at the makepkg script, you will see that $pkgdir gets set to 000 at the start.
+2013-09-14 16:22:41	meskarune	kaictl: I guess I mean that I'm not surprised people have used things from gentoo packages :)
+2013-09-14 16:22:51	+kaictl	true.
+2013-09-14 16:22:53	meskarune	those peeps are on the ball 
+2013-09-14 16:23:02	meskarune	(that is a weird idiom)
+2013-09-14 16:23:28	+kaictl	this means that nothing can write to it till the package() function can actually use the $pkgdir at all.
+2013-09-14 16:23:58	meskarune	oh cool
+2013-09-14 16:24:02	+kaictl	meskarune mentioned ./configure;make;make install
+2013-09-14 16:24:17	+kaictl	the package() function is where you would put `make install`
+2013-09-14 16:25:18	+kaictl	After ALL of this craziness, setting variables and then writing these functions, you should have a root file structure in $pkgdir.
+2013-09-14 16:25:48	+kaictl	since at the end of all this, makepkg goes "Here are the files for this package. Time to tar 'em up"
+2013-09-14 16:26:04	+kaictl	and that's what you get as a package (with a few extra files, too.)
+2013-09-14 16:26:21	+kaictl	but if you have nothing in $pkgdir, then you're not going to get a package.
+2013-09-14 16:27:11	meskarune	so makepkg makes the .tar.pkg file thing that pacman uses to install with?
+2013-09-14 16:27:23	meskarune	like when you install aur things
+2013-09-14 16:27:55	+kaictl	yes. (pkg.tar*, yes)
+2013-09-14 16:28:11	meskarune	what about when you use pacman to install something, like pacman -S vim? does pacman download the pkgbuild then have makepkg build the package and then pacman installs that package?
+2013-09-14 16:28:21	+kaictl	no.
+2013-09-14 16:28:24	meskarune	hehe yeah pkg.tar
+2013-09-14 16:28:24	manfred	in $pkgdir you will have a directory for the name of each package that is in the PKGBUILD
+2013-09-14 16:28:34	+kaictl	the thing that makepkg spits out is a self contained package.
+2013-09-14 16:28:43	meskarune	I'm trying to understand the whole process that happens when you tell pacman to install something vs. doing makepkg yourself
+2013-09-14 16:28:54	+kaictl	pacman does nothing with PKGBUILDs or anything that has to do with buuilding.
+2013-09-14 16:28:57	manfred	meskarune: pacman just downlaods it from the mirror and untars it over /
+2013-09-14 16:29:03	meskarune	oooh ok
+2013-09-14 16:29:07	manfred	meskarune: makepkg is what is used to make those packages and pushed to the repos
+2013-09-14 16:29:17	+kaictl	pacman works with the things that makepkg spits out, makepkg is used to create the things used by pacman.
+2013-09-14 16:29:22	meskarune	and then pacman downloads the pkg.tar* and installs it
+2013-09-14 16:29:24	manfred	you can use makepkg on your own to make the same kind of package, but you just install it once it is made
+2013-09-14 16:30:31	meskarune	and abs has all the pkgbuilds for the main repos ?
+2013-09-14 16:30:37	manfred	yes
+2013-09-14 16:30:39	+kaictl	yes
+2013-09-14 16:30:41	meskarune	kk
+2013-09-14 16:31:12	+kaictl	well, i guess that's a simple way to create packages for arch linux.
+2013-09-14 16:31:37	meskarune	I like how many tools arch has for packages
+2013-09-14 16:31:56	+kaictl	i'm sorry i didn't get to stay for any hands on stuff, but if you have any questions, feel free to ping me or post stuff here and i'll try to take the time to answer AFAP.
+2013-09-14 16:32:15	meskarune	you did great :D
+2013-09-14 16:32:23	manfred	i will be here as well
+2013-09-14 16:32:33	fsckd	thank you for your time kaictl and manfred :)
+2013-09-14 16:32:58	+kaictl	but i haven't eaten anything at all today, so i'm going to get some lunch/dinner/breakfast/whateverthehellitis.
+2013-09-14 16:33:04	manfred	heh
+2013-09-14 16:33:06	fsckd	lol
+2013-09-14 16:33:21	fsckd	brunchinner
+2013-09-14 16:33:29	+kaictl	heh
+2013-09-14 16:33:34	+kaictl	sounds german.
+2013-09-14 16:34:06	meskarune	I want to make a real live hacker haven, that is a boarding house for self employed hackers to live. they get all their meals, laundry and cleaning done for them, and just live together in a huge house to code
+2013-09-14 16:34:15	Xmkmy	kaictl, thanks for the class
+2013-09-14 16:34:25	+kaictl	Xmkmy: you're welcome
+2013-09-14 16:34:33	meskarune	I want to play around with packages :D
+2013-09-14 16:34:42	liara	very nice and insightfull class, thanks. man, i managed to sit here for 3 hours o.O
+2013-09-14 16:34:57	+kaictl	yeah...sorry about that.
+2013-09-14 16:35:00	+kaictl	;_;
+2013-09-14 16:35:03	liara	:)
+2013-09-14 16:35:32	+kaictl	but the logs will be posted eventually...so you can always look back on those.
+2013-09-14 16:36:20	meskarune	http://kmkeen.com/aurphan/
+2013-09-14 16:36:21	phrik	Title: Aurphan: Search by --maintainer (at kmkeen.com)
+2013-09-14 16:36:37	manfred	pacman -Syu aurphan
