@@ -1,0 +1,322 @@
+PKGBUILD class (points covered)
+-------------------------------
+Location: irc.freenode.net #archlinux-classroom
+ 
+Saturday, April 19ᵗʰ 2014
+9:30AM UTC (~7:30PM in Australia)
+4PM UTC (~10AM in the US)
+ 
+Vote with '1's on the 'votes:' lines under the points you want to hear about!
+We'll spend more time on those with a lot of votes.
+ 
+ 
+1. Introduction to packaging
+ 
+1.1 - What is an Arch Linux package and what is their format?
+votes: 
+ 
+1.2 - Arch packages' metadata, an overview
+votes: 1111
+ 
+1.3 - So how do we make them? PKGBUILDs and what they mean.
+votes: 111
+ 
+ 
+2. How PKGBUILDs work
+ 
+2.1 - Let's build a package! Practical prerequisites.
+votes: 1
+ 
+2.2 - Everybody builds an example package!
+votes: 1
+ 
+2.3 - The PKGBUILD and its essential parts.
+votes: 11111111
+ 
+
+a 10mn pause for our brains! tea time and cat pictures allowed~
+votes: 111111
+ 
+
+3. Writing PKGBUILDs
+ 
+3.1 - It's written in Bash: caveats, robustness.
+votes: 1111111111
+ 
+3.2 - How to correctly write the functions to compile the package
+votes: 11111111111
+ 
+3.3 - Special PKGBUILDs: development packages using GIT and Subversion
+votes: 111111111111
+ 
+ 
+Discussion
+ 
+The class itself is kind of over, but you're probably still curious, or have weird questions about packaging.
+Now's the time!
+ 
+ 
+About the guy hosting the class:
+I'm a French student and an Arch Linux user since 2008. I notably like C, bash, 日本語, and stuff that is neatly done.
+My little Arch Linux liveCD is http://ctkarch.org
+
+
+====  class start  ====
+
+2014-04-19 09:30:18	CalimeroTeknik	hello everybody! or good evening, depending on your timezone ^^
+2014-04-19 09:31:18	alexande1	Hi
+2014-04-19 09:31:50	CalimeroTeknik	I suggest we started with introductions: how long we've been using arch, and to which point we know about the packaging system
+2014-04-19 09:32:49	CalimeroTeknik	I've been using arch since 2008, and know quite a lot of stuff about the packaging system from a maintainer's viewpoint
+2014-04-19 09:33:29	--	flapjack0811 is now known as mes
+2014-04-19 09:33:47	CalimeroTeknik	what about you who just joined?
+2014-04-19 09:33:58	--	mes is now known as Guest86372
+2014-04-19 09:34:09	--	Guest86372 is now known as flapjack0811
+2014-04-19 09:34:43	demize	I've been using Arch for.. two years maybe? Maintain a few AUR packages and my own repo for some -git stuff, just joined because I can. ;)
+2014-04-19 09:35:30	alexande1	I have been using Arch for about a year. I read some articles on the arch-wiki about the packaging system. I made one package.
+2014-04-19 09:37:17	CalimeroTeknik	oh, we forgot this in the topic. here's the list of items for this class: https://pad.riseup.net/p/pkgbuild-class-apr2014
+2014-04-19 09:37:18	phrik	Title: Riseup Pad (at pad.riseup.net)
+2014-04-19 09:37:24	flapjack0811	About 2 years, never made my own before but hopefully this will be the first.
+2014-04-19 09:38:58	CalimeroTeknik	nice! anybody else before we get started for a tour of the Arch Linux packages?
+2014-04-19 09:40:30	CalimeroTeknik	okay! 1 of 3: introduction to the Arch Linux packaging system!
+2014-04-19 09:40:47	CalimeroTeknik	The package system of Arch Linux is called 'ABS', for Arch Build System.
+2014-04-19 09:41:05	CalimeroTeknik	there's even a wiki page about it: https://wiki.archlinux.org/index.php/Arch_Build_System
+2014-04-19 09:41:07	phrik	Title: Arch Build System - ArchWiki (at wiki.archlinux.org)
+2014-04-19 09:41:28	CalimeroTeknik	the official "ABS tree" is actually the set of PKGBUILDs maintained by the arch developers.
+2014-04-19 09:42:20	CalimeroTeknik	when users write one and want to share it, they can open an account in the AUR, and post it there
+2014-04-19 09:43:02	CalimeroTeknik	the ABS tree is available at http://packages.archlinux.org, and the AUR as you probably all know, at https://aur.archlinux.org
+2014-04-19 09:43:04	phrik	Title: AUR (en) - Home (at aur.archlinux.org)
+2014-04-19 09:43:41	CalimeroTeknik	then this class is about PKGBUILDs!
+2014-04-19 09:44:05	CalimeroTeknik	PKGBUILDs are specification files for building Arch Linux packages, you probably know that since you're here
+2014-04-19 09:45:05	CalimeroTeknik	I thought that for starters, I'd cover the package format. you will probably rediscover your distro!
+2014-04-19 09:45:33	CalimeroTeknik	of course Arch packages are tar archives with all the files in it, the package manager basically extracts them in /
+2014-04-19 09:45:43	CalimeroTeknik	and keeps track of the files it extracted
+2014-04-19 09:46:01	CalimeroTeknik	but there are also dependencies, information in the package
+2014-04-19 09:46:15	CalimeroTeknik	this is stored in the archive, it's the .PKGINFO file
+2014-04-19 09:46:52	CalimeroTeknik	the .INSTALL file is the post-install script that some packages provide to execute commands after the package was installed
+2014-04-19 09:47:43	CalimeroTeknik	and since may 2012 there is a .MTREE file, which is a format tar can output; it contains the permissions and hash of the files
+2014-04-19 09:48:02	CalimeroTeknik	it can allow to check that a package's files are all in place and not broken
+2014-04-19 09:48:16	CalimeroTeknik	20% of my packages don't have it, for instance
+2014-04-19 09:48:24	CalimeroTeknik	(they're before may 2012)
+2014-04-19 09:48:29	CalimeroTeknik	from*
+2014-04-19 09:48:58	CalimeroTeknik	so that was the package file, the .pkg.tar.xz file.
+2014-04-19 09:49:24	<--	flapjack0811 (~flapjack0@121.121.72.116) has quit (Quit: BRB)
+2014-04-19 09:49:55	CalimeroTeknik	then, you install the package, and the metadata is stored in /var/cache/pacman/pkg, as "desc" for the info in .PKGINFO from the package
+2014-04-19 09:49:59	-->	eyemonen (eyemonen@kapsi.fi) has joined #archlinux-classroom
+2014-04-19 09:50:33	-->	flapjack0811 (~flapjack0@121.121.72.116) has joined #archlinux-classroom
+2014-04-19 09:50:33	CalimeroTeknik	hi eyemonen! I just finished speaking about the package format
+2014-04-19 09:51:11	CalimeroTeknik	here's the log so far: http://sprunge.us/VDdY
+2014-04-19 09:51:31	eyemonen	Hi, sorry I'm bit too late. I'll check the log. thanks.
+2014-04-19 09:52:19	CalimeroTeknik	so as I was saying, now we have a package, a tar archive with the files I evoked, and we'll install it
+2014-04-19 09:53:02	CalimeroTeknik	its name, version, description, dependencies etc go into /var/lib/pacman/local/packagename-version/desc
+2014-04-19 09:53:22	CalimeroTeknik	sorry, I wrote /var/cache… earlier, that was wrong (oops)
+2014-04-19 09:53:47	CalimeroTeknik	its list of files go into /var/lib/pacman/local/packagename-version/files
+2014-04-19 09:54:08	CalimeroTeknik	and the .INSTALL in the package also goes there, as "install".
+2014-04-19 09:54:20	CalimeroTeknik	the .MTREE file is saved as "mtree" in the same directory, again
+2014-04-19 09:54:47	CalimeroTeknik	so here we have it: that's how packages work, as .pkg.tar.xz files, and when installed in the system
+2014-04-19 09:55:43	CalimeroTeknik	any questions before I cover some interesting points about the metadata?
+2014-04-19 09:56:15	CalimeroTeknik	it's what's we have in the '.PKGINFO' file in the package; or in the 'desc' file in the pacman database (/var/lib/pacman/local)
+2014-04-19 09:57:11	CalimeroTeknik	you can look at a package, at random: tar tvf /var/cache/pacman/pkg/less-458-1-x86_64.pkg.tar.xz
+2014-04-19 09:57:31	CalimeroTeknik	you can see the .PKGINFO and .MTREE files in there, and the files of the package.
+2014-04-19 09:58:20	CalimeroTeknik	I think there's something worth noting: pkgver is the version of the software that is packaged
+2014-04-19 09:58:50	CalimeroTeknik	and pkgrel is the release, that is, the revision of the package for the same version of the software packaged
+2014-04-19 09:59:37	CalimeroTeknik	OK! next point: PKGBUILDs, at last! :p
+2014-04-19 10:00:17	CalimeroTeknik	basically what they do is replace a manual install, where you ./configure; make; make install
+2014-04-19 10:00:50	CalimeroTeknik	instead of doing that by hand, and compressing the resulting files into an archive, you use a PKGBUILD
+2014-04-19 10:01:32	CalimeroTeknik	you could, of course, make the archive by hand (the format is very simple, just add a .PKGINFO and your files)
+2014-04-19 10:02:10	CalimeroTeknik	you could make a script, but since we have PKGBUILDs, why bother?
+2014-04-19 10:02:54	CalimeroTeknik	and so… 2 of 3: how PKGBUILDs are made/work!
+2014-04-19 10:03:24	CalimeroTeknik	PKGBUILDs are just definitions of variables (the metadata of the package) and functions to build it
+2014-04-19 10:03:46	CalimeroTeknik	they are bash scripts, but don't do anything if you run them (they just define variables and functions)
+2014-04-19 10:04:19	CalimeroTeknik	they are used by makepkg, and I think it's interesting to configure it before we all build a package as an example.
+2014-04-19 10:04:34	CalimeroTeknik	you can open /etc/makepkg.conf
+2014-04-19 10:04:45	CalimeroTeknik	look for #MAKEFLAGS="-j2"
+2014-04-19 10:05:27	CalimeroTeknik	this is the flags that will be exported by makepkg when building: to exploit all of your processors and build faster, uncomment that line and set it to your number of processors +1
+2014-04-19 10:05:47	CalimeroTeknik	for me: MAKEFLAGS="-j3" (I have two processors)
+2014-04-19 10:05:57	CalimeroTeknik	you can also uncomment and change #PACKAGER="John Doe <john@doe.com>"
+2014-04-19 10:06:05	-->	liara (~xzvf@80.79.126.176) has joined #archlinux-classroom
+2014-04-19 10:06:50	CalimeroTeknik	hello liara! we're right at the point where I'm proposing that we all build a package and then see how everything worked
+2014-04-19 10:07:12	CalimeroTeknik	here's the log so far: http://sprunge.us/jaVP
+2014-04-19 10:07:14	liara	i missed the beginning :(
+2014-04-19 10:07:16	liara	hi
+2014-04-19 10:07:29	liara	ok, i'll have a look first
+2014-04-19 10:08:03	CalimeroTeknik	there'll be a second class at 4PM UTC today, it'll be the same class
+2014-04-19 10:08:42	CalimeroTeknik	so that we cover all timezones quite reasonably :)
+2014-04-19 10:09:00	CalimeroTeknik	OK, let's build a package! So where are the PKGBUILDs?
+2014-04-19 10:09:24	CalimeroTeknik	for the official packages: https://www.archlinux.org/packages/
+2014-04-19 10:09:38	CalimeroTeknik	let's find 'less', click on "source files" (top right corner)
+2014-04-19 10:09:49	CalimeroTeknik	and find its PKGBUILD
+2014-04-19 10:10:26	CalimeroTeknik	does everybody have it? you should have found https://projects.archlinux.org/svntogit/packages.git/tree/trunk/PKGBUILD?h=packages/less
+2014-04-19 10:10:28	phrik	Title: svntogit/packages.git - Git clone of the 'packages' repository (at projects.archlinux.org)
+2014-04-19 10:11:35	CalimeroTeknik	get that PKGBUILD (click 'plain'), save it to an empty directory, and run makepkg there from a terminal.
+2014-04-19 10:12:03	CalimeroTeknik	does anybody interested in doing it have trouble?
+2014-04-19 10:12:28	demize	(Remember that you're expected to have base-devel installed to build packages)
+2014-04-19 10:12:45	CalimeroTeknik	aw, it was in my notes and I just skipped it :(
+2014-04-19 10:13:02	demize	heh, everyone misses some things ❤
+2014-04-19 10:13:10	CalimeroTeknik	yeah, if you don't have it, the build will generally fail on things like 'make: command not found'
+2014-04-19 10:13:24	CalimeroTeknik	all PKGBUILDs expect you to have all the packages in base-devel installed
+2014-04-19 10:13:38	CalimeroTeknik	that includes a compiler, and various tools used to compile projects
+2014-04-19 10:13:49	CalimeroTeknik	(pacman -Sg base-devel for the list)
+2014-04-19 10:14:12	CalimeroTeknik	alright, let's look at how the build worked!
+2014-04-19 10:14:26	CalimeroTeknik	look at the PKGBUILD again: the first part is metadata
+2014-04-19 10:15:05	CalimeroTeknik	name, pkgver: version of the software, pkgrel: revision of the package for this version of the software
+2014-04-19 10:15:36	CalimeroTeknik	the license is interesting: if you use a license that is provided in the 'licenses' package of Arch Linux, you don't have to include it in your package
+2014-04-19 10:15:51	CalimeroTeknik	they are in /usr/share/licenses/common/
+2014-04-19 10:15:55	-->	dagle (~dagle@alephnull.se) has joined #archlinux-classroom
+2014-04-19 10:16:23	CalimeroTeknik	hi dagle! currently covering the PKGBUILD metadata
+2014-04-19 10:16:33	<--	dagle (~dagle@alephnull.se) has left #archlinux-classroom ("WeeChat 0.4.3")
+2014-04-19 10:17:24	demize	He came, he saw, he... left?
+2014-04-19 10:17:29	CalimeroTeknik	kind of!
+2014-04-19 10:17:41	CalimeroTeknik	so, 'arch' is the architectures the maintainer knows the package to run on
+2014-04-19 10:17:59	CalimeroTeknik	put 'any' in there if it's a script and works anywhere without a rebuild
+2014-04-19 10:18:14	CalimeroTeknik	groups: a PKGBUILD can pretend to belong to as many groups as it wants
+2014-04-19 10:18:28	CalimeroTeknik	that's how group works, there is no central list of packages for every group
+2014-04-19 10:18:36	CalimeroTeknik	packages just say that hey belong to a group
+2014-04-19 10:19:22	CalimeroTeknik	depends: that's the dependencies of course; there's an additional variable, "makedepends", which states which packages must be installed when compiling, but not when installing the package
+2014-04-19 10:19:35	CalimeroTeknik	source: it has an interesting feature now
+2014-04-19 10:19:42	-->	jasonwryan (~jasonwrya@fsf/member/jasonwryan) has joined #archlinux-classroom
+2014-04-19 10:19:58	CalimeroTeknik	you put in sources=( ... ) the list of URIs for downloading the sources
+2014-04-19 10:20:23	CalimeroTeknik	you can do something like: 'nicename.tar.gz::http://site.tld/src/archive.tar.gz?rev=988881adc9fc3655077dc2d4d757d480b5ea0e11'
+2014-04-19 10:20:33	CalimeroTeknik	that way you'll have nicename.tar.gz instead of archive.tar.gz?rev=988881adc9fc3655077dc2d4d757d480b5ea0e11
+2014-04-19 10:20:59	CalimeroTeknik	new tips for those who already are packagers ;)
+2014-04-19 10:21:48	CalimeroTeknik	hi jasonwryan! I was describing the PKGBUILD metadata. here's the log so far: http://sprunge.us/BQAP
+2014-04-19 10:21:59	jasonwryan	thank you!
+2014-04-19 10:22:31	CalimeroTeknik	everybody is quite silent! please interrupt me, that'll be greatly appreciated :)
+2014-04-19 10:23:29	CalimeroTeknik	so to finish with metadata, we have md5sums or sha256sums which allows to check integrity of the source files
+2014-04-19 10:24:05	CalimeroTeknik	and backup: that's the files we want to avoid deleting when uninstalling the package, if the user modified them
+2014-04-19 10:24:34	CalimeroTeknik	for instance, if you remove lighttpd, your precious configuration with vhosts and rewrite rules won't be deleted!
+2014-04-19 10:24:58	CalimeroTeknik	that's it for metadata variables.
+2014-04-19 10:25:25	CalimeroTeknik	I skipped the most obvious ones, like url or pkgdesc, they're pretty self-explanatory
+2014-04-19 10:25:40	CalimeroTeknik	after that, we have the functions.
+2014-04-19 10:26:07	CalimeroTeknik	these functions defined in the PKGBUILD, are run by makepkg when you run it.
+2014-04-19 10:26:28	CalimeroTeknik	there are special variables defined when they are run:
+2014-04-19 10:26:57	CalimeroTeknik	 $srcdir, where makepkg extracted the sources that were specified in sources=()
+2014-04-19 10:27:31	CalimeroTeknik	 $pkgdir, which is an empty directory created by makepkg, so you put in it the files to be compressed into the package
+2014-04-19 10:27:45	CalimeroTeknik	and of course all of the above metadata is available.
+2014-04-19 10:28:30	CalimeroTeknik	the only function you really need is package()
+2014-04-19 10:28:40	CalimeroTeknik	it's the one which puts stuff into "$pkgdir"
+2014-04-19 10:29:01	CalimeroTeknik	you can also have a build() function which compiles the sources of the software you're packaging (if needed)
+2014-04-19 10:29:14	CalimeroTeknik	for instance, you don't need that if you package a script
+2014-04-19 10:29:31	CalimeroTeknik	separating those two allows to run makepkg -R
+2014-04-19 10:29:51	<--	Godkoder (~godkoder@188.86.75.53) has left #archlinux-classroom
+2014-04-19 10:30:09	CalimeroTeknik	that allows to repackage with modified metadata (if you forgot a dependency for instance) without recompiling
+2014-04-19 10:30:56	CalimeroTeknik	it's pause time!
+2014-04-19 10:31:30	CalimeroTeknik	it's also the time when I expect feedback on what you want to hear about
+2014-04-19 10:31:37	CalimeroTeknik	to finish with
+2014-04-19 10:33:29	jasonwryan	so, at the completion of a build, you have pkg/ src/ and $pkgname/ dirs?
+2014-04-19 10:34:37	CalimeroTeknik	in the folder where the PKGBUILD is, you will have src/ with the sources extracted in it (and everything make did)
+2014-04-19 10:34:48	CalimeroTeknik	everything make did to them*
+2014-04-19 10:34:53	CalimeroTeknik	mostly creating files
+2014-04-19 10:35:01	CalimeroTeknik	you have pkg/$pkgname/
+2014-04-19 10:35:13	CalimeroTeknik	with the files that you put in "$pkgdir"
+2014-04-19 10:35:39	CalimeroTeknik	the default value of "$pkgdir" is "pkg/$pkgname"
+2014-04-19 10:35:50	CalimeroTeknik	and of course you have your package in the current directory
+2014-04-19 10:36:13	jasonwryan	then $pkgname (in that top-level dir) is only after a VCS build?
+2014-04-19 10:36:52	CalimeroTeknik	yes, VCS PKGBUILDs clone the repository in the top-level directory to avoid cloning it in whole at each build
+2014-04-19 10:37:02	jasonwryan	cool
+2014-04-19 10:37:18	flapjack0811	in case anyone ran makepkg and got curious about the ./configure script output, here's a good starting point: http://en.wikipedia.org/wiki/Configure_script
+2014-04-19 10:37:19	phrik	Title: configure script - Wikipedia, the free encyclopedia (at en.wikipedia.org)
+2014-04-19 10:37:24	CalimeroTeknik	because I mean, the contents of src/ are volatile
+2014-04-19 10:38:30	CalimeroTeknik	configure scripts are quite a complex thing!
+2014-04-19 10:39:00	CalimeroTeknik	well, the automake toolchain is
+2014-04-19 10:39:21	CalimeroTeknik	I had an optional part about VCS PKGBUILDs for today, do you wish to hear about that?
+2014-04-19 10:39:29	jasonwryan	sure :)
+2014-04-19 10:39:47	alexande1	What is VCS?
+2014-04-19 10:39:55	CalimeroTeknik	that is, development packages
+2014-04-19 10:40:05	CalimeroTeknik	packages of software from a development repository
+2014-04-19 10:40:14	jasonwryan	!give alexande1 w vcs
+2014-04-19 10:40:15	CalimeroTeknik	GIT, Subversion (=SVN), etc
+2014-04-19 10:40:15	phrik	alexande1: Revision control - Wikipedia, the free encyclopedia: <http://en.wikipedia.org/wiki/Revision_control>
+2014-04-19 10:40:29	CalimeroTeknik	first, let me speak about something that's as horrible as it's important: Bash syntax!
+2014-04-19 10:40:47	CalimeroTeknik	So… that PKGBUILD for 'less' we saw earlier… Try to build it in say '/tmp/build folder' (yes, with the space)
+2014-04-19 10:40:55	CalimeroTeknik	It breaks! why?
+2014-04-19 10:41:02	CalimeroTeknik	missing quotes!
+2014-04-19 10:41:12	CalimeroTeknik	see the PKGBUILD: https://projects.archlinux.org/svntogit/packages.git/tree/trunk/PKGBUILD?h=packages/less
+2014-04-19 10:41:13	wasamasa	bash ftw
+2014-04-19 10:41:14	phrik	Title: svntogit/packages.git - Git clone of the 'packages' repository (at projects.archlinux.org)
+2014-04-19 10:41:19	CalimeroTeknik	cd ${srcdir}/${pkgname}-${pkgver}
+2014-04-19 10:41:22	CalimeroTeknik	this is wrong!
+2014-04-19 10:41:29	CalimeroTeknik	cd "${srcdir}/${pkgname}-${pkgver}" is right
+2014-04-19 10:41:45	CalimeroTeknik	braces aren't necessary except if you do "${a}b"
+2014-04-19 10:41:53	CalimeroTeknik	if a=1, that will print 1b
+2014-04-19 10:42:06	CalimeroTeknik	if you do "$ab", nothing will be printed
+2014-04-19 10:42:13	CalimeroTeknik	because it's the variable 'ab'
+2014-04-19 10:42:44	CalimeroTeknik	so I warn you here today: nobody does it (even the Arch developers!): quote your strings!
+2014-04-19 10:43:00	<--	flapjack0811 (~flapjack0@121.121.72.116) has quit (Quit: :thunderstorm :()
+2014-04-19 10:43:05	CalimeroTeknik	The pacman PKGBUILD itself was missing quotes: https://bugs.archlinux.org/task/38368
+2014-04-19 10:43:08	phrik	Title: FS#38368 : [pacman] PKGBUILD has unquoted strings (patch) (at bugs.archlinux.org)
+2014-04-19 10:43:21	CalimeroTeknik	One fateful day, the author of bumblebee forgot to quote a string in his uninstall script
+2014-04-19 10:43:31	CalimeroTeknik	woe ensued: https://github.com/MrMEEE/bumblebee-Old-and-abbandoned/commit/a047be85247755cdbe0acce6f1dafc8beb84f2ac
+2014-04-19 10:43:34	phrik	Title: GIANT BUG... causing /usr to be deleted... so sorry.... issue #123, issu... · a047be8 · MrMEEE/bumblebee-Old-and-abbandoned · GitHub (at github.com)
+2014-04-19 10:43:41	jasonwryan	lol
+2014-04-19 10:43:41	CalimeroTeknik	I'm pretty sure you all know this commit!
+2014-04-19 10:43:44	demize	It was the *install* script...
+2014-04-19 10:43:46	demize	So...
+2014-04-19 10:43:48	demize	:p
+2014-04-19 10:43:49	CalimeroTeknik	http://www.kirikoo.net/images/14Anonyme-20140419-093203.png
+2014-04-19 10:43:55	CalimeroTeknik	oh. sorry
+2014-04-19 10:44:09	CalimeroTeknik	it's even worse :p
+2014-04-19 10:44:20	demize	Install a graphics driver, get your system nuked!
+2014-04-19 10:44:25	CalimeroTeknik	so please, please, quote your strings. yes. I'm done with that :p
+2014-04-19 10:44:46	demize	(Insert plug for zsh ;p)
+2014-04-19 10:44:52	CalimeroTeknik	good example: https://aur.archlinux.org/packages/de/defora-libdesktop/PKGBUILD
+2014-04-19 10:45:42	demize	Tho that PKGBUILD doesn't need the references to $srcdir since all the functions start in there now.
+2014-04-19 10:46:08	CalimeroTeknik	true
+2014-04-19 10:46:11	CalimeroTeknik	oh, I forgot. 'inert' strings: run echo 'This package costs $0, it is free.'
+2014-04-19 10:46:26	CalimeroTeknik	change the ' for ", you'll get $0 expanded
+2014-04-19 10:46:58	CalimeroTeknik	okay! VCS PKGBUILDs!
+2014-04-19 10:47:23	CalimeroTeknik	jasonwryan, you'll notice that makepkg now supports git and svn URIs in source=()
+2014-04-19 10:47:36	CalimeroTeknik	example (one of my packages, again): https://aur.archlinux.org/packages/aufs3-util
+2014-04-19 10:47:37	phrik	Title: AUR (en) - aufs3-util (at aur.archlinux.org)
+2014-04-19 10:47:59	demize	Even Bazaar ;p
+2014-04-19 10:48:00	CalimeroTeknik	this is even checking out a particular branch in the URI
+2014-04-19 10:48:17	CalimeroTeknik	and probably hg, right?
+2014-04-19 10:48:50	demize	Yepp
+2014-04-19 10:48:54	CalimeroTeknik	you'll also notice that a VCS PKGBUILD should have a pkgver() function that updates the version according to the real state of the sources
+2014-04-19 10:49:08	CalimeroTeknik	here, I'm printing the date of the last commit on the branch
+2014-04-19 10:49:29	CalimeroTeknik	what this function prints, becomes the version of the package
+2014-04-19 10:50:28	CalimeroTeknik	I also renamed the directory where the repo is cloned, in sources=(), according to the following syntax: my_name::git+http://example.org/git/someproject.git
+2014-04-19 10:50:45	CalimeroTeknik	:: allows to do that with any kind of source, I think I said that earlier
+2014-04-19 10:51:02	CalimeroTeknik	also note the prepare() function: it allows to patch the sources
+2014-04-19 10:51:09	CalimeroTeknik	that should be done only once, of course!
+2014-04-19 10:51:25	CalimeroTeknik	if you relaunch the build, it won't be run (it would probably fail)
+2014-04-19 10:51:36	CalimeroTeknik	well, I'm using sed here… but if using patch, it fails
+2014-04-19 10:51:50	CalimeroTeknik	this is about it, jasonwryan
+2014-04-19 10:52:01	CalimeroTeknik	VCS PKGBUILDs used to be a lot trickier
+2014-04-19 10:52:10	jasonwryan	thanks CalimeroTeknik 
+2014-04-19 10:52:27	CalimeroTeknik	now you just put the URI of the development repo in sources=()
+2014-04-19 10:52:40	CalimeroTeknik	don't forget to call your package "package-git" or something
+2014-04-19 10:53:25	CalimeroTeknik	which I didn't do here, because I'm updating the version automatically, accordingly to what the package really builds
+2014-04-19 10:53:29	CalimeroTeknik	(with a cron script)
+2014-04-19 10:53:55	CalimeroTeknik	so that is using VCS, but is really building a given, traceable version of the package
+2014-04-19 10:54:10	demize	Also, you generally want to try to use a https verision instead of using the git protocol, because many firewalls block git://...
+2014-04-19 10:54:18	CalimeroTeknik	true
+2014-04-19 10:54:28	demize	Which is :(
+2014-04-19 10:54:28	jasonwryan	how do you handle VCS rebuilds?
+2014-04-19 10:54:41	CalimeroTeknik	the -git, -svn, -hg … convention was at a time when VCS PKGBUILDs would use the current date as the version
+2014-04-19 10:54:43	-->	flapjack0811 (~flapjack0@121.121.72.116) has joined #archlinux-classroom
+2014-04-19 10:54:49	CalimeroTeknik	and so, they needed to be flagged accordingly
+2014-04-19 10:54:55	CalimeroTeknik	rebuilds?
+2014-04-19 10:55:01	CalimeroTeknik	just run makepkg again
+2014-04-19 10:55:20	jasonwryan	with -f?
+2014-04-19 10:55:28	CalimeroTeknik	you shouldn't need to
+2014-04-19 10:55:33	CalimeroTeknik	if the version changed
+2014-04-19 10:55:39	jasonwryan	package already built…
+2014-04-19 10:55:55	jasonwryan	reinstalling: that message
+2014-04-19 10:56:15	CalimeroTeknik	it says that when you don't need to rebuild the package, with a properly written PKGBUILD
+2014-04-19 10:56:24	CalimeroTeknik	especially with a proper pkgver() function
+2014-04-19 10:56:43	CalimeroTeknik	if the pkgver() function reports a different version, the build will run
+2014-04-19 10:57:01	CalimeroTeknik	if you increment pkgrel= because the package needs to be rebuilt, the build will run
+2014-04-19 10:57:06	jasonwryan	so it does
+2014-04-19 10:57:08	jasonwryan	:)
+2014-04-19 10:57:15	demize	if you're rebuilding due to a dependency bump or something you also generally might want to increment pkgrel to make it clear.
+2014-04-19 10:57:22	CalimeroTeknik	exactly
+2014-04-19 10:57:28	CalimeroTeknik	and so, you never need -f
+2014-04-19 10:58:03	CalimeroTeknik	lunch time for me! next class is the same one (but I'll probably be more ready the second time), at 4PM UTC
+2014-04-19 10:58:14	demize	You might also want to use -c when building things to make sure that the build is clean and don't contain any leftovers from previous ones
+2014-04-19 10:58:28	demize	CalimeroTeknik: Practice makes perfect :)
+2014-04-19 10:58:46	demize	Tho it would've been nice to have gotten it on arch-announce or something.. :p
+2014-04-19 10:59:06	alexande1	CalimeroTeknik: Thanks a lot for the class.
+2014-04-19 10:59:11	jasonwryan	demize: good point, cheers
+2014-04-19 10:59:16	jasonwryan	thanks CalimeroTeknik 
+
+====  class end  ====

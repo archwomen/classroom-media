@@ -1,0 +1,703 @@
+PKGBUILD class (points covered)  Note:  CalimeroTeknik‘s notes for the end of the class are at the bottom
+-------------------------------
+Location:  irc.freenode.net #archlinux-classroom
+
+Date: Saturday, April 19ᵗʰ 2014
+* 9:30AM UTC (~7:30PM in Australia) — class is over, log is here http://sprunge.us/bbcK
+* 4PM UTC (~10AM in the US)
+
+     Vote with '1's on the 'votes:' lines under the points you want to hear about!
+     We'll spend more time on those with a lot of votes.
+
+
+1. Introduction to packaging
+1.1 - Q & A: Arch Linux packages and their format.
+      votes: 0
+1.2 - Arch packages' metadata, an overview.
+      votes: 2
+1.3 - So how do we make them? PKGBUILDs and what they mean.
+      votes: 0
+Q & A
+
+2. How PKGBUILDs work
+2.1 - Let's build a package! Practical prerequisites.
+      votes: 0
+2.2 - Everybody builds an example package!
+votes: 0
+Q & A
+
+2.3 - The PKGBUILD and its essential parts.
+      votes: 1
+Q & A
+
+
+a 10mn pause for our brains! tea time and cat pictures allowed~
+      votes: 4
+
+
+3. Writing PKGBUILDs
+3.1 - It's written in Bash: caveats, robustness.
+      votes: 1
+3.2 - How to (correctly) write the functions to compile the package.
+      votes: 1
+Q & A
+
+3.3 - Special PKGBUILDs: development packages using GIT and Subversion.
+      votes: 4
+Q & A
+
+3.4 - Split packages?
+      votes: 2
+
+More discussion
+
+The class itself is kind of over, but you're probably still curious, or have weird questions about packaging.
+Now's the time!
+
+
+
+* About the guy hosting the class:
+I'm a French student and an Arch Linux user since 2008. I notably like C, bash, 日本語, and stuff that is neatly done.
+My little Arch Linux liveCD is http://ctkarch.org
+
+
+====  class start  ====
+
+2014-04-19 15:58 <CalimeroTeknik>  eveybody: you can vote under the items you're interested in, here: https://pad.riseup.net/p/pkgbuild-class-apr2014
+   *** edit:5 votes and points covered are above
+2014-04-19 15:58 <phrik>  Title: Riseup Pad (at pad.riseup.net)
+2014-04-19 15:58 <VoidAtValhalla where it will happen here in chat ? some stream ? in pad ?
+2014-04-19 15:58 <CalimeroTeknik>  everybody*
+2014-04-19 15:58 <CalimeroTeknik>  yeah, here in IRC
+2014-04-19 15:58 <VoidAtValhalla>  ok :)
+2014-04-19 15:58 <CalimeroTeknik>  so we can discuss everything as needed
+2014-04-19 15:59 <nuun>  how long is ETT?
+2014-04-19 15:59 *	vorbote (~vorbote@unaffiliated/vorbote) has joined
+2014-04-19 15:59 <nuun>  Estimated Time of Termination
+2014-04-19 15:59 <CalimeroTeknik>  the previous course was 3608seconds
+2014-04-19 15:59 <Earnestly>  The time it takes to terminate will be 0
+2014-04-19 15:59 <VoidAtValhalla>  Earnestly: o/
+2014-04-19 15:59 <nuun>  what was the previous course?
+2014-04-19 15:59 <CalimeroTeknik>  same thing
+2014-04-19 16:00 <CalimeroTeknik>  9 UTC this "morning" (really this morning in Europe)
+2014-04-19 16:00 <gnubeest>  window merge
+2014-04-19 16:00 <gnubeest>  ugh fail
+2014-04-19 16:00 <nuun>  Sat 2014-04-19 16:00 UTC 2014
+2014-04-19 16:00 <VoidAtValhalla>  gnubeest: so close
+2014-04-19 16:00 *	disharmonic (~disharmon@unaffiliated/disharmonic) has joined
+2014-04-19 16:01 <nuun>  Sat 2014-04-19 11:01 EST 2014
+2014-04-19 16:01 *	Fl18 (~Jean@lec67-1-81-56-33-69.fbx.proxad.net) has joined
+2014-04-19 16:01 <VoidAtValhalla>  ok my vim is prepared
+2014-04-19 16:01 <gnubeest>  i have sharpened my vim
+2014-04-19 16:01 <Arch-TK>  I have made my vim
+2014-04-19 16:01 <CalimeroTeknik>  Let's start!
+2014-04-19 16:01 <VoidAtValhalla>  i have my vim
+2014-04-19 16:02 <CalimeroTeknik>  PKGBUILDs are specification files for building Arch Linux packages, you probably know that since you're here!
+2014-04-19 16:02 *	hexhaxtron (~onward@cpc7-hari11-2-0-cust916.20-2.cable.virginm.net) has joined
+2014-04-19 16:02 <CalimeroTeknik>  the utility 'makepkg' is used to produce a package, feeding it a PKGBUILD.
+2014-04-19 16:02 *	interpeix (~interpeix@unaffiliated/interpeix) has joined
+2014-04-19 16:02 *	ovrflw0x (~ovrflw0x@unaffiliated/ovrflw0x) has joined
+2014-04-19 16:03 <CalimeroTeknik>  hello, newcomers!
+2014-04-19 16:03 <CalimeroTeknik>  so to begin with, the PKGBUILD is written by a maintainer, that's where everything starts
+2014-04-19 16:03 *	piefge (~none@ip-2-206-0-93.web.vodafone.de) has joined
+2014-04-19 16:04 <CalimeroTeknik>  so, we run makepkg, which makes a .pkg.tar.gz file from the PKGBUILD
+2014-04-19 16:04 <CalimeroTeknik>  and that package is put in an online repository (generally), then installed with pacman
+2014-04-19 16:04 <CalimeroTeknik>  the points I offered to cover during this class are listed here: https://pad.riseup.net/p/pkgbuild-class-apr2014
+2014-04-19 16:04 <phrik>  Title: Riseup Pad (at pad.riseup.net)
+2014-04-19 16:05 <CalimeroTeknik>  not many votes for the first point, Arch Linux packages and their format
+2014-04-19 16:05 <CalimeroTeknik>  I think I'll cover it very fast?
+2014-04-19 16:05 <VoidAtValhalla>  right
+2014-04-19 16:05 <nuun>  my browser setup is a bit broken, Teach :(
+2014-04-19 16:05 <gnubeest>  concise rundown would be useful
+2014-04-19 16:05 <CalimeroTeknik>  let's see what's in a classical package file: you can run `tar tvf /var/cache/pacman/pkg/less-458-1-x86_64.pkg.tar.xz`
+2014-04-19 16:06 *	dopeamine (~dopeamine@123.237.77.152) has joined
+2014-04-19 16:06 <CalimeroTeknik>  so we can see several things in there:
+2014-04-19 16:06 <CalimeroTeknik>   all files that must be extracted to / to install the package
+2014-04-19 16:06 <CalimeroTeknik>   .PKGINFO, .MTREE
+2014-04-19 16:06 *	Fl18 has quit (Quit: Lost terminal)
+2014-04-19 16:06 *	vorbote says please mention .AURINFO
+2014-04-19 16:07 <CalimeroTeknik>  …right, that's a novelty but why not
+2014-04-19 16:07 <CalimeroTeknik>  .PKGINFO contains name, version, url, dependencies… of the package
+2014-04-19 16:07 *	Arch-TK says please slow down a tad.
+2014-04-19 16:07 *	skydrome (~skydrome@unaffiliated/skydrome) has joined
+2014-04-19 16:07 *	Arch-TK says I kind of unpacked the thing into my home directory.
+2014-04-19 16:07 <CalimeroTeknik>  .MTREE (since May 2012) contains info to check file integrity and attributes
+2014-04-19 16:08 <hexhaxtron>  CalimeroTeknik, should we get the less PKGBUILD from ABS?
+2014-04-19 16:08 <CalimeroTeknik>  my command doesn't extract it, Arch-TK :)
+2014-04-19 16:08 <VoidAtValhalla>  only lists binary one
+2014-04-19 16:08 <Arch-TK>  CalimeroTeknik: well... I extracted anyway
+2014-04-19 16:08 <nuun>  hexhaxtron: it's in your /var/cache
+2014-04-19 16:08 <CalimeroTeknik>  it's coming, hexhaxtron
+2014-04-19 16:08 <nuun>  hexhaxtron: if you didn't clean it
+2014-04-19 16:09 <CalimeroTeknik>  so here we have our package
+2014-04-19 16:09 <CalimeroTeknik>  now when it's installed :
+2014-04-19 16:09 <CalimeroTeknik>  ls /var/lib/pacman/local/less-458-1/
+2014-04-19 16:10 <CalimeroTeknik>  you can see that we can find desc, which contains the info of the package (name, version, dependencies…), it was the .PKGINFO
+2014-04-19 16:10 *	captainkraft (~captainkr@108.167.46.73) has left ("Leaving")
+2014-04-19 16:10 <CalimeroTeknik>  files contains the list of files extracted by pacman (you saw them in the archive)
+2014-04-19 16:10 <CalimeroTeknik>  mtree is the .MTREE
+2014-04-19 16:11 <CalimeroTeknik>  let's look at a package with an install script: ls /var/lib/pacman/local/filesystem-2013.05-2/
+2014-04-19 16:11 <CalimeroTeknik>  .INSTALL in the archive becomes install in /var/lib/pacman/local/package-version-revision/
+2014-04-19 16:11 <CalimeroTeknik>  I hope you discovered new things here :)
+2014-04-19 16:11 <CalimeroTeknik>  really how packages with pacman are made
+2014-04-19 16:12 <CalimeroTeknik>  now on to PKGBUILDs!
+2014-04-19 16:12 <CalimeroTeknik>  so you could extract the sources by hand, run `make`, run `make DESTDIR='some_dir' install` to put the files in a directory
+2014-04-19 16:12 <CalimeroTeknik>  add a '.PKGINFO' file in this folder
+2014-04-19 16:12 <CalimeroTeknik>  compress this to an archve (tar cJf "mypackage-0.42-1-$(uname -m).pkg.tar.xz" some_dir)
+2014-04-19 16:13 <CalimeroTeknik>  but then when a new version of the software is released, you'll need to do that again… so you'd write a script, right?
+2014-04-19 16:13 <CalimeroTeknik>  well, we have even better: PKGBUILDs and makepkg
+2014-04-19 16:13 <CalimeroTeknik>  that's it for proving how much it's useful :)
+2014-04-19 16:13 *	VoidAtValhalla does yaaaay
+2014-04-19 16:14 <CalimeroTeknik>  2/ How PKGBUILDs work!
+2014-04-19 16:14 <CalimeroTeknik>  (2 of 3)
+2014-04-19 16:14 <CalimeroTeknik>  everybody okay so far?
+2014-04-19 16:14 *	gnubeest claps
+2014-04-19 16:14 <the-pete>  yep
+2014-04-19 16:14 <VoidAtValhalla>  yup
+2014-04-19 16:15 <CalimeroTeknik>  instant vote: are you interested in building a package for the sake of it? so you really had something to look at while explaining
+2014-04-19 16:15 <the-pete>  sure
+2014-04-19 16:15 <gnubeest>  yesh, was expecting to
+2014-04-19 16:15 <CalimeroTeknik>  we can go to https://www.archlinux.org/packages/ and find 'less', click on "source files" (top right)
+2014-04-19 16:15 <nuun>  I am catching up in the backlog
+2014-04-19 16:15 <nuun>  scrollback whatever
+2014-04-19 16:16 *	VoidAtValhalla uses ABS
+2014-04-19 16:16 *	tb01110100 (~thomas@unaffiliated/tb01110100) has joined
+2014-04-19 16:16 <CalimeroTeknik>  The package system of Arch Linux is called 'ABS', for Arch Build System actually
+2014-04-19 16:16 <CalimeroTeknik>  https://wiki.archlinux.org/index.php/Arch_Build_System
+2014-04-19 16:16 <phrik>  Title: Arch Build System - ArchWiki (at wiki.archlinux.org)
+2014-04-19 16:16 <CalimeroTeknik>  the official ABS tree is the set of PKGBUILDs maintained by the arch developers.
+2014-04-19 16:16 *	tb01110100 rushes into the classroom and sits down, hoping no one will notice
+2014-04-19 16:16 <CalimeroTeknik>  and of course, in AUR, anybody can post their PKGBUILDs.
+2014-04-19 16:17 <nuun>  I have a particular package I want to package. It's scrypt
+2014-04-19 16:17 <VoidAtValhalla>  nuun: later
+2014-04-19 16:17 <CalimeroTeknik>  welcome, here's the backlog tb01110100: http://sprunge.us/JSeR
+2014-04-19 16:17 <tb01110100>  CalimeroTeknik: ty
+2014-04-19 16:18 <CalimeroTeknik>  everybody found the PKGBUILD for 'less'?
+2014-04-19 16:18 <CalimeroTeknik>  you should be here: https://projects.archlinux.org/svntogit/packages.git/tree/trunk/PKGBUILD?h=packages/less
+2014-04-19 16:18 <phrik>  Title: svntogit/packages.git - Git clone of the 'packages' repository (at projects.archlinux.org)
+2014-04-19 16:18 <VoidAtValhalla>  yup
+2014-04-19 16:18 <Arch-TK>  yes
+2014-04-19 16:18 <interpeix>  yes
+2014-04-19 16:18 <liara>  yes
+2014-04-19 16:18 <CalimeroTeknik>  OK! get that PKGBUILD (click plain), save it to an empty directory (/tmp/foo for instance)
+2014-04-19 16:19 <CalimeroTeknik>  and run makepkg with your terminal in that directory
+2014-04-19 16:19 <CalimeroTeknik>  if all goes well… tadaa! you just built 'less' from core.
+2014-04-19 16:19 <CalimeroTeknik>  oh, wait
+2014-04-19 16:19 <CalimeroTeknik>  I forgot, building packages expects you to have installed 'base-devel'
+2014-04-19 16:20 <CalimeroTeknik>  PKGBUILDs implicitly expect all packages from the group base-devel to be installed (pacman -Sg base-devel for the list)
+2014-04-19 16:20 <CalimeroTeknik>  if you don't, the build will generally fail on things like 'make: command not found'
+2014-04-19 16:21 <CalimeroTeknik>  base-devel contains notably: GCC, make, patch, autotools… the basics of what's needed to compile free software projects, generally
+2014-04-19 16:21 <CalimeroTeknik>  I hope the build worked for everybody now?
+2014-04-19 16:22 <Arch-TK>  yes
+2014-04-19 16:22 <VoidAtValhalla>  yup
+2014-04-19 16:22 <liara>  aha
+2014-04-19 16:22 <the-pete>  yes
+2014-04-19 16:22 <interpeix>  yes
+2014-04-19 16:22 <Arch-TK>  5 people is everybody now apparently
+2014-04-19 16:23 <VoidAtValhalla>  ^
+2014-04-19 16:23 <CalimeroTeknik>  that should do it :p
+2014-04-19 16:23 <CalimeroTeknik>  nice! to see how that worked, let's get back to the PKGBUILD: https://projects.archlinux.org/svntogit/packages.git/tree/trunk/PKGBUILD?h=packages/less
+2014-04-19 16:23 <phrik>  Title: svntogit/packages.git - Git clone of the 'packages' repository (at projects.archlinux.org)
+2014-04-19 16:23 <CalimeroTeknik>  first, metadata
+2014-04-19 16:23 <the-pete>  CalimeroTeknik: I had a warning about sig match but I assume since I haven't -Sy in a couple days?
+2014-04-19 16:23 <CalimeroTeknik>  -Syu, you mean
+2014-04-19 16:23 <Arch-TK>  Can't we just vim the PKGBUILD we wget-ed
+2014-04-19 16:23 <CalimeroTeknik>  -Sy is a bad idea, you could install new dependencies and break the packages you don't update
+2014-04-19 16:23 <CalimeroTeknik>  Arch-TK, works as well.
+2014-04-19 16:23 <VoidAtValhalla>  Arch-TK: you can use ABS 
+2014-04-19 16:23 <CalimeroTeknik>  better*
+2014-04-19 16:24 <CalimeroTeknik>  VoidAtValhalla, abs is generally out of date
+2014-04-19 16:24 <CalimeroTeknik>  the svn repo is what the developers use
+2014-04-19 16:24 <hexhaxtron>  Which repo?
+2014-04-19 16:24 <CalimeroTeknik>  everybody: this "ABS" is a copy of the development repositories containing the PKGBUILDs for all official packages
+2014-04-19 16:25 <CalimeroTeknik>  this repo: https://www.archlinux.org/svn/
+2014-04-19 16:25 <VoidAtValhalla>  wow never experienced anything older in ABS than in repo, thanks for info :)
+2014-04-19 16:25 *	fsckd uses a git mirror git://projects.archlinux.org/svntogit/packages.git
+2014-04-19 16:25 <nuun>  so I could use ABS instead of going for the git clone?
+2014-04-19 16:25 <CalimeroTeknik>  I *
+2014-04-19 16:25 <CalimeroTeknik>  oops
+2014-04-19 16:25 <CalimeroTeknik>  I always have that problem, VoidAtValhalla 
+2014-04-19 16:25 <VoidAtValhalla>  noted :)
+2014-04-19 16:25 <CalimeroTeknik>  ABS is misleading, I think I need to make this clear
+2014-04-19 16:25 <nuun>  oh
+2014-04-19 16:25 <CalimeroTeknik>  ABS means Arch Build System
+2014-04-19 16:26 <CalimeroTeknik>  it is the techniques and tools used to build packages for Arch Linux
+2014-04-19 16:26 *	Topic for #archlinux-classroom is:  Next PKGBUILD Class will be on 19th April 2014 @ UTC 9 AM and UTC 4 PM | The prior PKGBUILDS class was Sept 14, 2013.  Class log is at https://archwomen.org/media/project_classroom/classlogs/2013-09-14-beginner_pkgbuilds1.txt
+2014-04-19 16:26 *	Topic for #archlinux-classroom set by tigrmesh!~tigrmesh@archlinux/op/tigrmesh (Wed Apr 16 03:21 2014)
+2014-04-19 16:26 <Arch-TK>  Not "Anti-lock braking system"
+2014-04-19 16:26 <Arch-TK>  Ok.
+2014-04-19 16:26 <the-pete>  noted
+2014-04-19 16:26 <Arch-TK>  For a second there, I thought my operating system was a car.
+2014-04-19 16:26 <fsckd>  Arch doesn't need brakes :P
+2014-04-19 16:26 <tigrmesh>  hehe
+2014-04-19 16:26 <CalimeroTeknik>  but the "ABS" VoidAtValhalla was speaking about is a server that has a copy of the PKGBUILDs from the official repositories
+2014-04-19 16:26 >chanserv<	op #archlinux-classroom tigrmesh
+2014-04-19 16:26 *	ChanServ gives channel operator status to tigrmesh
+2014-04-19 16:26 <CalimeroTeknik>  are we clear now?
+2014-04-19 16:27 <Arch-TK>  Yes
+2014-04-19 16:27 <Arch-TK>  I think so.
+2014-04-19 16:27 <CalimeroTeknik>  since "ABS" has become the name of the repositories with all the official PKGBUILDs, these: https://www.archlinux.org/svn/
+2014-04-19 16:27 <VoidAtValhalla>  sorry for misleading anyone
+2014-04-19 16:27 <CalimeroTeknik>  also the ones we were looking at the PKGBUILD for 'less' from
+2014-04-19 16:27 <CalimeroTeknik>  no, you gave an opportunity to explain this :)
+2014-04-19 16:27 <CalimeroTeknik>  so! that PKGBUILD
+2014-04-19 16:28 <CalimeroTeknik>  you can see from line 5 to 16, metadata
+2014-04-19 16:28 <CalimeroTeknik>  the name of the package of course
+2014-04-19 16:28 *	tigrmesh has changed the topic to: PKGBUILD Class happening right now.  Points being covered are here: https://pad.riseup.net/p/pkgbuild-class-apr2014
+2014-04-19 16:28 <CalimeroTeknik>  (it's limited to a-z and _ and -)
+2014-04-19 16:28 >chanserv<	deop #archlinux-classroom tigrmesh
+2014-04-19 16:28 *	ChanServ removes channel operator status from tigrmesh
+2014-04-19 16:28 <CalimeroTeknik>  then you have pkgver
+2014-04-19 16:29 <CalimeroTeknik>  be careful; it's the version of the software you're packaging
+2014-04-19 16:29 <CalimeroTeknik>  pkgrel is the release of your package: if you update your package but the sources are the same, change pkgrel
+2014-04-19 16:29 <CalimeroTeknik>  if new sources are released upstream, change pkgver and put pkgrel back to 1
+2014-04-19 16:29 <CalimeroTeknik>  that's important, so people understand that it's just a necessary rebuild, but the software is the same version
+2014-04-19 16:30 <CalimeroTeknik>  (or you fixed your PKGBUILD)
+2014-04-19 16:30 <CalimeroTeknik>  pkgdesc is self-explanatory.
+2014-04-19 16:30 <CalimeroTeknik>  arch is the hardware architectures the package is known to run on
+2014-04-19 16:30 *	dopeamine has quit (Ping timeout: 240 seconds)
+2014-04-19 16:30 <CalimeroTeknik>  if it's just a script, you should put arch=('any') in there: the package doesn't need to be rebuilt to run on another type of processor
+2014-04-19 16:31 <Arch-TK>  Emphasis on KNOWN (It doesn't mean expected)
+2014-04-19 16:31 <gnubien>  CalimeroTeknik: are maintainers required to do tests on source code like malware scan before they posting it in AUR?
+2014-04-19 16:31 <VoidAtValhalla>  i686 or/and x86_64  or any
+2014-04-19 16:31 <CalimeroTeknik>  and arm
+2014-04-19 16:31 <VoidAtValhalla>  right
+2014-04-19 16:31 <CalimeroTeknik>  you can put arm in there if it worked
+2014-04-19 16:31 <CalimeroTeknik>  even mips… I don't know
+2014-04-19 16:31 <CalimeroTeknik>  url is the url of the project's site
+2014-04-19 16:32 <CalimeroTeknik>  sometimes there is no site, it's a bit tricky… it might be a forum thread
+2014-04-19 16:32 <CalimeroTeknik>  groups is interesting. groups in Arch packages don't really "exist"
+2014-04-19 16:32 <CalimeroTeknik>  there is no list of packages for a group
+2014-04-19 16:32 <VoidAtValhalla>  please use correct url guys ... even official packages are sometime broken by wrong url
+2014-04-19 16:32 <CalimeroTeknik>  well, it breaks nothing
+2014-04-19 16:32 <CalimeroTeknik>  it's only informative
+2014-04-19 16:33 <CalimeroTeknik>  we'll come to source=() in a few seconds
+2014-04-19 16:33 <CalimeroTeknik>  but before that, groups.
+2014-04-19 16:33 <CalimeroTeknik>  a package claims to belong to a group
+2014-04-19 16:33 <CalimeroTeknik>  that's how groups work
+2014-04-19 16:33 <CalimeroTeknik>  there's nothing more to it
+2014-04-19 16:33 <CalimeroTeknik>  when you ask pacman to install a group, pacman -S group
+2014-04-19 16:34 <VoidAtValhalla>  CalimeroTeknik: sure it will work but i consider it broken when you wan to look at upstream and all you get is wrong url :)
+2014-04-19 16:34 <CalimeroTeknik>  indeed.
+2014-04-19 16:34 <CalimeroTeknik>  so when you pacman -S group, pacman just installs the packages it knows of in its remote DBs, that claim to belong to the group.
+2014-04-19 16:34 <CalimeroTeknik>  depends: it's the dependencies the package needs to run
+2014-04-19 16:35 <CalimeroTeknik>  we also have makedepends: they are needed when running makepkg
+2014-04-19 16:35 <CalimeroTeknik>  and only then
+2014-04-19 16:35 <CalimeroTeknik>  optdepends are dependencies you may want to install, but that the package can run without (some features might not be available)
+2014-04-19 16:35 <CalimeroTeknik>  okay, now, source!
+2014-04-19 16:35 <the-pete>  and base-devel is a given for make depends.  No need to call it?
+2014-04-19 16:36 <CalimeroTeknik>  indeed, it's implicitly required if you want to build packages
+2014-04-19 16:36 <CalimeroTeknik>  that's in the guidelines
+2014-04-19 16:36 <the-pete>  ok
+2014-04-19 16:36 <CalimeroTeknik>  by the way, everything on packaging is here: https://wiki.archlinux.org/index.php/Category:Package_development
+2014-04-19 16:36 <phrik>  Title: Category:Package development - ArchWiki (at wiki.archlinux.org)
+2014-04-19 16:37 <CalimeroTeknik>  take note of this link for future reference if you intend to make PKGBUILDs, and even more if you intend to share them
+2014-04-19 16:37 <CalimeroTeknik>  I won't post many links in this class, so it be only really relevant info
+2014-04-19 16:37 *	benjamin1 (~benjamin@ppp-88-217-108-149.dynamic.mnet-online.de) has joined
+2014-04-19 16:38 <nuun>  so far so good, ma'am
+2014-04-19 16:38 <CalimeroTeknik>  so, source=( … ) in the PKGBUILD: it's an array
+2014-04-19 16:38 <CalimeroTeknik>  for instance, source=('http://something' 'http://something-else')
+2014-04-19 16:39 <CalimeroTeknik>  that downloads what these two URLs point, and will extract them for you before running the build() function.
+2014-04-19 16:39 <CalimeroTeknik>  makepkg will do that for you
+2014-04-19 16:39 <tigrmesh>  this seems unenforceable, which is why all of us should carefully review any PKGBUILDs from AUR before we install the the package.  <gnubien> CalimeroTeknik: are maintainers required to do tests on source code like malware scan before they posting it in AUR?
+2014-04-19 16:39 <tigrmesh>  sorry for the interruption
+2014-04-19 16:39 <gnubien>  tigrmesh: thanks
+2014-04-19 16:39 <CalimeroTeknik>  true!
+2014-04-19 16:40 *	Ploppz (~ploppz@ti0276a430-1385.bb.online.no) has joined
+2014-04-19 16:40 *	toonces has quit (Disconnected by services)
+2014-04-19 16:40 <CalimeroTeknik>  oh, I'm sorry for dropping your question
+2014-04-19 16:40 *	benjamin1 is now known as toonces
+2014-04-19 16:40 <gnubien>  no problemo ;)
+2014-04-19 16:40 <Ploppz>  Oh, too late for the class :SS Is it long time since you started? Can I get a log?
+2014-04-19 16:40 <Arch-TK>  Yes
+2014-04-19 16:40 *	toonces (~benjamin@ppp-88-217-108-149.dynamic.mnet-online.de) has left
+2014-04-19 16:41 <Ploppz>  I am also busy right now so where do I find a log afterwards?
+2014-04-19 16:41 <Arch-TK>  http://sprunge.us/CDfP - A crude log
+2014-04-19 16:41 <Arch-TK>  It started at 17:00
+2014-04-19 16:41 <Ploppz>  Okay, thanks
+2014-04-19 16:41 <CalimeroTeknik>  16UTC
+2014-04-19 16:41 <the-pete>  9PST
+2014-04-19 16:41 <Arch-TK>  Yes, but this was the time for the log.
+2014-04-19 16:41 <CalimeroTeknik>  oh, right
+2014-04-19 16:42 <tigrmesh>  Ploppz,  it will be at https://archwomen.org/media/project_classroom/classlogs/
+2014-04-19 16:42 <phrik>  Title: Index of /media/project_classroom/classlogs/ (at archwomen.org)
+2014-04-19 16:42 >chanserv<	op #archlinux-classroom tigrmesh
+2014-04-19 16:42 *	ChanServ gives channel operator status to tigrmesh
+2014-04-19 16:42 <CalimeroTeknik>  so, after that we have md5sums: it's checksums for the files
+2014-04-19 16:42 <CalimeroTeknik>  it's so you really get the file the maintainer tested
+2014-04-19 16:42 <Ploppz>  Thanks
+2014-04-19 16:42 <CalimeroTeknik>  of course SKIP is allowed
+2014-04-19 16:42 <nuun>  is it md5sums by default?
+2014-04-19 16:42 *	sr (~smrgr@shellium/member/samruger) has joined
+2014-04-19 16:42 *	tigrmesh has changed the topic to: PKGBUILD Class happening right now.  Points being covered are here: https://pad.riseup.net/p/pkgbuild-class-apr2014  class log will be at https://archwomen.org/media/project_classroom/classlogs/
+2014-04-19 16:43 <CalimeroTeknik>  we used md5sums from the start, but now, sha256sums are supported
+2014-04-19 16:43 <CalimeroTeknik>  you can include both if you want, or any of the two
+2014-04-19 16:43 <VoidAtValhalla>  nuun: it doesnt matter if md5 or sha it just need correct variable name
+2014-04-19 16:43 <CalimeroTeknik>  you can write sha256sums=('dc51b8c96c2d745df3bd5590d990230a482fd247123599548e0632fdbf97fc22') etc
+2014-04-19 16:44 <tigrmesh>  any tricks for the maintainer to check that the sources are correct when originally downloading and making the hash?
+2014-04-19 16:44 <Arch-TK>  (It's also an array, which corresponds to the files, imagine it as zip from python)
+2014-04-19 16:44 <CalimeroTeknik>  tigrmesh, I'm afraid there's none, do you have any?
+2014-04-19 16:44 <tigrmesh>  no
+2014-04-19 16:44 <nuun>  I use makepkg -g
+2014-04-19 16:44 <CalimeroTeknik>  but this is not really a security class
+2014-04-19 16:44 <tigrmesh>  true.  as you were   ;)
+2014-04-19 16:45 <CalimeroTeknik>  makepkg -g allows you to generate the checksums, nuun, indeed
+2014-04-19 16:45 <CalimeroTeknik>  you can then add that to the PKGBUILD so other people can have makepkg check that before building
+2014-04-19 16:45 <Arch-TK>  nuun: The question was related to checking the actual validity of the files used to make the package, not generating md5 hashes.
+2014-04-19 16:45 <CalimeroTeknik>  I'm afraid we'd need a trust chain for that
+2014-04-19 16:46 <CalimeroTeknik>  with GPG keys or something
+2014-04-19 16:46 <Arch-TK>  Yes.
+2014-04-19 16:46 <Arch-TK>  That's the obvious answer.
+2014-04-19 16:46 <Arch-TK>  Continue.
+2014-04-19 16:46 <CalimeroTeknik>  before the pause, we're going to gloss over the build() and package() functions in the PKGBUILD for 'less'.
+2014-04-19 16:47 <CalimeroTeknik>  package() is really the only function you absolutely need to include in a PKGBUILD
+2014-04-19 16:47 <CalimeroTeknik>  oh, wait. when these functions are run, variables are defined.
+2014-04-19 16:47 <CalimeroTeknik>   "$srcdir" where makepkg extracted the sources that were in sources=()
+2014-04-19 16:47 <CalimeroTeknik>  it's the path to that directory
+2014-04-19 16:47 <CalimeroTeknik>  and, "$pkgdir" which is an empty dir created by makepkg so you put the files to be compressed into a package in there
+2014-04-19 16:48 *	Arch-TK hopes you talk about the version function in the github package making section.
+2014-04-19 16:48 <CalimeroTeknik>  you can see lots of references to these variables in those functions
+2014-04-19 16:48 <CalimeroTeknik>  sorry, what?
+2014-04-19 16:48 <CalimeroTeknik>  I'm still on https://projects.archlinux.org/svntogit/packages.git/tree/trunk/PKGBUILD?h=packages/less
+2014-04-19 16:48 <phrik>  Title: svntogit/packages.git - Git clone of the 'packages' repository (at projects.archlinux.org)
+2014-04-19 16:48 <Arch-TK>  Yes, that's fine.
+2014-04-19 16:48 <Arch-TK>  Don't worry.
+2014-04-19 16:48 <Arch-TK>  I'll ask again in Q&A if you don't mention it in the end.
+2014-04-19 16:49 <CalimeroTeknik>  oh, sorry, yes. it's in VCS PKGBUILDs
+2014-04-19 16:49 <CalimeroTeknik>  it's not github, it's git
+2014-04-19 16:49 <CalimeroTeknik>  github is a company!
+2014-04-19 16:49 <CalimeroTeknik>  so, the package() function is where you write the commands you need to run to put files into your package.
+2014-04-19 16:50 <CalimeroTeknik>  it should do *only that*
+2014-04-19 16:50 <CalimeroTeknik>  it can take stuff from the sources that are in "$srcdir", and put them in "$pkgdir" to achieve its goals
+2014-04-19 16:50 <tigrmesh>  what do you mean?  what else would it do?
+2014-04-19 16:50 <CalimeroTeknik>  then, the build() function is where you put commands that actually construct binaries
+2014-04-19 16:51 <tigrmesh>  i'll wait.  sorry
+2014-04-19 16:51 <CalimeroTeknik>  anything that relates to compiling the sources is in there
+2014-04-19 16:51 <CalimeroTeknik>  you were just on time tigrmesh :)
+2014-04-19 16:51 <CalimeroTeknik>  additionnally, we have prepare() which is not in this PKGBUILD, if you need to apply patches to the sources before compiling them
+2014-04-19 16:52 <CalimeroTeknik>  that way, the patches will be only applied once even if you run makepkg several times
+2014-04-19 16:52 <CalimeroTeknik>  we're done with this! pause!
+2014-04-19 16:52 <gnubeest>  omg is it cat picture time
+2014-04-19 16:52 <VoidAtValhalla>  yup
+2014-04-19 16:52 *	gnubeest claps
+2014-04-19 16:52 *	VoidAtValhalla claps too
+2014-04-19 16:52 <CalimeroTeknik>  the next part will actually start with lots of lulz as well :)
+2014-04-19 16:52 *	nuun appends applause
+2014-04-19 16:53 <CalimeroTeknik>  the boring part is over, that is
+2014-04-19 16:53 <Arch-TK>  Right... I'm going to find something to drink.
+2014-04-19 16:53 <fsckd>  i protest! today is Saturdog
+2014-04-19 16:53 <nuun>  I am going to fix up a browser ...
+2014-04-19 16:53 <Arch-TK>  I'm already making improvements to my old PKGBUILDs
+2014-04-19 16:53 <gnubeest>  CalimeroTeknik: this is awesome, thank you for doing this, it forces me to do something i never got around to doing myself
+2014-04-19 16:54 <CalimeroTeknik>  next part is… Writing PKGBUILDs… and I'll start with how not to do it
+2014-04-19 16:54 <nuun>  gnubeest: I think I am sexist ... I have been taught mostly by women my whole life.
+2014-04-19 16:54 <gnubeest>  nuun: i think you are sexist for even mentioning that.
+2014-04-19 16:54 <fsckd>  http://i.imgur.com/prvOkD3.gif
+2014-04-19 16:55 <nuun>  gnubeest: I have had only 10 male teachers in 5 institutions
+2014-04-19 16:55 <tigrmesh>  no to step on CalimeroTeknik's toes, but i think the 2 of you are veering offtopic
+2014-04-19 16:55 <Arch-TK>  Hmm...
+2014-04-19 16:55 <Arch-TK>  About half my teachers are male.
+2014-04-19 16:55 <tigrmesh>  oop.  make that 3
+2014-04-19 16:55 <CalimeroTeknik>  it's pause time tigrmesh :)
+2014-04-19 16:55 <tigrmesh>  ohhh
+2014-04-19 16:55 <sr>  how often do these classes take place?
+2014-04-19 16:55 <Arch-TK>  tigrmesh: It's #archlinux-offtopic time
+2014-04-19 16:55 <CalimeroTeknik>  that's also why I've stopped flooding
+2014-04-19 16:55 <tigrmesh>  bring on the bunny videos
+2014-04-19 16:56 <fsckd>  you got it
+2014-04-19 16:56 <tigrmesh>  sr, not often.  sorry
+2014-04-19 16:56 <fsckd>  https://i.imgur.com/fo1LTb0.gif
+2014-04-19 16:56 <Arch-TK>  http://placekitten.com/
+2014-04-19 16:56 <phrik>  Title: {placekitten} (at placekitten.com)
+2014-04-19 16:56 <Arch-TK>  This PKGBUILD is horrible... What the hell did I drink before writing this?
+2014-04-19 16:57 <CalimeroTeknik>  Arch-TK, you're already starting the next point of the class :p
+2014-04-19 16:57 <CalimeroTeknik>  so you noticed it, eh? :p
+2014-04-19 16:57 <Arch-TK>  No, this is an old PKGBUILD I wrote for easy instalation of FBGL
+2014-04-19 16:58 <Arch-TK>  Which is also my own crappy project
+2014-04-19 16:58 <CalimeroTeknik>  oh, right. I was talking about the PKGBUILD for 'less'
+2014-04-19 16:58 <Arch-TK>  It's a terrible mess. It's soon going to be superseeded by FOXI (FBGL on Xlib Instead)
+2014-04-19 16:58 <Arch-TK>  So I can write a more sensible makefile for it.
+2014-04-19 16:59 <Arch-TK>  Or even better, a configuration script.
+2014-04-19 16:59 <VoidAtValhalla>  makefile ....
+2014-04-19 16:59 *	disharmonic has quit (Quit: Leaving)
+2014-04-19 16:59 <gnubien>  CalimeroTeknik: no automagic way to create PKGBUILD, or is it alway created manually?
+2014-04-19 16:59 *	VoidAtValhalla 's head explodes
+2014-04-19 16:59 <Arch-TK>  Hey! My makefiles are world class impossible to understand.
+2014-04-19 16:59 <nuun>  CalimeroTeknik: I came across https://dudle.inf.tu-dresden.de/ 
+2014-04-19 16:59 <phrik>  Title: dudle (at dudle.inf.tu-dresden.de)
+2014-04-19 17:00 <nuun>  is it useful to you?
+2014-04-19 17:00 <CalimeroTeknik>  gnubien, you can start off from another PKGBUILD but yeah, you write it by hand
+2014-04-19 17:00 <VoidAtValhalla>  nuun: what is it ?
+2014-04-19 17:00 <CalimeroTeknik>  you can copy-paste a PKGBUILD that's alike, that is
+2014-04-19 17:00 <gnubien>  CalimeroTeknik: right, use a template
+2014-04-19 17:00 <CalimeroTeknik>  there is no good template available even on the wiki, though
+2014-04-19 17:01 <CalimeroTeknik>  for reasons I'm going to talk about right now
+2014-04-19 17:01 <gnubien>  ok, thanks
+2014-04-19 17:01 <CalimeroTeknik>  after this course, you'll be better at making PKGBUILDs than the Arch developers themselves, that is
+2014-04-19 17:01 <CalimeroTeknik>  …some of them at least
+2014-04-19 17:01 <CalimeroTeknik>  pause ends in a few seconds!
+2014-04-19 17:01 <CalimeroTeknik>  time for lulz
+2014-04-19 17:02 *	gnubeest claps
+2014-04-19 17:02 *	nuun steams away the low self-esteem
+2014-04-19 17:02 <VoidAtValhalla>  CalimeroTeknik,nuun: why not just use doodle.com ?
+2014-04-19 17:02 <CalimeroTeknik>  why for?
+2014-04-19 17:02 <CalimeroTeknik>  plan a meeting?
+2014-04-19 17:02 <nuun>  VoidAtValhalla: KISS is great
+2014-04-19 17:02 <nuun>  we all meet here
+2014-04-19 17:02 <gnubeest>  yup
+2014-04-19 17:03 <VoidAtValhalla>  voting and also for plan when classroom will be next time :)
+2014-04-19 17:03 <CalimeroTeknik>  ok, sure
+2014-04-19 17:03 <gnubeest>  easier for me to tmux from another box too
+2014-04-19 17:03 <CalimeroTeknik>  ~ pause ends ~
+2014-04-19 17:03 *	VoidAtValhalla stops playing with mobile
+2014-04-19 17:03 <CalimeroTeknik>  so I didn't dwell on it too much earlier… but PKGBUILDs are in Bash, right?
+2014-04-19 17:03 <CalimeroTeknik>  the shell you use every day, right?
+2014-04-19 17:03 <CalimeroTeknik>  well, that or zsh
+2014-04-19 17:04 <CalimeroTeknik>  let's try a fun experiment
+2014-04-19 17:04 <CalimeroTeknik>  you built 'less' in /tmp/foo, for instance
+2014-04-19 17:04 *	VoidAtValhalla waits for explosion
+2014-04-19 17:04 <CalimeroTeknik>  try to rename that folder to 'build folder'
+2014-04-19 17:04 <CalimeroTeknik>  and run makepkg again
+2014-04-19 17:05 <CalimeroTeknik>  you can run makepkg -f or remove the package that was already built, of course
+2014-04-19 17:05 <CalimeroTeknik>  can someone paste the error that happens? :p
+2014-04-19 17:06 *	gnubeest builds it quickly because he was cooking the first time
+2014-04-19 17:06 <CalimeroTeknik>  note to build the package in a folder called "test folder"
+2014-04-19 17:06 <CalimeroTeknik>  or something with a space in its name
+2014-04-19 17:06 *	CalimeroTeknik waits for it, giggling
+2014-04-19 17:07 <KlipKyle>  ==> Starting build()...
+2014-04-19 17:07 <KlipKyle>  /home/kyle/builds/test folder/PKGBUILD: line 19: cd: /home/kyle/builds/test: No such file or directory
+2014-04-19 17:07 <CalimeroTeknik>  exactly
+2014-04-19 17:07 <CalimeroTeknik>  what happened?
+2014-04-19 17:07 <CalimeroTeknik>    cd ${srcdir}/${pkgname}-${pkgver}
+2014-04-19 17:08 <CalimeroTeknik>  this expanded to `cd /home/kyle/builds/test folder/less-458`
+2014-04-19 17:08 <CalimeroTeknik>  and so, /home/kyle/builds/test is non-existent
+2014-04-19 17:08 <CalimeroTeknik>  the correct answer is: cd "${srcdir}/${pkgname}-${pkgver}"
+2014-04-19 17:08 <Arch-TK>  Wait, you want me to rename it to build space folder?
+2014-04-19 17:09 <CalimeroTeknik>  Arch-TK, whatever, so long as there's a blank character in the name of the directory that contains the PKGBUILD
+2014-04-19 17:09 <Arch-TK>  Ok.
+2014-04-19 17:09 <CalimeroTeknik>  then you run makepkg… and KlipKyle posted the result
+2014-04-19 17:10 <Arch-TK>  Yeah...
+2014-04-19 17:10 <nuun>  so, it is spaced package names are possible?
+2014-04-19 17:10 <CalimeroTeknik>  the PKGBUILD is not robust line 19,   cd ${srcdir}/${pkgname}-${pkgver}
+2014-04-19 17:10 <CalimeroTeknik>  this must be quoted
+2014-04-19 17:10 <Arch-TK>  /tmp/build folder/PKGBUILD: line 19: cd: /tmp/build: No such file or directory
+2014-04-19 17:10 <CalimeroTeknik>  nuun, no, no, the folder doesn't matter
+2014-04-19 17:10 <Arch-TK>  Yes, because someone didn't use "" around everything.
+2014-04-19 17:10 <CalimeroTeknik>  the directory*
+2014-04-19 17:10 <Arch-TK>  So we fix the MAKEPKG then?
+2014-04-19 17:10 <Arch-TK>  I mean...
+2014-04-19 17:10 <CalimeroTeknik>  no, the PKGBUILD
+2014-04-19 17:10 <Arch-TK>  PKGBUILD
+2014-04-19 17:11 <Arch-TK>  That's the one.
+2014-04-19 17:11 <CalimeroTeknik>  it's just that one must be very wary to quote properly the character strings in Bash, and so, in PKGBUILDs > nuun 
+2014-04-19 17:11 <CalimeroTeknik>  The pacman PKGBUILD itself was missing quotes: https://bugs.archlinux.org/task/38368
+2014-04-19 17:11 <phrik>  Title: FS#38368 : [pacman] PKGBUILD has unquoted strings (patch) (at bugs.archlinux.org)
+2014-04-19 17:11 <CalimeroTeknik>  so I reported that, it was too ridiculous
+2014-04-19 17:11 <nuun>  thanks
+2014-04-19 17:11 <CalimeroTeknik>  and here are the lulz we were all waiting for…
+2014-04-19 17:11 <CalimeroTeknik>  One fateful day, the author of bumblebee forgot to quote a string in his install script, you surely know about it.
+2014-04-19 17:12 <CalimeroTeknik>  woe ensued: https://github.com/MrMEEE/bumblebee-Old-and-abbandoned/commit/a047be85247755cdbe0acce6f1dafc8beb84f2ac
+2014-04-19 17:12 <phrik>  Title: GIANT BUG... causing /usr to be deleted... so sorry.... issue #123, issu... • a047be8 • MrMEEE/bumblebee-Old-and-abbandoned • GitHub (at github.com)
+2014-04-19 17:12 <gnubeest>  lol was wondering if this would be mentioned
+2014-04-19 17:12 <CalimeroTeknik>  so *QUOTE YOUR STRINGS*
+2014-04-19 17:12 <CalimeroTeknik>  really.
+2014-04-19 17:12 <CalimeroTeknik>  write better PKGBUILDs than the Arch developers do.
+2014-04-19 17:12 <Arch-TK>  That's actually... really funny.
+2014-04-19 17:12 <CalimeroTeknik>  please, do it for /usr, do it for the kittens
+2014-04-19 17:13 <CalimeroTeknik>  http://www.kirikoo.net/images/14Anonyme-20140419-093203.png
+2014-04-19 17:13 <demize>  Well, one could make makepkg set a more sane IFS ;p
+2014-04-19 17:13 <CalimeroTeknik>  let's see
+2014-04-19 17:13 <CalimeroTeknik>  nope.
+2014-04-19 17:13 <demize>  hm?
+2014-04-19 17:13 <CalimeroTeknik>  that's not going to solve anything
+2014-04-19 17:13 <demize>  It is
+2014-04-19 17:14 <demize>  it's the word splitting that breaks it
+2014-04-19 17:14 <demize>  If it was zsh it would work
+2014-04-19 17:14 <CalimeroTeknik>  [calimero@m50vn ~]$ IFS='LOL'
+2014-04-19 17:14 <CalimeroTeknik>  [calimero@m50vn ~]$ cd /tmp/less fail/
+2014-04-19 17:14 <CalimeroTeknik>  bash: cd: /tmp/less: No such file or directory
+2014-04-19 17:14 <demize>  Make it a variable
+2014-04-19 17:14 <CalimeroTeknik>  ah, why not
+2014-04-19 17:15 <CalimeroTeknik>  but it would also break PKGBUILDs that rely on it
+2014-04-19 17:15 <demize>  hmmr wait, no, bash... it does other splitting too
+2014-04-19 17:15 <CalimeroTeknik>  it's better to write PKGBUILDs correctly
+2014-04-19 17:15 <demize>  Bash makes me so confused after being used to zsh -.-
+2014-04-19 17:15 <CalimeroTeknik>  Here's a PKGBUILD I wrote, see the quotes around strings that use variables: https://aur.archlinux.org/packages/defora-libdesktop/
+2014-04-19 17:15 <phrik>  Title: AUR (en) - defora-libdesktop (at aur.archlinux.org)
+2014-04-19 17:16 <Arch-TK>  Right...
+2014-04-19 17:16 <CalimeroTeknik>  but it's a lost cause, even https://wiki.archlinux.org/index.php/Arch_Packaging_Standards doesn't quote strings
+2014-04-19 17:16 <phrik>  Title: Arch Packaging Standards - ArchWiki (at wiki.archlinux.org)
+2014-04-19 17:16 <CalimeroTeknik>  so I hope you will
+2014-04-19 17:16 <CalimeroTeknik>  okay! that's it for the lulz :)
+2014-04-19 17:16 <Arch-TK>  I did.
+2014-04-19 17:16 <Arch-TK>  I just checked my old PKGBUILD and i did.
+2014-04-19 17:16 <nuun>  what about single quotes?
+2014-04-19 17:17 <demize>  CalimeroTeknik: It used to.
+2014-04-19 17:17 <demize>  CalimeroTeknik: When sane people maintained it.
+2014-04-19 17:17 <Arch-TK>  nuun: That does different expansion.
+2014-04-19 17:17 <CalimeroTeknik>  ah, so you want more info? ok
+2014-04-19 17:17 <Arch-TK>  nuun: Unless you know what you're doing, you probably don't want single quotes.
+2014-04-19 17:17 <CalimeroTeknik>  -quote "inert" strings (that must be rendered as-is) with '', example:
+2014-04-19 17:17 <CalimeroTeknik>     echo 'This package costs $0, it is "free".'
+2014-04-19 17:17 <CalimeroTeknik>  -quote strings with variables using "", example:
+2014-04-19 17:17 <CalimeroTeknik>     pkgname=foobar
+2014-04-19 17:17 <CalimeroTeknik>     echo "$pkgname is a nice package."
+2014-04-19 17:17 <CalimeroTeknik>  try to flip the quote type, and enjoy the results :)
+2014-04-19 17:18 <CalimeroTeknik>  you'll fully understand what "" and '' mean
+2014-04-19 17:18 <Arch-TK>  '' assumes that what is between ' and ' is what you want to see in the end.
+2014-04-19 17:18 <CalimeroTeknik>  nuun, do you see it?
+2014-04-19 17:18 <nuun>  yes
+2014-04-19 17:18 <nuun>  thanks
+2014-04-19 17:18 <CalimeroTeknik>  -quote array elements:
+2014-04-19 17:18 <CalimeroTeknik>     var='this is an element'
+2014-04-19 17:18 <CalimeroTeknik>     array=("$var")
+2014-04-19 17:18 <CalimeroTeknik>     for i in "${array[@]}";do echo "element '$i'";done
+2014-04-19 17:18 <CalimeroTeknik>     array=($var)
+2014-04-19 17:18 <Arch-TK>  "" allows bash to do its magic, but it groups the whole thing into "one argument"
+2014-04-19 17:18 <CalimeroTeknik>     for i in "${array[@]}";do echo "element '$i'";done
+2014-04-19 17:19 <CalimeroTeknik>  test this as well
+2014-04-19 17:19 <CalimeroTeknik>  see why fields MUST be quoted in the source=( ... ) array
+2014-04-19 17:19 <CalimeroTeknik>  (these are 5 commands, run them one after another and observe the result)
+2014-04-19 17:19 <CalimeroTeknik>  the loops just loop on the array
+2014-04-19 17:20 *	disharmonic (~disharmon@79.103.50.89.dsl.dyn.forthnet.gr) has joined
+2014-04-19 17:20 *	disharmonic has quit (Changing host)
+2014-04-19 17:20 *	disharmonic (~disharmon@unaffiliated/disharmonic) has joined
+2014-04-19 17:20 <CalimeroTeknik>  do you see it? the element being broken down into its separate words
+2014-04-19 17:20 <CalimeroTeknik>  when we wouldn't want to
+2014-04-19 17:21 <CalimeroTeknik>  that's it for Bash caveats, a necessary part of any PKGBUILD class
+2014-04-19 17:21 <Arch-TK>  nothing... changed... Wait i'm using zsh
+2014-04-19 17:21 <CalimeroTeknik>  PKGBUILDs don't use zsh
+2014-04-19 17:21 <Arch-TK>  I know.
+2014-04-19 17:21 <Arch-TK>  I was just confused for a second.
+2014-04-19 17:21 <nuun>  carry on ... I did something stupid
+2014-04-19 17:21 <Arch-TK>  I realised what was happening half way through expressing my confusion in text
+2014-04-19 17:22 <Arch-TK>  nuun: What is your output?
+2014-04-19 17:22 <nuun>  Arch-TK: not going to hold up the class. Will try it after
+2014-04-19 17:22 <nuun>  Arch-TK: I am in mksh
+2014-04-19 17:22 <nuun>  i got element ''
+2014-04-19 17:22 <nuun>  I did it wrong
+2014-04-19 17:23 <Arch-TK>  Right.
+2014-04-19 17:23 <Arch-TK>  Can't you just `bash` and then try again
+2014-04-19 17:23 <Arch-TK>  ?
+2014-04-19 17:23 <CalimeroTeknik>  there are three sub-points left before the class ends: 1/ details on writing the PKGBUILD; 2/ Development PKGBUILDs; 3/ split packages (one PKGBUILD that makes several .pkg.tar.xz packages)
+2014-04-19 17:24 <CalimeroTeknik>  these all are easy points, by the way
+2014-04-19 17:24 <CalimeroTeknik>  when you have a source that looks really bad, you can rename it
+2014-04-19 17:24 <nuun>  element 'this is an element'
+2014-04-19 17:25 <CalimeroTeknik>  yeah, that's the first loop
+2014-04-19 17:25 <CalimeroTeknik>  with proper quotes in array=("$var")
+2014-04-19 17:25 <CalimeroTeknik>  then array=($var) breaks the sentence into words
+2014-04-19 17:25 <CalimeroTeknik>  so if you expected $var to be ONE element of the array, use "$var"
+2014-04-19 17:26 <nuun>  do i need -quote array elements : ?
+2014-04-19 17:26 <CalimeroTeknik>  that's preferred
+2014-04-19 17:26 <CalimeroTeknik>  source=('url1' "url2/$pkgname/something")
+2014-04-19 17:26 <Arch-TK>  Basically. If you don't quote everything, you might end up with unexpected behaviour.
+2014-04-19 17:26 <Arch-TK>  And we all know what unexpected behaviour means.
+2014-04-19 17:27 <CalimeroTeknik>  use double quotes if you need to use variables in the string
+2014-04-19 17:27 <Arch-TK>  http://feross.org/gcc-ownage/
+2014-04-19 17:27 <phrik>  Title: GCC Easter Egg: C++ Undefined Defined Behavior » Feross.org (at feross.org)
+2014-04-19 17:27 <Arch-TK>  Unexpected behaviour^
+2014-04-19 17:27 <Arch-TK>  (Undefined*)
+2014-04-19 17:28 <CalimeroTeknik>  alright?
+2014-04-19 17:28 <nuun>  yes
+2014-04-19 17:28 <CalimeroTeknik>  now a tip for the source=() array
+2014-04-19 17:28 <CalimeroTeknik>  let's say we have a source that looks like http://site.tld/src/archive.tar.gz?rev=988881adc9fc3655077dc2d4d757d480b5ea0e11
+2014-04-19 17:28 <CalimeroTeknik>  that's ugly, and putting it as such in the source array
+2014-04-19 17:28 <CalimeroTeknik>  that is, source=('http://site.tld/src/archive.tar.gz?rev=988881adc9fc3655077dc2d4d757d480b5ea0e11')
+2014-04-19 17:29 <CalimeroTeknik>  will result in "$srcdir" containing a file called archive.tar.gz?rev=988881adc9fc3655077dc2d4d757d480b5ea0e1
+2014-04-19 17:29 <CalimeroTeknik>  and the folder will probably have the same name
+2014-04-19 17:29 <CalimeroTeknik>  (makepkg extracts archives automatically)
+2014-04-19 17:29 <CalimeroTeknik>  so you can write source=('nicename.tar.gz::http://site.tld/src/archive.tar.gz?rev=988881adc9fc3655077dc2d4d757d480b5ea0e11')
+2014-04-19 17:30 <CalimeroTeknik>  and you'll have the file downloaded as nicename.tar.gz
+2014-04-19 17:30 <CalimeroTeknik>  to fill the build() function, you generally need to look at the file called INSTALL in the project's sources
+2014-04-19 17:30 <CalimeroTeknik>  which very often will tell you to run ./configure, then make, then make install
+2014-04-19 17:31 <CalimeroTeknik>  you will put ./configure and make in build()
+2014-04-19 17:31 <CalimeroTeknik>  as we saw with less
+2014-04-19 17:31 <CalimeroTeknik>  https://projects.archlinux.org/svntogit/packages.git/tree/trunk/PKGBUILD?h=packages/less
+2014-04-19 17:31 <phrik>  Title: svntogit/packages.git - Git clone of the 'packages' repository (at projects.archlinux.org)
+2014-04-19 17:32 <CalimeroTeknik>  then package() will contain the command that installs the files in "$pkgdir"
+2014-04-19 17:32 <CalimeroTeknik>  the commands* actually.
+2014-04-19 17:32 <CalimeroTeknik>  there can be several, or even manual calls to `install`, which is just a version of `cp` that allows to set file permissions
+2014-04-19 17:32 <CalimeroTeknik>  if the project doesn't provide a `make install`
+2014-04-19 17:33 <CalimeroTeknik>  If you need to patch the source, do it in a prepare() function: that function will only be run once.
+2014-04-19 17:33 <CalimeroTeknik>  → patching twice would fail.
+2014-04-19 17:33 <CalimeroTeknik>  patching can be done using patch -Np0 -i < some_file.patch, you'll see it in some PKGBUILDs
+2014-04-19 17:33 <CalimeroTeknik>  finally, when your package built:
+2014-04-19 17:33 <CalimeroTeknik>  gloss over the list of files using tar tvf yourpackage.pkg.tar.xz : check that there's nothing weird in there
+2014-04-19 17:34 <CalimeroTeknik>  check makepkg's output! if it says there's a reference to $srcdir in the package, it's bad.
+2014-04-19 17:34 <CalimeroTeknik>   → investigate with `grep -r "$PWD" src`
+2014-04-19 17:34 <CalimeroTeknik>  and finally, check your packages with namcap. it detects probaly missing dependencies.
+2014-04-19 17:34 <CalimeroTeknik>  probably*
+2014-04-19 17:35 <CalimeroTeknik>  that's it for advice about writing PKGBUILDs!
+2014-04-19 17:35 <nuun>  wow ... I got that error many times.
+2014-04-19 17:35 <KlipKyle>  What's namcap?
+2014-04-19 17:36 <nuun>  !give KlipKyle namcap
+2014-04-19 17:36 <phrik>  KlipKyle: http://i.imgur.com/fTwyY0X.gif
+2014-04-19 17:36 <nuun>  :(
+2014-04-19 17:36 <CalimeroTeknik>  it's a tool, written by Remy Oudompheng, which checks a lot of stuff in a .pkg.tar.* package file
+2014-04-19 17:36 <CalimeroTeknik>  stuff that might be wrong
+2014-04-19 17:36 <CalimeroTeknik>  and that is worth having a look at, when you're packaging
+2014-04-19 17:36 <gnubeest>  which if you use it on the LESS example will output stuff like "less W: Dependency ncurses included but already satisfied"
+2014-04-19 17:37 <KlipKyle>  OK. Thanks! I found it in the extra repo.
+2014-04-19 17:37 <CalimeroTeknik>  yeah, because less depends on pcre, gnubeest 
+2014-04-19 17:37 <CalimeroTeknik>  and pcre depends on ncurses
+2014-04-19 17:38 *	ovrflw0x (~ovrflw0x@unaffiliated/ovrflw0x) has left ("bye")
+2014-04-19 17:38 <gnubeest>  this'll save a headache
+2014-04-19 17:38 <CalimeroTeknik>  so the dependency is already satisfied, it's like… giving it two times
+2014-04-19 17:38 <demize>  Wasn't really Remy that started it ;p
+2014-04-19 17:38 <CalimeroTeknik>  run `pactree less`
+2014-04-19 17:38 <demize>  Tho Remy did do a lot of the work, yes.
+2014-04-19 17:38 <gnubeest>  oh sweet jesus that's helpful, i knew of pactree but never touched it
+2014-04-19 17:39 <CalimeroTeknik>  well, I was discussing a lot with Remy at the time when he was contributing
+2014-04-19 17:39 <CalimeroTeknik>  so I assumed he wrote it
+2014-04-19 17:39 <nuun>  but the dependency is only satisfied because of the system it is built on?
+2014-04-19 17:39 <nuun>  so it is best to include all dependencies.
+2014-04-19 17:39 <CalimeroTeknik>  it's satisfied because pcre already requires it
+2014-04-19 17:39 <nuun>  oh
+2014-04-19 17:40 <demize>  I think it was Jason that started it...
+2014-04-19 17:40 <CalimeroTeknik>  and less requires pcre
+2014-04-19 17:40 <Arch-TK>  right...
+2014-04-19 17:40 <CalimeroTeknik>  but I agree, nuun: if less uses ncurses directly, it's good to include it
+2014-04-19 17:40 <CalimeroTeknik>  who knows, pcre might not depend on ncurses anymore one day
+2014-04-19 17:41 <CalimeroTeknik>  I'm out of time, sadly… the class has to end now! I'll come back in 20 mins, though.
+2014-04-19 17:41 <CalimeroTeknik>  and my notes for the end of the class are here: http://sprunge.us/ZgPP
+   *** edit:7 CalimeroTeknik‘s notes for the end of the class are below
+2014-04-19 17:42 <nuun>  ok. Thank you, teacher.
+2014-04-19 17:42 *	gnubeest claps
+2014-04-19 17:42 *	demize gives CalimeroTeknik a cookie
+2014-04-19 17:42 <liara>  thanks CalimeroTeknik, I enjoyed the class 
+2014-04-19 17:43 <eyemonen>  thanks CalimeroTeknik!
+2014-04-19 17:43 <tharugrim>  Thank you, CalimeroTeknik :)
+2014-04-19 17:46 <gnubeest>  anyone: if i set CONFLICTS in my package and i later install that conflicting package, will i still get a warning, or does it only work the other way around?
+2014-04-19 17:47 <nuun>  is it possible to make a dummy package that tests each of these variables?
+2014-04-19 17:47 <gnubeest>  nm just answered my own question, don't do drugs
+2014-04-19 17:48 <nuun>  like CONFLICTS etc?
+2014-04-19 17:48 <nuun>  gnubeest: don't go to the pharmacy?
+2014-04-19 17:49 <gnubeest>  man page > wiki
+2014-04-19 17:50 <jy2wong>  nuun: sure, why not? Just grab the less PKGBUILD, edit it so that it conflicts with bash and attempt unsuccessfully to install it :P
+
+====  CalimeroTeknik‘s notes for the end of the class  ====
+#3.3 VCS PKGBUILDs
+
+makepkg now supports git and svn URIs in source=().
+example: https://aur.archlinux.org/packages/aufs3-util
+you can for instance use this in source=():
+package_name::git+http://example.org/git/someproject.git
+
+note the pkgver() function. it's run after fetching the sources.
+the package's version becomes what that function outputs (the development revision for instance).
+here, I put the date of the last commit (in aufs3-util).
+
+There are other examples in the reference doc: https://wiki.archlinux.org/index.php/VCS_PKGBUILD_Guidelines
+
+I saw this part had a lot of success in the pad, do you want to know more about this?
+
+#3.4 Split packages
+
+pkgname becomes an array.
+pkgbase is introduced, and is the base name of the PKGBUILD, so to speak
+ → none of the produced packages necessarily has that name.
+
+Still one build() function
+Lots of package_name-of-split-package() functions.
+In each one of them, you copy to "$pkgdir" the files you want to
+
