@@ -1,0 +1,467 @@
+2014-05-31 16:01:54	jy2wong	anyway, if you'd like to follow along, you might wanna run the following:
+2014-05-31 16:01:55	fsckd	it's ok, some people are weird in the head
+2014-05-31 16:02:18	jy2wong	ABSROOT=. abs core/linux; cd core/linux; makepkg -g
+2014-05-31 16:02:21	voidfire	is there anything I need to grab to follow along? :) 
+2014-05-31 16:02:21	demize	Very..
+2014-05-31 16:02:33	buhman	wowsocool; makepkg
+2014-05-31 16:02:35	<--	tharugrim (~Tharugrim@178-191-81-26.adsl.highway.telekom.at) has quit (Ping timeout: 240 seconds)
+2014-05-31 16:02:48	-->	tharugri1 (~Tharugrim@178-191-81-26.adsl.highway.telekom.at) has joined #archlinux-classroom
+2014-05-31 16:03:20	jy2wong	which will download the PKGBUILD and associated patches and whatnot, as well as the kernel sources
+2014-05-31 16:03:24	kideke	jy2wong: where can I find info on abs script? (newbie in arch)
+2014-05-31 16:03:26	--	Mode #archlinux-classroom [+b *!khax@2001:1af8:4700:a032:3::] by meskarune
+2014-05-31 16:03:32	<--	meskarune has kicked khax (khax)
+2014-05-31 16:03:46	jy2wong	kideke: there's a page on the arch wiki
+2014-05-31 16:03:55	jy2wong	https://wiki.archlinux.org/index.php/Abs
+2014-05-31 16:03:58	phrik	Title: Arch Build System - ArchWiki (at wiki.archlinux.org)
+2014-05-31 16:04:14	demize	meskarune: you could quiet nonauthed/set +r and then ban by NS account
+2014-05-31 16:04:24	jy2wong	so this classroom is split roughly into two: the first third or so will be on answering the general question "what are kernels?"
+2014-05-31 16:04:28	kideke	jy2wrong: thanx!
+2014-05-31 16:05:16	jy2wong	and the last two thirds will cover what the PKGBUILD does, and an introduction to the configuration process
+2014-05-31 16:05:25	buhman	that's it?
+2014-05-31 16:05:27	jy2wong	also some miscellaneous tricks I've picked up
+2014-05-31 16:05:27	@meskarune	demize: idk, I think there may be people here using web chat :)
+2014-05-31 16:05:41	demize	meskarune: Webchat users can auth :p
+2014-05-31 16:05:42	@meskarune	demize: but maybe if too many trolls show up
+2014-05-31 16:05:46	demize	Yeah..
+2014-05-31 16:05:49	jy2wong	buhman: "A First Look at the Linux Kernel" :P
+2014-05-31 16:05:53	<--	buhman (rewt@selene.buhman.org) has left #archlinux-classroom ("lulz")
+2014-05-31 16:06:02	@meskarune	I guess I mean, people who don't use irc all the time
+2014-05-31 16:06:16	jy2wong	anyway, so back to kernels
+2014-05-31 16:06:28	<--	holomorph (~holomorph@unaffiliated/holomorph) has left #archlinux-classroom
+2014-05-31 16:06:28	@meskarune	++
+2014-05-31 16:06:29	jy2wong	kernerls sit between applications (web browsers, etc.) and computer hardware
+2014-05-31 16:06:58	jy2wong	there are monolithic kernels, microkernels, and all manner of kernel designs that are somewhere in between.
+2014-05-31 16:07:09	jy2wong	https://en.wikipedia.org/wiki/File:Operating_system_placement.svg
+2014-05-31 16:07:10	phrik	Title: File:Operating system placement.svg - Wikipedia, the free encyclopedia (at en.wikipedia.org)
+2014-05-31 16:07:12	jy2wong	for you visual folks
+2014-05-31 16:07:44	jy2wong	I don't reaaaally want to get into the gorey details of what differentiates a monolithic kernel from a microkernel, but I'll link to this https://en.wikipedia.org/wiki/File:OS-structure.svg
+2014-05-31 16:07:45	phrik	Title: File:OS-structure.svg - Wikipedia, the free encyclopedia (at en.wikipedia.org)
+2014-05-31 16:07:57	-->	Gero (54682931@gateway/web/cgi-irc/kiwiirc.com/ip.84.104.41.49) has joined #archlinux-classroom
+2014-05-31 16:08:00	jy2wong	and mention that the linux kernel and windows kernel are both monolithic
+2014-05-31 16:08:00	-->	emlun (~emlun@78-69-233-225-no227.tbcn.telia.com) has joined #archlinux-classroom
+2014-05-31 16:08:06	emlun	hello folks!
+2014-05-31 16:08:32	CalimeroTeknik	doesn't windows have kind of a hybrid kernel design?
+2014-05-31 16:08:48	CalimeroTeknik	for third party drivers notably
+2014-05-31 16:08:57	-->	b2coutts (stein@taurine.csclub.uwaterloo.ca) has joined #archlinux-classroom
+2014-05-31 16:09:20	jy2wong	CalimeroTeknik: it's still mostly monolithic though, I think.
+2014-05-31 16:09:53	-->	silverone (~silverone@87.64.249.5.rev.vodafone.pt) has joined #archlinux-classroom
+2014-05-31 16:10:08	jy2wong	now, monolithic or micro-, they share some components: schedulers, an inter-process communication (IPC) mechanism, virtual memory implementation, device drivers, and probably more things
+2014-05-31 16:10:16	demize	Officially it's a hybrid kernel, because some subsystems run in userspace, but nothing vital IIRC.
+2014-05-31 16:10:55	jy2wong	kernels also kind of act as guardians and caretakers of the hardware
+2014-05-31 16:11:01	CalimeroTeknik	the only difference between monolithic and micro- kernels is that micro-kernels run some of these components as applications (if they crash, the kernel doesn't crash)
+2014-05-31 16:12:04	jy2wong	I'm gonna talk about some resources managed by the kernel, then explain more about why I called it the guardian and caretaker of hardware
+2014-05-31 16:12:29	jy2wong	(erm, is this useful to anyone, or is everyone bored out of their skulls right now?)
+2014-05-31 16:12:42	silverone	i'm pretty interested :D
+2014-05-31 16:12:44	@meskarune	its useful
+2014-05-31 16:12:46	voidfire	im amused :)
+2014-05-31 16:12:52	-->	alexande1 (~alexander@chello080108068204.23.11.tuwien.teleweb.at) has joined #archlinux-classroom
+2014-05-31 16:12:55	aluminum	agreed
+2014-05-31 16:12:58	jy2wong	k, cool
+2014-05-31 16:12:59	thiagowfx	keep going :)
+2014-05-31 16:13:02	voidfire	well I knew half the stuff but Im sure more interesting will come along
+2014-05-31 16:13:05	 *	Sanne is interested
+2014-05-31 16:13:13	CalimeroTeknik	I only know part of the whole thing
+2014-05-31 16:13:27	jy2wong	(it's hard to read audiences across the internet, so I'll probably check back with y'all every so often.)
+2014-05-31 16:13:29	kideke	useful kee it up!
+2014-05-31 16:13:43	jy2wong	okay, so resources managed by the kernel.
+2014-05-31 16:13:50	voidfire	we can  . to agree quickly :)
+2014-05-31 16:14:09	jy2wong	I'm gonna make a quick detour and first explain some lower-level happenings so you have a better appreciation of what the kernel is responsible for
+2014-05-31 16:14:39	jy2wong	I'll start with how code (programs and applications and whatnot) are actually run with respect to hardware.
+2014-05-31 16:15:08	jy2wong	your computer executes programs in a pretty simple way. The CPU (central processing unit), sometimes called a processor, is the part that actually "runs" your program.
+2014-05-31 16:15:51	jy2wong	it fetches relatively simple instructions (e.g. add these two numbers, multiply these two numbers, instead of reading the next instruction, jump to the instruction at this other address), and then executes them.
+2014-05-31 16:16:24	jy2wong	these relatively simple instructions can only be done on things called registers
+2014-05-31 16:16:53	CalimeroTeknik	(these instructions can be implemented with bare transistors!)
+2014-05-31 16:16:54	jy2wong	registers are a limited resource (on an ARM machine, there are about 16 available for general use. I don't know offhand for x86_64 machines).
+2014-05-31 16:16:58	@meskarune	is a register a hardware thing or software thing?
+2014-05-31 16:17:02	jy2wong	hardware
+2014-05-31 16:17:02	@meskarune	oh
+2014-05-31 16:17:17	@meskarune	you are already on the ball :)
+2014-05-31 16:17:19	CalimeroTeknik	x86_64 has 16 general-purpose registers
+2014-05-31 16:17:43	jy2wong	CalimeroTeknik: cool, thanks! and by "on" registers, I really mean the inputs have to be stored in registers.
+2014-05-31 16:17:48	-->	Namarrgon (~glei@55d44453.access.ecotel.net) has joined #archlinux-classroom
+2014-05-31 16:18:00	CalimeroTeknik	there were 8 general-purpose registers on x86
+2014-05-31 16:18:24	jy2wong	there are other instructions that say "please move the data on the hard drive at this spot into register 3"
+2014-05-31 16:18:30	-->	someone (someone@2600:3c01::f03c:91ff:fedf:feb8) has joined #archlinux-classroom
+2014-05-31 16:18:43	jy2wong	but ultimately there is relatively little "scratch space" to work with
+2014-05-31 16:19:23	jy2wong	one job of the kernel's scheduler is to let you multitask, and part of that involves deciding which program gets access to the registers at what time.
+2014-05-31 16:19:39	jy2wong	multitasking is sort of a lie. It's more like unitasking for very, very small time slices.
+2014-05-31 16:19:56	jy2wong	(I'll decline to get into multicore processors, which is a whole other can of worms.)
+2014-05-31 16:20:23	jy2wong	I mean, this is pretty much what humans do when multitasking anyway
+2014-05-31 16:20:28	 *	BubbatheVTOG is having my mind blown with infromation
+2014-05-31 16:21:06	jy2wong	but another aspect of computery multitasking involves something you might not have thought of as multitasking
+2014-05-31 16:21:12	CalimeroTeknik	the good image for this is the round-robin, each program gets a bit of attention in turn
+2014-05-31 16:21:24	jy2wong	using your mouse while running a program also counts as multitasking
+2014-05-31 16:21:24	rookierks	I suppose you can include hyperthreading in the same can of worms
+2014-05-31 16:21:33	CalimeroTeknik	yes rookierks
+2014-05-31 16:21:46	jy2wong	rookierks: yup. stuffing that into the can of worms and throwing it very far away :P
+2014-05-31 16:22:12	CalimeroTeknik	well, it's no more than several people working on several tasks, instead of one person working on several tasks
+2014-05-31 16:22:19	jy2wong	so, uh, how does your kernel talk to the mouse, anyway?
+2014-05-31 16:22:39	CalimeroTeknik	the mouse executes part of it using an interrupt?
+2014-05-31 16:22:41	jy2wong	the kernel talks to your hardware through specialized programs/components/things called "device drivers"
+2014-05-31 16:23:06	jy2wong	and device drivers deal with those interrupts and whatnot
+2014-05-31 16:24:09	jy2wong	it's the kernel's job to talk to input things (e.g. mouse, keyboard, touch screen)
+2014-05-31 16:24:17	jy2wong	but also output things (e.g. monitor, speakers)
+2014-05-31 16:24:37	jy2wong	I guess it's also the kernel's job to deal with things like bluetooth, ethernet, and your hard drive.
+2014-05-31 16:25:07	CalimeroTeknik	all existent kernels have something to take care of that, right?
+2014-05-31 16:25:23	jy2wong	yeah, but sometimes these bits exist outside of the kernel proper
+2014-05-31 16:25:31	jy2wong	I'm pretty sure these bits exist inside the linux kernel
+2014-05-31 16:26:07	CalimeroTeknik	they do, we have ethernet, bluetooth and hard drive drivers in linux
+2014-05-31 16:26:47	CalimeroTeknik	last time I didn't compile them in, the resulting kernel wouldn't work with these devices
+2014-05-31 16:26:48	jy2wong	the reason for drivers is to abstract away hardware-specific code
+2014-05-31 16:27:07	jy2wong	there might be code in the kernel that handles informing other programs about mouse input
+2014-05-31 16:28:05	jy2wong	but it's sensible coding practice to have common code that applies to all mice, and then separated code that understands how to handle the interrupts that this very specific model of Logitech mouse generates.
+2014-05-31 16:28:33	jy2wong	the kernel is also responsible for managing memory
+2014-05-31 16:28:59	CalimeroTeknik	so two programs didn't use the same bit of memory and end up mixing up their data together, notably?
+2014-05-31 16:29:00	jy2wong	if you've ever had a runaway program that's started taking up alllll the memory, you might have had an encouter with the OOM-killer (out-of-memory killer)
+2014-05-31 16:29:19	jy2wong	CalimeroTeknik: yeah
+2014-05-31 16:29:25	jy2wong	that brings me to the next topic
+2014-05-31 16:29:30	jy2wong	damage control/mitigation
+2014-05-31 16:29:57	jy2wong	you don't want program A messing around arbitrarily with program B's memory (or register state/contents).
+2014-05-31 16:30:11	rookierks	I'd say one hits swapping hell before encountering OOM-Killer
+2014-05-31 16:30:26	jy2wong	rookierks: I have no swap partition
+2014-05-31 16:30:55	jy2wong	you also don't want programs messing up/damaging your hardware
+2014-05-31 16:30:58	CalimeroTeknik	and regardless, when your swap is full, it's just the same
+2014-05-31 16:31:08	rookierks	i thought it was recommended to have one even if not needed very regularly
+2014-05-31 16:31:16	CalimeroTeknik	not necessarily.
+2014-05-31 16:31:18	jy2wong	perhaps. I've been doing fine without.
+2014-05-31 16:32:00	jy2wong	anyway though, the kernel stops user programs from wreaking havoc on each other/the hardware by locking them down to varying degrees
+2014-05-31 16:32:22	@meskarune	how do hardware drivers interact with teh kernel?
+2014-05-31 16:32:26	jy2wong	the kernel allows applications limited access to hardware and other programs' data through "system calls"
+2014-05-31 16:32:50	jy2wong	meskarune: hardware drivers are part of the (linux) kernel
+2014-05-31 16:32:56	jy2wong	just like the scheduler is a part of it
+2014-05-31 16:33:05	@meskarune	sorry, I was in the wrong part of scroll back >.>
+2014-05-31 16:33:07	 *	meskarune hides
+2014-05-31 16:33:12	jy2wong	meskarune: it's cool :)
+2014-05-31 16:33:26	-->	Annamaria (janey@taurine.csclub.uwaterloo.ca) has joined #archlinux-classroom
+2014-05-31 16:33:36	jy2wong	now, through these system calls, the application can ask the kernel to do "privileged" work
+2014-05-31 16:33:39	jy2wong	as a real life example
+2014-05-31 16:34:09	CalimeroTeknik	the kernel can't control what programs do without using a little piece of hardware (the MMU) that says what memory the current process can touch
+2014-05-31 16:34:40	jy2wong	let's say you are a student, and you want your school transcript. You have to ask the secretary to get your school transcript. You yourself certainly do not get access to the entire school's database of transcripts.
+2014-05-31 16:34:55	emlun	so a "system call" is an invocation of something in the kernel?
+2014-05-31 16:35:00	CalimeroTeknik	it is
+2014-05-31 16:35:40	jy2wong	it's like the kernel's API, if you program some
+2014-05-31 16:35:45	-->	cdrjameson (~mark@host86-177-74-95.range86-177.btcentralplus.com) has joined #archlinux-classroom
+2014-05-31 16:36:14	jy2wong	in that school example, "hey, can I get a copy of my school transcript?" is the syscall there.
+2014-05-31 16:37:02	jy2wong	so that's it for "what are kernels". 5 minute break for information digesting, bathroom breaks, questions and cat videos
+2014-05-31 16:37:11	emlun	yeah, kernel API makes a lot of sense, thanks :)
+2014-05-31 16:37:19	silverone	this is being really interesting, thank you jy2wong
+2014-05-31 16:37:32	-->	tugrik (~tugrik@war.funkyjesus.org) has joined #archlinux-classroom
+2014-05-31 16:37:49	BubbatheVTOG	Yeah I agree, this is amazing information!
+2014-05-31 16:38:21	cdrjameson	jy2wong: I joined late, can I get a transcript of the class so far...
+2014-05-31 16:38:25	cdrjameson	?
+2014-05-31 16:38:48	h8h	5 minute break for a fresh virtual arch installation (for some kernel testing) :)
+2014-05-31 16:40:16	CalimeroTeknik	cdrjameson, http://sprunge.us/hjBZ
+2014-05-31 16:40:28	jy2wong	CalimeroTeknik: thanks. I was trying to remember how to operate weechat.
+2014-05-31 16:40:54	CalimeroTeknik	I have had these problems, and so, got back to using weechat
+2014-05-31 16:41:08	CalimeroTeknik	it's a no-brainer, select, type sprunge in a terminal, paste, ^D
+2014-05-31 16:41:15	cdrjameson	CalimeroTeknik: thanks going to enjoy reading through that in the next 5 mins...
+2014-05-31 16:41:37	voidfire	should I fire up a vm to follow the class?
+2014-05-31 16:41:52	voidfire	I dont want the stuff messing with my actual arch system 
+2014-05-31 16:42:20	jy2wong	voidfire: you shouldn't need a full vm. (also keep in mind that if you don't install the resulting package, nothing will happen.)
+2014-05-31 16:42:38	<--	h8h (~h8h@p5DCF6AA8.dip0.t-ipconnect.de) has quit (Quit: Leaving.)
+2014-05-31 16:42:38	@meskarune	not official logs, but might help you cdrjameson : http://meskarune.com/media/text/kernelclass.txt
+2014-05-31 16:42:47	-->	h8h (~h8h@p5DCF6AA8.dip0.t-ipconnect.de) has joined #archlinux-classroom
+2014-05-31 16:42:58	voidfire	cool cos I did the abs thing u mentioned before and I have the files in a pane on my tmux  by my irc clients side
+2014-05-31 16:43:15	rookierks	so the second part will be about configuration and building our own kernel right?
+2014-05-31 16:43:17	jy2wong	oops, that was a bit more than 5
+2014-05-31 16:43:22	jy2wong	rookierks: yeah
+2014-05-31 16:43:55	rookierks	will you talk about git and possibly any tips for bisecting the kernel?
+2014-05-31 16:44:17	CalimeroTeknik	it took me 75 hours to configure my first linux kernel completely
+2014-05-31 16:44:22	dagle	meskarune: To answer your question: interupts often split into tops and bottoms usings tasklets and workqueues.
+2014-05-31 16:44:24	toonces	jy2wong: if you allow questions during your break, what's with stuff like the proprietary nvidia drivers? They aren't part of the kernel
+2014-05-31 16:44:59	<--	zcheng3 (~zcheng3@S0106b0487a73c6a9.ed.shawcable.net) has quit (Ping timeout: 240 seconds)
+2014-05-31 16:45:05	@meskarune	I like that you know the exact number CalimeroTeknik ;)
+2014-05-31 16:45:05	CalimeroTeknik	they become part of it once loaded, under linux, toonces 
+2014-05-31 16:45:05	h8h	CalimeroTeknik: was you awake all the time?
+2014-05-31 16:45:20	CalimeroTeknik	of course, it was over the course of two weeks
+2014-05-31 16:45:26	Gero	in the kernel has nothing to do with something being a module
+2014-05-31 16:45:28	jy2wong	so this part will be broken up under the following subheadings: intro to modules, motivations for compiling your own kernel, an overview of how configuring/compiling happens in the PKGBUILD, where things end up once you've installed the kernel you've compiled, and then some other stuff
+2014-05-31 16:45:53	Gero	it's got more to do with the hardware permission they get
+2014-05-31 16:46:16	CalimeroTeknik	modules get just the same treatment as kernel code itself
+2014-05-31 16:46:26	jy2wong	I'll be getting to modules in like 30 seconds, heheh
+2014-05-31 16:46:42	jy2wong	so the linux kernel has tuning knobs, because not everyone needs every piece of functionality in the kernel.
+2014-05-31 16:47:10	emlun	cool, now maybe I'll get a better understanding of the kernel monkey-aroundery I did when I tried Gentoo :D
+2014-05-31 16:47:17	CalimeroTeknik	in other words, modules are a way of adding code to a running kernel
+2014-05-31 16:47:34	jy2wong	if you have an asus laptop, you have no need for the thinkpad ACPI extras driver, and if you have a machine with intel integrated graphics, you have no need for nouveau.
+2014-05-31 16:47:53	CalimeroTeknik	(nouveau is for nvidia cards)
+2014-05-31 16:47:58	jy2wong	this is why you can turn some features off if you know you're never going to use them, or have them as modules
+2014-05-31 16:48:44	jy2wong	modules, as CalimeroTeknik said, is a way to "add code to a running kernel". I think of them as loadable plugins for the kernel.
+2014-05-31 16:48:49	cdrjameson	meskarune: thanks for the logs. just got distracted reading through them :)
+2014-05-31 16:48:57	CalimeroTeknik	this allows arch linux to distribute only one kernel for everybody, and only the needed modules for your specific machine are loaded
+2014-05-31 16:48:59	jy2wong	s/is/are
+2014-05-31 16:49:23	jy2wong	the command 'lsmod' will show you which modules you currently have loaded
+2014-05-31 16:49:50	silverone	lsmod
+2014-05-31 16:49:53	silverone	oops
+2014-05-31 16:50:09	jy2wong	if you're running this on a personal machine, you'll probably see the list includes things related to alsa or oss, and maybe wifi
+2014-05-31 16:50:13	CalimeroTeknik	the output is never the same except for those of us who would happen to have the same computer and kernel features enabled
+2014-05-31 16:50:26	CalimeroTeknik	(which is unlikely to happen)
+2014-05-31 16:50:38	-->	themyst1c (~pi@195.159.181.125) has joined #archlinux-classroom
+2014-05-31 16:50:59	h8h	or virtual machine
+2014-05-31 16:51:21	jy2wong	now, when you're actually configuring the linux kernel, you'll be asked about certain features, and you (90% of the time) have the choice to respond with one of y, m, or n
+2014-05-31 16:51:52	jy2wong	that's _y_es include, include as _m_odule, and _n_o don't include this code at all
+2014-05-31 16:52:40	jy2wong	the other 10% of the time, you are asked to make decisions about what particular algorithm you want the kernel's scheduler to be based off of, how to compress the kernel (gzip, bzip2, lzma or what have you), and size of some buffers.
+2014-05-31 16:52:54	jy2wong	now, why would you *want* to compile your own kernel?
+2014-05-31 16:53:04	alexande1	What's the disadvange of a module compared to static inclusion in the kernel?
+2014-05-31 16:53:36	jy2wong	alexande1: slight performance hit, necessity of an initramfs (I'll expand on this later)
+2014-05-31 16:54:07	jy2wong	if you configure and compile your own kernel, you can make it as feature-rich or as feature-light as you wish
+2014-05-31 16:54:25	dagle	Also, hardend kernels often disabels modules.
+2014-05-31 16:55:09	jy2wong	this really probably makes no difference at all if your machine is even approaching recent, but I know a lot of arch users came to arch because they wanted a nice minimalish system with exactly what they needed.
+2014-05-31 16:55:44	jy2wong	(I am one of these people.)
+2014-05-31 16:55:56	jy2wong	you can also apply interesting patches to the kernel
+2014-05-31 16:56:40	jy2wong	some anaesthesiologist named Con Kolivas wrote his own scheduler, BFS (brain fuck scheduler), that some people like better than the options provided in the vanilla (unpatched, plain) linux kernel code
+2014-05-31 16:56:48	<--	neph (bb163e40@gateway/web/freenode/ip.187.22.62.64) has quit (Ping timeout: 240 seconds)
+2014-05-31 16:57:14	jy2wong	it's popular enough that there's a package in the AUR that applies all the patches
+2014-05-31 16:57:28	thiagowfx	Is there significant difference in compilation time between choosing a feature as a module versus static inclusion in the kernel?
+2014-05-31 16:57:53	jy2wong	if that sounds up your alley, you may want to investigate. thiagowfx: not that I've noticed. I think all that happens is some C macro magic.
+2014-05-31 16:58:03	jy2wong	that does some amount of wrapping.
+2014-05-31 16:58:13	demize	thiagowfx: Not really, the only really noticable difference is compiling at all or not.
+2014-05-31 16:58:48	jy2wong	so now would be a nice time to pull up the PKGBUILD for that linux package.
+2014-05-31 16:58:58	emlun	word of warning: a kernel can take hours to compile from scratch on a weak machine such as my 1.6 GHz netbook
+2014-05-31 16:59:02	jy2wong	https://projects.archlinux.org/svntogit/packages.git/tree/trunk/PKGBUILD?h=packages/linux
+2014-05-31 16:59:04	phrik	Title: svntogit/packages.git - Git clone of the 'packages' repository (at projects.archlinux.org)
+2014-05-31 16:59:14	thiagowfx	ok
+2014-05-31 16:59:29	emlun	I suppose /var/abs/core/linux/PKGBUILD works as well?
+2014-05-31 16:59:33	-->	body (~body@188.24.63.189) has joined #archlinux-classroom
+2014-05-31 16:59:48	jy2wong	emlun: yeah, that's just for the benefit of the people without ready access to an arch machine
+2014-05-31 17:00:23	jy2wong	so there are patches in the first part of the prepare() section
+2014-05-31 17:00:28	rookierks	then how can some people claim they can compile the kernel in under 1 minute? I guess they get something that is not useful at all
+2014-05-31 17:00:30	-->	neph (bb163e40@gateway/web/freenode/ip.187.22.62.64) has joined #archlinux-classroom
+2014-05-31 17:00:53	jy2wong	rookierks: depends on your machine. If you happen to have access to a supercomputer... :P
+2014-05-31 17:01:24	rookierks	i was remembering some news a gook while ago on phoronix (i know, take it with a grain of salt)
+2014-05-31 17:01:25	CalimeroTeknik	or to use ccache actually
+2014-05-31 17:01:26	jy2wong	around line 111 the appropriate default arch linux config is put in the right place
+2014-05-31 17:01:35	rookierks	s/gook/good
+2014-05-31 17:01:39	emlun	rookierks: I'd guess incremental builds can speed it up as well. "from scratch" was a bit of a keyword in my previous statement.
+2014-05-31 17:01:41	BubbatheVTOG	rookierks: If your using something like $make localmodconfig, which turns off all modules that are not specific for your hardware it speeds up compile times drasticly 
+2014-05-31 17:01:46	CalimeroTeknik	I have (re)compiled my kernel in about 2 minutes on a core2 2.4GHz thanks to ccache
+2014-05-31 17:01:58	CalimeroTeknik	that's cheating though
+2014-05-31 17:02:08	CalimeroTeknik	you're only building the kernel image, not compiling everything
+2014-05-31 17:02:14	CalimeroTeknik	everything is pre-built
+2014-05-31 17:02:21	demize	rookierks: On a 5 node distcc cluster I compile a kernel in ~5 minutes
+2014-05-31 17:02:22	jy2wong	oh yeah, forgot to mention at :56 that the default kernels that come with arch, ubuntu, etc. necessarily include lots and lots of features
+2014-05-31 17:02:33	jy2wong	because they are supposed to work with many, many machines
+2014-05-31 17:03:11	rookierks	CalimeroTeknik: doesn't work for kernel bisects then
+2014-05-31 17:03:22	jy2wong	the configuration is stored in the file src/${_srcname}/.config, which is, at the moment, src/linux-3.14/.config
+2014-05-31 17:03:34	jy2wong	if you really, really wanted, you could just edit that file by hand.
+2014-05-31 17:03:57	<--	toonces (~benjamin@ppp-88-217-106-184.dynamic.mnet-online.de) has left #archlinux-classroom ("WeeChat 0.4.3")
+2014-05-31 17:04:07	jy2wong	it is much more convenient to use make *config
+2014-05-31 17:04:30	CalimeroTeknik	rookierks, it does almost work, since you only recompile what changed (the Makefile allows that)
+2014-05-31 17:04:47	jy2wong	you can see a whole bunch of commented lines (this is bash) under the 'make prepare' at line 129.
+2014-05-31 17:05:07	aluminum	 it is much more convenient to use make *config
+2014-05-31 17:05:07	aluminum	13:04 < CalimeroTeknik> rookierks, it does almost work, since you only recompile what changed (the Makefile allows that)
+2014-05-31 17:05:10	aluminum	13:04 < jy2wong> you can see a whole bunch of commented lines (this is bash) under the 'make prepare' at line 129. it is much more convenient to use make *config
+2014-05-31 17:05:13	aluminum	13:04 < CalimeroTeknik> rookierks, it does almost work, since you only recompile what changed (the Makefile allows that)
+2014-05-31 17:05:46	aluminum	sorry, copy pasta fail 
+2014-05-31 17:05:47	jy2wong	make localmodconfig, which is not shown in the PKGBUILD, is pretty nice, and takes a bunch of work out of cleaning out modules that you don't use
+2014-05-31 17:05:57	jy2wong	it's best used in conjunction with modprobed-db
+2014-05-31 17:06:02	jy2wong	https://wiki.archlinux.org/index.php/Modprobed-db
+2014-05-31 17:06:03	phrik	Title: Modprobed-db - ArchWiki (at wiki.archlinux.org)
+2014-05-31 17:06:05	rookierks	CalimeroTeknik: any pointers on the wiki or some place else where i can read more about it? (planning to try a kernel bisect to catch a bug)
+2014-05-31 17:06:30	jy2wong	basically, you keep it running for a while and it keeps track of every module you have ever used in the time period when it was running
+2014-05-31 17:06:32	CalimeroTeknik	not really
+2014-05-31 17:06:38	CalimeroTeknik	I don't have doc for this :(
+2014-05-31 17:06:58	jy2wong	make oldconfig lets you start out with the options from the kernel that's running right now
+2014-05-31 17:07:02	rookierks	CalimeroTeknik: no worries, at least i got some more info to google about
+2014-05-31 17:07:17	jy2wong	to be more concrete, it's starting out with the output from 'zcat /proc/config.gz'
+2014-05-31 17:07:27	rookierks	jy2wong: does make localmodconfig work right without using a base config file or are there any catches?
+2014-05-31 17:07:51	jy2wong	rookierks: I've never tried using it without a base config file.
+2014-05-31 17:08:12	rookierks	i've tried, it kind of works
+2014-05-31 17:08:17	jy2wong	cool.
+2014-05-31 17:08:33	jy2wong	make menuconfig should be avoided in favour of make nconfig
+2014-05-31 17:08:34	rookierks	but then when doing make it complains about a lot of things being needed but not set
+2014-05-31 17:08:56	voidfire	is that git file with the commented lines anywhere in the /core/ dir I did abs when we started the class?
+2014-05-31 17:09:17	jy2wong	voidfire: core/linux/PKGBUILD
+2014-05-31 17:09:27	voidfire	<3 thanks and sry
+2014-05-31 17:09:31	jy2wong	(oof, sorry, should have mentioned that earlier)
+2014-05-31 17:09:34	BubbatheVTOG	rookierks: yes, but it removes many common modules that you might use but didn't use before building the config. ex: if you use a webcam, and didn't plug in your webcam before localmodconfig, you have not module for that in your kernel. 
+2014-05-31 17:10:04	jy2wong	BubbatheVTOG: that's why you might consider running modprobed-db for a week first.
+2014-05-31 17:10:40	jy2wong	there's nconfig and xconfig and if I remember correctly there's a gconfig (gtk) and qtconfig too, but I like nconfig
+2014-05-31 17:11:08	jy2wong	space key to cycle through options, arrow keys Just Work(TM), F3 means the same thing as 3, and search is case-insensitive.
+2014-05-31 17:11:43	jy2wong	if you'd all like to poke around right now, uncomment at least one of those make *config lines, and run makepkg -s.
+2014-05-31 17:11:57	BubbatheVTOG	ls
+2014-05-31 17:12:00	jy2wong	(I personally do a make oldconfig followed by a make nconfig so I can do manual tweaking)
+2014-05-31 17:12:24	jy2wong	once configuration is done at the end of the package() section, building happens
+2014-05-31 17:12:44	jy2wong	the build() section essentially consists of one command, make bzImage modules
+2014-05-31 17:12:49	jy2wong	with some more options or flags there
+2014-05-31 17:12:54	rookierks	does make oldconfig work right if you use a base config from a recent kernel with an older one?
+2014-05-31 17:13:10	jy2wong	(yeah. the kernel is just an oversized program that you build with a Makefile.)
+2014-05-31 17:14:26	jy2wong	rookierks: I've never tried. The other way around though, when the output of 'zcat /proc/config.gz' is from a kernel older than the one you're trying to compile, it'll ask you interactively to make decisions about any new options/features that have been added to the kernel since.
+2014-05-31 17:15:06	jy2wong	(any questions so far? requests for clarification?)
+2014-05-31 17:15:38	KlipKyle	Do you normally rename the package to linux-custom before running makepkg?
+2014-05-31 17:15:53	jy2wong	I do, but you don't have to.
+2014-05-31 17:16:07	jy2wong	I actually name mine linux-x61t, because I have a thinkpad x61t.
+2014-05-31 17:16:47	jy2wong	if you *don't* rename it though, you'll want to add the package linux to the ignore section of /etc/pacman.conf
+2014-05-31 17:17:09	jy2wong	IgnorePkg, it's called.
+2014-05-31 17:17:12	voidfire	should I un-coment #make nconfig and run makepkg -s? (with no fear)
+2014-05-31 17:17:41	ChaoticCitrus	Though wouldn't that leave the responsibility of keeping your kernel up to date in your own hands, then?
+2014-05-31 17:17:44	BubbatheVTOG	voidfire: yes
+2014-05-31 17:17:48	jy2wong	voidfire: it'll spew text at you for a bit, and then bring you to something like this: http://csclub.uwaterloo.ca/~jy2wong/img/kernel_class/nconfig.png
+2014-05-31 17:18:09	voidfire	cool thanks/ :) you are all awesome
+2014-05-31 17:18:11	emlun	ChaoticCitrus: yes it would
+2014-05-31 17:18:54	emlun	but you should be able to use abs to keep it up to date, and just drop your config file in and recompile as needed (and maybe tweak the config settings if stuff has changed)
+2014-05-31 17:19:12	jy2wong	so you are presented with a long list of categories and options, and the categories lead to other pages with categories which lead to other pages with categories and whatnot
+2014-05-31 17:19:20	rookierks	regarding patches, the arch kernel does have a lot of patches, do you use any patches with your kernels? how do you find out which patches you might need?
+2014-05-31 17:19:47	jy2wong	rookierks: I go with the set of patches that the archlinux package 'linux' uses.
+2014-05-31 17:19:49	CalimeroTeknik	the arch kernel only has bugfix patches that will be included in the next official version
+2014-05-31 17:20:03	jy2wong	^
+2014-05-31 17:20:21	jy2wong	I'm going to skip ahead for a bit
+2014-05-31 17:20:43	jy2wong	and talk about what happens when you save that config file (F6 for make nconfig, iirc)
+2014-05-31 17:20:50	jy2wong	erm, save that config file and exit
+2014-05-31 17:21:17	voidfire	nconfig looks neat
+2014-05-31 17:21:45	CalimeroTeknik	there's an awful lot of features in there, going over all of them even superficially would take more than a week
+2014-05-31 17:21:47	jy2wong	the kernel will compile, and you'll end up (on an arch machine, anyway) with a few files that will show up with 'ls *.pkg.tar.xz'.
+2014-05-31 17:22:20	demize	CalimeroTeknik: That's not entirely true..
+2014-05-31 17:22:28	jy2wong	I will revisit some parts of that massive pile of configuration options in a moment
+2014-05-31 17:22:32	CalimeroTeknik	well, it took me one week and a half demize 
+2014-05-31 17:22:40	demize	CalimeroTeknik: I meant the patch thing
+2014-05-31 17:22:43	CalimeroTeknik	ah
+2014-05-31 17:23:00	jy2wong	modules live in /usr/lib/modules/yourkernelversion
+2014-05-31 17:23:19	jy2wong	and the kernel image itself lives in the /boot partition, called vmlinuz-linux in archlinux.
+2014-05-31 17:23:30	demize	CalimeroTeknik: Some of the current ones have been in for.. 4 versions or so.
+2014-05-31 17:23:43	jy2wong	you may also notice an initramfs-linux.img sitting in /boot along with your bootloader (grub, grub2, syslinux, lilo, etc.)
+2014-05-31 17:23:52	demize	But no patches is to be prefered..
+2014-05-31 17:24:19	CalimeroTeknik	demize, it's still bugfix patches, nothing that adds flashy non-mainstream features
+2014-05-31 17:24:27	demize	YEah
+2014-05-31 17:25:39	CalimeroTeknik	to the notable exception of change-default-console-loglevel.patch which does exactly what it says
+2014-05-31 17:25:40	jy2wong	the initramfs image exists to solve chicken-and-egg problems that come up in loading the kernel
+2014-05-31 17:25:52	<--	stoa (ac0fb8f8@gateway/web/freenode/ip.172.15.184.248) has left #archlinux-classroom
+2014-05-31 17:26:11	kideke	can you extend the last thing a bit please?
+2014-05-31 17:26:28	jy2wong	e.g. if your root partition uses btrfs
+2014-05-31 17:26:36	jy2wong	and you included btrfs as a module
+2014-05-31 17:27:04	jy2wong	recall that modules live in /usr/lib/modules/yourkernelversion, which is probably on the root partition
+2014-05-31 17:27:15	kideke	ah I see
+2014-05-31 17:27:50	<--	unia (~Unia@j84116.upc-j.chello.nl) has quit (Quit: Leaving)
+2014-05-31 17:27:54	alexande1	So initramfs-linux.img is also a kernel?
+2014-05-31 17:28:05	jy2wong	nah, it's an initramfs image.
+2014-05-31 17:28:43	voidfire	isnt that img what makes the transition from bootloader to kernel loading?
+2014-05-31 17:28:54	jy2wong	I'm still a little fuzzy on it myself, but it appears to be a readily accessible collection of modules that are needed to mount the root partition read-only
+2014-05-31 17:29:22	kideke	until the kernel takesover i guess
+2014-05-31 17:29:30	<--	CalimeroTeknik (~calimero@pradic.tonbnc.fr) has left #archlinux-classroom ("bbl!")
+2014-05-31 17:29:31	jy2wong	kideke: yeah.
+2014-05-31 17:29:38	-->	CalimeroTeknik (~calimero@pradic.tonbnc.fr) has joined #archlinux-classroom
+2014-05-31 17:29:42	alexande1	Then, is it a file-system image?
+2014-05-31 17:29:47	CalimeroTeknik	oops, my hand tripped
+2014-05-31 17:30:03	CalimeroTeknik	I'll explain the boot with the initramfs if you don't mind
+2014-05-31 17:30:04	-->	panta_ (~panta_@31-94-253.netrun.cytanet.com.cy) has joined #archlinux-classroom
+2014-05-31 17:30:12	CalimeroTeknik	the bootloader loads the kernel and the initramfs image to RAM
+2014-05-31 17:30:28	CalimeroTeknik	then it passes control to the kernel, telling it where the initramfs is in the memory
+2014-05-31 17:30:37	emlun	so the initramfs is some kind of precomputed cache of modules needed during startup?
+2014-05-31 17:30:48	CalimeroTeknik	the kernel decompresses and executes itself, then mounts the initramfs, which is an archive containing files
+2014-05-31 17:30:55	CalimeroTeknik	these files appear in /
+2014-05-31 17:31:09	CalimeroTeknik	and /init is executed (or whatever you passed as init=) on the kernel command line
+2014-05-31 17:31:38	CalimeroTeknik	the said script should use files in the initramfs archive (which appear now in /) to do whatever it wants
+2014-05-31 17:32:00	CalimeroTeknik	for instance it can use the modprobe program, included in the initramfs archive, to load modules included in the initramfs archive
+2014-05-31 17:32:16	CalimeroTeknik	so that you hard disk is recognized for instance (hard disk driver for your specific board)
+2014-05-31 17:32:25	jy2wong	you can specify what goes into the initramfs image with the config file /etc/mkinitcpio.conf
+2014-05-31 17:32:42	thiagowfx	so the /oldroot messages which appear while shutting down with systemd are related to the initramfs root you are talking about, I guess
+2014-05-31 17:32:43	CalimeroTeknik	exactly, and rebuild it with mkinitcpio -p linux
+2014-05-31 17:32:50	jy2wong	mkinitcpio is the command that actually generates the initramfs (based on /etc/mkinitcpio.conf)
+2014-05-31 17:33:20	rookierks	you can list what's inside the image with lsinitcpio
+2014-05-31 17:33:49	CalimeroTeknik	or bsdtar tvf /boot/initramfs-linux.img
+2014-05-31 17:33:51	demize	thiagowfx: on shutdown systemd generates a ram image like the initramfs one to be able to unmount root cleanly, and /oldroot is your regular root.
+2014-05-31 17:33:59	jy2wong	it turns out that if your setup is sufficiently simple (encrypting drives makes things somewhat more complicated), and everything you need to mount the root partition read only is included in the kernel unconditionally and *not* as a module, you might not need an initramfs at all
+2014-05-31 17:34:35	jy2wong	this sometimes has the side effect of making your boot time slightly faster.
+2014-05-31 17:34:38	demize	thiagowfx: other init systems just kill all the processes and then powers off, without unmounting the root, which sometimes can cause problems.
+2014-05-31 17:34:39	CalimeroTeknik	but for that you need to compile the kernel with your hard disk driver inside it, not as a module
+2014-05-31 17:35:45	h8h	back to the kernel thing :) ... how can i keep my kernel up-to-date without/little compiling it all the time?
+2014-05-31 17:35:47	jy2wong	yeah. For example if your root partition uses ext4, you'll need to say Y in File systems > The Extended 4 (ext4) filesystem
+2014-05-31 17:35:54	emlun	quick question: if your root partition is btrfs, would you ever want to not build btrfs into the kernel?
+2014-05-31 17:36:21	CalimeroTeknik	you would probably build it into the kernel, yes
+2014-05-31 17:36:24	jy2wong	emlun: I can't think of a reason why it would be better as a module in that scenario.
+2014-05-31 17:36:46	jy2wong	anyway, how do you decide what should be a module or not?
+2014-05-31 17:36:59	emlun	alright, but it was a good example to illustrate the problem initramfs solves :)
+2014-05-31 17:37:21	thiagowfx	demize: makes sense, cool, I thought the initramfs only were used in the INIT (not in the end :p)
+2014-05-31 17:37:39	demize	thiagowfx: Used to be, but not anymore ;)
+2014-05-31 17:37:46	jy2wong	having CD rom filesystem support as a module makes sense. You probably don't need to use a CD all the time, but it'd be nice if it just worked, yeah?
+2014-05-31 17:38:14	jy2wong	another thing you might want to have as a module though is wireless card drivers.
+2014-05-31 17:38:32	jy2wong	it turns out that wifi card drivers are sometimes...notoriously buggy
+2014-05-31 17:38:35	emlun	are modules loaded automagically when needed? for instance, would `cryptsetup luksOpen` load dm_crypt if it's not already loaded?
+2014-05-31 17:38:51	CalimeroTeknik	emlun, yes by udev
+2014-05-31 17:38:54	<--	h8h (~h8h@p5DCF6AA8.dip0.t-ipconnect.de) has quit (Remote host closed the connection)
+2014-05-31 17:39:08	emlun	kewl
+2014-05-31 17:39:08	jy2wong	and it's convenient to do a "hard reset" by unloading and reloading the module
+2014-05-31 17:39:27	jy2wong	if a module isn't automagically loaded when you need it, you can load it with a command like
+2014-05-31 17:39:37	jy2wong	modprobe iwl4965 (run as root)
+2014-05-31 17:39:39	-->	TheCreeper (~TheCreepe@cpc5-sund11-2-0-cust776.11-1.cable.virginm.net) has joined #archlinux-classroom
+2014-05-31 17:39:48	rookierks	"hard reset" by unload-load doesn't always work ;)
+2014-05-31 17:40:01	jy2wong	rookierks: yeah, but it's better to have it than to not :P
+2014-05-31 17:40:06	rookierks	true
+2014-05-31 17:40:31	jy2wong	the unload part of unload-reload is done with modprobe -r iwl4965 there, or whathaveyou
+2014-05-31 17:40:37	jy2wong	replace iwl4965 with the name of the module
+2014-05-31 17:40:56	jy2wong	so I said I'd revisit that giant heaping mess of configuration options
+2014-05-31 17:41:21	jy2wong	make oldconfig lets you press ?
+2014-05-31 17:41:28	jy2wong	to get a description of the feature/option
+2014-05-31 17:41:37	jy2wong	sometimes it is extremely helpful, and sometimes it is...not.
+2014-05-31 17:41:41	emlun	(F2 does the same)
+2014-05-31 17:41:47	jy2wong	yep, F2 for nconfig
+2014-05-31 17:41:50	jy2wong	or 2
+2014-05-31 17:41:57	voidfire	so now Im compiling a kernel the [M] stands for module if Im not mistaken , and when that finished ill end up having some tgz files in the cwd and a spare initramfs.img  in my /boot
+2014-05-31 17:42:01	voidfire	right?
+2014-05-31 17:42:17	voidfire	right now = after save and exit of nconfig
+2014-05-31 17:42:51	CalimeroTeknik	nothing in /boot
+2014-05-31 17:42:55	jy2wong	voidfire: nope, it's like any other package. It will make a *.pkg.tar.xz, and nothing will happen to the rest of your filesystem until you use pacman -U thing.pkg.tar.xz
+2014-05-31 17:42:56	thiagowfx	voidfire: only if you install the .tar.xz package with pacman, I believe
+2014-05-31 17:43:12	rookierks	thiagowfx: yes that's correct
+2014-05-31 17:43:34	jy2wong	so, when the help blurb is not helpful, there are a few options
+2014-05-31 17:43:38	<--	cdrjameson (~mark@host86-177-74-95.range86-177.btcentralplus.com) has quit (Ping timeout: 245 seconds)
+2014-05-31 17:43:43	jy2wong	google and pappy's kernel seeds
+2014-05-31 17:43:46	voidfire	cool Im such a scaredy cat
+2014-05-31 17:43:58	jy2wong	http://kernel-seeds.org/working.html
+2014-05-31 17:43:59	phrik	Title: Working with Pappy's Kernel Seeds (at kernel-seeds.org)
+2014-05-31 17:44:03	jy2wong	http://kernel-seeds.org/seeds/64_bit/vanilla/
+2014-05-31 17:44:04	phrik	Title: Index of /seeds/64_bit/vanilla/ (at kernel-seeds.org)
+2014-05-31 17:44:14	jy2wong	also the archlinux vanilla configs
+2014-05-31 17:45:02	jy2wong	pappy's kernel seeds, while somewhat outdated at the moment, used to give a nice baseline starting config for people interested in customizing their own kernels
+2014-05-31 17:45:21	<--	panta_ (~panta_@31-94-253.netrun.cytanet.com.cy) has quit (Remote host closed the connection)
+2014-05-31 17:45:36	-->	cdrjameson (~mark@host86-177-74-237.range86-177.btcentralplus.com) has joined #archlinux-classroom
+2014-05-31 17:45:44	rookierks	that sounds nice, are they like the bare minimum you need to get a kernel that boots?
+2014-05-31 17:45:47	jy2wong	when confronted with an option I didn't reaaally have a good feeling for, I'd cross-check the archlinux default and pappy's kernel seeds
+2014-05-31 17:46:04	kideke	sorry have to go... will check the log though, it's being interesting...
+2014-05-31 17:46:06	<--	kideke (~kike@cpc10-aztw22-2-0-cust154.aztw.cable.virginm.net) has quit (Quit: WeeChat 0.4.3)
+2014-05-31 17:46:07	jy2wong	rookierks: not quite. You'll want to make sure you readd what you need to read the hard drive.
+2014-05-31 17:46:19	<--	oval (~oval@76-14-130-45.rk.wavecable.com) has quit (Remote host closed the connection)
+2014-05-31 17:46:27	jy2wong	they are indeed pretty minimal
+2014-05-31 17:46:39	rookierks	great, that might come in handy
+2014-05-31 17:46:55	jy2wong	usually if the kernel seed and archlinux default agree, it's alright to pick the same option.
+2014-05-31 17:47:37	rookierks	regarding arch's default configs, is the any easy way to access old config?
+2014-05-31 17:47:40	jy2wong	on an arch machine, be careful, however, that you don't exclude all the features you need for systemd.
+2014-05-31 17:47:50	jy2wong	rookierks: core/linux/config.x86_64
+2014-05-31 17:48:18	rookierks	jy2wong: i take it you mean from /var/abs
+2014-05-31 17:48:27	kaictl	jy2wong: (just reading through the logs and 'makepkg --verifysource' is better than 'makepkg -g' for what you were doing. but that's old. hope things have been going well!)
+2014-05-31 17:48:37	-->	panta_ (~panta_@31-94-253.netrun.cytanet.com.cy) has joined #archlinux-classroom
+2014-05-31 17:48:46	jy2wong	rookierks: yeah, or wherever you've copied it to
+2014-05-31 17:48:48	rookierks	but i mean configs for 3.13.*, 3.12.*
+2014-05-31 17:49:21	kaictl	rookierks: you can look through the git logs for the svntogit repositories, if you want.
+2014-05-31 17:49:58	jy2wong	something that might be useful (that is linked to on the first kernel-seeds.org link) is http://kmuto.jp/debian/hcl/
+2014-05-31 17:50:00	phrik	Title: Debian HCL; Debian GNU/Linux device driver check & report (at kmuto.jp)
+2014-05-31 17:50:43	jy2wong	you paste the output of lspci -n into a box, and it tells you about your hardware and what options you want to include or have as modules to use said hardware
+2014-05-31 17:50:52	kaictl	rookierks: that's what I do for packages. https://projects.archlinux.org/svntogit/packages.git/log/trunk?h=packages/linux (the tool i use: http://git.kaictl.net/wgiokas/gabs.git/ )
+2014-05-31 17:50:54	phrik	Title: svntogit/packages.git - Git clone of the 'packages' repository (at projects.archlinux.org)
+2014-05-31 17:51:33	voidfire	what are some nice books we can get to get deeper into kernel stuff and maybe kernel dev when we get familiar with C ?
+2014-05-31 17:51:37	jy2wong	if you want to start clearing stuff out, a good place to start is the X86 Platform Specific Device Drivers
+2014-05-31 17:52:00	voidfire	Im pretty sure can spit 'nough on such question any particular suggestions you ninjas admire?
+2014-05-31 17:52:18	jy2wong	voidfire: something that's enlightening is writing a small kernel (say, a microkernel for a raspberry pi or something)
+2014-05-31 17:52:19	BubbatheVTOG	jy2wong: I'm familur with makeconfig, where is that in nconfig?
+2014-05-31 17:52:41	voidfire	if I get my hands on a pi im pretty sure ill drive down that path 
+2014-05-31 17:52:53	jy2wong	BubbatheVTOG: Device Drivers > X86...
+2014-05-31 17:53:43	rookierks	kaictl: i knew about the first link, but its not very easy to pick just the file you want, great for checking what has changed from version to version though
+2014-05-31 17:54:02	<--	Gero (54682931@gateway/web/cgi-irc/kiwiirc.com/ip.84.104.41.49) has quit (Quit: http://www.kiwiirc.com/ - A hand crafted IRC client)
+2014-05-31 17:54:19	-->	Namarrgon_ (~glei@55d458b1.access.ecotel.net) has joined #archlinux-classroom
+2014-05-31 17:54:30	kaictl	rookierks: that's why i linked the tool i use. i use it kind of like 'abs', but it pulls from the git repo.
+2014-05-31 17:54:32	jy2wong	there's also a lot of stuff you can clean out in Device Drivers > SCSI device support
+2014-05-31 17:54:47	jy2wong	but be aware that you need SCSI disk support for USB drives to work.
+2014-05-31 17:54:50	rookierks	kaictl: aahh ok
+2014-05-31 17:55:17	 *	kaictl shamelessly plugs his own crappy project kthxbai
+2014-05-31 17:55:40	jy2wong	another thing you might want to look out for is crypto algorithms
+2014-05-31 17:55:47	<--	Namarrgon (~glei@55d44453.access.ecotel.net) has quit (Ping timeout: 240 seconds)
+2014-05-31 17:55:52	--	Namarrgon_ is now known as Namarrgon
+2014-05-31 17:55:57	jy2wong	grep --color=auto sse2 /proc/cpuinfo
+2014-05-31 17:56:30	demize	jy2wong: Need SCSI disk support for regular harddrives too
+2014-05-31 17:56:33	thiagowfx	Whoa, this gabs thing looks very handy. It is like abs, but with more recent PKGBUILDs, taken recently from the svntogit community/packages tree, is it right?
+2014-05-31 17:56:44	jy2wong	will, for example, tell you if your computer supports SSE2 instructions. If it doesn't, you have no need to include code that attempts to speed up some algorithm by having it use SSE2 instructions.
+2014-05-31 17:57:21	thiagowfx	ops, kaictl already answered my question =p
+2014-05-31 17:58:02	jy2wong	demize: yeah, but once you've found the one thing in there that makes your hard drive works, there's probably not that much more that you need.
+2014-05-31 17:58:08	jy2wong	s/works/work/
+2014-05-31 17:58:18	jy2wong	so that's basically it
+2014-05-31 17:58:22	<--	panta_ (~panta_@31-94-253.netrun.cytanet.com.cy) has quit (Remote host closed the connection)
+2014-05-31 17:58:42	jy2wong	thanks for sticking around; hope you enjoyed it
