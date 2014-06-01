@@ -1,0 +1,198 @@
+ABSROOT=. abs core/linux
+cd core/linux
+makepkg -g
+
+What are kernels?
+=================
+- sit between applications (web browsers, etc.) and computer hardware
+- there are monolithic kernels, microkernels, and all manner of kernel designs that are somewhere in between.
+- the Linux kernel is a monolithic kernel, as is the Windows kernel. Blackberry 10 uses a microkernel
+- https://en.wikipedia.org/wiki/File:OS-structure.svg
+- simplified: https://en.wikipedia.org/wiki/File:Operating_system_placement.svg
+- monolithic or micro, they share components: schedulers, IPC mechanism, virtual memory and device drivers, etc.
+- guardian and caretaker of hardware
+- going to quickly talk about some resources managed by the kernel, then about why I called it the guardian and caretaker of hardware
+
+
+Resources managed by the kernel
+-------------------------------
+- first, a detour to explain some lower-level happenings so you have a better appreciation of what the kernel is responsible for
+- let's quickly discuss how code (programs and applications) are actually run.
+
+(bear with me if you have background in this stuff. I think talking about pipelines and reordering will just muddle things at this point.)
+
+- at a low level, your computer executes programs in a very simple way. The CPU (central processing unit), sometimes called a processor, is the part that actually "runs" your program.
+
+- It fetches relatively simple instructions (such as add these two numbers, multiply these two numbers, and read the instruction at this address next) and executes them.
+
+[aside: If you've heard phrases like "3GHz processor", that frequency is the clock rate. It gives a rough idea of how many instructions are run per second on that processor, but not the entire story. read up on the memory latency pyramid, branch prediction and pipelines if you are curious.]
+
+- arithmetic can only be done on registers
+- registers are a limited resource: on an ARM machine, about 16 are available for a program's general use
+- the kernel's scheduler lets you multitask by managing who gets access to the registers at what time.
+- multitasking is more like unitasking for very small periods of time and then switching. a lot.
+
+- multitasking here also means being able to use your mouse while running a program.
+- kernel talks to your hardware: specialized programs called "device drivers"
+- e.g. SCSI drivers: SCSI is a set of standards for how your computer can talk to peripheral devices (hard drives and some other things). Specifies that the hardware must understand commands like "inquiry", "read", "write", but this will happen at the hardware level in different ways depending on the hardware in question
+- input: mouse, keyboard, hard drive (SCSI)
+- output: monitor, speakers
+- also bluetooth, ethernet
+
+- memory; OOM-killer
+- communication between applications (sometimes)
+
+
+guardian/caretaker
+------------------
+- damage control/mitigation
+- don't want program A messing around arbitrarily with program B's memory, registers
+- disallow programs from doing bad things to the hardware
+- normal applications tend to be "locked down" to varying degrees
+- kernel allows applications limited access to hardware, other program's data through "system calls"
+the application asks the kernel to do the "privileged" work.
+(e.g. you get your school transcript by asking a secretary. You yourself do not get access to the entire database of school transcripts)
+"hey, can I get a copy of my school transcript?" is like a syscall
+so it's sometimes an intermediary, too.
+
+--------------------------------------------------------------------------------------------------------
+
+okay, now we have a rough idea of what a kernel is. Let's take a small break.
+
+--------------------------------------------------------------------------------------------------------
+
+Configuring the Linux Kernel
+============================
+
+Intro to modules
+----------------
+- linux kernel has tuning knobs
+- not everyone needs every piece of functionality in the kernel
+- if you have an asus laptop it isn't useful at all to include the thinkpad ACPI extras driver.
+
+this is why you can turn some features off if you know you're never going to use them, or have them as modules (think loadable plugins for the kernel)
+- lsmod will show you the modules you have loaded.
+- likely you'll see something related to alsa or oss, and wifi drivers in there.
+
+- for many features, you have a choice of y/m/n
+- y for include in kernel unconditionally, m for module, and n for exclude
+- the rest of the time, you pick which algorithm is used for the scheduler, how to compress the kernel (gzip, bzip2, lzma), size of buffers
+
+
+Motivations
+-----------
+- can make your kernel as feature-rich or feature-light as you wish
+(honestly probably makes no difference if your machine is approximately recent, but this can be a very good thing if your machine is not so beefy)
+- the stock kernels that come with archlinux, ubuntu, etc. need to work with as many combinations of hardware as possible and so necessarily contain pretty much everything but the kitchen sink
+
+- interesting patches
+some anaesthesiologist named Con Kolivas wrote his own scheduler BFS (brain fuck scheduler) that some people think is better than the options that come in the vanilla (unpatched, plain) linux kernel code
+there's a package in the AUR
+
+
+Configure-Compile Overview
+----------------------------------
+- can just do 'makepkg -s', maybe changing pkgbase first, but let's see what's happening.
+- https://projects.archlinux.org/svntogit/packages.git/tree/trunk/PKGBUILD?h=packages/linux
+- patches in prepare()
+- config in the file src/${_srcname}/.config
+- around line 111, appropriate default arch linux config is put into place depending on architecture
+- book keeping,
+- make prepare at line 129, then a bunch of commented make *configs (will expand on soon)
+- build() does exactly one thing: make command.
+  - bzImage is actual kernel image
+  - modules makes the modules mentioned earlier
+- yes, the kernel is just an oversized program that you build with a Makefile!
+
+https://wiki.archlinux.org/index.php/Kernels/Compilation/Arch_Build_System
+- back to make {localmodconfig,nconfig,oldconfig}
+
+make localmodconfig
+takes a bunch of work out of cleaning out modules you don't use.
+best used in conjunction with modprobed-db
+https://wiki.archlinux.org/index.php/Modprobed-db
+
+make oldconfig lets you start out with the options from the kernel that's running now
+(you can see this config yourself at /proc/config.gz. zcat is a handy command)
+
+make nconfig gives you an ncurses thingy. Space to cycle through options; arrow keys function as you think they do.
+- F3 and 3 do the same thing
+- search is case-insensitive
+
+
+Where do things end up? (How does installing work)
+--------------------------------------------------
+- modules live in /usr/lib/modules/kernel-version/
+- kernel itself lives in the /boot partition, called something like vmlinuz-linux in archlinux
+- you might notice an initramfs-linux.img sitting in there along with your bootloader (grub, grub2, syslinux, lilo)
+- probably need some scsi driver to be able to read the hard drive.
+- if the scsi stuff is in a module, well GG to you. How do you get to the modules to read the hard drive when you can't read the hard drive?
+- haha just kidding that's what the initramfs is for.
+
+/etc/mkinitcpio.conf
+is the file (at least in archlinux) where you specify what things you absolutely! must! have! to mount your root partition (i.e. get access to the module files). If you use logical partitions or encrypt your disk, modules related to that would go into the initramfs, too.
+- You run mkinitcpio to generate the initramfs img based on the configuration file mkinitcpio.conf
+
+- Hey, guess what? If you compile in all the modules you need to get the root partition mounted, and your setup is sufficiently simple (encryption of disks makes it a bit more complicated), you don't need an initramfs image at all! That's pretty neat.
+- https://wiki.ubuntu.com/Initramfs
+
+- header files in /usr/lib/modules/kernel-version/build/ are important for compiling extra modules
+  - e.g. ossv4 stuff, cisco-vpnclient, anything with a dependency on linux-headers
+
+- keep linux-lts or something installed while you muck around
+- will need to add an entry to the bootloader config if you change the pkgbase variable, or want to use linux-lts
+
+Working with modules
+--------------------
+makes sense to have cdrom filesystem support as a module because you probably don't use a cd all that often but it'd be nice if it Just Worked when you do
+but also wifi card drivers, because it's useful to be able to unload and reload a module to do a kind of hard reset because sometimes drivers are buggy
+for my laptop,
+modprobe -r iwl4965
+modprobe iwl4965
+will bounce my wireless module (the iwl is for intel wireless LAN I think)
+
+there's a bit of a performance hit with the whole module dance, but if you bake it in you can't reload it and it takes up some (small, likely insignificant) amount of memory
+
+
+Making decisions
+-------------------
+it's a real pain in the butt when you're going through every option ever the first time you compile a kernel
+
+1. consult option help: ?
+
+2. cross-check against the default arch kernel and pappy's kernel seeds and google for a sane choice
+   - when in doubt err on the side of caution
+   - default option is capitalized
+https://web.archive.org/web/20130925005005/http://kernel-seeds.org/working.html
+http://kernel-seeds.org/working.html
+http://kernel-seeds.org/seeds/64_bit/vanilla/
+   - kernel seeds a bit outdated at this point, but still a pretty good starting point IMO
+
+- specific tip about kernel compression:
+re: kernel compression: this is how vmlinuz-linux or whatever is compressed.
+gzip is my choice; it leaves the biggest files on average but decompresses the fastest
+I don't think it makes all that much sense to bzip2 the kernel.
+http://tukaani.org/lzma/benchmarks.html
+
+
+Learning about your hardware
+----------------------------
+
+http://kmuto.jp/debian/hcl/
+lspci -n
+
+X86 Platform Specific Device Drivers
+is easy pickings.
+
+you can probably rip out a lot of stuff in the scsi section, but be careful because if you do it wrong you won't be able to read the hard drive
+Block Devices section -> you need scsi disk support for usb drives, but a lot of stuff in there is device-specific. It's that stuff that you can probably purge safely.
+
+x86 machines and arm machines are called such because their processors understand the x86 instruction set and the arm instruction set respectively. sometimes CPU manufacturers add extensions (new instructions) to instruction sets later on to add more features. often these new instructions allow for speedups in specific tasks; e.g. you can get implementations of a crypto algorithm that uses sse2 instructions.
+
+I generally Y crypto stuff. You can find out about the capabilities of your CPU with "cat /proc/cpuinfo"
+if you don't see sse2 on the list, it doesn't make sense to include the SSE2-optimized crypto code.
+useful CLI snippet: grep --color=auto sse2 /proc/cpuinfo
+if you see text a different colour from the rest, your CPU supports the sse2 instruction set
+
+--------------------------------------------------------------------------------------------------------
+have at it now or something I guess
