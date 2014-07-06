@@ -1,0 +1,207 @@
+##1 Introduction
+
+PKGBUILDs are specification files for building Arch Linux packages, you probably know that since you're here!
+the utility 'makepkg' is used to produce a package with a PKGBUILD.
+Arch Linux packages are then put in online repositories and installed with pacman.
+
+The package system of Arch Linux is called 'ABS', for Arch Build System
+https://wiki.archlinux.org/index.php/Arch_Build_System
+the official ABS tree is the set of PKGBUILDs maintained by the arch developers.
+in AUR, anybody can post their PKGBUILDs.
+
+
+#1.1 format of the packages
+
+Example: core/less : not many files, a classical minimal application package.
+ tar tvf /var/cache/pacman/pkg/less-458-1-x86_64.pkg.tar.xz 
+
+the package archive file (.pkg.tar.xz) contains:
+ all files that must be extracted to /
+ .PKGINFO
+ .INSTALL
+ .MTREE since April 2013 : https://patchwork.archlinux.org/patch/12/ (contains info to check file integrity and attrs)
+  → for instance sysfsutils doesn't have it, it's from April 2012 (20% of the packages I have installed don't have it)
+
+so we put these packages in the repos, and add a database:
+[me@server.org www]$ cd repo/i686 ; repo-add myrepo.db.tar.gz *.pkg.tar*
+then:
+[myrepo]
+Server = http://server.org/repo/$arch
+
+# once the package is installed:
+/var/lib/pacman/local/ is pacman's database default directory, it works with one directory per installed package
+database entry (directory) for a package: /var/lib/pacman/local/packagename-version-revision
+contains:
+ desc    → converted from the .PKGINFO (name, version, url, dependencies… of the package)
+ files   → the list of files pacman extracted
+ install → the .INSTALL
+ mtree   → the .MTREE as-is
+
+core/filesystem has an 'install' file:
+ tar tvf /var/cache/pacman/pkg/filesystem-2013.05-2-x86_64.pkg.tar.xz
+ ls /var/lib/pacman/local/filesystem-2013.05-2/
+
+#1.2 package metadata
+it's what we have in the '.PKGINFO' file in the package; or in the 'desc' file in the pacman DB (/var/lib/pacman/local)
+
+pkgver=packaged software / pkgrel=release number for the package of a same version of the packaged software
+license (from the packages licenses), arch ('any' if it's not binaries, else architectures it's known to work on)
+groups (the package claims to belong to as many of them as it wants to)
+
+#1.3 PKGBUILDs: how, what?
+
+so you could extract the sources, run `make`
+run `make DESTDIR='some_dir' install` to put the files in a directory
+add a .PKGINFO file in this folder
+tar cJf "mypackage-0.42-1-$(uname -m).pkg.tar.xz" some_dir
+…right?
+
+but that process would be done by hand, and you would need to do that again at each update.
+you could put everything in a script to avoid that?
+we can do better: PKGBUILDs are here for that.
+
+bash syntax, but no code directly run from the PKGBUILD: the utility `makepkg` handles building the package,
+calling the functions you define in it.
+you put the PKGBUILD and possibly an associated .install file in a directory, cd there, run makepkg.
+
+##2 How PKGBUILDs work
+
+#2.1 Prerequisites
+
+To build, you need base-devel installed.
+PKGBUILDs implicitly expect all packages from the group base-devel to be installed (pacman -Sg base-devel for the list)
+if you don't, the build will generally fail on things like 'make: command not found'
+
+Then we can configure makepkg. https://wiki.archlinux.org/index.php/Makepkg
+Edit /etc/makepkg.conf and uncomment (remove the sharp) #MAKEFLAGS="-j2", change 2 to your number of processors +1
+You can also uncomment and change #PACKAGER="John Doe <john@doe.com>"
+
+#2.2 Let's build a package!
+
+OK, let's build a package! So where are the PKGBUILDs?
+
+let's all go to https://www.archlinux.org/packages/ and find 'less', click on "source files" (top right)
+https://projects.archlinux.org/svntogit/packages.git/tree/trunk/PKGBUILD?h=packages/less
+
+get that PKGBUILD (click plain), save it to an empty directory and run makepkg. tadaa! you just built 'less' from core.
+
+#2.3 The PKGBUILD, its essential parts
+
+Now let's look at how that worked.
+
+#first, metadata
+Remember the metadata part from before? Let's look at this package's metadata in its PKGBUILD.
+That's where the metadata is originally written by a maintainer.
+
+Everything on metadata in PKGBUILDs: https://wiki.archlinux.org/index.php/PKGBUILD
+This page has a commented PKGBUILD https://wiki.archlinux.org/index.php/PKGBUILD_Templates
+Also `man PKGBUILD` in your terminal.
+
+ the dependencies depends=() supports versions: you can require package=version, package>=version, package<version, etc.
+ conflicts, provides, replace: example: mariadb and mysql
+ backup : for configuration files you want to keep if the user modified them, even if the package is uninstalled.
+  → your precious lighttpd config won't disappear even if you uninstall the package!
+ source: that's an array of URLs for the sources. they are automatically downloaded and extracted when building the package
+
+#then there are functions.
+before starting: these functions are run by makepkg when you run it.
+there are special variables defined when they are run:
+ "$srcdir" where makepkg extracted the sources that were in sources=()
+ "$pkgdir" which is an empty dir created by makepkg so you put the files to be compressed into a package in there
+ …and of course all of the above metadata ("$pkgname", "$pkgver", etc).
+ 
+the only one function you really need: package(), it puts the files the package will contain into "$pkgdir".
+build() is needed if you have to compile something
+prepare() can be used to patch the sources (only once!) before compilation (function build)
+separating those two allows to run makepkg -R (repackage) which only runs package()
+
+#pause !
+
+##3 Writing PKGBUILDs
+
+#3.1 Bash caveats
+
+So… that PKGBUILD for 'less' we saw earlier… Try to build it in say '/tmp/build folder' (yes, with the space).
+It breaks! why?
+*reminder: I'm a bash hacker and a purist :D*
+Even the Arch maintainers can't use Bash: they forgot quotes.
+Well, it's actually no longer necessary to cd into "$srcdir" at the beginning of build(): the function is run in that dir.
+
+The pacman PKGBUILD itself was missing quotes: https://bugs.archlinux.org/task/38368
+
+One fateful day, the author of bumblebee forgot to quote a string in his install script, you surely know about it.
+woe ensued:
+https://github.com/MrMEEE/bumblebee-Old-and-abbandoned/commit/a047be85247755cdbe0acce6f1dafc8beb84f2ac
+http://www.kirikoo.net/images/14Anonyme-20140419-093203.png
+
+You don't want that, right? Nobody wants that. I beg you: quote your strings if they contain variables.
+
+Here's a PKGBUILD I wrote, see the quotes around strings using variables?
+https://aur.archlinux.org/packages/defora-libdesktop/
+
+https://wiki.archlinux.org/index.php/Arch_Packaging_Standards (doesn't quote strings)
+
+The correct way to avoid problems:
+-quote "inert" strings (that must be rendered as-is) with '', example:
+   echo 'This package costs $0, it is "free".'
+   echo "This package costs $0, it is \"free\"."
+-quote strings with variables using "", example:
+   pkgname=foobar
+   echo "$pkgname is a nice package."
+   echo '$pkgname is a nice package.'
+-quote array elements:
+   var='this is an element'
+   array=("$var")
+   for i in "${array[@]}";do echo "element '$i'";done
+   array=($var)
+   for i in "${array[@]}";do echo "element '$i'";done
+
+Remember that for the source=() array and others!
+Misuse of Bash is far worse than Bash itself.
+
+#3.2 Writing the functions
+The wiki is very useful, see the list of pages: https://wiki.archlinux.org/index.php/Category:Package_development
+Read attentively the pages relevant to the kind of package you want to write (guidelines etc), before and after writing it
+
+first let's get back to source=(), you can use
+'nicename.tar.gz::http://site.tld/src/archive.tar.gz?rev=988881adc9fc3655077dc2d4d757d480b5ea0e11'
+that way you'll have nicename.tar.gz instead of archive.tar.gz?rev=988881adc9fc3655077dc2d4d757d480b5ea0e11
+
+then generally, you look at the INSTALL file in the sources to see what commands to run, and put that in build().
+don't forget to tell make to build everything in /usr : packages are forbidden to put things in /usr/local.
+ → ./configure --prefix=/usr and/or make PREFIX=/usr, or something else, you'll need to check for each case.
+
+If you need to patch the source, do it in a prepare() function: that function will only be run once.
+→ patching twice would fail.
+
+finally, when your package built:
+gloss over the list of files using tar tvf yourpackage.pkg.tar.xz : check that there's nothing weird in there
+check makepkg's output! if it says there's a reference to $srcdir in the package, it's bad.
+ → investigate with `grep -r "$PWD" src`
+and check your packages with namcap! it detects several sorts of mishaps that might have happened
+
+#3.3 VCS PKGBUILDs
+
+makepkg now supports git and svn URIs in source=().
+example: https://aur.archlinux.org/packages/aufs3-util
+you can for instance use this in source=():
+package_name::git+http://example.org/git/someproject.git
+
+note the pkgver() function. it's run after fetching the sources.
+the package's version becomes what that function outputs (the development revision for instance).
+here, I put the date of the last commit (in aufs3-util).
+
+There are other examples in the reference doc: https://wiki.archlinux.org/index.php/VCS_PKGBUILD_Guidelines
+
+#3.4 Split packages
+
+One PKGBUILD, several *.pkg.tar.* package files are produced.
+
+pkgname becomes an array.
+pkgbase is introduced, and is the base name of the PKGBUILD, so to speak
+ → none of the produced packages necessarily has that name.
+
+Still one build() function
+Lots of package_name-of-split-package() functions.
+In each one of them, you copy to "$pkgdir" the files you want to 
+
