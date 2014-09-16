@@ -1,393 +1,393 @@
-2014-09-05 16:02:33	+nisstyre	okay, first of all everyone should install the racket package, available in the official repos
-2014-09-05 16:02:35	demize	fsckd: Me too, but DrRacket is rather handy TBH
-2014-09-05 16:02:45	+nisstyre	I assume most people here have already done that
-2014-09-05 16:02:53	Arch-TK	no
-2014-09-05 16:03:16	+nisstyre	okay, it's kinda large so you probably wanna do that now
-2014-09-05 16:03:29	Arch-TK	nisstyre: only 15 seconds
-2014-09-05 16:03:34	+nisstyre	the code we'll be using as a rough guideline is here http://git.io/nH_Hzw
-2014-09-05 16:03:36	phrik	Title: intro.rkt (at git.io)
-2014-09-05 16:03:37	+nisstyre	Arch-TK: that's good
-2014-09-05 16:03:41	bigTree	50 for me
-2014-09-05 16:03:50	-->	Earnestly (~Earnestly@unaffiliated/earnestly) has joined #archlinux-classroom
-2014-09-05 16:04:05	random-nickname	!ask4
-2014-09-05 16:04:05	+nisstyre	you can run that code by typing 'racket intro.rkt'
-2014-09-05 16:04:07	phrik	One day, after the apocalypse, somebody is going to find a computer with 3% battery remaining, logged in to #archlinux. They'll ask Hello? Is anybody alive in here? and the one other person still online will run !ask right before the battery dies.
-2014-09-05 16:04:13	+nisstyre	or by prepending #! /usr/bin/racket to the top
-2014-09-05 16:04:30	+nisstyre	and then marking it as executable, so like most other interpreted languages
-2014-09-05 16:04:50	+nisstyre	all the code will do is spit out a bunch of stuff
-2014-09-05 16:05:04	+nisstyre	anyway, let me know when you all have it opened up
-2014-09-05 16:05:06	+nisstyre	and racket running
-2014-09-05 16:05:12	+nisstyre	you can get a repl by typing racket -i
-2014-09-05 16:05:15	Arch-TK	nisstyre: it works
-2014-09-05 16:05:20	bigTree	up and running
-2014-09-05 16:05:24	+nisstyre	great
-2014-09-05 16:05:46	+nisstyre	so the first thing we're going to talk about is function application
-2014-09-05 16:06:03	+nisstyre	this is done by wrapping the function (or procedure as it's usually called) in parens, like so (f)
-2014-09-05 16:06:18	+nisstyre	if there are arguments, you type (f a b c), and so on
-2014-09-05 16:06:23	+nisstyre	everyone with me?
-2014-09-05 16:06:27	<--	rbattula (~rbattula@host-240.splunk.com) has quit (Ping timeout: 245 seconds)
-2014-09-05 16:06:40	strcpy	still at hello world lol
-2014-09-05 16:06:52	bigTree	so like f (a, b, c)
-2014-09-05 16:06:53	+nisstyre	right, so displayln is a procedure
-2014-09-05 16:07:03	+nisstyre	it just displays something to stdout along with a newline character at the end
-2014-09-05 16:07:05	CalimeroTeknik	so (f arg) will mean "the value returned by f with arg as a first parameter"
-2014-09-05 16:07:14	+nisstyre	bigTree: yeah, that's what it looks like in languages inspired by C
-2014-09-05 16:07:15	strcpy	ok go on
-2014-09-05 16:07:29	+nisstyre	CalimeroTeknik: yes, they always give you back a value
-2014-09-05 16:07:30	bigTree	srry seing the comments now 
-2014-09-05 16:07:30	CalimeroTeknik	s/value/whatever/
-2014-09-05 16:07:32	bigTree	ok
-2014-09-05 16:07:37	CalimeroTeknik	can be a function, right?
-2014-09-05 16:07:41	<--	strcpy (~strcpy@85-125-242-222.teleworker.xdsl-line.inode.at) has quit (Quit: WeeChat 1.0)
-2014-09-05 16:07:55	+nisstyre	we won't get into the distinction between functions and procedures much, unless people are interested in that
-2014-09-05 16:08:25	+nisstyre	so anyway, arguments can be expressions that evaluate to a value of course
-2014-09-05 16:08:29	-->	strcpy (~strcpy@85-125-242-222.teleworker.xdsl-line.inode.at) has joined #archlinux-classroom
-2014-09-05 16:08:31	+nisstyre	as you'll see in the second example
-2014-09-05 16:08:47	 *	Arch-TK tried (displayln (displayln "hello"))
-2014-09-05 16:08:47	+nisstyre	which also illustrates Scheme's use of prefix notation for arithmetic
-2014-09-05 16:09:01	Earnestly	(You may want to explain the difference, the mathematical notion of what a function is wrt side-effects, idk)
-2014-09-05 16:09:21	+nisstyre	it's important to note that (* a b) is no different semantically to (f a b) if f does the same as *
-2014-09-05 16:09:28	+nisstyre	they are both valid procedure names
-2014-09-05 16:09:45	Arch-TK	ooooh
-2014-09-05 16:09:52	+nisstyre	Earnestly: yeah like I said, unless people seem interested I won't
-2014-09-05 16:09:56	+nisstyre	are people interested in that?
-2014-09-05 16:10:00	Arch-TK	sure
-2014-09-05 16:10:11	CalimeroTeknik	racket is ginormous
-2014-09-05 16:10:13	+nisstyre	okay, well, there is a notion of "referential transparency"
-2014-09-05 16:10:30	Earnestly	CalimeroTeknik: Worth all the bytes
-2014-09-05 16:10:36	CalimeroTeknik	I surely hope so
-2014-09-05 16:10:42	+nisstyre	in *basic* terms, it means that if you have a function, or some complicated expression, then it can be replaced by the value it evaluates to at any point
-2014-09-05 16:10:48	+nisstyre	and the program will not change
-2014-09-05 16:10:52	CalimeroTeknik	it includes all possible and imaginable libraries?
-2014-09-05 16:10:58	+nisstyre	meaning it will be semantically the same program, etc...
-2014-09-05 16:11:18	+nisstyre	in math a function is usually defined as a set of ordered pairs
-2014-09-05 16:11:28	+nisstyre	like {(a,b), (c, d), ...}
-2014-09-05 16:11:37	+nisstyre	it just means the some input is associated with some output
-2014-09-05 16:11:54	+nisstyre	in Scheme we call them procedures because they aren't necessarily like that
-2014-09-05 16:11:57	-->	rbattula (~rbattula@host-240.splunk.com) has joined #archlinux-classroom
-2014-09-05 16:11:58	+nisstyre	you can get different outputs for the same input
-2014-09-05 16:12:12	+nisstyre	make sense?
-2014-09-05 16:12:48	strcpy	{(a,b), (c, d), ..}  --> a b   is the input?
-2014-09-05 16:13:01	+nisstyre	a is the input, b is the output
-2014-09-05 16:13:07	justin_smith	strcpy: a and c are inputs, b and d outputs I think
-2014-09-05 16:13:10	+nisstyre	they are ordered in that you know which is which
-2014-09-05 16:13:16	-->	nsajko (5efdc7a4@gateway/web/freenode/ip.94.253.199.164) has joined #archlinux-classroom
-2014-09-05 16:13:46	fsckd	so in scheme, i can (foo bar) and today it returns baz and tomorrow it returns ni despite having the same input?
-2014-09-05 16:13:47	Arch-TK	strcpy: if f(x) is 3x+1 then f(4) is 13
-2014-09-05 16:13:53	+nisstyre	we can also imagine what might happen if your function has certain possible inputs that don't map to any outputs
-2014-09-05 16:13:58	Arch-TK	strcpy: hence, (4, 13), like a coordinate on a graph
-2014-09-05 16:13:58	+nisstyre	but that's not super important at this point
-2014-09-05 16:14:16	+nisstyre	yes, similar to that
-2014-09-05 16:14:57	+nisstyre	so, anyway, Arch-TK the error you got before is something I also wanted to touch on
-2014-09-05 16:15:00	justin_smith	fsckd: sure, maybe foo gets its results from a server, and tomorrow the server is down
-2014-09-05 16:15:32	fsckd	that makes sense
-2014-09-05 16:15:45	Arch-TK	fsckd: I think that was a joke.
-2014-09-05 16:15:51	+nisstyre	displayln actually does return a value
-2014-09-05 16:16:01	+nisstyre	Racket internally defines it as the constant returned by (void)
-2014-09-05 16:16:22	justin_smith	Arch-TK: not a joke at all, just being precise about the fact that it isn't a function in the mathematical sense if it gets a result from the stateful world
-2014-09-05 16:16:31	+nisstyre	it doesn't matter what that actual value is, as long as we know it's not useful
-2014-09-05 16:16:45	+nisstyre	this is Racket and Scheme's approach to side-effects
-2014-09-05 16:17:26	Arch-TK	justin_smith: I think we're talking about functions and procedure in the strict sense of maths, not the real world, the reason you can't call rand() a function in mathematical terms is that a: it doesn't rake an input and b: the output varies independant of the (lacking) input.
-2014-09-05 16:17:31	+nisstyre	so do we want to continue talking about side-effects (I was going to move on to sequencing side effects if so) or talk about quoting?
-2014-09-05 16:17:40	Arch-TK	take*
-2014-09-05 16:17:48	-->	LBV_User (~leonardo@177.2.128.75) has joined #archlinux-classroom
-2014-09-05 16:17:59	strcpy	a question: in DrRacket, can i somehow select some part of code and just run that?
-2014-09-05 16:17:59	Earnestly	Think of all the (expressions) as bubbles that you have to pop to see the value :P
-2014-09-05 16:18:09	+nisstyre	strcpy: I'm actually not sure
-2014-09-05 16:18:37	Arch-TK	strcpy: I've been copy pasting right into the repl
-2014-09-05 16:18:58	strcpy	Arch-TK: good idea i will do that
-2014-09-05 16:19:21	+nisstyre	you can comment stuff out by highlighting it and then ctrl+mod+;
-2014-09-05 16:19:37	+nisstyre	and then ctrl+r to run the remaining stuff
-2014-09-05 16:19:45	+nisstyre	the output will be in the repl pane
-2014-09-05 16:19:56	 *	Arch-TK wonders if he's missing the editor side of this.
-2014-09-05 16:20:36	bigTree	using vim are there multiline comments?
-2014-09-05 16:20:45	+nisstyre	depends on your vim configuration
-2014-09-05 16:21:02	+nisstyre	well, I think you need a plugin or something for Scheme
-2014-09-05 16:21:09	bigTree	say like ''' for python
-2014-09-05 16:21:17	+nisstyre	oh, no
-2014-09-05 16:21:43	p1atoon	the language doesnt support them but vim can be configured to auto comment until terminate
-2014-09-05 16:21:47	+nisstyre	if you type a string in the top-level (what you might think of as the global scope) then it will get evaluated and printed
-2014-09-05 16:22:00	justin_smith	#; should comment a sexpr, #| |# should comment a block
-2014-09-05 16:22:18	+nisstyre	yeah
-2014-09-05 16:22:22	bigTree	okie
-2014-09-05 16:22:54	+nisstyre	so anyway, one important thing I wanted to talk about is quoting
-2014-09-05 16:23:06	+nisstyre	(= '2 2) is actually true
-2014-09-05 16:23:26	+nisstyre	if you've learned a bit of Scheme before, this is sort of confusing
-2014-09-05 16:23:47	+nisstyre	'a is syntactic sugar for (quote a)
-2014-09-05 16:24:01	+nisstyre	and this brings me into a discussion of "forms" in Scheme
-2014-09-05 16:24:24	+nisstyre	quote there is actually not a procedure even though it may look like it
-2014-09-05 16:24:47	+nisstyre	what it does is take something and give you back a quoted version of it
-2014-09-05 16:24:55	+nisstyre	http://docs.racket-lang.org/guide/quote.html
-2014-09-05 16:25:25	+nisstyre	the reason '3 = 3 is because certain things are "autoquoted"
-2014-09-05 16:25:33	+nisstyre	this includes number literals and string literals
-2014-09-05 16:25:44	+nisstyre	making sense so far?
-2014-09-05 16:25:51	Arch-TK	yeah
-2014-09-05 16:25:51	strcpy	what does quoting do? is it like a string?
-2014-09-05 16:26:01	Arch-TK	strcpy: prevents it from being parsed from my understanding
-2014-09-05 16:26:06	Arch-TK	well
-2014-09-05 16:26:09	Arch-TK	ask the man
-2014-09-05 16:26:10	Earnestly	evaluated
-2014-09-05 16:26:14	Arch-TK	that's the one
-2014-09-05 16:26:21	+nisstyre	yeah, that is sort of the main use of them
-2014-09-05 16:26:28	+nisstyre	they can also be used as constants in your program
-2014-09-05 16:26:40	Earnestly	Every (bubble) is evaluated, you quote it to prevent it from being evaluated and treated as constants/literal
-2014-09-05 16:26:45	+nisstyre	say you want two unique values that represent two things
-2014-09-05 16:26:59	+nisstyre	it's better to just do 'foo and 'bar rather than use strings
-2014-09-05 16:27:55	+nisstyre	if you do '(a b c d) then the entire thing gets quotes as well
-2014-09-05 16:28:36	+nisstyre	we can talk about quasiquote if people are interested?
-2014-09-05 16:28:49	Arch-TK	yes, sounds weird and interesting
-2014-09-05 16:28:53	+nisstyre	oky heh
-2014-09-05 16:28:55	+nisstyre	*okay
-2014-09-05 16:29:34	+nisstyre	so if you just do (quasiquote (a b c d)) you actually get the same thing as (quote (a b c d))
-2014-09-05 16:29:42	+nisstyre	the magic is that now you can use unquote in there
-2014-09-05 16:30:08	+nisstyre	(quasiquote (a b c d (unquote 'e)))
-2014-09-05 16:30:25	+nisstyre	silly example, but unquote is actually evaluating the stuff there
-2014-09-05 16:30:33	+nisstyre	so you can break out of the quote
-2014-09-05 16:30:47	+nisstyre	if you actually want the value of something after evaluating it
-2014-09-05 16:30:57	+nisstyre	this also has its own syntactic sugar
-2014-09-05 16:31:26	+nisstyre	`(a b c d ,'e)
-2014-09-05 16:31:41	+nisstyre	the ` says you're starting a quasiquoted form
-2014-09-05 16:31:47	+nisstyre	the , says youre unquoting
-2014-09-05 16:31:52	+nisstyre	and ' is just the normal quote form
-2014-09-05 16:31:57	+nisstyre	which returns a quoted e
-2014-09-05 16:32:22	+nisstyre	so you can see how this sometimes comes in handy when doing a lot of quoting
-2014-09-05 16:32:36	+nisstyre	http://docs.racket-lang.org/reference/quasiquote.html has a lot more info
-2014-09-05 16:32:41	CalimeroTeknik	so 'a isn't the same as ocaml
-2014-09-05 16:32:46	+nisstyre	no
-2014-09-05 16:32:52	+nisstyre	I believe that is a type variable in OCaml
-2014-09-05 16:33:02	CalimeroTeknik	yes it is
-2014-09-05 16:33:38	+nisstyre	so, moving on then
-2014-09-05 16:33:44	+nisstyre	let's discuss lists
-2014-09-05 16:33:57	fsckd	one moment
-2014-09-05 16:34:02	+nisstyre	ok
-2014-09-05 16:34:21	fsckd	let me see if i understand quotes. when i quote something, it means to leave it as is?
-2014-09-05 16:34:37	+nisstyre	well, basically yes
-2014-09-05 16:34:55	+nisstyre	it means that it won't be interpreted as a name by the interpreter
-2014-09-05 16:35:04	Arch-TK	I can see how these quotes can become as complicated as pointers in C.
-2014-09-05 16:35:09	+nisstyre	so if you normally type a, for example, then it will try to look up the value bound to a in the current environment
-2014-09-05 16:35:15	+nisstyre	this making sense?
-2014-09-05 16:35:20	fsckd	yes
-2014-09-05 16:35:26	fsckd	find what a means
-2014-09-05 16:35:29	+nisstyre	this is why "aaa" and 345 are autoquoted too
-2014-09-05 16:35:43	+nisstyre	since the interpreter is more consistent then
-2014-09-05 16:35:47	fsckd	find what a is equal to*
-2014-09-05 16:35:53	+nisstyre	it doesn't need to special case as many things
-2014-09-05 16:36:03	+nisstyre	fsckd: well, find the value bound to it yeah
-2014-09-05 16:36:10	+nisstyre	we will discuss environments too
-2014-09-05 16:36:19	fsckd	ok, i think i understand
-2014-09-05 16:36:35	+nisstyre	should we talk about environments actually, before lists?
-2014-09-05 16:36:48	fsckd	may be cover lists first
-2014-09-05 16:36:52	+nisstyre	ok
-2014-09-05 16:37:03	+nisstyre	so the three procedures you normally use to manipulate lists are cons, car, and cdr
-2014-09-05 16:37:10	+nisstyre	the names are bizarre for historical reasons
-2014-09-05 16:37:43	+nisstyre	basically you need to know that Scheme lists are formed using cons
-2014-09-05 16:37:56	+nisstyre	(cons 1 (cons 2 '()) gives you the same as (list 1 2)
-2014-09-05 16:38:04	+nisstyre	'() marks the end of the list
-2014-09-05 16:38:21	+nisstyre	the reason the procedure applications are nested is because cons is actually a procedure for constructing pairs
-2014-09-05 16:38:28	+nisstyre	(similar to the pairs I mentioned before)
-2014-09-05 16:38:39	+nisstyre	car gives you the left value, cdr the right
-2014-09-05 16:39:05	+nisstyre	the example I gave is called a proper list because we didn't do something funny like (cons (cons 1 '()) 2)
-2014-09-05 16:39:18	Arch-TK	nisstyre: So in essence, it's not _really_ a list, it's just a pair of a value and a pair of a value and a pair of a value and nothing
-2014-09-05 16:39:27	+nisstyre	Arch-TK: that's right
-2014-09-05 16:39:36	+nisstyre	proper lists are just a special case of cons pairs
-2014-09-05 16:39:50	+nisstyre	much more info here again http://docs.racket-lang.org/reference/pairs.html
-2014-09-05 16:40:09	Arch-TK	and to add to that, you can also create tree structures in this fashion right?
-2014-09-05 16:40:16	Arch-TK	(well, the list to begin with is a tree)
-2014-09-05 16:40:30	+nisstyre	if you skip to line 136 in the code, then you'll see a basic example of using lists
-2014-09-05 16:40:47	+nisstyre	(I haven't discussed recursion or defining procedures yet though)
-2014-09-05 16:40:54	+nisstyre	Arch-TK: that's correct
-2014-09-05 16:41:00	Arch-TK	cool
-2014-09-05 16:41:07	+nisstyre	you can't create cyclical structures without some trickery though
-2014-09-05 16:41:14	+nisstyre	(a tree is obviously not cyclical)
-2014-09-05 16:41:34	strcpy	what is a cyclical structure? a ring buffer?
-2014-09-05 16:41:49	+nisstyre	something like a graph, basically, a ring buffer could be too
-2014-09-05 16:41:53	+nisstyre	since the last element refers to the first
-2014-09-05 16:42:18	+nisstyre	http://docs.racket-lang.org/reference/pairs.html#%28part._.Immutable_.Cyclic_.Data%29 discusses how to do it
-2014-09-05 16:42:41	+nisstyre	http://docs.racket-lang.org/reference/pairs.html#%28def._%28%28quote._~23~25kernel%29._make-reader-graph%29%29 rather
-2014-09-05 16:43:00	+nisstyre	anyway
-2014-09-05 16:43:36	+nisstyre	for many purposes where the elements of a list are going to be string or number literals, you can actually just type '(1 2 3) for example, which will evaluate to a list in Racket
-2014-09-05 16:43:45	+nisstyre	it's important to note that they're technically different things though
-2014-09-05 16:44:10	+nisstyre	in some Scheme implementations you might not be able to do things like mutate them
-2014-09-05 16:44:31	+nisstyre	everyone with me so far?
-2014-09-05 16:44:36	sivteck	yes
-2014-09-05 16:44:39	+nisstyre	cool
-2014-09-05 16:44:43	+nisstyre	so procedure definition
-2014-09-05 16:44:57	+nisstyre	(define (f a b) (+ a b)) gives you a procedure f that returns (+ a b)
-2014-09-05 16:45:08	+nisstyre	a and b are called bound variables because they are bound by the define form
-2014-09-05 16:45:22	+nisstyre	this is syntactic sugar for (define f (lambda (a b) (+ a b)))
-2014-09-05 16:45:42	+nisstyre	define is used to say "this equals that" basically
-2014-09-05 16:45:50	Arch-TK	hmm
-2014-09-05 16:46:14	+nisstyre	you can also reference the function in its body of course, which is recursion
-2014-09-05 16:46:21	 *	Arch-TK now realises the intricacies of meta-circular evaluation
-2014-09-05 16:46:25	+nisstyre	which is demonstrated a bunch of times in the file
-2014-09-05 16:46:37	fsckd	(sorry to go back a bit) in the pair thing above, '() is a quoted value?
-2014-09-05 16:46:38	+nisstyre	Arch-TK: I will recommend some reading material at the end if you want
-2014-09-05 16:46:50	Arch-TK	nisstyre: Sure, someone challanged me to write one in C.
-2014-09-05 16:46:59	Arch-TK	nisstyre: I told them I'll write on in asm.
-2014-09-05 16:47:20	+nisstyre	fsckd: it's null
-2014-09-05 16:47:21	+nisstyre	http://docs.racket-lang.org/reference/pairs.html#%28def._%28%28quote._~23~25kernel%29._null%29%29
-2014-09-05 16:47:39	fsckd	thanks
-2014-09-05 16:48:00	fsckd	lists are null terminated
-2014-09-05 16:48:04	+nisstyre	yes
-2014-09-05 16:48:08	+nisstyre	in a manner of speaking
-2014-09-05 16:48:15	+nisstyre	so, conditionals
-2014-09-05 16:48:23	+nisstyre	the simplest is probably if
-2014-09-05 16:48:29	Arch-TK	fsckd: Essentially, you're creating a pair of a value and a pair
-2014-09-05 16:48:32	+nisstyre	(if #t "true" "false")
-2014-09-05 16:48:33	Arch-TK	fsckd: so you're branching
-2014-09-05 16:48:41	Arch-TK	fsckd: eventually you don't want to branch anymore
-2014-09-05 16:48:46	+nisstyre	#t is the syntax for true
-2014-09-05 16:49:00	+nisstyre	if is also a form, not a procedure
-2014-09-05 16:49:07	Arch-TK	fsckd: so you put a null, the null is part of your list, but it's eventually just a meaningless placeholder for what could be more list items.
-2014-09-05 16:49:13	+nisstyre	it doesn't evaluate the else branch if the condition is true
-2014-09-05 16:49:35	+nisstyre	cond allows you to have a list of conditions with values for each
-2014-09-05 16:49:51	+nisstyre	(cond (condition1 value1) (condition2 value2) ...)
-2014-09-05 16:50:04	+nisstyre	each condition negates all previous conditions implicitly
-2014-09-05 16:50:08	fsckd	Arch-TK: i think i get it. thanks
-2014-09-05 16:50:12	<--	kaipee (~kaipee@host86-129-125-62.range86-129.btcentralplus.com) has quit (Quit: Leaving)
-2014-09-05 16:50:14	+nisstyre	since they can only be true if all previous conditions are false
-2014-09-05 16:50:25	+nisstyre	er, they can only get chosen if all previous ones are false
-2014-09-05 16:50:51	+nisstyre	the conditions can be any expression that evaluates to a boolean like #t or #f
-2014-09-05 16:51:18	+nisstyre	you can of course nest conditionals
-2014-09-05 16:51:50	+nisstyre	i.e. (if #t (cond (something blah) (else somethingelse)) someotherthing)
-2014-09-05 16:52:01	+nisstyre	the else there is just the catch all branch of cond
-2014-09-05 16:52:04	justin_smith	anything other than #f counts as #t
-2014-09-05 16:52:31	+nisstyre	yeah that's true
-2014-09-05 16:52:37	+nisstyre	I'm simplifying a bit
-2014-09-05 16:52:43	justin_smith	np, sorry
-2014-09-05 16:52:59	+nisstyre	but sometimes that is useful
-2014-09-05 16:53:31	+nisstyre	anyway, there are plenty of examples of it in the file
-2014-09-05 16:53:49	+nisstyre	sumlist and prodlist demonstrate most things we've learned so far
-2014-09-05 16:54:17	+nisstyre	we'll talk about higher-order functions/procedures (HOFs) next
-2014-09-05 16:54:36	+nisstyre	anyone have questions/concerns?
-2014-09-05 16:54:56	strcpy	when you said: if is also a form
-2014-09-05 16:55:07	strcpy	are forms something special? i mean, some generic concept?
-2014-09-05 16:55:26	strcpy	like can you write your own forms?
-2014-09-05 16:55:31	+nisstyre	absolutely
-2014-09-05 16:55:43	+nisstyre	they're sort of like special syntax that does something
-2014-09-05 16:55:55	+nisstyre	they all use the same general "form" that is an s-expression though
-2014-09-05 16:56:03	+nisstyre	(simplifying wrt Racket somewhat)
-2014-09-05 16:56:14	+nisstyre	we can talk about macros in a bit if people are curious
-2014-09-05 16:56:18	+nisstyre	that is kind of advanced though
-2014-09-05 16:56:33	+nisstyre	but macros are how you create new forms
-2014-09-05 16:56:37	strcpy	ok
-2014-09-05 16:57:04	+nisstyre	so, anyway, remember how I said everything evaluates to a value?
-2014-09-05 16:57:10	+nisstyre	(even side-effects)
-2014-09-05 16:57:22	strcpy	unless qouted stuff?
-2014-09-05 16:57:23	+nisstyre	the value procedures evaluate to can be useful
-2014-09-05 16:57:38	+nisstyre	strcpy: well, even that does, it's just a constant produced by quoting it
-2014-09-05 16:57:58	+nisstyre	you can pass around functions as value though
-2014-09-05 16:58:06	+nisstyre	(will use function/procedure interchangeably here)
-2014-09-05 16:58:10	<--	tonyBee (~chatzilla@174-30-68-11.desm.qwest.net) has left #archlinux-classroom
-2014-09-05 16:58:22	+nisstyre	line 162 has examples
-2014-09-05 16:58:42	+nisstyre	well, maybe we should start with map
-2014-09-05 16:59:16	+nisstyre	(map (lambda (x) (+ 2 x)) (list 1 2 3 4))
-2014-09-05 16:59:35	+nisstyre	that applies the procedure in the first argument (the lambda here) to each element of the list
-2014-09-05 16:59:58	strcpy	cool
-2014-09-05 17:00:12	+nisstyre	so you get '(3 4 5 6)
-2014-09-05 17:00:26	+nisstyre	HOFs are good for abstracting things to be more general
-2014-09-05 17:00:36	+nisstyre	like say you have two procedures that do almost the same thing
-2014-09-05 17:00:46	+nisstyre	you can make the difference be a higher order function that is passed in
-2014-09-05 17:01:26	+nisstyre	there are a few HOFs you will probably use a lot
-2014-09-05 17:01:49	+nisstyre	map, filter, foldr, foldl, and so on
-2014-09-05 17:02:21	+nisstyre	folds can be a bit tricky
-2014-09-05 17:02:39	+nisstyre	the easiest way to think about them is like an associative operation
-2014-09-05 17:04:12	+nisstyre	so for example, (foldl - 0 (list 1 2)) is different from (foldr - 0 (list 1 2))
-2014-09-05 17:04:37	+nisstyre	foldl is (- 1 (- 2 0))
-2014-09-05 17:05:16	+nisstyre	foldr is just (- 2 (- 1 0))
-2014-09-05 17:05:42	+nisstyre	so usually it's easier to make sense of a fold if it's something associative like multiplication or addition
-2014-09-05 17:05:56	+nisstyre	questions?
-2014-09-05 17:07:02	winny	So fold{r,l} basically reduce the list one direction or the other using a given function?
-2014-09-05 17:07:10	+nisstyre	yes
-2014-09-05 17:07:20	+nisstyre	it's reduce, just in different directions
-2014-09-05 17:07:35	+nisstyre	some schemes will have a generic "fold" which (I may be wrong) is usually a left fold
-2014-09-05 17:07:41	+nisstyre	or it might be called reduce
-2014-09-05 17:07:50	justin_smith	so in one of those cases it will have to reverse the input first (if the arg is a linked list at least) right?
-2014-09-05 17:07:51	+nisstyre	in Python it is called reduce, and I forget which direction it is
-2014-09-05 17:08:22	+nisstyre	justin_smith: I suppose so yeah
-2014-09-05 17:08:27	justin_smith	iirc the default would be left-fold, since it's faster to follow the linked list from the head
-2014-09-05 17:08:33	+nisstyre	yep
-2014-09-05 17:08:36	winny	It's probably using the iterable 'interface', so left for most things
-2014-09-05 17:08:39	justin_smith	unless you are using a vector format where getting the tail is faster
-2014-09-05 17:08:59	justin_smith	how do you use vectors and hash maps in racket?
-2014-09-05 17:09:07	+nisstyre	#(a b c d) is a vector
-2014-09-05 17:09:28	+nisstyre	#hash((blah . whatever) (something . blah2)) is a hash map literal
-2014-09-05 17:09:49	justin_smith	and I assume these support log time associative lookup?
-2014-09-05 17:09:54	+nisstyre	(those are dotted pairs, which we also haven't talked about)
-2014-09-05 17:09:58	+nisstyre	justin_smith: yep
-2014-09-05 17:10:19	+nisstyre	and of course there are tons of procedures for working with vectors and hash maps
-2014-09-05 17:10:30	+nisstyre	those can be found by reading the Racket docs
-2014-09-05 17:10:42	+nisstyre	there are mutable and immutable versions of hash maps
-2014-09-05 17:10:46	justin_smith	are the default vector and hash-map mutable?
-2014-09-05 17:10:54	justin_smith	oh man, jynx
-2014-09-05 17:10:57	+nisstyre	both for hash maps, not sure about vectors I'd have to check
-2014-09-05 17:11:31	+nisstyre	so, maybe we should talk about environments/binding and let
-2014-09-05 17:11:45	fsckd	a HOF is a procedure which takes other procedures as an argument. so map takes a procedure and a list. and it applies the procedure to each element of the list and returns a list of the results. am i getting this right?
-2014-09-05 17:11:53	+nisstyre	or if you have more questions :p
-2014-09-05 17:11:58	fsckd	:P
-2014-09-05 17:12:05	+nisstyre	fsckd: yeah that's it
-2014-09-05 17:12:08	+nisstyre	exactly
-2014-09-05 17:12:23	winny	texbook worthy definition
-2014-09-05 17:12:24	+nisstyre	one or more procedures as args
-2014-09-05 17:13:02	+nisstyre	and you can either give it a name that is bound to a procedure or a lambda, which evaluates to one
-2014-09-05 17:13:07	+nisstyre	or any other form that does
-2014-09-05 17:13:23	+nisstyre	(since you may come across other ways of creating them)
-2014-09-05 17:13:45	+nisstyre	so, let is a form that allows you to bind names to value
-2014-09-05 17:14:00	+nisstyre	(let ((x 2)) (+ x x)) is equal to (* 2 2)
-2014-09-05 17:14:12	+nisstyre	since x is bound to 2 in that code
-2014-09-05 17:14:27	justin_smith	is let parallel or sequential binding?
-2014-09-05 17:14:27	+nisstyre	lambda is the most basic binding form, which let makes use of 
-2014-09-05 17:14:47	+nisstyre	you mean can you refer to other bindings in the values you're using to bind other names?
-2014-09-05 17:14:51	+nisstyre	(if that makes sense)
-2014-09-05 17:14:53	justin_smith	yeah
-2014-09-05 17:14:55	+nisstyre	let* lets you do that
-2014-09-05 17:15:00	justin_smith	cool
-2014-09-05 17:15:04	+nisstyre	the basic let doesn't
-2014-09-05 17:15:09	+nisstyre	it's equivalent to this
-2014-09-05 17:15:20	+nisstyre	((lambda (x) (* x x)) 2)
-2014-09-05 17:15:28	+nisstyre	and you just add more parameters for more bindings
-2014-09-05 17:15:37	+nisstyre	let* nests them properly so you can refer to other ones
-2014-09-05 17:16:19	+nisstyre	you can also do things like (let ((x 2)) (define (f y) (+ x y)))
-2014-09-05 17:16:44	+nisstyre	er wait a sec that's not right
-2014-09-05 17:17:37	+nisstyre	yeah I meant to do (let ((x 2)) (lambda (f y) (+ x y)))
-2014-09-05 17:18:22	+nisstyre	er, minus the f lol
-2014-09-05 17:18:39	+nisstyre	anyway, then you can do (define f (let ((x 2)) (lambda (y) (+ x y))))
-2014-09-05 17:18:49	+nisstyre	and then whenever you call f x will always be 2
-2014-09-05 17:18:54	+nisstyre	i.e. a closure
-2014-09-05 17:20:10	+nisstyre	when you create a procedure like (lambda (y) (+ x y)) it gets converted into a closure if there are variables that aren't bound there
-2014-09-05 17:20:28	+nisstyre	x is not bound, so it gets the value of x in the enclosing environment
-2014-09-05 17:20:33	<--	random-nickname (~random-ni@181.98.148.91.adsl.dyn.beotel.net) has quit (Read error: Connection reset by peer)
-2014-09-05 17:20:36	+nisstyre	and what you actually get back is the environment and the function
-2014-09-05 17:20:56	+nisstyre	then whenever you call it later, that environment gets used
-2014-09-05 17:21:12	+nisstyre	make sense to everyone?
-2014-09-05 17:21:20	+nisstyre	I know it's a bit hard to explain it in words
-2014-09-05 17:22:35	strcpy	environment is i.e. a module?
-2014-09-05 17:22:52	+nisstyre	not really no
-2014-09-05 17:23:01	+nisstyre	I'll give a good example in a sec
-2014-09-05 17:23:02	justin_smith	it can be used to implement one - it is the sum of all visible bindings
-2014-09-05 17:23:31	justin_smith	an environment closure can be used to create objects (in the oo sense), modules
-2014-09-05 17:24:29	+nisstyre	so if you did the following
-2014-09-05 17:24:54	+nisstyre	(define closure (cons #hash((x . 2)) (lambda (env y) (+ (hash-ref env 'x) y)))
-2014-09-05 17:24:57	+nisstyre	)
-2014-09-05 17:25:18	+nisstyre	then you would call that a closure because it has an environment (the hash) and a function (the lambda)
-2014-09-05 17:25:34	+nisstyre	of course you don't need to use a hash
-2014-09-05 17:25:38	+nisstyre	that's just convenient here
-2014-09-05 17:26:29	+nisstyre	then you can define something called invoke
-2014-09-05 17:26:31	+nisstyre	like
-2014-09-05 17:26:45	+nisstyre	(define (invoke closure args) (apply (cdr closure) (car closure) args))
-2014-09-05 17:26:57	+nisstyre	then (invoke closure (list 3)) gives you 5
-2014-09-05 17:27:02	+nisstyre	you can try this out in the repl
-2014-09-05 17:28:06	+nisstyre	so is it making sense now?
-2014-09-05 17:28:16	+nisstyre	if this stuff interests you then I recommend Lisp In Small Pieces
-2014-09-05 17:28:51	+nisstyre	you can see how this could be useful I hope, and how you could go about converting procedures into this form
-2014-09-05 17:29:30	+nisstyre	basically look for variables that are not bound, (remember lambda is a binding form) and then add a new parameter called env, and reference that for their values
-2014-09-05 17:30:50	+nisstyre	cool?
-2014-09-05 17:31:48	strcpy	very interesting, thanks for giving this class
-2014-09-05 17:31:54	+nisstyre	no problem
-2014-09-05 17:32:24	strcpy	<-- just know too little yet to understand the closure stuff, but will read up on it
-2014-09-05 17:32:26	+nisstyre	The Little Schemer, The Seasoned Schemer, SICP, and Lisp In Small Pieces are recommended if you want more material, in order of advancedness
-2014-09-05 17:32:57	fsckd	The Little Schemer is the easiest?
-2014-09-05 17:33:04	+nisstyre	I'd think so yeah
-2014-09-05 17:33:16	+nisstyre	it's by Daniel P. Friedman
-2014-09-05 17:34:03	+nisstyre	anyway, I think I'll stop here
-2014-09-05 17:34:13	+nisstyre	maybe a second class some time if people want to know about more cool stuff
+2014-09-05 20:02:33	+nisstyre	okay, first of all everyone should install the racket package, available in the official repos
+2014-09-05 20:02:35	demize	fsckd: Me too, but DrRacket is rather handy TBH
+2014-09-05 20:02:45	+nisstyre	I assume most people here have already done that
+2014-09-05 20:02:53	Arch-TK	no
+2014-09-05 20:03:16	+nisstyre	okay, it's kinda large so you probably wanna do that now
+2014-09-05 20:03:29	Arch-TK	nisstyre: only 15 seconds
+2014-09-05 20:03:34	+nisstyre	the code we'll be using as a rough guideline is here http://git.io/nH_Hzw
+2014-09-05 20:03:36	phrik	Title: intro.rkt (at git.io)
+2014-09-05 20:03:37	+nisstyre	Arch-TK: that's good
+2014-09-05 20:03:41	bigTree	50 for me
+2014-09-05 20:03:50	-->	Earnestly (~Earnestly@unaffiliated/earnestly) has joined #archlinux-classroom
+2014-09-05 20:04:05	random-nickname	!ask4
+2014-09-05 20:04:05	+nisstyre	you can run that code by typing 'racket intro.rkt'
+2014-09-05 20:04:07	phrik	One day, after the apocalypse, somebody is going to find a computer with 3% battery remaining, logged in to #archlinux. They'll ask Hello? Is anybody alive in here? and the one other person still online will run !ask right before the battery dies.
+2014-09-05 20:04:13	+nisstyre	or by prepending #! /usr/bin/racket to the top
+2014-09-05 20:04:30	+nisstyre	and then marking it as executable, so like most other interpreted languages
+2014-09-05 20:04:50	+nisstyre	all the code will do is spit out a bunch of stuff
+2014-09-05 20:05:04	+nisstyre	anyway, let me know when you all have it opened up
+2014-09-05 20:05:06	+nisstyre	and racket running
+2014-09-05 20:05:12	+nisstyre	you can get a repl by typing racket -i
+2014-09-05 20:05:15	Arch-TK	nisstyre: it works
+2014-09-05 20:05:20	bigTree	up and running
+2014-09-05 20:05:24	+nisstyre	great
+2014-09-05 20:05:46	+nisstyre	so the first thing we're going to talk about is function application
+2014-09-05 20:06:03	+nisstyre	this is done by wrapping the function (or procedure as it's usually called) in parens, like so (f)
+2014-09-05 20:06:18	+nisstyre	if there are arguments, you type (f a b c), and so on
+2014-09-05 20:06:23	+nisstyre	everyone with me?
+2014-09-05 20:06:27	<--	rbattula (~rbattula@host-240.splunk.com) has quit (Ping timeout: 245 seconds)
+2014-09-05 20:06:40	strcpy	still at hello world lol
+2014-09-05 20:06:52	bigTree	so like f (a, b, c)
+2014-09-05 20:06:53	+nisstyre	right, so displayln is a procedure
+2014-09-05 20:07:03	+nisstyre	it just displays something to stdout along with a newline character at the end
+2014-09-05 20:07:05	CalimeroTeknik	so (f arg) will mean "the value returned by f with arg as a first parameter"
+2014-09-05 20:07:14	+nisstyre	bigTree: yeah, that's what it looks like in languages inspired by C
+2014-09-05 20:07:15	strcpy	ok go on
+2014-09-05 20:07:29	+nisstyre	CalimeroTeknik: yes, they always give you back a value
+2014-09-05 20:07:30	bigTree	srry seing the comments now 
+2014-09-05 20:07:30	CalimeroTeknik	s/value/whatever/
+2014-09-05 20:07:32	bigTree	ok
+2014-09-05 20:07:37	CalimeroTeknik	can be a function, right?
+2014-09-05 20:07:41	<--	strcpy (~strcpy@85-125-242-222.teleworker.xdsl-line.inode.at) has quit (Quit: WeeChat 1.0)
+2014-09-05 20:07:55	+nisstyre	we won't get into the distinction between functions and procedures much, unless people are interested in that
+2014-09-05 20:08:25	+nisstyre	so anyway, arguments can be expressions that evaluate to a value of course
+2014-09-05 20:08:29	-->	strcpy (~strcpy@85-125-242-222.teleworker.xdsl-line.inode.at) has joined #archlinux-classroom
+2014-09-05 20:08:31	+nisstyre	as you'll see in the second example
+2014-09-05 20:08:47	 *	Arch-TK tried (displayln (displayln "hello"))
+2014-09-05 20:08:47	+nisstyre	which also illustrates Scheme's use of prefix notation for arithmetic
+2014-09-05 20:09:01	Earnestly	(You may want to explain the difference, the mathematical notion of what a function is wrt side-effects, idk)
+2014-09-05 20:09:21	+nisstyre	it's important to note that (* a b) is no different semantically to (f a b) if f does the same as *
+2014-09-05 20:09:28	+nisstyre	they are both valid procedure names
+2014-09-05 20:09:45	Arch-TK	ooooh
+2014-09-05 20:09:52	+nisstyre	Earnestly: yeah like I said, unless people seem interested I won't
+2014-09-05 20:09:56	+nisstyre	are people interested in that?
+2014-09-05 20:10:00	Arch-TK	sure
+2014-09-05 20:10:11	CalimeroTeknik	racket is ginormous
+2014-09-05 20:10:13	+nisstyre	okay, well, there is a notion of "referential transparency"
+2014-09-05 20:10:30	Earnestly	CalimeroTeknik: Worth all the bytes
+2014-09-05 20:10:36	CalimeroTeknik	I surely hope so
+2014-09-05 20:10:42	+nisstyre	in *basic* terms, it means that if you have a function, or some complicated expression, then it can be replaced by the value it evaluates to at any point
+2014-09-05 20:10:48	+nisstyre	and the program will not change
+2014-09-05 20:10:52	CalimeroTeknik	it includes all possible and imaginable libraries?
+2014-09-05 20:10:58	+nisstyre	meaning it will be semantically the same program, etc...
+2014-09-05 20:11:18	+nisstyre	in math a function is usually defined as a set of ordered pairs
+2014-09-05 20:11:28	+nisstyre	like {(a,b), (c, d), ...}
+2014-09-05 20:11:37	+nisstyre	it just means the some input is associated with some output
+2014-09-05 20:11:54	+nisstyre	in Scheme we call them procedures because they aren't necessarily like that
+2014-09-05 20:11:57	-->	rbattula (~rbattula@host-240.splunk.com) has joined #archlinux-classroom
+2014-09-05 20:11:58	+nisstyre	you can get different outputs for the same input
+2014-09-05 20:12:12	+nisstyre	make sense?
+2014-09-05 20:12:48	strcpy	{(a,b), (c, d), ..}  --> a b   is the input?
+2014-09-05 20:13:01	+nisstyre	a is the input, b is the output
+2014-09-05 20:13:07	justin_smith	strcpy: a and c are inputs, b and d outputs I think
+2014-09-05 20:13:10	+nisstyre	they are ordered in that you know which is which
+2014-09-05 20:13:16	-->	nsajko (5efdc7a4@gateway/web/freenode/ip.94.253.199.164) has joined #archlinux-classroom
+2014-09-05 20:13:46	fsckd	so in scheme, i can (foo bar) and today it returns baz and tomorrow it returns ni despite having the same input?
+2014-09-05 20:13:47	Arch-TK	strcpy: if f(x) is 3x+1 then f(4) is 13
+2014-09-05 20:13:53	+nisstyre	we can also imagine what might happen if your function has certain possible inputs that don't map to any outputs
+2014-09-05 20:13:58	Arch-TK	strcpy: hence, (4, 13), like a coordinate on a graph
+2014-09-05 20:13:58	+nisstyre	but that's not super important at this point
+2014-09-05 20:14:16	+nisstyre	yes, similar to that
+2014-09-05 20:14:57	+nisstyre	so, anyway, Arch-TK the error you got before is something I also wanted to touch on
+2014-09-05 20:15:00	justin_smith	fsckd: sure, maybe foo gets its results from a server, and tomorrow the server is down
+2014-09-05 20:15:32	fsckd	that makes sense
+2014-09-05 20:15:45	Arch-TK	fsckd: I think that was a joke.
+2014-09-05 20:15:51	+nisstyre	displayln actually does return a value
+2014-09-05 20:16:01	+nisstyre	Racket internally defines it as the constant returned by (void)
+2014-09-05 20:16:22	justin_smith	Arch-TK: not a joke at all, just being precise about the fact that it isn't a function in the mathematical sense if it gets a result from the stateful world
+2014-09-05 20:16:31	+nisstyre	it doesn't matter what that actual value is, as long as we know it's not useful
+2014-09-05 20:16:45	+nisstyre	this is Racket and Scheme's approach to side-effects
+2014-09-05 20:17:26	Arch-TK	justin_smith: I think we're talking about functions and procedure in the strict sense of maths, not the real world, the reason you can't call rand() a function in mathematical terms is that a: it doesn't rake an input and b: the output varies independant of the (lacking) input.
+2014-09-05 20:17:31	+nisstyre	so do we want to continue talking about side-effects (I was going to move on to sequencing side effects if so) or talk about quoting?
+2014-09-05 20:17:40	Arch-TK	take*
+2014-09-05 20:17:48	-->	LBV_User (~leonardo@177.2.128.75) has joined #archlinux-classroom
+2014-09-05 20:17:59	strcpy	a question: in DrRacket, can i somehow select some part of code and just run that?
+2014-09-05 20:17:59	Earnestly	Think of all the (expressions) as bubbles that you have to pop to see the value :P
+2014-09-05 20:18:09	+nisstyre	strcpy: I'm actually not sure
+2014-09-05 20:18:37	Arch-TK	strcpy: I've been copy pasting right into the repl
+2014-09-05 20:18:58	strcpy	Arch-TK: good idea i will do that
+2014-09-05 20:19:21	+nisstyre	you can comment stuff out by highlighting it and then ctrl+mod+;
+2014-09-05 20:19:37	+nisstyre	and then ctrl+r to run the remaining stuff
+2014-09-05 20:19:45	+nisstyre	the output will be in the repl pane
+2014-09-05 20:19:56	 *	Arch-TK wonders if he's missing the editor side of this.
+2014-09-05 20:20:36	bigTree	using vim are there multiline comments?
+2014-09-05 20:20:45	+nisstyre	depends on your vim configuration
+2014-09-05 20:21:02	+nisstyre	well, I think you need a plugin or something for Scheme
+2014-09-05 20:21:09	bigTree	say like ''' for python
+2014-09-05 20:21:17	+nisstyre	oh, no
+2014-09-05 20:21:43	p1atoon	the language doesnt support them but vim can be configured to auto comment until terminate
+2014-09-05 20:21:47	+nisstyre	if you type a string in the top-level (what you might think of as the global scope) then it will get evaluated and printed
+2014-09-05 20:22:00	justin_smith	#; should comment a sexpr, #| |# should comment a block
+2014-09-05 20:22:18	+nisstyre	yeah
+2014-09-05 20:22:22	bigTree	okie
+2014-09-05 20:22:54	+nisstyre	so anyway, one important thing I wanted to talk about is quoting
+2014-09-05 20:23:06	+nisstyre	(= '2 2) is actually true
+2014-09-05 20:23:26	+nisstyre	if you've learned a bit of Scheme before, this is sort of confusing
+2014-09-05 20:23:47	+nisstyre	'a is syntactic sugar for (quote a)
+2014-09-05 20:24:01	+nisstyre	and this brings me into a discussion of "forms" in Scheme
+2014-09-05 20:24:24	+nisstyre	quote there is actually not a procedure even though it may look like it
+2014-09-05 20:24:47	+nisstyre	what it does is take something and give you back a quoted version of it
+2014-09-05 20:24:55	+nisstyre	http://docs.racket-lang.org/guide/quote.html
+2014-09-05 20:25:25	+nisstyre	the reason '3 = 3 is because certain things are "autoquoted"
+2014-09-05 20:25:33	+nisstyre	this includes number literals and string literals
+2014-09-05 20:25:44	+nisstyre	making sense so far?
+2014-09-05 20:25:51	Arch-TK	yeah
+2014-09-05 20:25:51	strcpy	what does quoting do? is it like a string?
+2014-09-05 20:26:01	Arch-TK	strcpy: prevents it from being parsed from my understanding
+2014-09-05 20:26:06	Arch-TK	well
+2014-09-05 20:26:09	Arch-TK	ask the man
+2014-09-05 20:26:10	Earnestly	evaluated
+2014-09-05 20:26:14	Arch-TK	that's the one
+2014-09-05 20:26:21	+nisstyre	yeah, that is sort of the main use of them
+2014-09-05 20:26:28	+nisstyre	they can also be used as constants in your program
+2014-09-05 20:26:40	Earnestly	Every (bubble) is evaluated, you quote it to prevent it from being evaluated and treated as constants/literal
+2014-09-05 20:26:45	+nisstyre	say you want two unique values that represent two things
+2014-09-05 20:26:59	+nisstyre	it's better to just do 'foo and 'bar rather than use strings
+2014-09-05 20:27:55	+nisstyre	if you do '(a b c d) then the entire thing gets quotes as well
+2014-09-05 20:28:36	+nisstyre	we can talk about quasiquote if people are interested?
+2014-09-05 20:28:49	Arch-TK	yes, sounds weird and interesting
+2014-09-05 20:28:53	+nisstyre	oky heh
+2014-09-05 20:28:55	+nisstyre	*okay
+2014-09-05 20:29:34	+nisstyre	so if you just do (quasiquote (a b c d)) you actually get the same thing as (quote (a b c d))
+2014-09-05 20:29:42	+nisstyre	the magic is that now you can use unquote in there
+2014-09-05 20:30:08	+nisstyre	(quasiquote (a b c d (unquote 'e)))
+2014-09-05 20:30:25	+nisstyre	silly example, but unquote is actually evaluating the stuff there
+2014-09-05 20:30:33	+nisstyre	so you can break out of the quote
+2014-09-05 20:30:47	+nisstyre	if you actually want the value of something after evaluating it
+2014-09-05 20:30:57	+nisstyre	this also has its own syntactic sugar
+2014-09-05 20:31:26	+nisstyre	`(a b c d ,'e)
+2014-09-05 20:31:41	+nisstyre	the ` says you're starting a quasiquoted form
+2014-09-05 20:31:47	+nisstyre	the , says youre unquoting
+2014-09-05 20:31:52	+nisstyre	and ' is just the normal quote form
+2014-09-05 20:31:57	+nisstyre	which returns a quoted e
+2014-09-05 20:32:22	+nisstyre	so you can see how this sometimes comes in handy when doing a lot of quoting
+2014-09-05 20:32:36	+nisstyre	http://docs.racket-lang.org/reference/quasiquote.html has a lot more info
+2014-09-05 20:32:41	CalimeroTeknik	so 'a isn't the same as ocaml
+2014-09-05 20:32:46	+nisstyre	no
+2014-09-05 20:32:52	+nisstyre	I believe that is a type variable in OCaml
+2014-09-05 20:33:02	CalimeroTeknik	yes it is
+2014-09-05 20:33:38	+nisstyre	so, moving on then
+2014-09-05 20:33:44	+nisstyre	let's discuss lists
+2014-09-05 20:33:57	fsckd	one moment
+2014-09-05 20:34:02	+nisstyre	ok
+2014-09-05 20:34:21	fsckd	let me see if i understand quotes. when i quote something, it means to leave it as is?
+2014-09-05 20:34:37	+nisstyre	well, basically yes
+2014-09-05 20:34:55	+nisstyre	it means that it won't be interpreted as a name by the interpreter
+2014-09-05 20:35:04	Arch-TK	I can see how these quotes can become as complicated as pointers in C.
+2014-09-05 20:35:09	+nisstyre	so if you normally type a, for example, then it will try to look up the value bound to a in the current environment
+2014-09-05 20:35:15	+nisstyre	this making sense?
+2014-09-05 20:35:20	fsckd	yes
+2014-09-05 20:35:26	fsckd	find what a means
+2014-09-05 20:35:29	+nisstyre	this is why "aaa" and 345 are autoquoted too
+2014-09-05 20:35:43	+nisstyre	since the interpreter is more consistent then
+2014-09-05 20:35:47	fsckd	find what a is equal to*
+2014-09-05 20:35:53	+nisstyre	it doesn't need to special case as many things
+2014-09-05 20:36:03	+nisstyre	fsckd: well, find the value bound to it yeah
+2014-09-05 20:36:10	+nisstyre	we will discuss environments too
+2014-09-05 20:36:19	fsckd	ok, i think i understand
+2014-09-05 20:36:35	+nisstyre	should we talk about environments actually, before lists?
+2014-09-05 20:36:48	fsckd	may be cover lists first
+2014-09-05 20:36:52	+nisstyre	ok
+2014-09-05 20:37:03	+nisstyre	so the three procedures you normally use to manipulate lists are cons, car, and cdr
+2014-09-05 20:37:10	+nisstyre	the names are bizarre for historical reasons
+2014-09-05 20:37:43	+nisstyre	basically you need to know that Scheme lists are formed using cons
+2014-09-05 20:37:56	+nisstyre	(cons 1 (cons 2 '()) gives you the same as (list 1 2)
+2014-09-05 20:38:04	+nisstyre	'() marks the end of the list
+2014-09-05 20:38:21	+nisstyre	the reason the procedure applications are nested is because cons is actually a procedure for constructing pairs
+2014-09-05 20:38:28	+nisstyre	(similar to the pairs I mentioned before)
+2014-09-05 20:38:39	+nisstyre	car gives you the left value, cdr the right
+2014-09-05 20:39:05	+nisstyre	the example I gave is called a proper list because we didn't do something funny like (cons (cons 1 '()) 2)
+2014-09-05 20:39:18	Arch-TK	nisstyre: So in essence, it's not _really_ a list, it's just a pair of a value and a pair of a value and a pair of a value and nothing
+2014-09-05 20:39:27	+nisstyre	Arch-TK: that's right
+2014-09-05 20:39:36	+nisstyre	proper lists are just a special case of cons pairs
+2014-09-05 20:39:50	+nisstyre	much more info here again http://docs.racket-lang.org/reference/pairs.html
+2014-09-05 20:40:09	Arch-TK	and to add to that, you can also create tree structures in this fashion right?
+2014-09-05 20:40:16	Arch-TK	(well, the list to begin with is a tree)
+2014-09-05 20:40:30	+nisstyre	if you skip to line 136 in the code, then you'll see a basic example of using lists
+2014-09-05 20:40:47	+nisstyre	(I haven't discussed recursion or defining procedures yet though)
+2014-09-05 20:40:54	+nisstyre	Arch-TK: that's correct
+2014-09-05 20:41:00	Arch-TK	cool
+2014-09-05 20:41:07	+nisstyre	you can't create cyclical structures without some trickery though
+2014-09-05 20:41:14	+nisstyre	(a tree is obviously not cyclical)
+2014-09-05 20:41:34	strcpy	what is a cyclical structure? a ring buffer?
+2014-09-05 20:41:49	+nisstyre	something like a graph, basically, a ring buffer could be too
+2014-09-05 20:41:53	+nisstyre	since the last element refers to the first
+2014-09-05 20:42:18	+nisstyre	http://docs.racket-lang.org/reference/pairs.html#%28part._.Immutable_.Cyclic_.Data%29 discusses how to do it
+2014-09-05 20:42:41	+nisstyre	http://docs.racket-lang.org/reference/pairs.html#%28def._%28%28quote._~23~25kernel%29._make-reader-graph%29%29 rather
+2014-09-05 20:43:00	+nisstyre	anyway
+2014-09-05 20:43:36	+nisstyre	for many purposes where the elements of a list are going to be string or number literals, you can actually just type '(1 2 3) for example, which will evaluate to a list in Racket
+2014-09-05 20:43:45	+nisstyre	it's important to note that they're technically different things though
+2014-09-05 20:44:10	+nisstyre	in some Scheme implementations you might not be able to do things like mutate them
+2014-09-05 20:44:31	+nisstyre	everyone with me so far?
+2014-09-05 20:44:36	sivteck	yes
+2014-09-05 20:44:39	+nisstyre	cool
+2014-09-05 20:44:43	+nisstyre	so procedure definition
+2014-09-05 20:44:57	+nisstyre	(define (f a b) (+ a b)) gives you a procedure f that returns (+ a b)
+2014-09-05 20:45:08	+nisstyre	a and b are called bound variables because they are bound by the define form
+2014-09-05 20:45:22	+nisstyre	this is syntactic sugar for (define f (lambda (a b) (+ a b)))
+2014-09-05 20:45:42	+nisstyre	define is used to say "this equals that" basically
+2014-09-05 20:45:50	Arch-TK	hmm
+2014-09-05 20:46:14	+nisstyre	you can also reference the function in its body of course, which is recursion
+2014-09-05 20:46:21	 *	Arch-TK now realises the intricacies of meta-circular evaluation
+2014-09-05 20:46:25	+nisstyre	which is demonstrated a bunch of times in the file
+2014-09-05 20:46:37	fsckd	(sorry to go back a bit) in the pair thing above, '() is a quoted value?
+2014-09-05 20:46:38	+nisstyre	Arch-TK: I will recommend some reading material at the end if you want
+2014-09-05 20:46:50	Arch-TK	nisstyre: Sure, someone challanged me to write one in C.
+2014-09-05 20:46:59	Arch-TK	nisstyre: I told them I'll write on in asm.
+2014-09-05 20:47:20	+nisstyre	fsckd: it's null
+2014-09-05 20:47:21	+nisstyre	http://docs.racket-lang.org/reference/pairs.html#%28def._%28%28quote._~23~25kernel%29._null%29%29
+2014-09-05 20:47:39	fsckd	thanks
+2014-09-05 20:48:00	fsckd	lists are null terminated
+2014-09-05 20:48:04	+nisstyre	yes
+2014-09-05 20:48:08	+nisstyre	in a manner of speaking
+2014-09-05 20:48:15	+nisstyre	so, conditionals
+2014-09-05 20:48:23	+nisstyre	the simplest is probably if
+2014-09-05 20:48:29	Arch-TK	fsckd: Essentially, you're creating a pair of a value and a pair
+2014-09-05 20:48:32	+nisstyre	(if #t "true" "false")
+2014-09-05 20:48:33	Arch-TK	fsckd: so you're branching
+2014-09-05 20:48:41	Arch-TK	fsckd: eventually you don't want to branch anymore
+2014-09-05 20:48:46	+nisstyre	#t is the syntax for true
+2014-09-05 20:49:00	+nisstyre	if is also a form, not a procedure
+2014-09-05 20:49:07	Arch-TK	fsckd: so you put a null, the null is part of your list, but it's eventually just a meaningless placeholder for what could be more list items.
+2014-09-05 20:49:13	+nisstyre	it doesn't evaluate the else branch if the condition is true
+2014-09-05 20:49:35	+nisstyre	cond allows you to have a list of conditions with values for each
+2014-09-05 20:49:51	+nisstyre	(cond (condition1 value1) (condition2 value2) ...)
+2014-09-05 20:50:04	+nisstyre	each condition negates all previous conditions implicitly
+2014-09-05 20:50:08	fsckd	Arch-TK: i think i get it. thanks
+2014-09-05 20:50:12	<--	kaipee (~kaipee@host86-129-125-62.range86-129.btcentralplus.com) has quit (Quit: Leaving)
+2014-09-05 20:50:14	+nisstyre	since they can only be true if all previous conditions are false
+2014-09-05 20:50:25	+nisstyre	er, they can only get chosen if all previous ones are false
+2014-09-05 20:50:51	+nisstyre	the conditions can be any expression that evaluates to a boolean like #t or #f
+2014-09-05 20:51:18	+nisstyre	you can of course nest conditionals
+2014-09-05 20:51:50	+nisstyre	i.e. (if #t (cond (something blah) (else somethingelse)) someotherthing)
+2014-09-05 20:52:01	+nisstyre	the else there is just the catch all branch of cond
+2014-09-05 20:52:04	justin_smith	anything other than #f counts as #t
+2014-09-05 20:52:31	+nisstyre	yeah that's true
+2014-09-05 20:52:37	+nisstyre	I'm simplifying a bit
+2014-09-05 20:52:43	justin_smith	np, sorry
+2014-09-05 20:52:59	+nisstyre	but sometimes that is useful
+2014-09-05 20:53:31	+nisstyre	anyway, there are plenty of examples of it in the file
+2014-09-05 20:53:49	+nisstyre	sumlist and prodlist demonstrate most things we've learned so far
+2014-09-05 20:54:17	+nisstyre	we'll talk about higher-order functions/procedures (HOFs) next
+2014-09-05 20:54:36	+nisstyre	anyone have questions/concerns?
+2014-09-05 20:54:56	strcpy	when you said: if is also a form
+2014-09-05 20:55:07	strcpy	are forms something special? i mean, some generic concept?
+2014-09-05 20:55:26	strcpy	like can you write your own forms?
+2014-09-05 20:55:31	+nisstyre	absolutely
+2014-09-05 20:55:43	+nisstyre	they're sort of like special syntax that does something
+2014-09-05 20:55:55	+nisstyre	they all use the same general "form" that is an s-expression though
+2014-09-05 20:56:03	+nisstyre	(simplifying wrt Racket somewhat)
+2014-09-05 20:56:14	+nisstyre	we can talk about macros in a bit if people are curious
+2014-09-05 20:56:18	+nisstyre	that is kind of advanced though
+2014-09-05 20:56:33	+nisstyre	but macros are how you create new forms
+2014-09-05 20:56:37	strcpy	ok
+2014-09-05 20:57:04	+nisstyre	so, anyway, remember how I said everything evaluates to a value?
+2014-09-05 20:57:10	+nisstyre	(even side-effects)
+2014-09-05 20:57:22	strcpy	unless qouted stuff?
+2014-09-05 20:57:23	+nisstyre	the value procedures evaluate to can be useful
+2014-09-05 20:57:38	+nisstyre	strcpy: well, even that does, it's just a constant produced by quoting it
+2014-09-05 20:57:58	+nisstyre	you can pass around functions as value though
+2014-09-05 20:58:06	+nisstyre	(will use function/procedure interchangeably here)
+2014-09-05 20:58:10	<--	tonyBee (~chatzilla@174-30-68-11.desm.qwest.net) has left #archlinux-classroom
+2014-09-05 20:58:22	+nisstyre	line 162 has examples
+2014-09-05 20:58:42	+nisstyre	well, maybe we should start with map
+2014-09-05 20:59:16	+nisstyre	(map (lambda (x) (+ 2 x)) (list 1 2 3 4))
+2014-09-05 20:59:35	+nisstyre	that applies the procedure in the first argument (the lambda here) to each element of the list
+2014-09-05 20:59:58	strcpy	cool
+2014-09-05 21:00:12	+nisstyre	so you get '(3 4 5 6)
+2014-09-05 21:00:26	+nisstyre	HOFs are good for abstracting things to be more general
+2014-09-05 21:00:36	+nisstyre	like say you have two procedures that do almost the same thing
+2014-09-05 21:00:46	+nisstyre	you can make the difference be a higher order function that is passed in
+2014-09-05 21:01:26	+nisstyre	there are a few HOFs you will probably use a lot
+2014-09-05 21:01:49	+nisstyre	map, filter, foldr, foldl, and so on
+2014-09-05 21:02:21	+nisstyre	folds can be a bit tricky
+2014-09-05 21:02:39	+nisstyre	the easiest way to think about them is like an associative operation
+2014-09-05 21:04:12	+nisstyre	so for example, (foldl - 0 (list 1 2)) is different from (foldr - 0 (list 1 2))
+2014-09-05 21:04:37	+nisstyre	foldl is (- 1 (- 2 0))
+2014-09-05 21:05:16	+nisstyre	foldr is just (- 2 (- 1 0))
+2014-09-05 21:05:42	+nisstyre	so usually it's easier to make sense of a fold if it's something associative like multiplication or addition
+2014-09-05 21:05:56	+nisstyre	questions?
+2014-09-05 21:07:02	winny	So fold{r,l} basically reduce the list one direction or the other using a given function?
+2014-09-05 21:07:10	+nisstyre	yes
+2014-09-05 21:07:20	+nisstyre	it's reduce, just in different directions
+2014-09-05 21:07:35	+nisstyre	some schemes will have a generic "fold" which (I may be wrong) is usually a left fold
+2014-09-05 21:07:41	+nisstyre	or it might be called reduce
+2014-09-05 21:07:50	justin_smith	so in one of those cases it will have to reverse the input first (if the arg is a linked list at least) right?
+2014-09-05 21:07:51	+nisstyre	in Python it is called reduce, and I forget which direction it is
+2014-09-05 21:08:22	+nisstyre	justin_smith: I suppose so yeah
+2014-09-05 21:08:27	justin_smith	iirc the default would be left-fold, since it's faster to follow the linked list from the head
+2014-09-05 21:08:33	+nisstyre	yep
+2014-09-05 21:08:36	winny	It's probably using the iterable 'interface', so left for most things
+2014-09-05 21:08:39	justin_smith	unless you are using a vector format where getting the tail is faster
+2014-09-05 21:08:59	justin_smith	how do you use vectors and hash maps in racket?
+2014-09-05 21:09:07	+nisstyre	#(a b c d) is a vector
+2014-09-05 21:09:28	+nisstyre	#hash((blah . whatever) (something . blah2)) is a hash map literal
+2014-09-05 21:09:49	justin_smith	and I assume these support log time associative lookup?
+2014-09-05 21:09:54	+nisstyre	(those are dotted pairs, which we also haven't talked about)
+2014-09-05 21:09:58	+nisstyre	justin_smith: yep
+2014-09-05 21:10:19	+nisstyre	and of course there are tons of procedures for working with vectors and hash maps
+2014-09-05 21:10:30	+nisstyre	those can be found by reading the Racket docs
+2014-09-05 21:10:42	+nisstyre	there are mutable and immutable versions of hash maps
+2014-09-05 21:10:46	justin_smith	are the default vector and hash-map mutable?
+2014-09-05 21:10:54	justin_smith	oh man, jynx
+2014-09-05 21:10:57	+nisstyre	both for hash maps, not sure about vectors I'd have to check
+2014-09-05 21:11:31	+nisstyre	so, maybe we should talk about environments/binding and let
+2014-09-05 21:11:45	fsckd	a HOF is a procedure which takes other procedures as an argument. so map takes a procedure and a list. and it applies the procedure to each element of the list and returns a list of the results. am i getting this right?
+2014-09-05 21:11:53	+nisstyre	or if you have more questions :p
+2014-09-05 21:11:58	fsckd	:P
+2014-09-05 21:12:05	+nisstyre	fsckd: yeah that's it
+2014-09-05 21:12:08	+nisstyre	exactly
+2014-09-05 21:12:23	winny	texbook worthy definition
+2014-09-05 21:12:24	+nisstyre	one or more procedures as args
+2014-09-05 21:13:02	+nisstyre	and you can either give it a name that is bound to a procedure or a lambda, which evaluates to one
+2014-09-05 21:13:07	+nisstyre	or any other form that does
+2014-09-05 21:13:23	+nisstyre	(since you may come across other ways of creating them)
+2014-09-05 21:13:45	+nisstyre	so, let is a form that allows you to bind names to value
+2014-09-05 21:14:00	+nisstyre	(let ((x 2)) (+ x x)) is equal to (* 2 2)
+2014-09-05 21:14:12	+nisstyre	since x is bound to 2 in that code
+2014-09-05 21:14:27	justin_smith	is let parallel or sequential binding?
+2014-09-05 21:14:27	+nisstyre	lambda is the most basic binding form, which let makes use of 
+2014-09-05 21:14:47	+nisstyre	you mean can you refer to other bindings in the values you're using to bind other names?
+2014-09-05 21:14:51	+nisstyre	(if that makes sense)
+2014-09-05 21:14:53	justin_smith	yeah
+2014-09-05 21:14:55	+nisstyre	let* lets you do that
+2014-09-05 21:15:00	justin_smith	cool
+2014-09-05 21:15:04	+nisstyre	the basic let doesn't
+2014-09-05 21:15:09	+nisstyre	it's equivalent to this
+2014-09-05 21:15:20	+nisstyre	((lambda (x) (* x x)) 2)
+2014-09-05 21:15:28	+nisstyre	and you just add more parameters for more bindings
+2014-09-05 21:15:37	+nisstyre	let* nests them properly so you can refer to other ones
+2014-09-05 21:16:19	+nisstyre	you can also do things like (let ((x 2)) (define (f y) (+ x y)))
+2014-09-05 21:16:44	+nisstyre	er wait a sec that's not right
+2014-09-05 21:17:37	+nisstyre	yeah I meant to do (let ((x 2)) (lambda (f y) (+ x y)))
+2014-09-05 21:18:22	+nisstyre	er, minus the f lol
+2014-09-05 21:18:39	+nisstyre	anyway, then you can do (define f (let ((x 2)) (lambda (y) (+ x y))))
+2014-09-05 21:18:49	+nisstyre	and then whenever you call f x will always be 2
+2014-09-05 21:18:54	+nisstyre	i.e. a closure
+2014-09-05 21:20:10	+nisstyre	when you create a procedure like (lambda (y) (+ x y)) it gets converted into a closure if there are variables that aren't bound there
+2014-09-05 21:20:28	+nisstyre	x is not bound, so it gets the value of x in the enclosing environment
+2014-09-05 21:20:33	<--	random-nickname (~random-ni@181.98.148.91.adsl.dyn.beotel.net) has quit (Read error: Connection reset by peer)
+2014-09-05 21:20:36	+nisstyre	and what you actually get back is the environment and the function
+2014-09-05 21:20:56	+nisstyre	then whenever you call it later, that environment gets used
+2014-09-05 21:21:12	+nisstyre	make sense to everyone?
+2014-09-05 21:21:20	+nisstyre	I know it's a bit hard to explain it in words
+2014-09-05 21:22:35	strcpy	environment is i.e. a module?
+2014-09-05 21:22:52	+nisstyre	not really no
+2014-09-05 21:23:01	+nisstyre	I'll give a good example in a sec
+2014-09-05 21:23:02	justin_smith	it can be used to implement one - it is the sum of all visible bindings
+2014-09-05 21:23:31	justin_smith	an environment closure can be used to create objects (in the oo sense), modules
+2014-09-05 21:24:29	+nisstyre	so if you did the following
+2014-09-05 21:24:54	+nisstyre	(define closure (cons #hash((x . 2)) (lambda (env y) (+ (hash-ref env 'x) y)))
+2014-09-05 21:24:57	+nisstyre	)
+2014-09-05 21:25:18	+nisstyre	then you would call that a closure because it has an environment (the hash) and a function (the lambda)
+2014-09-05 21:25:34	+nisstyre	of course you don't need to use a hash
+2014-09-05 21:25:38	+nisstyre	that's just convenient here
+2014-09-05 21:26:29	+nisstyre	then you can define something called invoke
+2014-09-05 21:26:31	+nisstyre	like
+2014-09-05 21:26:45	+nisstyre	(define (invoke closure args) (apply (cdr closure) (car closure) args))
+2014-09-05 21:26:57	+nisstyre	then (invoke closure (list 3)) gives you 5
+2014-09-05 21:27:02	+nisstyre	you can try this out in the repl
+2014-09-05 21:28:06	+nisstyre	so is it making sense now?
+2014-09-05 21:28:16	+nisstyre	if this stuff interests you then I recommend Lisp In Small Pieces
+2014-09-05 21:28:51	+nisstyre	you can see how this could be useful I hope, and how you could go about converting procedures into this form
+2014-09-05 21:29:30	+nisstyre	basically look for variables that are not bound, (remember lambda is a binding form) and then add a new parameter called env, and reference that for their values
+2014-09-05 21:30:50	+nisstyre	cool?
+2014-09-05 21:31:48	strcpy	very interesting, thanks for giving this class
+2014-09-05 21:31:54	+nisstyre	no problem
+2014-09-05 21:32:24	strcpy	<-- just know too little yet to understand the closure stuff, but will read up on it
+2014-09-05 21:32:26	+nisstyre	The Little Schemer, The Seasoned Schemer, SICP, and Lisp In Small Pieces are recommended if you want more material, in order of advancedness
+2014-09-05 21:32:57	fsckd	The Little Schemer is the easiest?
+2014-09-05 21:33:04	+nisstyre	I'd think so yeah
+2014-09-05 21:33:16	+nisstyre	it's by Daniel P. Friedman
+2014-09-05 21:34:03	+nisstyre	anyway, I think I'll stop here
+2014-09-05 21:34:13	+nisstyre	maybe a second class some time if people want to know about more cool stuff
