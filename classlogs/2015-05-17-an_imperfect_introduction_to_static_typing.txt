@@ -1,0 +1,639 @@
+2015-05-17 23:00:34	@halosghost	all right!
+2015-05-17 23:00:36	@halosghost	welcome everyone!
+2015-05-17 23:01:03	 *	ynasser_ cheers
+2015-05-17 23:01:15	 *	Sachi listens
+2015-05-17 23:01:18	@halosghost	okay, so let's go ahead and get started
+2015-05-17 23:01:42	@halosghost	so, as you may have guessed, this class is meant to give all of you a brief introduction (or refresher) on the basics of static typing
+2015-05-17 23:01:49	tigrmesh	==============   class begins   =======
+2015-05-17 23:02:11	--	ynasser_ is now known as ynasser
+2015-05-17 23:02:25	<--	ynasser (~ynasser@caffeine.csclub.uwaterloo.ca) has quit (Changing host)
+2015-05-17 23:02:25	-->	ynasser (~ynasser@unaffiliated/ynasser) has joined #archlinux-classroom
+2015-05-17 23:02:26	 *	demize hands tigrmesh =======
+2015-05-17 23:02:27	@halosghost	in the most ideal case, if you are familiar with python (or another dynamically-typed language), after this class, you would feel comfortable with the concept of static typing enough to begin looking into some statically-typed languages
+2015-05-17 23:03:05	@halosghost	the very first thing we need to talk about though, is what static and dynamic typing actually are
+2015-05-17 23:03:32	@halosghost	generally speaking, when people say “dynamically typed”, they mean that a particular variable can hold any given type of data
+2015-05-17 23:03:46	@meskarune	like strings and int ?
+2015-05-17 23:03:51	@halosghost	meskarune: right
+2015-05-17 23:03:56	@halosghost	so, for example
+2015-05-17 23:04:01	@halosghost	in python, you would be able to do something like this:
+2015-05-17 23:04:05	@halosghost	x = "hello"
+2015-05-17 23:04:06	@halosghost	x = 5
+2015-05-17 23:04:15	oats	like bash vars
+2015-05-17 23:04:15	@halosghost	the interpreter will not complain
+2015-05-17 23:04:21	@halosghost	oats: yep!
+2015-05-17 23:04:42	@halosghost	another way of looking at this is that, in dynamic languages, values have a type, but variables don't
+2015-05-17 23:05:01	@halosghost	in statically typed languages, on the other hand, all variables are given an explicit type
+2015-05-17 23:05:10	@halosghost	so, for example, in C, you might say the following:
+2015-05-17 23:05:15	@halosghost	int a = 5;
+2015-05-17 23:05:44	@halosghost	by doing so, we have declared a variable named “a” which is of type “int” and has an initial value of 5
+2015-05-17 23:05:52	@meskarune	are there advantages and disadvantages to explicitly setting types?
+2015-05-17 23:06:08	@meskarune	as compared to how dynamicly typed lang do it
+2015-05-17 23:06:09	@halosghost	absolutely
+2015-05-17 23:06:37	@halosghost	but, before we get to that, there's one other thing we need to talk about
+2015-05-17 23:06:42	@halosghost	which is type safety
+2015-05-17 23:07:05	@halosghost	type safety is a guarantee made by programming languages (to varying degrees) that particular bits of data work in a particular way
+2015-05-17 23:07:29	@halosghost	in static languages, type checking (what the language or an implementation of it does to ensure type safety) is done at compile-time
+2015-05-17 23:07:37	@halosghost	in dynamic languages, type checking is done at run-time
+2015-05-17 23:07:50	-->	taotetek (~taotetek@107.170.7.19) has joined #archlinux-classroom
+2015-05-17 23:08:38	@halosghost	that is, in a statically typed langauge, when you generate an executable, the compiler will complain if you have done something wrong with your types
+2015-05-17 23:08:54	@halosghost	in a dynamically typed language, you are unlikely to find out that there is a problem until you run the program
+2015-05-17 23:09:19	-->	bevan (~bevan@5.146.65.205) has joined #archlinux-classroom
+2015-05-17 23:09:22	@halosghost	meskarune: ^ plays directly into what you asked
+2015-05-17 23:09:41	sudokode	yes I know. I'm here
+2015-05-17 23:09:51	@halosghost	namely, in statically typed languages, since the assurances about type safety tend to be made when the program is compiled, runtime tends to be a lot faster
+2015-05-17 23:10:08	 *	A124 does use Ruby / C/C++ along the lines. Would kill for both.
+2015-05-17 23:10:32	@halosghost	that is, in dynamically typed languages, a lot of type-checking must be done at run-time (which means more instructions must be performed by the CPU per given operation you perform)
+2015-05-17 23:10:46	@halosghost	A124: I'm sorry?
+2015-05-17 23:10:49	@meskarune	oh cool
+2015-05-17 23:11:16	<--	bevan (~bevan@5.146.65.205) has left #archlinux-classroom ("Auf Wiedersehen")
+2015-05-17 23:11:42	@halosghost	along with the breakdown between static and dynamic typing, there's another breakdown that people commonly refer to: strong vs weak
+2015-05-17 23:11:47	A124	That was related to meskarune and others. Both groups of programming approaches are invaluable. Depends on situation which fits more.
+2015-05-17 23:11:56	@halosghost	A124: definitely true!
+2015-05-17 23:12:14	@halosghost	another main point here is that the words “static” and “dynamic” are mostly marketing
+2015-05-17 23:12:24	@halosghost	neither is inherently advantageous over the other
+2015-05-17 23:12:34	@halosghost	and there are plenty of cases of languages trying to create the best of both worlds
+2015-05-17 23:13:17	@halosghost	strong and weak typing, however, are even less well-defined than static and dynamic; suffice it to say that “weak” languages make less guarantees about type safety where “strong” languages tend to make more
+2015-05-17 23:13:54	heftig	php and javascript are infamously weak by default
+2015-05-17 23:14:04	@halosghost	for example, Haskell is a statically typed language but actually does not require the programmer to explicitly declare the type of every variable
+2015-05-17 23:14:22	@halosghost	heftig: though C is actually a surprisingly weakly typed langauge as well :)
+2015-05-17 23:15:34	@halosghost	to someone unfamiliar with static languages, it is often a common question to ask why we would even want to deal with types
+2015-05-17 23:16:08	@halosghost	in some cases (particularly systems programming), you need to deal with the underlying representation of a particular variable
+2015-05-17 23:16:39	@halosghost	but, because we only have a limited amount of space to store any given piece of data, we use different representations for different types of data
+2015-05-17 23:17:10	@halosghost	working with types directly offers you the ability to look more closely at how these underlying representations work and to exploit them to your advantage
+2015-05-17 23:17:41	@halosghost	to that end, the next thing I'd like to go over is a set of basic examples of common data representations
+2015-05-17 23:17:53	@halosghost	but, before we do that, I imagine there might be some questions out there that I didn't answer
+2015-05-17 23:18:08	@halosghost	feel free to fire away :)
+2015-05-17 23:18:09	-->	Sanne (~Sanne@187-200-103-86.dynamic.dsl.tng.de) has joined #archlinux-classroom
+2015-05-17 23:18:49	sudokode	is it a 3 drink minimum?
+2015-05-17 23:18:53	@halosghost	lol
+2015-05-17 23:18:59	sudokode	alright I'll be quiet
+2015-05-17 23:19:05	Sachi	could we says that strict type offers better runtime performance than dynamic in all cases?
+2015-05-17 23:19:17	-->	fwilson (~fwilson@wikipedia/Fox-Wilson) has joined #archlinux-classroom
+2015-05-17 23:19:18	Sachi	(which does not mean it is better)
+2015-05-17 23:19:24	A124	Depending on the optimization done by programmer.
+2015-05-17 23:19:30	@halosghost	Sachi: static typing tends to offer better runtime performance
+2015-05-17 23:19:41	@halosghost	Sachi: to say that it always does, however, might not always be true
+2015-05-17 23:20:00	heftig	just because of the above transfer of checks from runtime to compile time
+2015-05-17 23:20:08	sudokode	logically speaking, you can see why it would offer better startup at runtime
+2015-05-17 23:20:14	sudokode	given what halosghost said
+2015-05-17 23:20:19	@halosghost	indeed
+2015-05-17 23:20:22	sudokode	but computers will be computers
+2015-05-17 23:20:34	taotetek	( static typing also offers opportunities for a compiler to make better optimizations since it knows the types at compile time )
+2015-05-17 23:20:41	taotetek	( hi halosghost :D )
+2015-05-17 23:20:45	@halosghost	taotetek: welcome :)
+2015-05-17 23:20:46	A124	I have made code in ruby that finished in 45 seconds, while statical lang took 5 min to code and 15 min to run without resutl.
+2015-05-17 23:20:54	A124	Machine time vs user time.
+2015-05-17 23:21:04	A124	Also total time.
+2015-05-17 23:21:06	@halosghost	A124: generally speaking, that would be incredibly uncommon
+2015-05-17 23:21:21	@halosghost	in fact, that almost certainly represents something having gone wrong in the static code
+2015-05-17 23:21:28	@halosghost	but, this is all aside the point
+2015-05-17 23:21:37	@halosghost	Sachi: the main take away is exactly what taotetek said
+2015-05-17 23:21:58	@halosghost	Sachi: that the compiler gets to do less work in order to ensure things are correct means that, typically, statically-typed code will be faster
+2015-05-17 23:22:05	mordecai	why C is a weakly typed language?
+2015-05-17 23:22:15	heftig	if the checks end up being violated at runtime... you have a problem. it's called "undefined behavior" and will eat your babies. either now or in a week when your program stumbles over the trash a broken subroutine left all over your heap
+2015-05-17 23:22:38	@halosghost	heftig: that's language dependent, of course, but is certianly true of a language like C where UB is a thing
+2015-05-17 23:22:51	@halosghost	mordecai: well, the why is “because the committee behind C made some bad calls”
+2015-05-17 23:22:58	A124	Ruby itself does use a lot of tightly compiled and optimized C code to run data through in batches. Which gives the speed. If those operations are suited for procedural programming, run in bulk, yet want to use dynamic language, one does write extension usually, that runs in C.
+2015-05-17 23:22:59	@halosghost	mordecai: the how, however, is far more complex to answer
+2015-05-17 23:23:31	@halosghost	mordecai: as I mentioned, weak typing and strong typing are not well-defined concepts
+2015-05-17 23:23:32	nahoskins	What are some hybrid approaches
+2015-05-17 23:23:55	@halosghost	mordecai: but, generally speaking, C allows for implicit conversions between types of variables which makes type safety hard to ensure
+2015-05-17 23:24:07	@halosghost	mordecai: many people think of implicit conversions as being a property of weak typing
+2015-05-17 23:24:28	@halosghost	nahoskins: there are two great examples for something along these lines
+2015-05-17 23:24:33	@halosghost	nahoskins: the first is Lisp
+2015-05-17 23:24:59	@halosghost	unlike most dynamic languages, Lisp is essentially an untyped languages
+2015-05-17 23:25:01	@halosghost	s/s$//
+2015-05-17 23:25:22	@halosghost	nahoskins: the benefit being that you have an incredible amount of freedom to operate on whatever data you might want
+2015-05-17 23:25:34	nahoskins	So how does an untyped language know how much space to set aside in the stack
+2015-05-17 23:25:50	@halosghost	nahoskins: the negative being that you are clearly a long way away from the underlying representation which makes it hard to operate on a low level
+2015-05-17 23:26:08	nahoskins	So, by being less efficient?
+2015-05-17 23:26:20	@halosghost	nahoskins: well, for the most part, no language really is untyped; while Lisp itself is untyped, most implementations of Lisp actually introduce types for simplicity
+2015-05-17 23:26:36	@halosghost	not necessarily less efficient; but certainly less transparent
+2015-05-17 23:26:50	@halosghost	the other example is on the opposite end of the spectrum
+2015-05-17 23:26:52	@halosghost	Haskell
+2015-05-17 23:27:04	@halosghost	Haskell is one of the strongest-typed static languages out there
+2015-05-17 23:27:37	@halosghost	but, because of a very special (read, “incredibly cool”) tool called “type inference”, you as the programmer do not have to annotate every variable with its type
+2015-05-17 23:27:49	nahoskins	Woah
+2015-05-17 23:27:57	@halosghost	so, you can write code like so:
+2015-05-17 23:27:58	nahoskins	That sounds like magic
+2015-05-17 23:28:00	@halosghost	let a = 5
+2015-05-17 23:28:08	@halosghost	(which looks a lot like JS or Python)
+2015-05-17 23:28:12	nahoskins	Yeah
+2015-05-17 23:28:20	@halosghost	and Haskell knows that a is a number
+2015-05-17 23:28:50	nahoskins	But how does it know you want a float later?
+2015-05-17 23:29:02	A124	let a = 5.0?
+2015-05-17 23:29:04	@halosghost	if you want to let Haskell know that you want a float, you could do two different things
+2015-05-17 23:29:11	@halosghost	you could do what A124 just showed
+2015-05-17 23:29:15	@halosghost	or, you could add a type annotation
+2015-05-17 23:29:20	@halosghost	let a = 5 :: Float
+2015-05-17 23:29:26	@halosghost	Haskell will understand both
+2015-05-17 23:30:01	nahoskins	I thought this was what JavaScript was essentially doing under the hood
+2015-05-17 23:30:01	@halosghost	That gives you an incredible amount of flexibility because you get the speed of writing non-explicitly typed code while still having the option to do it wherever it might be ambiguous
+2015-05-17 23:30:13	@meskarune	once you set a type in a statically typed language, is it possible to change it?
+2015-05-17 23:30:24	@halosghost	meskarune: yes, through type conversions
+2015-05-17 23:30:32	@halosghost	meskarune: in “weak” languages, this can happen automatically
+2015-05-17 23:30:35	@halosghost	for example, in C:
+2015-05-17 23:30:44	@halosghost	int a = 5; float b = a;
+2015-05-17 23:30:52	@halosghost	Tada! b == 5.0
+2015-05-17 23:31:14	@halosghost	however, in stricter languages, you would do something like casting
+2015-05-17 23:31:25	@halosghost	C offers explicit conversion as well through casting:
+2015-05-17 23:31:35	@halosghost	int a = 5; float b = (float)a;
+2015-05-17 23:32:04	A124	Unless I am wrong compiler does allow you for C to not allow such implicit conversions, making it more strongly typed. (used in Linux kernel)
+2015-05-17 23:32:29	@halosghost	A124: you can have a C compiler force warnings about such things and make warnings be errors
+2015-05-17 23:32:33	@halosghost	that would cause it to not compile
+2015-05-17 23:32:47	@halosghost	however, in standard C, such implicit conversions are completely legal
+2015-05-17 23:32:50	@meskarune	what is casting?
+2015-05-17 23:33:01	A124	(float) is casting.
+2015-05-17 23:33:12	@halosghost	meskarune: in the C example I gave you, the `(float)` is an example of a cast
+2015-05-17 23:33:19	nahoskins	Where you create a mold to fit the bits properly ;)
+2015-05-17 23:33:25	@meskarune	oh ok 
+2015-05-17 23:33:31	@halosghost	meskarune: it tells the compiler that you want to treat the value immediately to the right of it as the type you put in the parens
+2015-05-17 23:33:44	@meskarune	I see :D
+2015-05-17 23:33:46	@halosghost	nahoskins: you make a good point though
+2015-05-17 23:33:47	nahoskins	So when you pour in your data, it fits the mold...
+2015-05-17 23:33:52	@halosghost	nahoskins: let's talk aobut type safety in JS
+2015-05-17 23:34:06	@halosghost	so, here are two example functions, one in C and one in JS:
+2015-05-17 23:34:09	-->	frostyfrog (~frostyfro@unaffiliated/frostyfrog) has joined #archlinux-classroom
+2015-05-17 23:34:26	@halosghost	int add_two_integers (int a, int b) { return a + b; }
+2015-05-17 23:34:45	@halosghost	function add_two_integers (a, b) { return a + b; }
+2015-05-17 23:34:54	@halosghost	(the first being C, the second being JS)
+2015-05-17 23:35:08	nahoskins	Returns only a int in c
+2015-05-17 23:35:18	nahoskins	But could be a full name in js
+2015-05-17 23:35:22	@halosghost	correct!
+2015-05-17 23:35:30	@halosghost	in JS, that function could be used to concatenate strings
+2015-05-17 23:35:45	-->	jsohnafe (~holoirc@80-62-117-222-mobile.dk.customer.tdc.net) has joined #archlinux-classroom
+2015-05-17 23:35:54	@halosghost	if you want assurances that the function would only operate on integers, you would have a really hard time in JS
+2015-05-17 23:36:12	@halosghost	there are, of course, tools that aide in such an effort, but none is so simple as static typing
+2015-05-17 23:36:23	nahoskins	What about ecmascript 6 || 7?
+2015-05-17 23:36:43	@halosghost	personally, I am not familiar with the ecmascript specifications
+2015-05-17 23:36:52	@halosghost	but unless I am mistaken, neither include type annotations in JS
+2015-05-17 23:37:14	@halosghost	something like asm.js allows you to write statically-typed JS code, but it's not something I would recommend doing :)
+2015-05-17 23:37:24	nahoskins	Right
+2015-05-17 23:37:35	@halosghost	also note that C isn't necessarily the best example for this case because it is so weakly typed
+2015-05-17 23:37:50	@halosghost	in particular, nullable values make this deterministic view of type safety in C a real problem
+2015-05-17 23:38:22	@halosghost	but, we can assume, for a moment, that the land of C is as utopic as many would like it to be :)
+2015-05-17 23:38:25	@halosghost	now then
+2015-05-17 23:38:30	@halosghost	on to data representation!
+2015-05-17 23:38:39	nahoskins	Yay!!!
+2015-05-17 23:39:07	@halosghost	at a guess, almost everyone in this channel is on a 32-bit or 64-bit machine
+2015-05-17 23:39:29	@halosghost	that means that the word (don't worry about this term right now) size of the CPU on your computer is 32 or 64 bits wide
+2015-05-17 23:40:07	@halosghost	in addition, I'm willing to bet that everyone in this channel is on a machine which has a CPU capable of addressing only down to the octet level
+2015-05-17 23:40:15	@halosghost	that is, the smallest size a variable can be is 8 bits
+2015-05-17 23:40:41	@halosghost	and the largest native size of an integer is likely your word size (32 or 64 bits)
+2015-05-17 23:41:02	@halosghost	for this section, we'll start with integers since their representation is typically very simple
+2015-05-17 23:41:49	@halosghost	so, let's assume we have an unsigned integer (an integer that can only be positive) variable that is 8 bits wide
+2015-05-17 23:42:16	@halosghost	so, somewhere in the CPU or the RAM, there will be a sequence of eight 1s and 0s representing our variable: 00000000
+2015-05-17 23:42:30	@meskarune	has it always been 8 bits or were older computers using another size?
+2015-05-17 23:42:44	@meskarune	that might be a bit of a trangent though >.>
+2015-05-17 23:42:51	@halosghost	it's a bit of a tangent, yes :)
+2015-05-17 23:42:57	@halosghost	but, I'm happy to answer it
+2015-05-17 23:43:07	@halosghost	an octet is always 8 bits
+2015-05-17 23:43:16	@halosghost	however, most of you probably have heard the term “byte” more commonly
+2015-05-17 23:43:37	@halosghost	the thing is that a byte, while almost universally 8 bits in modern computing, was not always 8 bits wide
+2015-05-17 23:44:06	@halosghost	in fact, when ASCII was created, it was far more common for bytes to be 7 bits wide
+2015-05-17 23:44:17	@halosghost	(hence why there are only 127 points in the ASCII code page)
+2015-05-17 23:44:57	@halosghost	in fact, even in modern C, the language only requires that a char (an 8-bit integer) be as wide as necessary to hold the ASCII sequence; which means it might only be 7 bits
+2015-05-17 23:45:10	@halosghost	of course, since almost all computers these days have 8-bit bytes, this is neither here nor there :)
+2015-05-17 23:45:22	@halosghost	but, back to our variable :)
+2015-05-17 23:45:52	@halosghost	the typical representation of an unsigned integer is incredibly simple, it is a direct mapping of binary counting
+2015-05-17 23:46:18	<--	A124 (~Username@unaffiliated/a124) has quit (Quit: RoBo_V1)
+2015-05-17 23:46:31	@halosghost	so, if our variable is made up of all 0s: 00000000, its value is 0
+2015-05-17 23:46:46	@halosghost	00000001 == 1, 00000010 == 2, 00000011 == 3 and so on
+2015-05-17 23:46:48	-->	A124 (~Username@unaffiliated/a124) has joined #archlinux-classroom
+2015-05-17 23:47:17	@halosghost	and, when full of ones (11111111), our 8-bit unsigned int is holding its maximum value of 255
+2015-05-17 23:47:46	@halosghost	given this representation, it's not even too hard to imagine how to perform basic addition
+2015-05-17 23:48:01	@halosghost	all you really need to do is line up the two values you wish to add and do the rest:
+2015-05-17 23:48:08	@halosghost	10000001
+2015-05-17 23:48:15	@halosghost	00010011
+2015-05-17 23:48:27	nahoskins	Bit wise operators
+2015-05-17 23:48:40	A124	Full adder more like
+2015-05-17 23:49:14	@halosghost	nahoskins: indeed, bitwise operations can be simply used to implement integer addition; but in this case, I was referring to doing the addition by-hand
+2015-05-17 23:49:37	@halosghost	it might be a little hard at first since you're probably not used to thinking of “carry the 8” :P
+2015-05-17 23:50:06	@halosghost	for those of you that got 10010100, you're right on the money :)
+2015-05-17 23:50:40	@halosghost	if we allow our integer to be signed (allow it to be negative or positive), things get quite a bit more complex
+2015-05-17 23:50:49	nahoskins	It's like a binary clock
+2015-05-17 23:51:00	@halosghost	yep!
+2015-05-17 23:51:03	nahoskins	We lose a bit
+2015-05-17 23:51:10	nahoskins	I guess
+2015-05-17 23:51:19	@halosghost	nahoskins: that's right (most of the time)!
+2015-05-17 23:51:21	nahoskins	In order to represent the sign
+2015-05-17 23:51:36	@halosghost	most commonly, signed integers are stored in what is called two's complement
+2015-05-17 23:51:38	<--	jsohnafe (~holoirc@80-62-117-222-mobile.dk.customer.tdc.net) has left #archlinux-classroom
+2015-05-17 23:51:55	@halosghost	this means that the leading bit is given the most negative value that the variable can hold
+2015-05-17 23:52:22	@halosghost	so, for example, our now-signed 8-bit integer, if it had the bit pattern 10000000, would have the value of -128
+2015-05-17 23:52:34	@halosghost	then, 10000001 == -127 and so on
+2015-05-17 23:52:44	nahoskins	Ah
+2015-05-17 23:52:55	@halosghost	helpfully, in this signed representation 00000000 is still 0
+2015-05-17 23:53:23	@halosghost	but then, the maximum value we can represent (again, full of 1s): 11111111 is 127
+2015-05-17 23:53:37	@halosghost	woops
+2015-05-17 23:53:39	@halosghost	nope
+2015-05-17 23:53:41	@halosghost	don't pay attention to that
+2015-05-17 23:53:43	@halosghost	haha
+2015-05-17 23:53:47	@halosghost	11111111 == -1 actually
+2015-05-17 23:53:55	nahoskins	Yeah
+2015-05-17 23:53:58	@halosghost	the maximum value we can represent in two's complement is 01111111
+2015-05-17 23:54:03	nahoskins	01111111
+2015-05-17 23:54:06	@halosghost	right
+2015-05-17 23:54:26	nahoskins	So how about floats
+2015-05-17 23:54:31	@halosghost	okay, so that was clearly a little more complex than signed integers, but not too bad
+2015-05-17 23:54:34	@halosghost	floats, on the other hand
+2015-05-17 23:54:37	@halosghost	are a very different story
+2015-05-17 23:54:49	@halosghost	as a quick digression, it's story time
+2015-05-17 23:54:58	nahoskins	Two integer values?
+2015-05-17 23:55:08	nahoskins	Denominator and numerator
+2015-05-17 23:55:36	@halosghost	once upon a time, in the wild west of CPU creation, any CPU creator would choose whatever representation for real numbers (ones with a denominator other than 1) they liked
+2015-05-17 23:55:46	@meskarune	there are other ways that unsigned integers are represented?
+2015-05-17 23:55:53	@meskarune	and how do you tell the computer what is happening?
+2015-05-17 23:56:03	nahoskins	Story time first
+2015-05-17 23:56:06	@meskarune	kk
+2015-05-17 23:56:18	@halosghost	and it made systems programmer's lives horrible because they had to learn which floating point representation was used on each platform they wanted to support
+2015-05-17 23:56:59	 *	taotetek tells horror stories about endianess
+2015-05-17 23:57:05	@halosghost	and since there are conceivably a huge number of possible representations, you can imagine that many people found merits in different ones, leading to each different platform having a different representation each with their own benefits and negatives
+2015-05-17 23:57:08	nahoskins	Lol
+2015-05-17 23:57:09	<--	mordecai (~mordecai@85.102.121.77) has quit (Remote host closed the connection)
+2015-05-17 23:57:14	@halosghost	taotetek: hush, we'll get there :P
+2015-05-17 23:57:18	taotetek	( hehe )
+2015-05-17 23:57:27	@halosghost	then, along came the IEEE and the IETF
+2015-05-17 23:57:42	@halosghost	who decided that everything sucked because of the incredibly large number of real number representations
+2015-05-17 23:58:07	@halosghost	so, they got together with a ton of practitioners in the field and all sat down to figure out one standard representation that all platforms should use
+2015-05-17 23:58:19	@halosghost	(now comes the obligatory xkcd reference:
+2015-05-17 23:58:28	@halosghost	phrik: xkcd standards
+2015-05-17 23:58:29	phrik	halosghost: xkcd: Standards: <https://xkcd.com/927/>
+2015-05-17 23:58:30	@halosghost	)
+2015-05-17 23:58:55	@halosghost	and thus was born, IEEE754!
+2015-05-17 23:59:12	@halosghost	(and it was weird as all get out)
+2015-05-17 23:59:25	@halosghost	but, it is now the predominant representation for floats everywhere
+2015-05-17 23:59:29	<--	Ryp (~ryp@stu81AA.kent.ac.uk) has quit (Ping timeout: 246 seconds)
+2015-05-17 23:59:40	@halosghost	so, we'll go over that in just a moment, but let's go back and answer a couple of questions first
+2015-05-18 00:00:11	@halosghost	meskarune: if there are other ways unsigned integers are represented, they are pretty uncommon (I've never run into such a case)
+2015-05-18 00:00:24	@halosghost	meskarune: however, there are a variety of different representations for signed integers
+2015-05-18 00:00:37	@halosghost	for example, there is one, closely related to two's complement called one's complement
+2015-05-18 00:00:54	@halosghost	but, again, two's complement is easily the most common (both x86 and ARM use it if I'm not mistaken)
+2015-05-18 00:01:20	@halosghost	and nahoskins, storing two integer values is a great way to store an exact real number
+2015-05-18 00:01:33	@halosghost	nahoskins: however, it isn't terribly space efficient
+2015-05-18 00:01:53	@halosghost	nahoskins: it would require you to store twice as much information for a real number as you'd need for an integer of the same precision
+2015-05-18 00:02:09	@halosghost	but, for the record, there were floating point representations that did exactly that
+2015-05-18 00:02:19	nahoskins	Hmmm
+2015-05-18 00:02:50	@halosghost	another alternative would be to store bit patterns, the first being the part before the decimal point and the second being the part following it
+2015-05-18 00:03:09	@halosghost	that representation, called a binary real, was the foundation for IEEE 754
+2015-05-18 00:03:39	@halosghost	I'm only going to gloss over IEEE754 because it's actually a very complex specification and we would run way over time if we covered all of it
+2015-05-18 00:03:41	nahoskins	http://m.youtube.com/watch?v=H79PNQ4Z9HE
+2015-05-18 00:04:02	@halosghost	but, I have many a link to give you all at the end for further reading (several of which are on 754)
+2015-05-18 00:04:32	demize	(All I can find that doesn't use 2's complement was some mainframe things in the 60s and PDP-1 that used one's complement.)
+2015-05-18 00:04:45	demize	(Everything after that used two's complement, pretty much.)
+2015-05-18 00:04:46	@halosghost	demize: like I said, 2's complement is far more common :)
+2015-05-18 00:05:19	@halosghost	to summarize, IEEE754 takes 32-bits (the same size as an `int` on a typical modern platform) and separates it into three sections: the sign, the exponent and the mantissa
+2015-05-18 00:05:41	@meskarune	how do you get things greater than 128?
+2015-05-18 00:05:44	demize	Ah, there is one other thing
+2015-05-18 00:05:47	@halosghost	meskarune: you add more bits :)
+2015-05-18 00:05:50	demize	" A third group supported "sign & magnitude" (sign-magnitude), where a value is changed from positive to negative simply by toggling the word's sign (high-order) bit"
+2015-05-18 00:05:55	@meskarune	oh I see
+2015-05-18 00:06:16	demize	(Which also only seems to have been used in the 60s)
+2015-05-18 00:06:25	nahoskins	Can I use just 3bits?
+2015-05-18 00:06:27	-->	lompik (~lompik@li970-99.members.linode.com) has joined #archlinux-classroom
+2015-05-18 00:06:34	@halosghost	the sign bit works like it would in the integer representation demize just mentioned; if the sign bit is 1, the number is negative, if the sign bit is 0, the number is positive
+2015-05-18 00:06:44	@halosghost	okay, tangent for a moment to answer nahoskins's question
+2015-05-18 00:07:06	@halosghost	nahoskins: as I said earlier, your computer almost certainly has the smallest addressable unit of an octet
+2015-05-18 00:07:17	@halosghost	so, the smallest native variable you can declare is 8 bits wide
+2015-05-18 00:07:24	nahoskins	Booleans?
+2015-05-18 00:07:34	@halosghost	(this means that a true boolean, which would only be 1 bit, is actually not native)
+2015-05-18 00:07:55	@halosghost	however, some langauges offer a way to get around this (typically called a bit field)
+2015-05-18 00:07:57	A124	boolean takes whole byte. usually any nonzero byte is true.
+2015-05-18 00:08:06	nahoskins	That sounds hugely wasteful
+2015-05-18 00:08:09	@halosghost	A124: that is incorrect
+2015-05-18 00:08:20	@halosghost	nahoskins: it is indeed :)
+2015-05-18 00:08:28	A124	Correct me then please.
+2015-05-18 00:08:36	@halosghost	nahoskins: bitfields allow you to be more efficient, but at the cost of being slower
+2015-05-18 00:08:43	A124	Another way how to save space is to pack bytes, but that takes cpu cycles and code spae.
+2015-05-18 00:08:50	nahoskins	Why slower?
+2015-05-18 00:08:59	A124	Because cpu handles bytes.
+2015-05-18 00:09:02	@halosghost	nahoskins: let me give you some example code and then I'll explain
+2015-05-18 00:09:25	demize	!convert 2 GB to bytes
+2015-05-18 00:09:25	phrik	demize: 2147483648
+2015-05-18 00:09:43	A124	More then bytes usually on modern systems though. The native integer size
+2015-05-18 00:09:55	@halosghost	the following is in C (and we haven't covered any of it, so don't worry if it looks quite foreign): struct { bool a: 2, b: 2, c: 2, d: 2 } test;
+2015-05-18 00:10:01	@halosghost	nahoskins: ^
+2015-05-18 00:10:22	@halosghost	nahoskins: the above declares a struct (don't worry about that for now) with four members: a, b, c and d
+2015-05-18 00:10:37	@halosghost	nahoskins: each of the four members only takes up two bits, so the total size of the struct is 8 bits
+2015-05-18 00:10:38	nahoskins	Strict=object
+2015-05-18 00:10:46	nahoskins	Right
+2015-05-18 00:10:58	@halosghost	nahoskins: no, but they are similar and related, so I understand the tendancy to suggest as much
+2015-05-18 00:11:26	@halosghost	nahoskins: the problem is that your CPU doesn't actually know about bits, it only knows about the smallest addressable unit which is a byte (and almost certainly consists of 8 bits)
+2015-05-18 00:11:41	A124	struct is a structure. Representation for the code and compiler. Way to have more few bits values in larger data type at the expense of code size and clock cycles.
+2015-05-18 00:11:46	nahoskins	OK
+2015-05-18 00:11:58	nahoskins	So if I wanted a true boolean
+2015-05-18 00:12:19	A124	That way programmer can handle types inside struct as normal datatypes and compiler does the rest.
+2015-05-18 00:12:22	@halosghost	nahoskins: so, when I access the `a` member of that struct, what C does is use bit manipulation to convert a into a single byte value and return it
+2015-05-18 00:12:42	nahoskins	Ah
+2015-05-18 00:12:48	@halosghost	nahoskins: so, we've become far more efficient in space use, but less efficient in speed
+2015-05-18 00:12:50	nahoskins	By
+2015-05-18 00:13:00	nahoskins	I see
+2015-05-18 00:13:20	@halosghost	so, if you have 8 booleans, you can store them in a single byte using bitfields like above and you would have true booleans
+2015-05-18 00:13:28	nahoskins	And that is because we use integers more than booleans I take it
+2015-05-18 00:13:32	A124	Unless you save a really lot of data (in which packing by programmer would be choice, not struct probably) of few bits, there is usually no point.
+2015-05-18 00:13:42	@halosghost	A124: also false
+2015-05-18 00:13:42	A124	Compression algos do that at the expense of cpu time.
+2015-05-18 00:13:55	@halosghost	nahoskins: no, it's just because of how CPUs have been designed
+2015-05-18 00:14:21	@halosghost	nahoskins: it is entirely possible to create a CPU that has a smallest addressable unit of 1 bit (it's been done before)
+2015-05-18 00:14:26	nahoskins	OK so a manufacturing/ design decision
+2015-05-18 00:14:31	@halosghost	correct
+2015-05-18 00:14:36	nahoskins	Got it
+2015-05-18 00:14:48	A124	halosghost What is the point of packing bits by structs then passing those to other interfaces?
+2015-05-18 00:14:58	@meskarune	and the reason a byte isn't 16 bits is because everyone decided on a standard?
+2015-05-18 00:15:12	tigrmesh	CPUs could
+2015-05-18 00:15:19	@halosghost	A124: due to cache misses, there are actually plenty of times where packing structs can lead to dramatically faster code
+2015-05-18 00:15:25	@halosghost	I pack all my structs :)
+2015-05-18 00:15:32	A124	meskarune binary multiply that was large enough to fit ASCII I guess.
+2015-05-18 00:15:34	tigrmesh	n't handle 16 bytes got a long time, meskarune 
+2015-05-18 00:15:43	tigrmesh	meskarune, only 8 bytes
+2015-05-18 00:15:51	@halosghost	tigrmesh: she said bits :P
+2015-05-18 00:15:51	demize	(Of course that won't really be noticable unless you have thousands of instances of the struct ;p)
+2015-05-18 00:16:04	@halosghost	demize: or a really slow CPU
+2015-05-18 00:16:04	tigrmesh	halosghost, i meant bits
+2015-05-18 00:16:06	@halosghost	:P
+2015-05-18 00:16:18	demize	halosghost: If it can run any modern OS...
+2015-05-18 00:16:21	@halosghost	meskarune: there have been machines which have a byte size larger than 8 bits
+2015-05-18 00:16:24	 *	frostyfrog digs this whole classroom idea.
+2015-05-18 00:16:27	A124	halosghost Interesting. I suspect caches misses are not a problem of simple hardware though.
+2015-05-18 00:16:29	@meskarune	cool
+2015-05-18 00:16:41	@halosghost	A124: define “simple hardware”
+2015-05-18 00:16:53	@halosghost	okay, that was quite a tanget
+2015-05-18 00:16:56	@halosghost	s/t$/nt/
+2015-05-18 00:17:06	@halosghost	back to IEEE754!
+2015-05-18 00:17:20	A124	8bit. Microcontroller
+2015-05-18 00:17:35	@halosghost	I already mentioned the sign bit, the other two fields (the exponent and significand/mantissa) control the actual value of the number
+2015-05-18 00:17:53	@halosghost	and they do so through a fairly complex arithmetic formula which I'm not going to talk about because it gives me a headache :)
+2015-05-18 00:17:53	demize	A124: (Can be even more important in that case.)
+2015-05-18 00:18:09	@halosghost	A124: it almost certainly would be more problematic in that case
+2015-05-18 00:18:23	@halosghost	A124: embedded development is one of the most common cases where you'll see programmers bit-packing
+2015-05-18 00:18:54	A124	Oh, I see. About the exponent, is is binary exponent?
+2015-05-18 00:19:09	@halosghost	A124: yes and no
+2015-05-18 00:19:22	@halosghost	both the exponent and significand/mantissa are (of course) stored in binary
+2015-05-18 00:19:27	@halosghost	but they are not the exact values
+2015-05-18 00:19:32	@halosghost	rather, they are encoded
+2015-05-18 00:19:44	@halosghost	decoding them can be done by-hand, but it is a bit of a painstaking process
+2015-05-18 00:20:01	@halosghost	though the formula is complex and creates some troubling realities for real number representations (namely some poor precision), it also creates some very cool behavior
+2015-05-18 00:20:32	@halosghost	for example, a float can actually store some special values
+2015-05-18 00:20:44	@halosghost	negative and positive infinity and NaN (short for Not a Number)
+2015-05-18 00:21:00	@halosghost	for example
+2015-05-18 00:21:01	nahoskins	...
+2015-05-18 00:21:24	nahoskins	A float can be nan ..
+2015-05-18 00:21:31	@halosghost	haha, yes, it can
+2015-05-18 00:21:43	nahoskins	Interesting..
+2015-05-18 00:21:52	@halosghost	confusing at first, there are actually great reasons you might want that
+2015-05-18 00:21:58	heftig	actually, the basic formula is pretty simple
+2015-05-18 00:22:01	demize	halosghost: Do they also have positive and negative zero?
+2015-05-18 00:22:16	@halosghost	demize: they do! which, of course, signed integers are incapable of representing
+2015-05-18 00:22:21	heftig	mantissa * 2^exponent
+2015-05-18 00:22:35	demize	halosghost: Well, with two's complement. One's complement has it ;p
+2015-05-18 00:22:36	heftig	mantissa has an implicit leading 1 bit
+2015-05-18 00:22:45	heftig	the problem are all the special cases
+2015-05-18 00:22:47	@halosghost	heftig: I meant the formula for the mantissa and exponent encoding as well as normalization and denormalization
+2015-05-18 00:22:57	@halosghost	just try and tell me that all those are simple :)
+2015-05-18 00:23:12	@halosghost	but, you are right that the basic formula is quite simple
+2015-05-18 00:23:14	A124	2^exponent sounds like binary exponent to me.
+2015-05-18 00:23:21	@halosghost	A124: again, it's encoded
+2015-05-18 00:23:25	nahoskins	Not a number in float is what..
+2015-05-18 00:23:35	@halosghost	nahoskins: how do you mean?
+2015-05-18 00:23:41	heftig	A124: ieee754 defines both binary and decimal formats
+2015-05-18 00:23:55	nahoskins	How is a float which is not a number represented?
+2015-05-18 00:23:57	A124	heftig Oh.
+2015-05-18 00:24:02	@halosghost	nahoskins: ahh
+2015-05-18 00:24:07	@halosghost	nahoskins: it's a special bit pattern
+2015-05-18 00:24:33	A124	halosghost Well I meant the binary multiply, which the heftig example was.
+2015-05-18 00:24:45	@halosghost	to demonstrate, let's pretend that IEEE754 defined an 8-bit format (it didn't)
+2015-05-18 00:25:10	@halosghost	where there is a single sign bit, a 3 bit exponent and a four bit mantissa: seeemmmm
+2015-05-18 00:25:23	nahoskins	OK
+2015-05-18 00:25:41	@halosghost	positive infinity is represented by the exponent being full, the sign bit being 0 and the mantissa being 0
+2015-05-18 00:25:55	nahoskins	Ok
+2015-05-18 00:25:55	@halosghost	so, +∞ == 01110000
+2015-05-18 00:26:12	nahoskins	11110000 is neg inf
+2015-05-18 00:26:16	@halosghost	correct
+2015-05-18 00:26:36	@halosghost	in IEEE, NaN is represented by any number where the exponent is full and the mantissa is non-zero
+2015-05-18 00:27:10	nahoskins	01110001
+2015-05-18 00:27:16	@halosghost	right, that is one case of NaN
+2015-05-18 00:27:28	heftig	a signaling NaN, in fact
+2015-05-18 00:27:32	nahoskins	That's a waste isn't it
+2015-05-18 00:27:42	nahoskins	Such a broad range
+2015-05-18 00:27:53	@halosghost	nahoskins: well, it might be, but it also makes sense why they chose it
+2015-05-18 00:28:01	@halosghost	(once you've actually read the spec a few times :P)
+2015-05-18 00:28:06	heftig	nahoskins: it is. some VMs such as Ruby use the large NaN space to embed other data
+2015-05-18 00:28:12	@halosghost	^
+2015-05-18 00:28:16	nahoskins	Interesting!
+2015-05-18 00:28:40	@halosghost	the tl;dr of this part is that different types can have dramtically different representations at the bit level
+2015-05-18 00:28:49	heftig	so you have a value which can be a 64-bit float, or if it's NaN, can be something else, like an integer or a object pointer
+2015-05-18 00:29:11	nahoskins	Oh cool
+2015-05-18 00:29:15	@halosghost	which is how some languages get away with having a single unified number type
+2015-05-18 00:29:23	nahoskins	That sounds bloody smart
+2015-05-18 00:29:23	@halosghost	(though, often, that doesn't work out too great)
+2015-05-18 00:29:31	@halosghost	clever, sure, but not always clean
+2015-05-18 00:29:36	nahoskins	Hmm
+2015-05-18 00:29:53	nahoskins	Sounds like IEEE'S fault
+2015-05-18 00:29:56	@halosghost	haha
+2015-05-18 00:30:00	@halosghost	in many ways, that may be true
+2015-05-18 00:30:02	nahoskins	For eating so much space
+2015-05-18 00:30:17	@halosghost	though actually, the range of numbers that IEEE754 can represent is huge
+2015-05-18 00:30:33	@halosghost	one of its big benefits is an incredibly compact format for its representable range
+2015-05-18 00:30:37	heftig	it's a range full of holes, though
+2015-05-18 00:30:41	@halosghost	^
+2015-05-18 00:30:44	@halosghost	that's the downfall
+2015-05-18 00:30:46	nahoskins	Hmm
+2015-05-18 00:30:47	@halosghost	it has uneven precision
+2015-05-18 00:30:48	heftig	beware who thinks floats act like real numbers
+2015-05-18 00:30:56	nahoskins	Is there no alternative?
+2015-05-18 00:31:05	@halosghost	sure, and we'll get to it in a bit :)
+2015-05-18 00:31:21	@halosghost	but first, I want to cover some of the other really common types that people might run into
+2015-05-18 00:31:39	<--	Sanne (~Sanne@187-200-103-86.dynamic.dsl.tng.de) has quit (Quit: Leaving)
+2015-05-18 00:31:41	@halosghost	(since we're already close to the end of our time)
+2015-05-18 00:31:45	heftig	fixed point numbers (basically integers with a fixed divisor) can be a good alternative in many cases
+2015-05-18 00:32:02	nahoskins	So, two integers?
+2015-05-18 00:32:10	heftig	no, just one
+2015-05-18 00:32:15	heftig	two integers can be used for rationals
+2015-05-18 00:32:24	heftig	e.g. if you're measuring time measure it in nanoseconds
+2015-05-18 00:32:30	<--	bretzel (~bretzelus@65.95.47.222) has left #archlinux-classroom ("Konversation terminated!")
+2015-05-18 00:32:31	nahoskins	OK
+2015-05-18 00:32:59	@halosghost	so, integers and real numbers are two kinds of atomic data
+2015-05-18 00:33:11	@halosghost	they have their own representation and take up a particular amount of space
+2015-05-18 00:33:20	heftig	64 bits of nanoseconds still give you over 500 years of range
+2015-05-18 00:33:33	nahoskins	Yeah, makes sense
+2015-05-18 00:33:34	@halosghost	the next most common type of data is probably the array
+2015-05-18 00:33:44	nahoskins	Pointers right?
+2015-05-18 00:34:05	@halosghost	nahoskins: nope, pointers, though common in some languages (like C), are very rare in others
+2015-05-18 00:34:16	@halosghost	nahoskins: and, generally speaking, in C, they work just like integers
+2015-05-18 00:34:32	@halosghost	we can talk about them more later, but I want to cover the basics first
+2015-05-18 00:34:36	@meskarune	booleans, integers, characters and floats are all atomic data types?
+2015-05-18 00:34:46	@halosghost	meskarune: yes
+2015-05-18 00:35:05	@halosghost	well
+2015-05-18 00:35:07	@halosghost	mostly
+2015-05-18 00:35:14	@halosghost	characters can be a different story (depending on the language)
+2015-05-18 00:35:23	@halosghost	in some cases, they are atomic, and in others they are compound
+2015-05-18 00:35:57	@halosghost	arrays, however, are just contiguous groups of other types
+2015-05-18 00:36:04	@meskarune	ok
+2015-05-18 00:36:09	@halosghost	so, the array [1, 2, 3] is an array of integers
+2015-05-18 00:36:23	@halosghost	(which, in something like C, would be stored as three consecutive integers in memory)
+2015-05-18 00:37:03	@meskarune	can you mix int and string in an array?
+2015-05-18 00:37:16	@halosghost	meskarune: typically, no
+2015-05-18 00:37:22	heftig	also called a tuple, but arrays are typically homogenous in type and may have dynamic size
+2015-05-18 00:37:37	@halosghost	meskarune: in statically typed languages, arrays, because they are contiguous, need to be all of the same type
+2015-05-18 00:38:17	@halosghost	meskarune: the reason for this is because of how array indexing actualy works, but that's a semantic discussion that is language-specific
+2015-05-18 00:38:33	@halosghost	the next most common compound data type is often a version of an array
+2015-05-18 00:38:36	@halosghost	the string
+2015-05-18 00:38:50	@halosghost	a string is, most commonly an array of characters (often with some extra caveats)
+2015-05-18 00:39:40	@halosghost	another common data type is the tuple as heftig mentioned
+2015-05-18 00:39:59	@halosghost	where an array must be homogenous in type, tuples typically allow heterogenous types
+2015-05-18 00:40:02	heftig	C calls them structs
+2015-05-18 00:40:09	@halosghost	heftig: structs are not tuples
+2015-05-18 00:40:15	@halosghost	though, they are similar
+2015-05-18 00:40:40	@halosghost	they're essentially tuples with names elements rather than ordered elements
+2015-05-18 00:40:47	heftig	is it just that structs have named fields? the representation should be identical
+2015-05-18 00:41:04	@halosghost	heftig: right; but that's a significant difference
+2015-05-18 00:41:13	@halosghost	heftig: in other languages, like Rust, they are treated in very different ways
+2015-05-18 00:41:47	@halosghost	so, (5, "thing") is an example of a 2-tuple (a tuple of length 2) with the type (int, string)
+2015-05-18 00:41:58	nahoskins	K
+2015-05-18 00:42:31	@halosghost	there are also vectors which are another family member of arrays but with some extra special properties
+2015-05-18 00:42:57	nahoskins	Arrays of arrays?
+2015-05-18 00:43:19	@halosghost	there are enums (which are typically an atomic data type which you can use to declare something to have only a particular set of values; e.g., enum cardinal_dir { NORTH, EAST, SOUTH, WEST };)
+2015-05-18 00:43:43	fsckd	enum is short for enumeration?
+2015-05-18 00:43:50	@halosghost	fsckd: yep
+2015-05-18 00:43:57	@halosghost	(because you enumerate all its possible values
+2015-05-18 00:43:59	@halosghost	)
+2015-05-18 00:44:16	@halosghost	nahoskins: some languages have true multi-dimensional arrays, but many (like C), implement multi-dimensional arrays by having arrays of arrays as you said
+2015-05-18 00:44:34	@halosghost	and finally, there are objects and structs
+2015-05-18 00:44:47	@halosghost	(and unions)
+2015-05-18 00:45:18	nahoskins	What is the difference between unions and structures
+2015-05-18 00:45:20	@halosghost	unions can almost only be found in C and aren't really a proper type so much as a way of being efficient with memory storage
+2015-05-18 00:45:40	@halosghost	nahoskins: it is likely best to think of a struct as an array that can have different types of data in it
+2015-05-18 00:45:42	nahoskins	*objects and structs
+2015-05-18 00:45:52	nahoskins	OK
+2015-05-18 00:46:04	@halosghost	objects, like structs can contain different sets of data, but they operate on a very different model
+2015-05-18 00:46:14	@halosghost	structs are just sets of data (like arrayes)
+2015-05-18 00:46:17	@halosghost	s/yes/ys/
+2015-05-18 00:46:31	@halosghost	objects, otoh, are meant to be models of real life objects which have behavior
+2015-05-18 00:46:34	@halosghost	not just data
+2015-05-18 00:46:47	nahoskins	So am abstraction
+2015-05-18 00:46:51	@halosghost	that, however, goes into object-orientation, which is definitely outside the scope of this class
+2015-05-18 00:46:57	nahoskins	Which presumably allows for methods etc
+2015-05-18 00:46:57	@halosghost	nahoskins: well, a different paradigm
+2015-05-18 00:46:58	sudokode	heh
+2015-05-18 00:47:08	sudokode	I turn back and we're talking about objects
+2015-05-18 00:47:10	nahoskins	Ok
+2015-05-18 00:47:14	@halosghost	nahoskins: well, you can actually have methods on structs, technically
+2015-05-18 00:47:21	@halosghost	but, again, that's a conversation for a different day :)
+2015-05-18 00:47:26	nahoskins	Using pointers?
+2015-05-18 00:47:30	nahoskins	Ok
+2015-05-18 00:47:36	@halosghost	yep, using pointers
+2015-05-18 00:47:39	nahoskins	Cool
+2015-05-18 00:47:58	sudokode	classes are just another way to make your program orthogonal
+2015-05-18 00:48:17	sudokode	which is a funny word
+2015-05-18 00:48:24	@halosghost	that mostly wraps up what we needed to cover to give you all a basic foundation of knowledge for starting with statically typed languages
+2015-05-18 00:48:35	nahoskins	That was great
+2015-05-18 00:48:42	sudokode	!give halosghost gj
+2015-05-18 00:48:43	phrik	halosghost: Good job!!
+2015-05-18 00:48:43	@halosghost	but, as anyone who has spent a lot of time in academia would tell you, everyone sucks at writing conclusions
+2015-05-18 00:48:47	nahoskins	I operate in dynamic land
+2015-05-18 00:48:56	demize	sudokode: That sentence is grammatical, but senseless..
+2015-05-18 00:49:14	sudokode	demize: eh?
+2015-05-18 00:49:26	@meskarune	does setting the type affect how things get saved in memory?
+2015-05-18 00:49:28	demize	It doesn't really have any meaning.
+2015-05-18 00:49:30	nahoskins	Thanks for taking the time
+2015-05-18 00:49:36	@meskarune	like it takes up less space?
+2015-05-18 00:49:37	demize	halosghost: ❤
+2015-05-18 00:49:39	@halosghost	so, I'll leave it at this: “dynamic” was a term meant to create notions of flexibility and adaptability in the face of “static” which makes you think of slow and rigid
+2015-05-18 00:49:50	sudokode	demize: that lines don't tell me the what's wrong though
+2015-05-18 00:50:04	sudokode	halosghost: In summation, I will conclude by ending with a summary of my previous thoughts.
+2015-05-18 00:50:05	nahoskins	So dynamic is really... Lazy
+2015-05-18 00:50:10	@halosghost	but, the actual reality is that there's nothing to be afraid of when it comes to statically typed languages; they are just another way of approaching the vast body of problems programming presents
+2015-05-18 00:50:18	@halosghost	so, as the saying goes
+2015-05-18 00:50:21	@halosghost	Do what feels right!
+2015-05-18 00:50:25	nahoskins	Lol
+2015-05-18 00:50:25	fsckd	meskarune: it depends on the language
+2015-05-18 00:50:30	nahoskins	Coffeesctipt!
+2015-05-18 00:50:33	nahoskins	;)
+2015-05-18 00:50:33	@meskarune	fsckd: hehe
+2015-05-18 00:50:34	@halosghost	meskarune: it certainly can
+2015-05-18 00:50:43	demize	sudokode: "<sudokode> classes are just another way to make your program orthogonal" doesn't really mean anything at all. There's a bunch of words in there that sort of fit together, but there's no real meaning to be extracted from the sentence
+2015-05-18 00:50:53	@halosghost	meskarune: for example, some languages (like python) actually only have one type
+2015-05-18 00:50:56	@halosghost	meskarune: the object type
+2015-05-18 00:51:04	heftig	demize: less round corners and spheres
+2015-05-18 00:51:05	@meskarune	oh I see
+2015-05-18 00:51:22	heftig	demize: i.e. the program gets edgier
+2015-05-18 00:51:22	@halosghost	meskarune: the result is that, in many cases, more space or calculations are used for any given bit of data than the underlying representation actually requires
+2015-05-18 00:51:29	demize	heftig: I always imagine objects as round things for some reason
+2015-05-18 00:51:36	sudokode	demize: I was trying to point out that classes aren't really anything special, just a construct of a language that provides a similar feature to functions or modules
+2015-05-18 00:51:42	sudokode	but in a slightly different way
+2015-05-18 00:51:43	fsckd	demize: me too
+2015-05-18 00:51:49	demize	sudokode: mmmm
+2015-05-18 00:51:57	@halosghost	now then
+2015-05-18 00:52:02	@halosghost	time to flood the channel with links to further reading
+2015-05-18 00:52:04	@meskarune	I think of a cube
+2015-05-18 00:52:06	sudokode	without saying all of that :P
+2015-05-18 00:52:19	lonewulfn6	Thank you halosghost (and others who participated). This was way over MY head.. bit who knows maybe this class will be what starts me on a journey to becoming a programmer one day? :) Thanks.
+2015-05-18 00:52:19	@halosghost	https://en.wikipedia.org/wiki/IEEE_floating_point, http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=4610935&url=http%3A%2F%2Fieeexplore.ieee.org%2Fstamp%2Fstamp.jsp%3Ftp%3D%26arnumber%3D4610935, http://www.validlab.com/goldberg/paper.pdf
+2015-05-18 00:52:20	nahoskins	I think of cells
+2015-05-18 00:52:21	phrik	'Title: IEEE Xplore Abstract \r \r \r \r \r \r \r \r \r \r \r - \r IEEE Standard for Floating-Point Arithmetic (at ieeexplore.ieee.org)'
+2015-05-18 00:52:25	@halosghost	^ IEEE 754
+2015-05-18 00:52:35	nahoskins	Very cool
+2015-05-18 00:52:41	@halosghost	http://existentialtype.wordpress.com/2011/03/19/dynamic-languages-are-static-languages/
+2015-05-18 00:52:41	nahoskins	Thank you
+2015-05-18 00:52:41	lonewulfn6	s/bit/but
+2015-05-18 00:52:41	phrik	Title: Dynamic Languages are Static Languages | Existential Type (at existentialtype.wordpress.com)
+2015-05-18 00:52:42	fsckd	err, may be one line per link?
+2015-05-18 00:52:44	@halosghost	^ Python's single type
+2015-05-18 00:52:50	demize	meskarune: A rectangle would be rather more apt, I think, though rather void of meaning since everything is a block of memory.
+2015-05-18 00:53:08	@halosghost	lonewulfn6: happy to do it; feel free to PM me if you have any questions on programming
+2015-05-18 00:53:16	@halosghost	I'm always happy to help
+2015-05-18 00:53:19	@halosghost	nahoskins: ^
+2015-05-18 00:53:20	@meskarune	\o/
+2015-05-18 00:53:24	demize	halosghost: That makes me think of the blog post where it's described how to change the value of integers.
+2015-05-18 00:53:25	@halosghost	also, everyone: ^
+2015-05-18 00:53:30	@halosghost	demize: :P
+2015-05-18 00:53:33	@halosghost	demize: a good one
+2015-05-18 00:53:35	demize	As in, make the value of eg 2 something else.
+2015-05-18 00:53:39	@halosghost	right
+2015-05-18 00:53:40	demize	It's a good post.
+2015-05-18 00:53:57	@halosghost	because Python stores the first few integers globally, yeah
+2015-05-18 00:54:07	demize	Indeed
+2015-05-18 00:54:13	demize	I think it's...
+2015-05-18 00:54:16	demize	https://jakevdp.github.io/blog/2014/05/09/why-python-is-slow/
+2015-05-18 00:54:17	phrik	Title: Why Python is Slow: Looking Under the Hood (at jakevdp.github.io)
+2015-05-18 00:54:29	@meskarune	cool
+2015-05-18 00:54:36	nahoskins	Haskell sounds interesting
+2015-05-18 00:54:42	demize	0 ta 256 is always the same object in CPython
+2015-05-18 00:54:49	demize	to*
+2015-05-18 00:54:53	nahoskins	If only angular worked there..
+2015-05-18 00:54:58	@halosghost	nahoskins: I've just started getting my hands deep into Haskell and I've been loving it
+2015-05-18 00:55:06	@halosghost	oh, that reminds me
+2015-05-18 00:55:15	nahoskins	Most of my income is from web stuff
+2015-05-18 00:55:17	@halosghost	I have another link on that subject
+2015-05-18 00:55:23	A124	lonewulfn6 One day I had no idea what integer is. This year I worked on kernel module.
+2015-05-18 00:55:32	@halosghost	https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system
+2015-05-18 00:55:33	phrik	Title: Hindley–Milner type system - Wikipedia, the free encyclopedia (at en.wikipedia.org)
+2015-05-18 00:55:39	@halosghost	^ type inference for Haskell
+2015-05-18 00:55:42	@halosghost	http://tutorial.ponylang.org/types/static-vs-dynamic/
+2015-05-18 00:55:43	phrik	Title: Static vs dynamic - Pony Tutorial (at tutorial.ponylang.org)
+2015-05-18 00:55:48	fsckd	sort of tangentially related, this may interest people here: https://bbs.archlinux.org/viewtopic.php?pid=1528692#p1528692
+2015-05-18 00:55:49	phrik	Title: Arch Classroom (Page 4) / Arch Discussion / Arch Linux Forums (at bbs.archlinux.org)
+2015-05-18 00:55:53	fsckd	err
+2015-05-18 00:55:54	@halosghost	^ some musings on the differences between static and dynamic
+2015-05-18 00:55:56	fsckd	wrong link
+2015-05-18 00:56:02	fsckd	http://www.catb.org/esr/structure-packing/?src=yc
+2015-05-18 00:56:03	phrik	Title: The Lost Art of C Structure Packing (at www.catb.org)
+2015-05-18 00:56:04	--	Mode #archlinux-classroom [+o demize] by ChanServ
+2015-05-18 00:56:06	--	demize has changed topic for #archlinux-classroom from "Next class: "An Imperfect Intro. to Static Typing" by HalosGhost on Sunday, May 17th @ 23:00 UTC <+> Arch Wiki page: https://wiki.archlinux.org/index.php/Classroom <+> Logs of past classes can be found at https://archwomen.org/media/project_classroom/classlogs/" to "Class dismissed <+> Arch Wiki page: https://wiki.archlinux.org/index.php/Classroom <+> Logs of past classes can be found at https://archwomen.org/media/project_classroom/classlogs/"
+
+
+These are the links for further reading as listed in the transcript above. Collected for easy access.
+
+IEEE 754 floating point format
+* https://en.wikipedia.org/wiki/IEEE_floating_point
+* http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=4610935&url=http%3A%2F%2Fieeexplore.ieee.org%2Fstamp%2Fstamp.jsp%3Ftp%3D%26arnumber%3D4610935
+* http://www.validlab.com/goldberg/paper.pdf
+
+Python's single type
+* http://existentialtype.wordpress.com/2011/03/19/dynamic-languages-are-static-languages/
+
+Type inference for Haskell
+* https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system
+
+Some musings on the differences between static and dynamic
+* http://tutorial.ponylang.org/types/static-vs-dynamic/
