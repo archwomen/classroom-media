@@ -1,0 +1,946 @@
+"Git for Gits" taught by polyzen and meskarune
+16 July 2016, #archlinux-classroom
+
+16:02:52 <@polyzen> the outline https://ptpb.pw/r/OpkW.rst
+16:02:53 <phrik> Title: pb (at ptpb.pw)
+16:03:13 <@polyzen> everyone pass around the copies
+16:03:21 * Shoe16 passes
+16:03:23 <@meskarune> lol
+16:03:37 <Halfwit> polyzen: I didn't get mine. 
+16:03:43 <Halfwit> polyzen: alad is kicking my seat!
+16:03:45 <Halfwit> /s
+16:03:54 <@polyzen> now now
+16:03:59 <atk> cp outline.rst ~/../Halfwit/
+16:04:05 * alad accidentally drops the stack of papers on the floor
+16:04:06 <@meskarune> onetwo_: you broke the CoC :P
+16:04:07 <alad> Halfwit pushed me!
+16:04:12 <@meskarune> but anways
+16:04:23 <onetwo_> meskarune: damn son :D
+16:04:25 <@meskarune> I got food drink and a dog in my lap so I guess I am ready
+16:04:30 <@polyzen> who here's not familiar with Git?
+16:04:32 <fsckd> haha Will Smith :P
+16:04:41 <@polyzen> Will Smith++
+16:04:47 <@polyzen> scientology--
+16:04:49 <verrlara> Question! -raises hand-
+16:04:54 <alad> polyzen: well, in my field of profession, I am very familiar with Gits
+16:05:03 <atk> Yes, I work with a few.
+16:05:14 <@polyzen> verrlara, just go ahead and ask :p
+16:05:15 <merriment> are we speaking of someone in particular?
+16:05:22 <Shoe16> im not 
+16:05:22 <-- respiran1o (~respirant@p5B2603AA.dip0.t-ipconnect.de) has quit (Read error: Connection reset by peer)
+16:05:23 <verrlara> Are we starting?
+16:05:32 <@polyzen> well the start time was 5 minutes ago
+16:05:32 <Halfwit> !synonym git
+16:05:32 * verrlara had to go tinkle and missed stuff
+16:05:32 <Shoe16> i tried using it 
+16:05:33 <phrik> Halfwit: git
+16:05:36 <Shoe16> but its confusing
+16:05:50 <Halfwit> Oh, quiet the room and do the intro \o/
+16:05:50 <Shoe16> so i just stayed away from it 
+16:06:19 <@polyzen> yeah a few of the terms are tricky
+16:06:35 <@polyzen> the front page of this has a great description of them https://jwiegley.github.io/git-from-the-bottom-up/
+16:06:35 <phrik> Title: Git from the Bottom Up (at jwiegley.github.io)
+16:06:55 <@polyzen> haven't read all of it, it's pretty in-depth
+16:07:01 <alad> polyzen: n.b for the "workflow" section, there's also workflows(7)
+16:07:05 <@polyzen> so I assume you all know what VCS are
+16:07:16 <alad> sorry, gitworkflows(7) *
+16:07:18 * polyzen looks
+16:07:36 <@polyzen> noted
+16:08:22 <Shoe16> no
+16:08:28 <Shoe16> whats vcs
+16:08:34 <@polyzen> VCS = version control software
+16:08:37 <Shoe16> oh 
+16:08:39 <Shoe16> right
+16:08:50 <Shoe16> yeah thats all i know about vcs
+16:08:50 <@polyzen> in the AUR we use it to keep track of changes to package contents
+16:08:55 <@meskarune> its like how a wiki shows the history of changes to an article
+16:08:56 <@polyzen> source package contents*
+16:09:02 <verrlara> I am getting some errors about it being an outside repository?
+16:09:06 <@meskarune> are we starting?
+16:09:08 --> respiranto (~respirant@p5B2603AA.dip0.t-ipconnect.de) has joined #archlinux-classroom
+16:09:11 <@polyzen> yes
+16:09:13 <@meskarune> oh ok
+16:09:19 <@polyzen> verrlara, what command?
+16:09:22 --> bookworm (~bookworm@unaffiliated/reto) has joined #archlinux-classroom
+16:09:40 <verrlara> So playground is in my $HOME/Downloads folder. I am trying to add from $HOME/.config
+16:09:58 <@polyzen> Shoe16, do you follow?
+16:10:06 <Shoe16> yes
+16:10:10 <verrlara> git add ~/.config/nvim/init.vim
+16:10:28 <@meskarune> verrlara: maybe until we teach how to do that stuff before trying it :P
+16:10:29 <@polyzen> that's outside of the ..boundaries
+16:11:01 <@polyzen> well let's not skip ahead :p
+16:11:06 <@meskarune> I guess we could start with intos and then do a speal 
+16:11:12 <verrlara> fatal: /home/anna/.xmonad/xmonad.hs: '/home/anna/.xmonad/xmonad.hs' is outside repository
+16:11:15 <atk> verrlara: the files you want to add to a git repository need to be in a location inside the tree of where you did your git-clone / git-init
+16:11:29 <Shoe16> you guys should change the topic
+16:11:30 <@polyzen> meskarune, intros?
+16:11:30 <alad> meskarune: abit out of scope, but there are intermediaries between wiki history, and git repositories
+16:11:38 <alad> meskarune: like git-mediawiki in the contrib tree of the git source
+16:11:40 <@meskarune> verrlara: for support things maybe head to archlinux-newbie :)
+16:12:01 <@meskarune> polyzen: yeah, hello, I'm polyzen, get ready for pain
+16:12:04 <verrlara> So I just need to move the file
+16:12:05 <verrlara> ok
+16:12:06 <@polyzen> Git intro or icebreaker?
+16:12:10 <@polyzen> ah
+16:12:23 <@polyzen> yes, I'm polyzen, I like to fuck shit up
+16:12:28 <NextHendrix> verrlara: wherever you git init, anything in that folder and below can be added
+16:12:38 <@polyzen> and walk away unscathed
+16:12:43 <alad> crap
+16:12:44 <alad> !cantgrab
+16:12:45 <phrik> dafuq, alad can't grab that!
+16:12:49 <@polyzen> lol
+16:12:55 * atk scathes polyzen
+16:13:03 <@polyzen> D:
+16:13:07 <@meskarune> I'm meskarune, I have an unhealthy addiction to coffee and chocolate and I like helping people
+16:13:09 <alad> ok, so we were at the basic git terms
+16:13:24 <@polyzen> mm
+16:13:25 <alad> has everyone have a half-an-understanding on what was said on that page?
+16:13:27 <atk> Is everyone supposed to introduce themselves?
+16:13:31 <@meskarune> do the students want to introduce themselves ?
+16:13:35 <alad> s/has/does
+16:13:46 <@meskarune> atk: if you want to :P
+16:13:48 <alad> hello, I'm alad and I like to break things >.>
+16:13:52 <Shoe16> im Shoe16 
+16:14:00 <Shoe16> i like top 40s pop music
+16:14:01 <verrlara> My name is Anna, I am a blogger, arch linux user, archer, markswoman and have aspergers disorder. 
+16:14:04 <Shoe16> and im in HS
+16:14:14 <@polyzen> like 1940s?
+16:14:23 <@meskarune> cool Shoe16 welcome
+16:14:24 <Shoe16> polyzen: tahts too recent
+16:14:27 <Shoe16> 40 AD
+16:14:31 <@polyzen> lol
+16:14:34 <onetwo_> is this not an AA meeting?
+16:14:38 <NextHendrix> im the next jimi hendrix
+16:14:41 <onetwo_> awkward
+16:14:57 <NextHendrix> and i havent had a drink in 12 hours
+16:14:58 <irc-5225225> onetwo_: Arch users Anonymous.
+16:15:01 <@polyzen> verrlara, archery? :D
+16:15:03 <atk> Hello, I am atk (Arch-TK) I write software professionally and despite the fact that I do not use git in my job I use it extensively when I contribute to open source projects. I help people with various issues on a daily basis.
+16:15:16 <@meskarune> thanks atk :)
+16:15:33 <merriment> hello :-) i'm a newbie, about a month into using arch, a year into linux. didn't know much at all about git, think i've got the gist of it now but looking forward to learning from you!
+16:15:35 <@polyzen> my cousin got into archery recently
+16:15:46 <fsckd> hi atk, Shoe16, verrlara, alad :)
+16:15:47 <verrlara> I do actual bow and arrow. So archery
+16:15:50 <alad> polyzen: cool. how far can s/he hit a target?
+16:15:54 <alad> :P
+16:15:56 <@polyzen> great merriment
+16:16:07 <fsckd> hi merriment :)
+16:16:10 <@polyzen> alad, far
+16:16:11 <verrlara> I can hit something at fourty yards if I try a few times. 
+16:16:21 <alad> polyzen: like, 3 far?
+16:16:28 <@polyzen> exactly
+16:16:31 <alad> \o/
+16:16:31 <-- respiranto (~respirant@p5B2603AA.dip0.t-ipconnect.de) has quit (Read error: Connection reset by peer)
+16:16:37 <verrlara> I use a recurve or a longbow. I don't own a compound/modern bow. 
+16:16:40 <irc-5225225> I can flip a bottle and get it land right way up after a few tries.
+16:16:48 <@polyzen> o/ irc-5225225
+16:16:58 <alad> irc-5225225: I can get up from bed in the morning, and trip only a few times
+16:17:07 <@meskarune> ok, I guess we can introduce git and why its useful to know
+16:17:09 <@polyzen> meskarune and irc-5225225 had mentioned this xkcd comic https://xkcd.com/1597/
+16:17:10 <phrik> Title: xkcd: Git (at xkcd.com)
+16:17:11 <fsckd> i'm fsckd, i've been using Arch for a while. i like tacos and i had poutine once. i like it. :)
+16:17:17 * onetwo_ refrains from quoting flobots - handelbars
+16:17:21 <@polyzen> haha
+16:17:33 <@polyzen> well done
+16:17:34 <alad> well, why git is useful, let me quote from the wiki:
+16:17:48 <alad>     I've met people who thought that git is a front-end to GitHub. They were wrong, git is a front-end to AUR.
+16:17:50 <alad>     — Linus Torvalds
+16:17:53 <atk> [citation needed]
+16:17:54 <alad> ^ totall legit
+16:17:58 <@meskarune> haha
+16:17:58 <alad> -l
+16:18:02 <fsckd> lmao
+16:18:09 --> respiranto (~respirant@p5B2603AA.dip0.t-ipconnect.de) has joined #archlinux-classroom
+16:18:12 <@polyzen> lol
+16:18:30 <@meskarune> if you haven't haven't  heard of github, it is a social coding website that hosts git repositories for people
+16:18:52 <alad> there's a few of those, including one from GNU
+16:18:56 * polyzen wonders how many of us clone AUR sources as opposed to using a helper
+16:18:59 <@meskarune> you have git repos on a server and then interact with them from your computer
+16:19:11 <@polyzen> * ..do helpers clone the sources?
+16:19:18 <alad> polyzen: some do
+16:19:50 <@polyzen> meskarune, is it okay if I remove the playground history
+16:19:51 <alad> according to the wiki table, about half. the rest uses the "old" method of fetching tarballs
+16:19:54 <@polyzen> then we can clone and have some fun
+16:19:56 <@meskarune> So git is very useful when you want to keep track of changes you are making to files, and also useful when you do so in a team
+16:20:07 <@polyzen> meskarune, this was you? https://archwomen.org/media/using-git.txt
+16:20:09 <@meskarune> The arch linux AUR uses git, so do many other projects
+16:20:09 <-- respiranto (~respirant@p5B2603AA.dip0.t-ipconnect.de) has quit (Read error: Connection reset by peer)
+16:20:17 <@meskarune> polyzen: we wrote that a while ago heh
+16:20:23 <@polyzen> alad, I see
+16:20:33 <@polyzen> meskarune, oh lol
+16:20:36 <verrlara> Just pushed some stuff
+16:20:39 <atk> It might be worthwhile to mention how git differs from other VCS like cvs/mecrurial/svn
+16:20:43 <@meskarune> If you want to contribute to many FOSS projects, knowing git is very useful for that
+16:21:05 <@polyzen> verrlara, pushed to where?
+16:21:11 <@polyzen> I don't see any more commits in the playground
+16:21:23 <verrlara> ;o it should have gone to the playground o.o
+16:21:30 <@polyzen> atk, I've hardly used those. perhaps you could?
+16:21:31 <atk> I can see it.
+16:21:38 <alad> so to illustrate on the AUR helper example – with git, you can easily see what changes the maintainer made to his AUR package
+16:21:44 <verrlara> Should be a pile of dot files and an annatest.txt
+16:21:47 <atk> polyzen: me neither :P
+16:21:49 <@polyzen> ah there it is
+16:21:51 <@polyzen> hehe
+16:21:57 <-- Scimmia (~Scimmia@dhcp-142-99-212-67.cf-res.cfu.net) has left #archlinux-classroom ("Leaving")
+16:22:03 <alad> with tarballs, you'd have to check by hand, e.g. with "diff"
+16:22:06 <verrlara> might be hidden do to .config
+16:22:16 <verrlara> and .xmonad
+16:22:18 <verrlara> xD
+16:22:30 <@polyzen> alright so this is a shot of verrlara's commit https://ptpb.pw/FFrY.png
+16:22:31 <fsckd> may be we should let the class continue :)
+16:22:31 <@meskarune> So many people use a git repo to save all their config files on linux
+16:22:37 <@meskarune> then you can clone to other computers 
+16:22:48 <@polyzen> looking at it in tig http://jonas.nitro.dk/tig/
+16:22:49 <@meskarune> polyzen: do you wanna talk about the differences iwth other vcs systems?
+16:22:49 <phrik> Title: Index of /tig (at jonas.nitro.dk)
+16:22:55 <@meskarune> I'm not too familiar with that
+16:22:56 <NextHendrix> don't upload configs with passwords in plaintext to public repos
+16:22:56 <@polyzen> meskarune, I haven't used them
+16:23:04 <@polyzen> well, barely
+16:23:09 <@meskarune> atk: ?
+16:23:13 <@meskarune> :P
+16:23:27 <@polyzen> ruh roh
+16:23:39 <alad> I can't say much about CVS, except that nobody in their right mind still uses it
+16:23:44 <alad> well, OpenBSD does.
+16:23:48 <@polyzen> meskarune, time to start the playground over?
+16:23:53 <alad> (but they're not in their right mind)
+16:23:54 <@meskarune> polyzen: if you like :)
+16:23:59 <verrlara> God I hope there isn't a password...
+16:24:20 <@meskarune> ok, does anyone have questions so far?
+16:24:40 <verrlara> NextHendrix: There wasn't a password in there was tere?
+16:24:43 <@meskarune> git was written by linus torvalds I believe to replace svn
+16:24:44 <onetwo_> Nah, everything makes sense so far.
+16:24:57 <@polyzen> meskarune, looks like the best way to do that is to rm it and start it again
+16:25:02 <@polyzen> s/start/init/
+16:25:03 --> respiran1o (~respirant@p5B2603AA.dip0.t-ipconnect.de) has joined #archlinux-classroom
+16:25:18 <@polyzen> would that cause issues/
+16:25:19 <@polyzen> ?*
+16:25:28 <@meskarune> polyzen: oh we can't reset back to root?
+16:25:34 <verrlara> I am sorry. Did I screw up?
+16:25:44 <@polyzen> tried dropping all the commits in a rebase but it doesn't seem right
+16:25:55 <bookworm> there's a very nice video from Linus giving a presentation to google employees fir those interested
+16:25:57 <atk> meskarune: to replace bitkeeper
+16:26:03 <fsckd> polyzen: can you push force?
+16:26:10 <verrlara> fsckd: Did I do wrong?
+16:26:10 <@meskarune> atk: oh ok, thanks :)
+16:26:17 <@meskarune> verrlara: its ok :P
+16:26:18 <@polyzen> done
+16:26:20 <alad> polyzen: git log; git reset --hard <foo>
+16:26:21 <@meskarune> \o/
+16:26:31 <verrlara> fuck I am sorry x.x
+16:26:45 <bookworm> https://youtu.be/4XpnKHJAok8
+16:26:45 <@polyzen> :p
+16:26:46 <phrik> Title: Tech Talk: Linus Torvalds on git - YouTube (at youtu.be)
+16:26:47 <atk> A good talk to watch by linus, talking about the advantages of git (warning, bias): https://www.youtube.com/watch?v=4XpnKHJAok8
+16:26:48 <phrik> Title: Tech Talk: Linus Torvalds on git - YouTube (at www.youtube.com)
+16:26:50 <@meskarune> Ok, so you use git to keep track of changes in files, and its useful so that you can look at what you've done previously, roll back changes and work as team on the project
+16:26:54 <fsckd> verrlara: no, it'll probably get cleared many times during the class :)
+16:27:01 <@polyzen> jynx
+16:27:06 <bookworm> atk :-)
+16:27:18 <alad> fsckd: just to mention it to the new folks, most people warn against pushing changes with git push --force, i.e. against rewriting history
+16:27:22 <@polyzen> verrlara, take a moment to look at this https://ptpb.pw/r/OpkW.rst#id2
+16:27:23 <phrik> Title: pb (at ptpb.pw)
+16:27:23 <@meskarune> To create a git repo, you make a directory, cd into it and type "git init"
+16:27:27 <Shoe16> so does git store all the previous versions of the program automatically?
+16:27:43 <@meskarune> Shoe16: it stores changes
+16:27:46 <alad> Shoe16: we'll get to that :)
+16:27:50 <@polyzen> verrlara, commit messages should be in the "imperative present tense", so next time "add .." instead of "added .."
+16:28:06 <@polyzen> verrlara, actually don't look at the link, just read what I said :p
+16:28:09 <@polyzen> so we don't lose place
+16:28:12 <@meskarune> Shoe16: so instead of storing a full copy it stores the changes made to all the files, which uses up less space
+16:28:13 <atk> meskarune: alternatively, it is also possible to create the directory and initialise in one step using git init <directory>
+16:28:25 <demize> Technically Git doesn't store diffs by default.
+16:28:35 <@meskarune> yep, there are a lot of git commands that combine commands into one
+16:28:40 <Shoe16> so it compares the files and stores the differences or what?
+16:28:45 <alad> git stores all the different revision afaik
+16:28:46 <demize> It stores full copies, and then occasionally blobs are packed into pack files which contain a form of binary diff.
+16:29:12 <demize> Well, not really diff, it's more like it's compressed, hmm.
+16:29:21 <fsckd> compressed
+16:29:31 <atk> this makes sense
+16:29:57 <alad> either way, this storing of full copies is why clones of large projects get really big?
+16:30:02 <alad> because they have a large commit history
+16:30:05 <atk> compression would perform a form of deduplication which should in effect deduplicate things which haven't changed.
+16:30:16 <@meskarune> so after you initiate a repo it creates it with one branch called master, and you can then add files
+16:30:23 <@polyzen> take a moment to configure Git with your name and email if you haven't https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup#Your-Identity
+16:30:25 <phrik> Title: Git - First-Time Git Setup (at git-scm.com)
+16:30:33 <atk> (at least in theory, I'm sure demize can tell me if I'm imagining things right)
+16:31:03 <@meskarune> git can work over multiple protocols, like ssh or http
+16:31:04 <onetwo_> If I wanna get rid of it I just rm -rf?
+16:31:10 <demize> atk: In theory it could, but it's not just compressed directly.
+16:31:12 <@polyzen> yes onetwo_
+16:31:19 <demize> alad: Sometimes, if a git-gc isn't run occasionally.
+16:31:20 <Shoe16> yay i made a git repo
+16:31:25 * Shoe16 throws confetti
+16:31:25 <@meskarune> https://git-scm.com/book/en/v2/Git-on-the-Server-Setting-Up-the-Server
+16:31:26 <phrik> Title: Git - Setting Up the Server (at git-scm.com)
+16:31:33 <@meskarune> thats some information on setting up a git server
+16:31:42 <demize> alad: But generally it's just that git has to unpack objects from packfiles, which can take a while.
+16:31:52 <@meskarune> but most of the time you will be interacting with git repos that already exist
+16:31:53 <Shoe16> wait, so how can other people access my stuff using github?
+16:31:56 <@polyzen> onetwo_, http://stackoverflow.com/questions/15244644/how-to-restart-a-git-repository
+16:31:57 <phrik> Title: github - how to restart a git repository - Stack Overflow (at stackoverflow.com)
+16:32:01 <alad> demize: ok, thanks
+16:32:10 <@meskarune> Shoe16: github is essentially a git server and social website :)
+16:32:13 <Shoe16> if you do git init is it automatically visible on github or what?
+16:32:13 <alad> Shoe16: github is basically a fancy web interface to actual git
+16:32:17 <Shoe16> oh
+16:32:24 <@polyzen> alad, now that a ff push was done, would everyone do a `git pull -f`?
+16:32:29 <alad> Shoe16: if you want to know exactly how it works, we can't, because it's a proprietary service :P
+16:32:31 <@meskarune> Shoe16: you have to add github as the origin
+16:32:46 <demize> But yeah, packfiles contain a sort of delta between multiple objects, and each object is zlib compressed.
+16:32:48 <@meskarune> git remote add origin https://github.com/archwomen/hello-world.git
+16:32:54 <@meskarune> Shoe16: like that ^ as an example
+16:33:01 <Shoe16> meskarune: 404
+16:33:05 <@meskarune> :P
+16:33:08 <@meskarune> its not a real thing lol
+16:33:15 <Shoe16> oh
+16:33:23 <@meskarune> you'd need to replace with your own user account and the name of your repo
+16:33:25 <@polyzen> in case anyone missed it: take a moment to configure Git with your name and email if you haven't https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup#Your-Identity
+16:33:26 <phrik> Title: Git - First-Time Git Setup (at git-scm.com)
+16:33:38 <Shoe16> so to make my repo show up on github
+16:33:40 <Shoe16> id do 
+16:33:46 <@polyzen> not now
+16:34:00 <Shoe16> git remote add origin github.com/shoe16/repo.git?
+16:34:05 <atk> I think it may be worthwhile to cover what git remotes are
+16:34:06 <Shoe16> sorry
+16:34:14 <@polyzen> !give Shoe16 tias
+16:34:16 <phrik> Shoe16: Try It And See™
+16:34:23 <@polyzen> git://
+16:34:25 <@meskarune> we are getting a little out of order, but its ok
+16:34:25 <fsckd> please let the teachers teach. they will get the there later. :)
+16:34:27 <@polyzen> or ssh://
+16:34:28 <Shoe16> lemme sign up for github first 
+16:34:33 <@polyzen> lol
+16:34:35 <@meskarune> lol ok Shoe16 :P
+16:34:41 <alad> polyzen: not sure, I'd try without -f first
+16:34:41 <-- joojoku (~joonas@mobile-access-bceefc-132.dhcp.inet.fi) has quit (Quit: joojoku)
+16:34:43 <-- PointlessNode (~Pointless@104.200.151.74) has quit (Quit: WeeChat 1.5)
+16:34:49 <sulfyr> polyzen: "missing remote-repo" from pull
+16:34:50 <@polyzen> verrlara, ping
+16:34:54 <verrlara> png
+16:34:58 <verrlara> pong
+16:35:00 <verrlara> xD
+16:35:24 <@polyzen> verrlara, could you also try pulling the playground now that it's been nuked
+16:35:27 <@polyzen> ish
+16:35:29 --> Cristph_ (~Cristph@189.221.35.95.cable.dyn.cableonline.com.mx) has joined #archlinux-classroom
+16:35:35 <@polyzen> sulfyr, that's with -f?
+16:35:35 <verrlara> ok
+16:35:40 <sulfyr> yes
+16:35:41 <alad> ok, I have a suggestion
+16:35:46 <alad> let's answer questions sequentially
+16:35:49 <alad> because this is a complete mess
+16:35:58 <@polyzen> hehe
+16:36:05 <@meskarune> polyzen: works for me
+16:36:08 <fsckd> yes, and please don't jump ahead of teh class :P
+16:36:13 <atk> I would recommend leaving major questions until after the basics are covered, otherwise there will be questions about things which have not been covered yet.
+16:36:20 <@polyzen> sulfyr, just rm -rf playground/ and reclone :p
+16:36:27 --> PointlessNode (~Pointless@104.200.151.74) has joined #archlinux-classroom
+16:36:31 <Cristph_> have the class started??
+16:36:37 <@polyzen> https://xkcd.com/1597/ >.>
+16:36:38 <phrik> Title: xkcd: Git (at xkcd.com)
+16:36:39 <@polyzen> yes
+16:36:45 <fsckd> Cristph_: yes, but still at the beginning :)
+16:36:51 <alad> polyzen: you should put the outline in the topic
+16:37:01 <@polyzen> aye
+16:37:57 -- polyzen has changed topic for #archlinux-classroom from "Class dismissed <+> Arch Wiki page: https://wiki.archlinux.org/index.php/Classroom <+> Logs of past classes can be found at https://archwomen.org/media/project_classroom/classlogs/ <+> https://archwomen.org/wiki/projects:classroom:upcoming" to "Git class in progress. <+> Outline: https://ptpb.pw/r/OpkW.rst <+> Arch Wiki page: https://wiki.archlinux.org/index.php/Classroom <+> Logs of past classes can be found at https://archwomen.org/media/project_classroom/classlogs/ <+> https://archwomen.org/wiki/projects:classroom:upcoming"
+16:38:06 <@polyzen> Outline: https://ptpb.pw/r/OpkW.rst
+16:38:08 <phrik> Title: pb (at ptpb.pw)
+16:38:11 <alad> yay
+16:38:15 <@polyzen> we are here https://ptpb.pw/r/OpkW.rst#id1
+16:38:16 <phrik> Title: pb (at ptpb.pw)
+16:38:47 <@meskarune> So anyways, since this is a basic class we won't go into a ton of details for how to setup a git server, we just want to get y'all started contributing
+16:38:52 <@polyzen> one last mention: take a moment to configure Git with your name and email if you haven't https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup#Your-Identity
+16:38:53 <phrik> Title: Git - First-Time Git Setup (at git-scm.com)
+16:39:10 <@meskarune> when you configure git, it lets other people know who did what changes
+16:39:26 <@meskarune> you can configure globally and per repo
+16:39:30 <@polyzen> atk had brought up `git init` which is how you'd.. init a repository
+16:39:40 <@meskarune> yeah :)
+16:39:51 <@polyzen> you could do so in an existing directory and `git add .` to add the directory's contents
+16:39:53 <@meskarune> and the remote refers to the location of the git repo server
+16:39:55 <Shoe16> okay makes sense
+16:40:14 <@polyzen> does everyone have the playground cloned?
+16:40:17 <alad> or you could add files selectively with "git add foo bar baz"
+16:40:19 <@polyzen> in one state or another?
+16:40:30 <verrlara> meskarune: Sent you a quick pm. 
+16:40:31 <@meskarune> well, they don't know how to clone yet :P
+16:40:36 <merriment> i do, clean and good
+16:40:46 <@polyzen> yes. if you add files selectively, you probably want to setup gitignores
+16:40:47 <@meskarune> maybe we can do the workflow asciinema
+16:40:57 <sulfyr> how do I clone the playground?
+16:41:03 <alad> polyzen: I'd classify gitignore as an advanced topic :p
+16:41:10 <alad> also because everyone has different opinions on how to write them
+16:41:12 <@polyzen> just mentioning it :)
+16:41:16 <@meskarune> sulfyr: we will do that now :)
+16:41:38 <@polyzen> alright let's do the asciicast
+16:41:54 <@polyzen> here we have asciicasts made by meskarune https://ptpb.pw/r/9hg_.rst
+16:41:55 <phrik> Title: pb (at ptpb.pw)
+16:42:23 <@meskarune> We'll start with the basic workflow which shows how to git clone and add changes 
+16:42:32 <@polyzen> we're going to watch the first one to see how to "clone, add a commit, and push the commit upstream"
+16:42:49 <@polyzen> https://ptpb.pw/t/1kkA
+16:42:50 <phrik> Title: pb (at ptpb.pw)
+16:43:09 <@polyzen> if anyone has questions, like what's cloning or upstream, please let me know
+16:43:16 <@meskarune> if you don't have unicode fonts you can use: https://ptpb.pw/t/gkoq
+16:43:17 <phrik> Title: pb (at ptpb.pw)
+16:43:24 <Shoe16> what's upstream?
+16:43:41 <@meskarune> Shoe16: it refers to the remote server
+16:43:42 <@polyzen> upstream in our case would be the alw site
+16:43:45 <NextHendrix> similar to updoc
+16:43:49 <@polyzen> git@archwomen.org:playground
+16:43:50 <@meskarune> Shoe16: your home computer is downstream
+16:43:52 <cryzed> NextHendrix, :^)
+16:44:05 <Halfwit> meskarune: asciinema play <(curl -s https://ptpb.w/t/1kkA) iirc
+16:44:12 <@polyzen> Shoe16, will go over it more once we clone
+16:44:14 <@meskarune> When you watch the asciinema, you can copy and paste the text :)
+16:44:17 <@meskarune> just fyi
+16:44:25 <@meskarune> its not a video in the traditional sense
+16:44:37 <@polyzen> also Chrom should be able to play the unicode version despite what fonts you have
+16:45:00 <@polyzen> downstream/upstream:local/remote
+16:45:16 <@meskarune> its all jargon :)
+16:45:39 <@polyzen> ping once you've watched the asciicast
+16:46:11 <@meskarune> yeah, then we can answer questions :)
+16:46:25 <@meskarune> and y'all can all use the information to clone the repo and add files and see how it works
+16:46:35 <atk> (this reflects the model that git works around: git is designed so that everyone can have a local copy of the project and work on it independently without creating conflicts which can't be resolved, git allows you to "push" your local changes to the remote/upstream and "pull" the changes of other contributors from remote/upstream to your local/downstream copy.)
+16:46:49 <onetwo_> so basically you've pulled the data/files from the github server onto your pc?
+16:46:50 <Halfwit> atk: o/
+16:47:11 <@polyzen> onetwo_, what?
+16:47:31 <onetwo_> with the cloning
+16:47:33 <onetwo_> in the vid
+16:47:33 <atk> (git will not allow you by default to push your changes without first being up to date with the changes that other people have pushed, this prevents the possibility of creating conflicting changes by forcing anyone who wants to make changes to first resolve any conflicts locally)
+16:47:57 <@polyzen> GitHub is a private company
+16:48:04 <fsckd> onetwo_: it's not from gthub
+16:48:06 <alad> onetwo_: you're confusing the git protocol with a proprietary service
+16:48:11 <@polyzen> iirc Gitolite is used on the alw server
+16:48:12 <-- bot254 (be00fd51@gateway/web/freenode/ip.190.0.253.81) has quit (Quit: Page closed)
+16:48:42 <@polyzen> I've watched the asciicast about 3 times now
+16:48:45 <@polyzen> so let's continue
+16:48:50 <fsckd> GitHub is just one company created for hosting Git repositories.
+16:48:53 <@polyzen> and clone the playground
+16:49:01 <@polyzen> if you haven't already
+16:49:33 <Shoe16> fatal: Could not read from remote repository.
+16:49:35 <merriment> all right
+16:49:41 <Shoe16> thats what i get when i try to clone
+16:49:51 <@polyzen> Shoe16, sulfyr, merriment, verrlara, Cristph_
+16:50:00 <@polyzen> woops was scrolled up
+16:50:02 <alad> Shoe16: did you set up your SSH key?
+16:50:09 <Shoe16> no
+16:50:11 <alad> ....
+16:50:12 <Shoe16> how do i do that?
+16:50:19 <Cristph_> yeah, how?
+16:50:28 <@meskarune> ssh-keygen
+16:50:38 <@polyzen> https://wiki.archlinux.org/index.php/Classroom/git_2016
+16:50:39 <atk> (To check that you have a working copy of the playground, run "git status" inside the "playground" as shown in the asciicast, what the asciicast does not show is that all git commands work not only from the root directory, but also from any sub-directories)
+16:50:39 <phrik> Title: Classroom/git 2016 - ArchWiki (at wiki.archlinux.org)
+16:50:41 <@meskarune> then in ~/.ssh/id_rsa.pub is your pub key
+16:51:14 <merriment> quick question, does git status check master for updates when you run it?
+16:51:21 <atk> do _not_ send the ~/.ssh/id_rsa file (keep that one private)
+16:51:22 <Shoe16> i just ran ssh-keygen, and it generated a key 
+16:51:24 <merriment> or whatever branch you are on
+16:51:27 <Shoe16> but still getting same error
+16:51:40 <@meskarune> Shoe16: you have to give us the pub key to add to the server :P
+16:51:46 <Shoe16> oh
+16:51:47 <fsckd> meskarune: remember to git pull first :P
+16:51:51 <Shoe16> jesus im stupid
+16:51:52 <alad> merriment: let's first address the ssh key issue
+16:51:52 <Shoe16> sorry
+16:52:16 <@meskarune> merriment: no, you need to git fetch to check for updates
+16:52:23 <merriment> ok, thanks
+16:52:49 <fsckd> Shoe16: give meskarune the file ending in .pub. the other file is the private half and should not be shared.
+16:53:52 <-- respiran1o (~respirant@p5B2603AA.dip0.t-ipconnect.de) has quit (Read error: Connection reset by peer)
+16:54:28 <@polyzen> therue, irc-5225225
+16:54:38 <irc-5225225> Yes?
+16:54:49 <@polyzen> cloned playground? :)
+16:54:51 <irc-5225225> Yep.
+16:55:14 <@polyzen> merriment, Shoe16, Cristph_, keys sorted?
+16:55:27 <merriment> polyzen yes, i'm good
+16:55:42 <Shoe16> not yet 
+16:55:43 --> respiranto (~respirant@p5B2603AA.dip0.t-ipconnect.de) has joined #archlinux-classroom
+16:55:44 <alad> could we clarify on the :playground suffix in the clone command?
+16:56:08 <Shoe16> okay cloned
+16:56:09 <@polyzen> that's the name of the repo on the server
+16:56:09 <Shoe16> :D
+16:56:29 <@meskarune> git@archwomen.org is the git user on archlinux.org server
+16:56:45 <@meskarune> then the repo name comes after with a :
+16:56:49 <sulfyr> The asciicast is a static site in my browser. I think I'm missing something here?
+16:57:06 <@meskarune> sulfyr: it needs javascript, but you can also watch locally if you have asciinema installed
+16:57:10 <Halfwit> sulfyr: No, that's correct. It's simply a recording.
+16:57:24 <Halfwit> sulfyr: (Not live)
+16:57:26 <@meskarune> there is an arrow button to press to play
+16:58:25 <@polyzen> meskarune, I think we should branch before adding the commit
+16:58:37 <@polyzen> that way everyone can push their branches
+16:58:50 <-- PointlessNode (~Pointless@104.200.151.74) has quit (Quit: WeeChat 1.5)
+16:59:07 <atk> alad: In this case, you are using git over ssh. When using scp you would specify a path on a remote server as such: <username>@<domain>:<relative or absolute path>. This is done in a similar fashion. For git repositories accessed via http{,s} you would instead provide a url as such: http://<domain>/<some path>. In the end, how the path is interpreted is dependant on the software running on the
+16:59:09 <atk> server but unless you are hosting your own remote, you do not need to worry about these details too much.
+16:59:14 <@meskarune> asciinema play <(curl -s "https://ptpb.pw/gkoq")
+16:59:22 <@meskarune> if you have asciinema installed
+16:59:49 <alad> atk: thanks for clarifying
+17:00:06 <@meskarune> I think you can make git use almost any protocol to server repos
+17:00:15 <@meskarune> er s/server/serve/
+17:00:23 <@meskarune> there are even projects to make git p2p
+17:01:06 <@polyzen> merriment, cloned the playground?
+17:01:14 <@polyzen> sulfyr?
+17:01:15 <merriment> still have, yes :-D
+17:01:22 <@polyzen> okay so
+17:01:25 <merriment> just waiting for people to get stuff sorted
+17:01:35 <atk> an alternative syntax for a ssh repository is as such: clone ssh://git@archwomen.org/playground
+17:01:37 <-- respiranto (~respirant@p5B2603AA.dip0.t-ipconnect.de) has quit (Ping timeout: 260 seconds)
+17:01:37 <sulfyr> yeah
+17:01:43 <atk> s/clone//
+17:02:08 <@polyzen> if you've added commits or anything do a `git reset --hard master`
+17:02:31 <@polyzen> erm wot
+17:02:34 * voidead silently laughs
+17:02:35 <atk> this syntax allows you to specify the port inline, if you use the other syntax you instead have to use -p <port>
+17:02:40 <@polyzen> ah there we are
+17:03:26 <@polyzen> now make a branch by your nick or whatever you'd like with `git branch <branchname>` without the <>
+17:03:33 <atk> The in-depth details of all of this can be found in the "GIT URLS" section of the "git-clone" man page.
+17:03:53 <@polyzen> voidead, learn you some git
+17:04:02 <voidead> I already know git bruh
+17:04:07 <onetwo_> bruh
+17:04:13 <NextHendrix> bruh
+17:04:21 <@polyzen> after you've made the branch, follow the steps in the asciicast to add a file, commit it, and push
+17:04:34 <@polyzen> the push step will be different. Git will throw you an "error"
+17:05:03 <merriment> do we need to change into the branch somehow?
+17:05:07 <atk> yes
+17:05:09 <@polyzen> woops
+17:05:10 <-- irc-5225225 (~weechat@unaffiliated/irc-5225225) has left #archlinux-classroom ("WeeChat 1.5")
+17:05:12 <@polyzen> yes
+17:05:21 <@polyzen> `git checkout <branchname>`
+17:05:23 <atk> you can use: git checkout <branchname>
+17:05:29 <merriment> i see
+17:05:41 <atk> alternatively, you can combine git branch and git checkout into one command: git checkout -b <branchname>
+17:05:49 <@polyzen> was about to say that
+17:05:49 <atk> this will create <branchname> and put you in it
+17:06:05 <merriment> how convenient
+17:06:59 <atk> (as a side note, git status will tell you which branch you are on at any given time, it is worth while to check this detail before performing any operations with git, as it can screw things up if you're accidentally on the wrong branch)
+17:07:43 <fsckd> Cristph_: can you clone?
+17:07:53 <Cristph_> yup 
+17:07:54 <@polyzen> I don't see any other branches up yet :p
+17:08:03 <NextHendrix> why is the archwomen site running BackOrifice
+17:08:17 -- Mode #archlinux-classroom [+b $a:nexthendrix] by polyzen
+17:08:22 <voidead> thank you
+17:08:24 * onetwo_ sniggers
+17:08:27 <@polyzen> woops
+17:08:36 <Shoe16> wut
+17:08:36 <@polyzen> how do you mute
+17:08:41 <fsckd> +q
+17:08:42 <@polyzen> >..
+17:08:42 <voidead> polyzen› +q
+17:08:49 -- Mode #archlinux-classroom [+q $a:nexthendrix] by polyzen
+17:08:52 <Shoe16> wasnt it +m?
+17:08:55 -- Mode #archlinux-classroom [-b $q:nexthendrix] by polyzen
+17:09:06 -- Mode #archlinux-classroom [-b $a:nexthendrix] by polyzen
+17:09:11 <voidead> Shoe16› that will mute everyone
+17:09:14 <voidead> unless they are voiced
+17:09:17 <voidead> or op
+17:09:24 <voidead> "moderated" mode
+17:09:30 <Shoe16> right
+17:09:31 <alad> back to our regular program
+17:09:33 <Shoe16> i suck with pcs
+17:09:33 <merriment> i get the message "current branch has no upstream branch"
+17:09:42 <Cristph_> fsckd:i have just cloned it, do i have to create a branch??
+17:09:52 <alad> Cristph_: yes, scroll up
+17:09:52 <merriment> (when i try to push it)
+17:09:53 <@polyzen> yes
+17:09:59 <Cristph_> okk thx
+17:10:01 <atk> an alternative to the git commit -m "message" command is to run "git commit" on its own. This will cause an editor to be used.
+17:10:05 <@polyzen> merriment, use the command Git mentions
+17:10:15 <@polyzen> git push --set-upstream origin <branchname>
+17:10:25 <atk> The editor used is dependant on the GIT_EDITOR env var, core.editor config value, VISUAL env var or EDITOR env var (in that order)
+17:10:47 <merriment> polyzen great success
+17:10:48 <@polyzen> hehe merriment
+17:11:04 <@polyzen> hi atk
+17:11:29 <atk> (Using git commit without -m is useful when creating longer commit messages, like you might be required to do when contributing to a project.)
+17:11:33 <Shoe16> so i pushed some stuff
+17:11:42 <Shoe16> both to master and my branch littleBranch
+17:12:05 <@polyzen> ~/c/playground > git ls-files                
+17:12:07 <@polyzen> hello polyzen, do you feel uncomfortable yet?
+17:12:10 <@polyzen> lol
+17:12:19 <alad> lol
+17:12:57 <@polyzen> alright Shoe16 we will use your commit/s to master to demonstrate https://ptpb.pw/r/9hg_.rst#id2 soon
+17:12:58 <phrik> Title: pb (at ptpb.pw)
+17:13:19 <atk> incidentally, if you want to set the upstream of a branch after the fact, you can use the command: "git branch --set-upstream-to=origin/<tracked branch> <local branch>" in my case: "git branch --set-upstream-to=origin/atk atk"
+17:13:36 <Halfwit> Heavy stuff after, atk
+17:13:51 <@polyzen> ah sulfyr also commit to master
+17:14:40 <@meskarune> I need to pull in everyones changes :)
+17:14:48 <@polyzen> I just fetched
+17:14:51 <@polyzen> and checkout origin/branch
+17:15:06 <@meskarune> is everyone following ok?
+17:15:19 <Cristph_> i've just upstreamed my branch
+17:15:25 <@polyzen> pushed*
+17:15:32 <Cristph_> thx
+17:15:38 <merriment> question, is there a way to display all the different branches?
+17:15:49 <@meskarune> merriment: "git branch"
+17:16:01 <@polyzen> git branch -a
+17:16:05 <@meskarune> in the asciinema I run that a few times to show git branch switching
+17:16:10 <merriment> aha!
+17:16:17 <@polyzen> there are commits in the master branch that say, "added .."
+17:16:25 <merriment> i must have missed it, so many links flying around
+17:16:27 <@meskarune> oh, you all have branches lol
+17:16:31 <@polyzen> commit messages should be in the "imperative present tense": It’s also a good idea to use the imperative present tense in these messages. In other words, use commands. Instead of “I added tests for” or “Adding tests for,” use “Add tests for.” Here is a template originally written by Tim Pope:
+17:16:35 <@polyzen> https://git-scm.com/book/ch5-2.html
+17:16:36 <phrik> Title: Git - Contributing to a Project (at git-scm.com)
+17:17:03 <@polyzen> once you've pushed your work to a shared repo, you do not want to rewrite history
+17:17:04 <@meskarune> unicode: https://ptpb.pw/t/pKxl
+17:17:05 <phrik> Title: pb (at ptpb.pw)
+17:17:06 <@meskarune> ascii: https://ptpb.pw/t/-bCU
+17:17:06 <Cristph_> is it normal that to me only appears four branches?
+17:17:07 <phrik> Title: pb (at ptpb.pw)
+17:17:24 <@polyzen> Cristph_, `git fetch` first
+17:17:36 <@meskarune> You can add branches, send them to the remote, merge branches into other branches, and delete branches
+17:17:39 <atk> polyzen: there's an exception to that: if it's your own branch sometimes it is necessary when you want to squash commits after presenting them to someone for review
+17:17:52 <@polyzen> from the man page: Fetch branches and/or tags (collectively, "refs") from one or more other repositories, along with the objects necessary to complete their histories. Remote-tracking branches are updated
+17:17:54 <Cristph_> thx it worked
+17:17:57 <atk> polyzen: in these cases it is a given that branches that you are working on alone may abruptly change at any time
+17:18:01 <@meskarune> branches are used when you want to work on a feature and you want to keep that code all together in the history
+17:18:15 <@polyzen> atk, thank you
+17:18:33 <@meskarune> do we have a git cheatsheet ?
+17:18:39 <@meskarune> with all the commands?
+17:18:40 <@polyzen> I do not
+17:18:56 <fsckd> also if you don't want to mess up your primary branch. it's easier to throw away a branch than remove commits.
+17:18:58 <@polyzen> alright so where ar we
+17:19:01 <@polyzen> +e
+17:19:08 <@meskarune> http://learngitbranching.js.org/
+17:19:09 <phrik> Title: Learn Git Branching (at learngitbranching.js.org)
+17:19:15 <@meskarune> thats also a great online tutorial for git
+17:19:46 <@polyzen> had you mentioned that before? I thought it was something random I had found so removed it from the lesson plan
+17:20:29 <@polyzen> okay so we're cloned, branched, and pushed commits to the upstream repo
+17:20:32 <@polyzen> we've*
+17:20:55 * polyzen checks what asciicast meskarune linked
+17:21:07 <@meskarune> the links were for branching
+17:21:14 <@meskarune> I think the next one is for merge
+17:21:28 <@polyzen> q
+17:21:30 <@meskarune> er wait
+17:21:45 <@meskarune> unicode: https://ptpb.pw/t/7tN5
+17:21:46 <phrik> Title: pb (at ptpb.pw)
+17:21:47 <@meskarune> ascii: https://ptpb.pw//t/3hpk
+17:21:48 <phrik> Title: pb (at ptpb.pw)
+17:21:54 <@meskarune> those were for branching/merging
+17:22:02 <@meskarune> I think thats all of them
+17:22:28 <@meskarune> we covered basic workflow, rebase, and making branches
+17:22:40 <@polyzen> we haven't done the `git pull --rebase`
+17:22:41 <@meskarune> polyzen: do you want to talk about deleting branches
+17:22:44 <@meskarune> polyzen: ooh
+17:22:45 <atk> meskarune: I'm curious, can you send me the script for that shell prompt that you used?
+17:22:50 <@polyzen> too bad I didn't get gotty ideally working
+17:23:00 <@polyzen> could demo the rebase with the commits made to master
+17:23:05 <@meskarune> atk: https://gist.github.com/meskarune/6a647b067de3addd045f11c07aaf1cfc
+17:23:06 <phrik> Title: zsh that configured unicode only for terminals that aren't linux tty · GitHub (at gist.github.com)
+17:23:10 <@meskarune> atk: its my .zshrc
+17:23:31 <@polyzen> okay, so now merge
+17:23:37 <atk> cool
+17:23:45 <@polyzen> a `git pull` is a `git fetch` followed by a `git merge`
+17:24:24 <merriment> have i got this right, git only updates the branch you are currently on?
+17:24:25 <@polyzen> Cristph_, merriment, Shoe16, sulfyr
+17:24:31 <Cristph_> polyzen: what is a 'git merge'?
+17:24:39 <@polyzen> verrlara :p
+17:24:45 --> Max-P (Max-P@znc.max-p.me) has joined #archlinux-classroom
+17:24:49 <sulfyr> polyzen: Don't regard me, I guess I am too old for this kind of teaching :) I will try to learn what I can from watching and get practical by myself..
+17:25:01 <@meskarune> to look at whats in other people's branches you can do stuff like " git branch checkout atk  " adn then git pull or whatever
+17:25:10 <@polyzen> sorry :p I find the materials available are very thorough
+17:25:18 <@polyzen> sulfyr, check out the See also section
+17:25:35 <@polyzen> meskarune, git checkout origin/atk *
+17:25:44 <@meskarune> :D
+17:25:51 <@polyzen> merriment, git pull works on the branch you have checked out
+17:25:52 <verrlara> Yes'm?
+17:26:04 <@polyzen> are you with us? :p
+17:26:07 <merriment> seemed so, all right
+17:26:10 * verrlara doesn't want to get yelled at again.
+17:26:12 <@meskarune> Cristph_: git merge takes changes and adds them to the local repo
+17:26:15 <@polyzen> haha
+17:26:21 <atk> polyzen: you can also checkout atk, this will make it local and set it to track the origin/ branch
+17:26:24 <@polyzen> nobody yelled at you :p
+17:26:33 <@polyzen> atk, I see
+17:26:43 --> prg318 (prg318@deadcodersociety/prg318) has joined #archlinux-classroom
+17:26:44 <Shoe16> merged
+17:26:48 <@polyzen> wot
+17:26:48 * verrlara is just watching. I don't want to make trouble again.
+17:27:00 <@polyzen> Shoe16, merged your branch back into your local master branch?
+17:27:04 <Shoe16> what
+17:27:05 <Shoe16> um
+17:27:07 <-- Max-P (Max-P@znc.max-p.me) has left #archlinux-classroom
+17:27:13 <@meskarune> verrlara: watch the asciinemas and try stuff in the playground :)
+17:27:14 <Shoe16> i did merge littleBranch
+17:27:19 <@polyzen> from where
+17:27:23 <Shoe16> master
+17:27:43 <atk> (you need to push after merging)
+17:27:49 <@polyzen> well
+17:27:50 <Cristph_> meskarune: but what's the difference from git 'pull'?
+17:27:51 <Shoe16> i pushed
+17:27:53 <atk> (or maybe I'm getting ahead of myself)
+17:27:58 <@polyzen> there's where the next asciicast picks up on
+17:28:03 <atk> ah
+17:28:17 <atk> (nevermind, ignore me, wait for the official asciicast)
+17:28:18 <@polyzen> actually maybe he can push
+17:28:25 <@polyzen> if he has sulfyr's commit
+17:28:28 <@meskarune> Cristph_: git pull does git fetch and git merge :)
+17:28:35 <@meskarune> Cristph_: it combines 2 things into one command
+17:28:46 <Shoe16> wait so is it showing up to you guys as merged?
+17:28:59 <@meskarune> we can all pull in everyone else changes
+17:29:05 <@polyzen> Shoe16, did you push?
+17:29:09 <Shoe16> yes polyzen 
+17:29:10 <merriment> i seemed to first merge the wrong way, but got it now haha
+17:29:11 <@meskarune> this is the most powerful feature of git, being able to work on something with a group
+17:29:22 <Shoe16> polyzen: its origin/master
+17:29:30 <Shoe16> polyzen: should i go to remote/origin/master?
+17:29:30 <Cristph_> meskarune: thx
+17:29:34 <@meskarune> Cristph_: sure :)
+17:29:42 <Shoe16> remotes*
+17:29:54 <@meskarune> git often gives useful output too and has a help "git help" 
+17:29:58 <@polyzen> Shoe16, no
+17:30:00 <@meskarune> so its good to read through what it shows
+17:30:04 <@polyzen> those are the same thing
+17:30:11 <Shoe16> polyzen: did you get it?
+17:31:03 <@polyzen> atk, you did a --rebase?
+17:31:06 <@polyzen> Shoe16, no
+17:31:17 <Shoe16> whatd i do wrong
+17:31:21 <atk> I pulled merged then pushed.
+17:31:23 <@polyzen> this is what I see in origin/master https://ptpb.pw/nGbE
+17:31:46 <Shoe16> polyzen: yolo was the message
+17:31:52 <@polyzen> ahha
+17:32:51 <Cristph_> lol why is a JPG in my branch?
+17:32:55 <@polyzen> didn't expect everyone to actually merge their branches into master :p nice
+17:33:35 <@polyzen> now go ahead and delete your own branches, locally and remotely
+17:34:00 <@polyzen> `git branch -d <branchname> && git push origin :<branchname>`
+17:34:17 <@meskarune> yeah, awesome
+17:35:42 <Shoe16> done
+17:35:53 <@meskarune> \o/
+17:36:11 <@meskarune> polyzen: once people are done merging into master should we have them remove branch upstream?
+17:36:20 <@polyzen> I just mentioned that :p
+17:37:07 <@meskarune> oh lol
+17:37:09 <@meskarune> shit lol
+17:37:21 <@polyzen> lol
+17:37:24 <Shoe16> dude i fell like cloning everything now
+17:37:31 <@meskarune> haha
+17:37:51 <atk> Recommended cloning: the kernel, git itself, arch aur packages
+17:38:24 <onetwo_> sheep
+17:38:24 <Shoe16> im gonna try doing LFS from bash on windows
+17:38:27 <atk> you can always clone polyzen too, it's always good to have more polyzens
+17:38:40 <Shoe16> monozen is fine with me
+17:38:54 <@meskarune> git branch -d mybranch
+17:38:55 <atk> polyzen can out-awp you in CS:GO
+17:38:58 <@meskarune> will delete a branch
+17:39:21 <@meskarune> git fetch -p 
+17:39:25 <merriment> i don't quite understand, how come git push origin :branch deletes it (remotely)
+17:39:33 <@meskarune> will remove branches from your local list that aren't in the remote
+17:39:39 <atk> because you're pushing the deletion
+17:39:41 <@polyzen> merriment, ask the Git devs
+17:40:01 <@meskarune> merriment: you make changes locally, and you can do multiple changes in a row locally, and when you are ready you can push to a server
+17:40:07 <@polyzen> ¯\_(ツ)_/¯
+17:40:16 <@meskarune> merriment: that way you could do work without an internet connection, and then push later when you are online
+17:40:42 <merriment> i understand that, i guess it's just the command i don't get but oh well
+17:40:45 <Shoe16> you guys play video games?
+17:40:47 <@polyzen> trying to remember how ssh-agent works as I'm tired of pasting the ssh key password :p
+17:40:51 <merriment> do you normally want to delete branches after merging them?
+17:40:53 <atk> quoted from the git-push man page: "Pushing an empty <src> allows you to delete the <dst> ref from the remote repository."
+17:40:53 <@meskarune> I think Cristph_ still needs to delete their branch polyzen :)
+17:41:08 <Cristph_> yeah Im trying
+17:41:08 <@meskarune> merriment: you don't have to
+17:41:09 <@polyzen> there we go
+17:41:15 <atk> "The special refspec : (or +: to allow non-fast-forward updates) directs Git to push "matching" branches: for every branch that exists on the local side, the remote side is updated if a branch of the same name already exists on the remote side."
+17:41:20 <@meskarune> Cristph_: if you need help you can ask and we'll answer any questions :)
+17:41:21 <@polyzen> Cristph_, getting any errors?
+17:41:29 <atk> these two clauses combined form the syntax of the command polyzen specified
+17:41:40 <-- wchen (~wchen@110-174-141-192.static.tpgi.com.au) has quit (Remote host closed the connection)
+17:41:58 <@meskarune> merriment: so maybe you want to have a stable branch, and you can just keep that forever, and have people download stuff from stable and use master as your dev/testing branch
+17:42:05 <merriment> atk oh i see now, thank you
+17:42:24 <@meskarune> merriment: or maybe you want to make a temporary branch for a feature, complete the feature and then merge and delete the branch
+17:42:32 <@meskarune> it just depends on how you want to work
+17:42:35 <atk> whoops, ignore that second quote
+17:43:03 <Cristph_> I'm getting 'cristsbranch' not found
+17:43:14 <Shoe16> that probably means you deleted it
+17:43:38 <-- bookworm (~bookworm@unaffiliated/reto) has quit (Quit: bookworm)
+17:43:39 <@polyzen> back
+17:43:52 <@polyzen> hm
+17:43:53 <Shoe16> polyzen: how do you check commits?
+17:43:59 <atk> git log
+17:44:01 <fsckd> hmm
+17:44:03 <@polyzen> what do you mean by check
+17:44:17 <fsckd> cristsbranch is still there upstream
+17:44:28 <@polyzen> time to mention tig again http://jonas.nitro.dk/tig/
+17:44:28 <phrik> Title: Index of /tig (at jonas.nitro.dk)
+17:44:46 <@polyzen> Shoe16, as atk said, `git log` to see the commit log
+17:44:50 <@meskarune> Cristph_: I think you just need to push your changes :)
+17:44:54 <fsckd> Cristph_: what command did you run?
+17:45:45 <@polyzen> merriment, if they're merged, you might as well delete them
+17:46:18 <@polyzen> Shoe16, tig is an interface to Git I started using fairly recently
+17:46:25 <fsckd> Cristph_: err, you pushed a new branch called origin
+17:46:29 <@polyzen> I prefer it over git-log
+17:46:33 <@polyzen> haha
+17:46:49 <@polyzen> we have one asciicast to go
+17:46:53 <Cristph_> fsckd: sorry
+17:47:01 <@polyzen> we should also go over git-log and -show
+17:47:11 <Shoe16> will look polyzen 
+17:47:11 <@polyzen> and end with workflow
+17:47:14 <fsckd> Cristph_: no worries, we''l figure this out in a bit i guess
+17:47:51 <@meskarune> git push origin cristsbranch
+17:47:53 <Cristph_> I've tried to push but then it returned me a suggestion 
+17:47:55 <Shoe16> can i save my passphrase?
+17:48:00 <@polyzen> meskarune, :cristsbranch
+17:48:05 <@meskarune> oh, yeah :)
+17:48:13 <@polyzen> Shoe16, ssh-agent
+17:48:18 --> tsbtmn (~tsbtmn@unaffiliated/tsbtmn) has joined #archlinux-classroom
+17:48:24 <-- tsbtmn (~tsbtmn@unaffiliated/tsbtmn) has left #archlinux-classroom
+17:48:28 <@meskarune> Shoe16: we won't know your password
+17:48:28 <Cristph_> $ git push origin cristsbranch
+17:48:28 <Cristph_> error: src refspec cristsbranch does not match any.
+17:48:28 <Cristph_> error: failed to push some refs to 'git@archwomen.org:playground'
+17:48:28 <@polyzen> https://wiki.archlinux.org/index.php/SSH_keys#ssh-agent
+17:48:29 <phrik> Title: SSH keys - ArchWiki (at wiki.archlinux.org)
+17:48:46 <Shoe16> no like i dont wanna have to reenter password every time
+17:48:52 <merriment> you forgot the colon there
+17:49:00 <@meskarune> Shoe16: oh, you need ssh agent
+17:49:00 --> tsbtmn (~tsbtmn@unaffiliated/tsbtmn) has joined #archlinux-classroom
+17:49:03 <atk> The : makes this a <refspec>, <refspec>s are formatted as such: [+]<src>:<dst>, the lack of the left hand side simply means that you want to update <dst> with "nothing", this deletes <dst>
+17:49:13 <fsckd> Cristph_: try git push origin :cristsbranch
+17:49:20 <@polyzen> ahh eval..
+17:49:47 <@polyzen> ah sweet relief
+17:49:55 <Cristph_> same error
+17:50:08 <fsckd> Cristph_: even with the colon?
+17:50:20 <@polyzen> Cristph_, `git status`
+17:50:21 <@polyzen> !paste
+17:50:22 <phrik> Paste short snippets (up to 3 lines) in channel. Some good, sane paste services are https://ptpb.pw/f (https://ptpb.pw) and https://gist.github.com - See !ptpb for an easy way to paste from a pipe.
+17:50:24 <@meskarune> git push origin :cristsbranch 
+17:50:46 <-- tsbtmn (~tsbtmn@unaffiliated/tsbtmn) has quit (Client Quit)
+17:50:51 <@polyzen> the origin/origin branch has been deleted
+17:50:54 <@meskarune> So its possible for there to be branches on the remote that you don't have downloaded locally
+17:51:02 <@meskarune> polyzen: oh lol
+17:51:21 <fsckd> meskarune: may be fetch first?
+17:51:35 <fsckd> Cristph_: yay!
+17:51:45 <@polyzen> rejoice
+17:51:51 <@polyzen> :p
+17:52:05 <fsckd> Cristph_: you got it :D
+17:52:08 <Cristph_> lol I was typing a space
+17:52:14 <Cristph_> Thx 
+17:52:17 <fsckd> haha
+17:52:35 <fsckd> typos, the bane of Linux users everywhere
+17:52:59 <onetwo_> Linux was supposed to be named Lunix
+17:53:08 <onetwo_> but it was a typo
+17:53:11 <Shoe16> i mean
+17:53:14 <Shoe16> his name is linus
+17:53:16 <Shoe16> so i doubt it
+17:53:19 <Cristph_> lol
+17:53:41 <@meskarune> \o/
+17:53:49 <atk> loonix
+17:54:07 <@polyzen> now let's do some quick review
+17:54:13 <@polyzen> I pushed another branch up there
+17:54:25 <@polyzen> once you've fetched the changes
+17:54:47 <@polyzen> test out `git-show` like `git-show origin/temp` or `git-show origin/temp:<filename>`
+17:55:03 <@meskarune> I see a temp branch
+17:55:06 <@polyzen> also try `git log origin/temp`
+17:55:27 <Shoe16> git-show isnt a command
+17:55:40 <@polyzen> switch the - with a space
+17:55:43 <atk> git show
+17:55:55 <@meskarune> git show origin/temp  
+17:56:00 * polyzen wonders why the manpages use -
+17:56:17 <@meskarune> ❤ zsh completions
+17:56:27 <fsckd> i think originally they were separate binaries with names like git-foo
+17:56:27 <@polyzen> ^^
+17:56:29 <atk> polyzen: what I want to know is how on earth man works out that when I do "man git show" I mean "man git-show"
+17:56:31 <@meskarune> its so much harder to remember without completions
+17:56:36 <Shoe16> damn i was storing my precious jpegs on git
+17:56:40 <@polyzen> atk, that too haha
+17:56:45 <@polyzen> lol Shoe16
+17:56:45 <fsckd> atk: me too
+17:58:05 <atk> hmm... it just seems to be a general feature of using - or _ in a page name
+17:58:21 <-- NextHendrix (~chris@cpc43-soli5-2-0-cust454.19-1.cable.virginm.net) has quit (Quit: Lost terminal)
+17:58:45 <atk> Anyway ... offtopic!
+17:58:51 <@polyzen> okay so let's see meskarune's `git pull --rebase` asciicast
+17:58:52 --> NextHendrix (~chris@cpc43-soli5-2-0-cust454.19-1.cable.virginm.net) has joined #archlinux-classroom
+17:58:55 * atk finds the rails
+17:59:03 <@polyzen> https://asciinema.org/a/8puikku9gdeqnourh2me832cw
+17:59:04 <phrik> Title: untitled - asciinema (at asciinema.org)
+17:59:20 <Shoe16> whats a rebase?
+17:59:37 <@polyzen> great question
+17:59:55 <@polyzen> git-rebase - Reapply commits on top of another base tip
+18:00:05 <atk> :D
+18:00:28 <Shoe16> that went over my head polyzen 
+18:00:38 <Cristph_> me too
+18:00:47 <atk> Alright, so, rebasing in git allows you to do this very neat task:
+18:01:11 <atk> imagine you have your git history and at some point in the past you branched to add some changes.
+18:01:24 <@polyzen> rebasing is a more advanced topic
+18:01:29 <atk> you want to move that branch so instead of branching a few commits ago, it branches at the most recent commit of master
+18:01:37 <@polyzen> more of a demo of the ..fun to come :p
+18:01:37 <@meskarune> you can see the history with git log
+18:01:55 <atk> here you use rebase to pick up the commits from the old branch-point and re-apply them at the commit of your choice
+18:01:56 <Shoe16> wait so it basically changes history?
+18:02:01 <@meskarune> Shoe16: yep
+18:02:13 <@polyzen> "rewrites" as they say
+18:02:17 <Shoe16> nice, now i can feel like hitler
+18:02:18 <@meskarune> Shoe16: so it can be more dangerous than merge
+18:02:23 <@polyzen> lol
+18:02:25 <Cristph_> Oh
+18:02:38 -- Mode #archlinux-classroom [-q $a:nexthendrix] by polyzen
+18:02:48 <@meskarune> heh
+18:03:17 <@polyzen> honestly I'm more familiar with rebasing than regular merging
+18:04:06 <@polyzen> so now that everyone's bug-eyed from rebasing
+18:04:07 <atk> in the case of git pull --rebase you have a situation where you have two branches, origin and origin/master, origin and origin master both share history until a certain point where you added some changes and someone else added some other changes.
+18:04:46 <@polyzen> yes
+18:04:58 <@polyzen> fsckd, did you want to say anything about Git Flow?
+18:05:07 <atk> in the case of a basic git pull, git will first fetch all changes, then it will from the point of view of "master" do a git merge origin/master, this will replay all the changes from origin/master onto your master branch
+18:05:13 <@polyzen> it's more of a Further reading topic
+18:05:24 <fsckd> work flow stuff?
+18:05:37 <@polyzen> yes
+18:05:54 <fsckd> umm, just the links
+18:06:07 <@polyzen> seems we lost merriment :p
+18:06:15 <merriment> oh?
+18:06:15 <atk> If you do git pull --rebase, git will instead stick your changes to master at the end of origin/master instead
+18:06:28 <@meskarune> yeah, if anyone has questions or feels lost just say what is on your mind :)
+18:06:53 <fsckd> work flow is... how you do stuff
+18:07:22 <@polyzen> it's what plants crave
+18:07:23 <fsckd> when you are in a group working toegether, how do you organize branches? what is the policy for pushing?
+18:07:37 <@polyzen> merriment, or not :p
+18:07:45 <fsckd> work flow can vary by the size of group, the siz eof the project, etc.
+18:08:11 <@polyzen> meskarune, should I reorganize the outline consider how we changed the order?
+18:08:19 <@meskarune> polyzen: sure if you want :)
+18:08:21 <@polyzen> fsckd, thank you
+18:08:24 <fsckd> the links in the outline have examples of workflows
+18:08:25 <@polyzen> ing*
+18:08:29 <fsckd> polyzen: welcome :)
+18:08:40 <@polyzen> http://nvie.com/posts/a-successful-git-branching-model/
+18:08:41 <phrik> Title: A successful Git branching model » nvie.com (at nvie.com)
+18:09:04 <@polyzen> this is the one I'm familiar with and afaik is the most popular
+18:09:14 <@polyzen> haven't gotten to look at the others
+18:09:27 <@polyzen> meskarune, quizas
+18:09:30 <@meskarune> :D
+18:09:42 <@polyzen> did we miss anything?
+18:09:53 <fsckd> i like to use branching heavily. if i mess up, it's easy to delete a branch. or if i want to work on more than one feature at a time, i can make a separate branch for each one.
+18:10:02 <fsckd> then merge as they get done.
+18:10:08 <@polyzen> any questions? merriment, Cristph_, Shoe16, sulfyr, verrlara
+18:10:22 <Shoe16> why would i want git
+18:10:28 <merriment> a couple yes
+18:10:28 <@polyzen> sorry we couldn't have you along verrlara :(
+18:10:34 <@polyzen> Shoe16, as opposed to?
+18:10:40 <@polyzen> other VCS or none at all?
+18:10:41 <Shoe16> not having git
+18:10:46 --> irc-5225225 (~weechat@unaffiliated/irc-5225225) has joined #archlinux-classroom
+18:10:48 <Shoe16> none at all
+18:10:52 <Shoe16> it seems nice i guess
+18:10:57 <atk> git makes working with other people much easier
+18:10:59 <@polyzen> well Git is afaik the de facto VCS at this time
+18:11:02 <Shoe16> and definitely great when working on group stuff
+18:11:03 <Shoe16> but
+18:11:05 <atk> as well as allowing you to track the history of your project
+18:11:08 --> PlainWhiteTee (~textual@146.88.41.64) has joined #archlinux-classroom
+18:11:10 <Shoe16> for personal stuff
+18:11:12 <Shoe16> why?
+18:11:17 <@meskarune> Shoe16: well, lets say you have a .zshrc and you add stuff to it. you save that copy in git. then you add more things and remove others, over time it changes, but you can still use and see older versions
+18:11:26 <@meskarune> Shoe16: its like infinite undo
+18:11:35 <Shoe16> oh
+18:11:40 <Shoe16> that makes a lot of sense
+18:11:45 * atk already has infinite undo in vim :P (playing devil's advocate here)
+18:11:59 <@polyzen> for instance I started using it for the config for the static-site builder I use so I don't forget changes or I could easily undo them
+18:12:00 <@meskarune> Shoe16: there is something called etc keeper that puts all the config files in /etc into a git repo
+18:12:02 <fsckd> Shoe16: it tracks history of files and easy copying to other machines or storage (like flash)
+18:12:07 <NextHendrix> atk: you dont have everyone elses infinite undo
+18:12:23 <@meskarune> Shoe16: then you don't have to worry about making backups of configs before changing them, you always have older verions that work
+18:12:42 <@polyzen> voidead, glad I could learn you somethin'
+18:12:43 <Cristph_> thats nice
+18:12:43 <Shoe16> that 'successful git branching model' diagram makes a LOT of sense
+18:12:44 <@polyzen> ;p
+18:13:00 <@polyzen> I know right
+18:13:09 <voidead> polyzen› lol I'm a little preoccupied at the moment
+18:13:09 <merriment> i assume you can't just freely make changes when contributing on projects like we did today, how does that usually work out? is there someone in charge of the project accepting requests to change and making commits?
+18:13:13 <@meskarune> There are lots of extra resources and articles that are available for git to help you grok it better
+18:13:15 <atk> In fact, git is quite a bit like vim's support for infinite undo with branches, except it allows you to rewrite history which is something vim doesn't let you do easily.
+18:13:18 <@polyzen> voidead, tmi
+18:13:27 <@meskarune> but I think you should always test and try things as you learn to see how it all works
+18:13:41 -- Mode #archlinux-classroom [-o polyzen] by polyzen

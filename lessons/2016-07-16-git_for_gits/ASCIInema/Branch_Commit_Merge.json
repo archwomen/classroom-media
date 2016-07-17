@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>pb</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <link rel="icon" type="image/png"
+        href="/static/images/ptpb-32.png"
+        sizes="32x32">
+  
+  <link rel="icon" type="image/png"
+        href="/static/images/ptpb-128.png"
+        sizes="128x128">
+  
+  <link rel="icon" type="image/png"
+        href="/static/images/ptpb-512.png"
+        sizes="512x512">
+  
+
+  
+<link href="/static/hack/asciinema.css" type="text/css" rel="stylesheet"/>
+
+</head>
+<body>
+  <div class="container">
+    
+<div id="player-container"></div>
+<script src="/static/hack/asciinema.js"></script>
+<script type="text/javascript">
+  asciinema_player.core.CreatePlayer(
+    document.getElementById('player-container'),
+    '/3hpk.json'
+  );
+</script>
+
+  </div>
+</body>
+</html>
