@@ -1,41 +1,1846 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <title>pb</title>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-
-  
-  <link rel="icon" type="image/png"
-        href="/static/images/ptpb-32.png"
-        sizes="32x32">
-  
-  <link rel="icon" type="image/png"
-        href="/static/images/ptpb-128.png"
-        sizes="128x128">
-  
-  <link rel="icon" type="image/png"
-        href="/static/images/ptpb-512.png"
-        sizes="512x512">
-  
-
-  
-<link href="/static/hack/asciinema.css" type="text/css" rel="stylesheet"/>
-
-</head>
-<body>
-  <div class="container">
-    
-<div id="player-container"></div>
-<script src="/static/hack/asciinema.js"></script>
-<script type="text/javascript">
-  asciinema_player.core.CreatePlayer(
-    document.getElementById('player-container'),
-    '/-bCU.json'
-  );
-</script>
-
-  </div>
-</body>
-</html>
+{
+  "version": 1,
+  "width": 146,
+  "height": 59,
+  "duration": 190.922038,
+  "command": "/bin/zsh",
+  "title": "",
+  "env": {
+    "TERM": "xterm-termite",
+    "SHELL": "/bin/zsh"
+  },
+  "stdout": [
+    [
+      0.151424,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.076668,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mmaster \u001b[01;32m- \u001b[00m ] % "
+    ],
+    [
+      0.000166,
+      "\u001b[K\u001b[70C19:24:06 [\u001b[22;33m0\u001b[00m]\u001b[82D\u001b[?2004h"
+    ],
+    [
+      2.567989,
+      "e"
+    ],
+    [
+      0.271825,
+      "\u0008ec"
+    ],
+    [
+      0.124060,
+      "h"
+    ],
+    [
+      0.090356,
+      "o"
+    ],
+    [
+      0.149656,
+      " "
+    ],
+    [
+      1.000624,
+      "'"
+    ],
+    [
+      0.359123,
+      "h"
+    ],
+    [
+      0.244276,
+      "e"
+    ],
+    [
+      0.100014,
+      "r"
+    ],
+    [
+      0.607946,
+      "e"
+    ],
+    [
+      1.040244,
+      " "
+    ],
+    [
+      0.287857,
+      "i"
+    ],
+    [
+      0.263924,
+      "s"
+    ],
+    [
+      0.127662,
+      " "
+    ],
+    [
+      0.208584,
+      "s"
+    ],
+    [
+      0.159652,
+      "o"
+    ],
+    [
+      0.087673,
+      "m"
+    ],
+    [
+      0.136511,
+      "e"
+    ],
+    [
+      0.383557,
+      " "
+    ],
+    [
+      2.031913,
+      "e"
+    ],
+    [
+      0.296591,
+      "x"
+    ],
+    [
+      0.239366,
+      "t"
+    ],
+    [
+      0.239903,
+      "r"
+    ],
+    [
+      0.104738,
+      "a"
+    ],
+    [
+      0.615907,
+      " "
+    ],
+    [
+      0.424064,
+      "t"
+    ],
+    [
+      0.088002,
+      "e"
+    ],
+    [
+      0.343696,
+      "x"
+    ],
+    [
+      0.184365,
+      "t"
+    ],
+    [
+      0.103973,
+      " "
+    ],
+    [
+      0.135914,
+      "t"
+    ],
+    [
+      0.135941,
+      "o"
+    ],
+    [
+      0.072079,
+      " "
+    ],
+    [
+      0.183610,
+      "a"
+    ],
+    [
+      0.231900,
+      "d"
+    ],
+    [
+      0.152421,
+      "d"
+    ],
+    [
+      0.136198,
+      " "
+    ],
+    [
+      0.199656,
+      "t"
+    ],
+    [
+      0.079852,
+      "o"
+    ],
+    [
+      0.088253,
+      " "
+    ],
+    [
+      1.191727,
+      "t"
+    ],
+    [
+      0.096561,
+      "h"
+    ],
+    [
+      0.055365,
+      "e"
+    ],
+    [
+      0.120154,
+      " "
+    ],
+    [
+      0.184329,
+      "t"
+    ],
+    [
+      0.080164,
+      "e"
+    ],
+    [
+      0.095615,
+      "s"
+    ],
+    [
+      0.104391,
+      "t"
+    ],
+    [
+      0.760221,
+      " "
+    ],
+    [
+      0.279179,
+      "f"
+    ],
+    [
+      0.128125,
+      "i"
+    ],
+    [
+      0.064081,
+      "l"
+    ],
+    [
+      0.128524,
+      "e"
+    ],
+    [
+      0.647742,
+      "'"
+    ],
+    [
+      0.207993,
+      " "
+    ],
+    [
+      0.960148,
+      "\u003e"
+    ],
+    [
+      0.263933,
+      "\u003e"
+    ],
+    [
+      0.503886,
+      " "
+    ],
+    [
+      0.224042,
+      "t"
+    ],
+    [
+      0.233792,
+      "est.txt\u001b[1m \u001b[0m"
+    ],
+    [
+      1.846827,
+      "\u0008\u001b[0m \u0008\u001b[?2004l\r\r\n"
+    ],
+    [
+      0.003978,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.079803,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mmaster \u001b[38;5;161m+ \u001b[00m ] % \u001b[K\u001b[70C19:24:28 [\u001b[22;33m0\u001b[00m]\u001b[82D\u001b[?2004h"
+    ],
+    [
+      1.555906,
+      "c"
+    ],
+    [
+      0.047750,
+      "\u0008ca"
+    ],
+    [
+      0.287989,
+      "t"
+    ],
+    [
+      0.064017,
+      " "
+    ],
+    [
+      0.295971,
+      "t"
+    ],
+    [
+      0.267743,
+      "est.txt\u001b[1m \u001b[0m"
+    ],
+    [
+      0.636694,
+      "\u0008\u001b[0m \u0008\u001b[?2004l\r\r\n"
+    ],
+    [
+      0.001375,
+      "hello, this is a test text file\r\nhere is some extra text to add to the test file\r\n"
+    ],
+    [
+      0.000390,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.043411,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mmaster \u001b[38;5;161m+ \u001b[00m ] % \u001b[K\u001b[70C19:24:32 [\u001b[22;33m0\u001b[00m]\u001b[82D\u001b[?2004h"
+    ],
+    [
+      5.034664,
+      "g"
+    ],
+    [
+      0.079865,
+      "\u0008gi"
+    ],
+    [
+      0.128441,
+      "t"
+    ],
+    [
+      0.087400,
+      " "
+    ],
+    [
+      0.272254,
+      "s"
+    ],
+    [
+      0.127566,
+      "t"
+    ],
+    [
+      0.096397,
+      "a"
+    ],
+    [
+      0.080070,
+      "t"
+    ],
+    [
+      0.167824,
+      "u"
+    ],
+    [
+      0.119766,
+      "s"
+    ],
+    [
+      0.361490,
+      "\u001b[?2004l\r\r\n"
+    ],
+    [
+      0.003103,
+      "On branch master\r\n"
+    ],
+    [
+      0.000150,
+      "Your branch is up-to-date with 'origin/master'.\r\n"
+    ],
+    [
+      0.000070,
+      "Changes not staged for commit:\r\n  (use \"git add \u003cfile\u003e...\" to update what will be committed)\r\n  (use \"git checkout -- \u003cfile\u003e...\" to discard changes in working directory)\r\n\r\n\t\u001b[31mmodified:   test.txt\u001b[m\r\n\r\n"
+    ],
+    [
+      0.000061,
+      "no changes added to commit (use \"git add\" and/or \"git commit -a\")\r\n"
+    ],
+    [
+      0.000906,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.046687,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mmaster \u001b[38;5;161m+ \u001b[00m ] % \u001b[K\u001b[70C19:24:38 [\u001b[22;33m0\u001b[00m]\u001b[82D\u001b[?2004h"
+    ],
+    [
+      2.587771,
+      "g"
+    ],
+    [
+      0.075750,
+      "\u0008gi"
+    ],
+    [
+      0.096411,
+      "t"
+    ],
+    [
+      0.075990,
+      " "
+    ],
+    [
+      0.167905,
+      "a"
+    ],
+    [
+      0.244016,
+      "d"
+    ],
+    [
+      0.135444,
+      "d"
+    ],
+    [
+      0.308645,
+      " "
+    ],
+    [
+      0.235895,
+      "t"
+    ],
+    [
+      0.315619,
+      "est.txt\u001b[1m \u001b[0m"
+    ],
+    [
+      0.660808,
+      "\u0008\u001b[0m \u0008"
+    ],
+    [
+      0.000260,
+      "\u001b[?2004l"
+    ],
+    [
+      0.000165,
+      "\r\r\n"
+    ],
+    [
+      0.007830,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.043646,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mmaster \u001b[01;34m= \u001b[00m ] % \u001b[K\u001b[70C19:24:43 [\u001b[22;33m0\u001b[00m]\u001b[82D\u001b[?2004h"
+    ],
+    [
+      2.179746,
+      "g"
+    ],
+    [
+      0.087609,
+      "\u0008gi"
+    ],
+    [
+      0.112446,
+      "t"
+    ],
+    [
+      0.080203,
+      " "
+    ],
+    [
+      0.359218,
+      "s"
+    ],
+    [
+      0.144516,
+      "t"
+    ],
+    [
+      0.088033,
+      "a"
+    ],
+    [
+      0.088111,
+      "t"
+    ],
+    [
+      0.167634,
+      "u"
+    ],
+    [
+      0.104254,
+      "s"
+    ],
+    [
+      0.650586,
+      "\u001b[?2004l\r\r\n"
+    ],
+    [
+      0.001970,
+      "On branch master\r\n"
+    ],
+    [
+      0.000081,
+      "Your branch is up-to-date with 'origin/master'.\r\n"
+    ],
+    [
+      0.000022,
+      "Changes to be committed:\r\n"
+    ],
+    [
+      0.000048,
+      "  (use \"git reset HEAD \u003cfile\u003e...\" to unstage)\r\n"
+    ],
+    [
+      0.000036,
+      "\r\n"
+    ],
+    [
+      0.000076,
+      "\t\u001b[32mmodified:   test.txt\u001b[m\r\n\r\n"
+    ],
+    [
+      0.000582,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.043698,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mmaster \u001b[01;34m= \u001b[00m ] % \u001b[K\u001b[70C19:24:47 [\u001b[22;33m0\u001b[00m]\u001b[82D\u001b[?2004h"
+    ],
+    [
+      3.582923,
+      "g"
+    ],
+    [
+      0.079667,
+      "\u0008gi"
+    ],
+    [
+      0.120530,
+      "t"
+    ],
+    [
+      0.103994,
+      " "
+    ],
+    [
+      0.343897,
+      "c"
+    ],
+    [
+      0.055887,
+      "o"
+    ],
+    [
+      0.375997,
+      "m"
+    ],
+    [
+      0.136022,
+      "m"
+    ],
+    [
+      0.159673,
+      "i"
+    ],
+    [
+      0.272302,
+      "t"
+    ],
+    [
+      0.624264,
+      " "
+    ],
+    [
+      0.567809,
+      "-"
+    ],
+    [
+      1.295988,
+      "m"
+    ],
+    [
+      0.216046,
+      " "
+    ],
+    [
+      0.247976,
+      "'"
+    ],
+    [
+      0.352028,
+      "a"
+    ],
+    [
+      0.407970,
+      "d"
+    ],
+    [
+      0.151994,
+      "d"
+    ],
+    [
+      0.176047,
+      " "
+    ],
+    [
+      0.240135,
+      "e"
+    ],
+    [
+      0.343840,
+      "x"
+    ],
+    [
+      0.296067,
+      "t"
+    ],
+    [
+      0.327960,
+      "r"
+    ],
+    [
+      0.088069,
+      "a"
+    ],
+    [
+      1.016152,
+      " "
+    ],
+    [
+      0.367827,
+      "t"
+    ],
+    [
+      0.136112,
+      "e"
+    ],
+    [
+      0.319830,
+      "x"
+    ],
+    [
+      0.296022,
+      "t"
+    ],
+    [
+      0.228046,
+      " "
+    ],
+    [
+      0.195985,
+      "t"
+    ],
+    [
+      0.712022,
+      "o"
+    ],
+    [
+      0.119735,
+      " "
+    ],
+    [
+      0.312226,
+      "t"
+    ],
+    [
+      0.087927,
+      "h"
+    ],
+    [
+      0.104042,
+      "e"
+    ],
+    [
+      0.112093,
+      " "
+    ],
+    [
+      0.912012,
+      "t"
+    ],
+    [
+      0.175458,
+      "e"
+    ],
+    [
+      0.128475,
+      "s"
+    ],
+    [
+      0.144118,
+      "t"
+    ],
+    [
+      0.335974,
+      " "
+    ],
+    [
+      0.296133,
+      "f"
+    ],
+    [
+      0.119884,
+      "i"
+    ],
+    [
+      0.096044,
+      "l"
+    ],
+    [
+      0.111992,
+      "e"
+    ],
+    [
+      0.519926,
+      "'"
+    ],
+    [
+      0.552054,
+      "\u001b[?2004l\r\r\n"
+    ],
+    [
+      0.011611,
+      "[master e0a60f8] add extra text to the test file\r\n"
+    ],
+    [
+      0.000167,
+      " 1 file changed, 1 insertion(+)\r\n"
+    ],
+    [
+      0.000474,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.046330,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mmaster \u001b[01;33m^ 1 \u001b[01;32m- \u001b[00m ] % \u001b[K\u001b[66C19:25:05 [\u001b[22;33m0\u001b[00m]\u001b[78D\u001b[?2004h"
+    ],
+    [
+      2.220798,
+      "g"
+    ],
+    [
+      0.080592,
+      "\u0008gi"
+    ],
+    [
+      0.095975,
+      "t"
+    ],
+    [
+      0.080137,
+      " "
+    ],
+    [
+      0.487873,
+      "s"
+    ],
+    [
+      0.151995,
+      "t"
+    ],
+    [
+      0.095346,
+      "a"
+    ],
+    [
+      0.112658,
+      "t"
+    ],
+    [
+      0.191998,
+      "u"
+    ],
+    [
+      0.176011,
+      "s"
+    ],
+    [
+      0.388418,
+      " "
+    ],
+    [
+      0.583627,
+      "\u001b[?2004l"
+    ],
+    [
+      0.000030,
+      "\r\r\n"
+    ],
+    [
+      0.004240,
+      "On branch master\r\n"
+    ],
+    [
+      0.000934,
+      "Your branch is ahead of 'origin/master' by 1 commit.\r\n  (use \"git push\" to publish your local commits)\r\n"
+    ],
+    [
+      0.000106,
+      "nothing to commit, working directory clean\r\n"
+    ],
+    [
+      0.000720,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.041960,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mmaster \u001b[01;33m^ 1 \u001b[01;32m- \u001b[00m ] % \u001b[K\u001b[66C19:25:10 [\u001b[22;33m0\u001b[00m]\u001b[78D\u001b[?2004h"
+    ],
+    [
+      1.299543,
+      "g"
+    ],
+    [
+      0.088650,
+      "\u0008gi"
+    ],
+    [
+      0.112000,
+      "t"
+    ],
+    [
+      0.071874,
+      " "
+    ],
+    [
+      0.327265,
+      "p"
+    ],
+    [
+      0.196682,
+      "u"
+    ],
+    [
+      0.340133,
+      "s"
+    ],
+    [
+      0.055982,
+      "h"
+    ],
+    [
+      0.856349,
+      "\u001b[?2004l"
+    ],
+    [
+      0.000115,
+      "\r\r\n"
+    ],
+    [
+      0.834405,
+      "To git@archwomen.org:playground\r\n ! [rejected]        master -\u003e master (fetch first)\r\n"
+    ],
+    [
+      0.000155,
+      "error: failed to push some refs to 'git@archwomen.org:playground'\r\nhint: Updates were rejected because the remote contains work that you do\r\nhint: not have locally. This is usually caused by another repository pushing\r\nhint: to the same ref. You may want to first integrate the remote changes\r\nhint: (e.g., 'git pull ...') before pushing again.\r\nhint: See the 'Note about fast-forwards' in 'git push --help' for details.\r\n"
+    ],
+    [
+      0.000982,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.041278,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mmaster \u001b[01;33m^ 1 \u001b[01;32m- \u001b[00m ] % \u001b[K\u001b[66C19:25:14 [\u001b[22;33m1\u001b[00m]\u001b[78D\u001b[?2004h"
+    ],
+    [
+      5.390743,
+      "g"
+    ],
+    [
+      0.095973,
+      "\u0008gi"
+    ],
+    [
+      0.144016,
+      "t"
+    ],
+    [
+      0.096175,
+      " "
+    ],
+    [
+      1.120236,
+      "p"
+    ],
+    [
+      0.239575,
+      "u"
+    ],
+    [
+      0.352006,
+      "l"
+    ],
+    [
+      0.120007,
+      "l"
+    ],
+    [
+      0.216123,
+      " "
+    ],
+    [
+      0.487398,
+      "-"
+    ],
+    [
+      0.184574,
+      "-"
+    ],
+    [
+      0.472123,
+      "r"
+    ],
+    [
+      0.056007,
+      "e"
+    ],
+    [
+      0.271193,
+      "b"
+    ],
+    [
+      0.080565,
+      "a"
+    ],
+    [
+      0.183615,
+      "s"
+    ],
+    [
+      0.144414,
+      "e"
+    ],
+    [
+      2.340377,
+      "\u001b[?2004l\r\r\n"
+    ],
+    [
+      0.749963,
+      "remote: Counting objects: 3, done.\u001b[K\r\n"
+    ],
+    [
+      0.020683,
+      "remote: Compressing objects:  50% (1/2)   \u001b[K\rremote: Compressing objects: 100% (2/2)   \u001b[K\r"
+    ],
+    [
+      0.000142,
+      "remote: Compressing objects: 100% (2/2), done.\u001b[K\r\n"
+    ],
+    [
+      0.000279,
+      "remote: Total 3 (delta 0), reused 0 (delta 0)\u001b[K\r\n"
+    ],
+    [
+      0.005421,
+      "Unpacking objects:  33% (1/3)   \r"
+    ],
+    [
+      0.000169,
+      "Unpacking objects:  66% (2/3)   \r"
+    ],
+    [
+      0.000284,
+      "Unpacking objects: 100% (3/3)   \r"
+    ],
+    [
+      0.000048,
+      "Unpacking objects: 100% (3/3), done.\r\n"
+    ],
+    [
+      0.006081,
+      "From archwomen.org:playground\r\n   2a6453e..dd908f7  master     -\u003e origin/master\r\n"
+    ],
+    [
+      0.110789,
+      "First, rewinding head to replay your work on top of it...\r\n"
+    ],
+    [
+      0.023886,
+      "Applying: add extra text to the test file\r\n"
+    ],
+    [
+      0.008723,
+      "Using index info to reconstruct a base tree...\r\nM"
+    ],
+    [
+      0.000121,
+      "\ttest.txt\r\n"
+    ],
+    [
+      0.004237,
+      "Falling back to patching base and 3-way merge...\r\n"
+    ],
+    [
+      0.004929,
+      "Auto-merging test.txt\r\nCONFLICT (content): Merge conflict in test.txt\r\n"
+    ],
+    [
+      0.000709,
+      "error: Failed to merge in the changes.\r\nPatch failed at 0001 add extra text to the test file\r\nThe copy of the patch that failed is found in: .git/rebase-apply/patch\r\n\r\nWhen you have resolved this problem, run \"git rebase --continue\".\r\nIf you prefer to skip this patch, run \"git rebase --skip\" instead.\r\nTo check out the original branch and stop rebasing, run \"git rebase --abort\".\r\n\r\n"
+    ],
+    [
+      0.004213,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.050380,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mremotes/origin/HEAD \u001b[38;5;161m+ \u001b[01;34m= \u001b[00m ] % \u001b[K\u001b[53C19:25:27 [\u001b[22;33m128\u001b[00m]\u001b[67D\u001b[?2004h"
+    ],
+    [
+      4.260381,
+      "c"
+    ],
+    [
+      0.048057,
+      "\u0008ca"
+    ],
+    [
+      0.296281,
+      "t"
+    ],
+    [
+      0.111504,
+      " "
+    ],
+    [
+      1.648514,
+      "."
+    ],
+    [
+      0.687648,
+      "g"
+    ],
+    [
+      0.128336,
+      "i"
+    ],
+    [
+      0.444488,
+      "t\u001b[1m/\u001b[0m"
+    ],
+    [
+      1.475836,
+      "\u0008\u001b[0m/r"
+    ],
+    [
+      0.095385,
+      "e"
+    ],
+    [
+      0.253255,
+      "\r\r\n"
+    ],
+    [
+      0.000050,
+      "\u001b[J\u001b[1;31mrebase-apply\u001b[0m/  \u001b[J\u001b[1;31mrefs\u001b[0m/        \u001b[J\u001b[A\u001b[0m\u001b[27m\u001b[24m\r\u001b[78Ccat .git/re\u001b[K\u001b[42C19:25:27 [\u001b[22;33m128\u001b[00m]\u001b[56D"
+    ],
+    [
+      1.043744,
+      "b"
+    ],
+    [
+      0.252746,
+      "ase-apply\u001b[1m/\u001b[0m"
+    ],
+    [
+      1.698685,
+      "\u0008\u001b[0m/p"
+    ],
+    [
+      0.238223,
+      "\r\r\n\u001b[J\u001b[A\u001b[101Catch"
+    ],
+    [
+      0.866811,
+      "\u001b[?2004l\r\r\n\u001b[J"
+    ],
+    [
+      0.001205,
+      "diff --git a/test.txt b/test.txt\r\nindex c649e35c2e91d97bf9eca890ead73b9a77ea7c62..1eac60127ae1f1ae712a055bffe4e4deaba980a0 100644\r\n--- a/test.txt\r\n+++ b/test.txt\r\n@@ -1 +1,2 @@\r\n hello, this is a test text file\r\n+here is some extra text to add to the test file\r\n"
+    ],
+    [
+      0.000704,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.050074,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mremotes/origin/HEAD \u001b[38;5;161m+ \u001b[01;34m= \u001b[00m ] % \u001b[K\u001b[55C19:25:41 [\u001b[22;33m0\u001b[00m]\u001b[67D\u001b[?2004h"
+    ],
+    [
+      1.290919,
+      "g"
+    ],
+    [
+      0.119962,
+      "\u0008gi"
+    ],
+    [
+      0.416012,
+      "t"
+    ],
+    [
+      0.136094,
+      " "
+    ],
+    [
+      0.247901,
+      "d"
+    ],
+    [
+      0.095814,
+      "i"
+    ],
+    [
+      0.256263,
+      "f"
+    ],
+    [
+      0.160189,
+      "f"
+    ],
+    [
+      0.364381,
+      "\u001b[?2004l\r\r\n"
+    ],
+    [
+      0.009657,
+      "\u001b[?1h\u001b=\r\u001b[1mdiff --cc test.txt\u001b[m\u001b[m\r\n\u001b[1mindex 8c8ba18,1eac601..0000000\u001b[m\u001b[m\r\n\u001b[1m--- a/test.txt\u001b[m\u001b[m\r\n\u001b[1m+++ b/test.txt\u001b[m\u001b[m\r\n\u001b[36m@@@ -1,1 -1,2 +1,6 @@@\u001b[m\u001b[m\r\n\u001b[32m++\u003c\u003c\u003c\u003c\u003c\u003c\u003c dd908f731698f3326cad0765d16fb3f9d6e3c506\u001b[m\u001b[m\r\n\u001b[32m +hello, this is a text test file\u001b[m\u001b[m\r\n\u001b[32m++=======\u001b[m\u001b[m\r\n\u001b[32m+ hello, this is a test text file\u001b[m\u001b[m\r\n\u001b[32m+ here is some extra text to add to the test file\u001b[m\u001b[m\r\n\u001b[32m++\u003e\u003e\u003e\u003e\u003e\u003e\u003e add extra text to the test file\u001b[m\u001b[m\r\n"
+    ],
+    [
+      0.000063,
+      "\r\u001b[K\u001b[?1l\u001b\u003e"
+    ],
+    [
+      0.000807,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.050601,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mremotes/origin/HEAD \u001b[38;5;161m+ \u001b[01;34m= \u001b[00m ] % \u001b[K\u001b[55C19:25:44 [\u001b[22;33m0\u001b[00m]\u001b[67D\u001b[?2004h"
+    ],
+    [
+      6.914649,
+      "v"
+    ],
+    [
+      0.471693,
+      "\u0008vi"
+    ],
+    [
+      0.127306,
+      "m"
+    ],
+    [
+      0.185000,
+      " "
+    ],
+    [
+      2.991796,
+      "t"
+    ],
+    [
+      0.257950,
+      "est.txt\u001b[1m \u001b[0m"
+    ],
+    [
+      0.934226,
+      "\u0008\u001b[0m \u0008\u001b[?2004l\r\r\n"
+    ],
+    [
+      0.484707,
+      "\u001b[?1049h\u001b[?1h\u001b="
+    ],
+    [
+      0.000063,
+      "\u001b[2;1H▽\u001b[6n"
+    ],
+    [
+      0.000033,
+      "\u001b[2;1H  \u001b[1;1H"
+    ],
+    [
+      0.001134,
+      "\u001b[1;59r\u001b[?12;25h\u001b[?12l\u001b[?25h\u001b[27m\u001b[23m\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[H\u001b[2J\u001b[?25l\u001b[59;1H\"test.txt\""
+    ],
+    [
+      0.000207,
+      " 6L, 209C"
+    ],
+    [
+      0.103918,
+      "\u001b[\u003ec"
+    ],
+    [
+      0.025366,
+      "\u001b[1;1H\u001b[38;5;59m\u001b[48;5;233m  1 \u001b[m\u001b[38;5;188m\u001b[48;5;233m\u003c\u003c\u003c\u003c\u003c\u003c\u003c dd908f731698f3326cad0765d16fb3f9d6e3c506\u001b[38;5;240m\u001b[48;5;233m¶\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[1;84H\u001b[48;5;16m \u001b[m\u001b[38;5;188m\u001b[48;5;233m\r\n\u001b[38;5;59m\u001b[48;5;233m  2 \u001b[m\u001b[38;5;188m\u001b[48;5;233mhello, this is a text test file\u001b[38;5;240m\u001b[48;5;233m¶\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[2;84H\u001b[48;5;16m \u001b[m\u001b[38;5;188m\u001b[48;5;233m\r\n\u001b[38;5;59m\u001b[48;5;233m  3 \u001b[m\u001b[38;5;188m\u001b[48;5;233m=======\u001b[38;5;240m\u001b[48;5;233m¶\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[3;84H\u001b[48;5;16m \u001b[m\u001b[38;5;188m\u001b[48;5;233m\r\n\u001b[38;5;59m\u001b[48;5;233m  4 \u001b[m\u001b[38;5;188m\u001b[48;5;233mhello, this is a test text file\u001b[38;5;240m\u001b[48;5;233m¶\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[4;84H\u001b[48;5;16m \u001b[m\u001b[38;5;188m\u001b[48;5;233m\r\n\u001b[38;5;59m\u001b[48;5;233m  5 \u001b[m\u001b[38;5;188m\u001b[48;5;233mhere is some extra text to add to the test file\u001b[38;5;240m\u001b[48;5;233m¶\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[5;84H\u001b[48;5;16m \u001b[m\u001b[38;5;188m\u001b[48;5;233m\r\n\u001b[38;5;59m\u001b[48;5;233m  6 \u001b[m\u001b[38;5;188m\u001b[48;5;233m\u003e\u003e\u003e\u003e\u003e\u003e\u003e add extra text to the test file\u001b[38;5;240m\u001b[48;5;233m¶\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[6;84H\u001b[48;5;16m \u001b[m\u001b[38;5;188m\u001b[48;5;233m\r\n\u001b[38;5;240m\u001b[48;5;233m~                                                                                                                                                 \u001b[8;1H~                                                                                                                                                 \u001b[9;1H~                                                                                                                                                 \u001b[10;1H~                                                                                                                                                 \u001b[11;1H~                                                                                                                                                 \u001b[12;1H~                                                                                                                                                 \u001b[13;1H~                                   "
+    ],
+    [
+      0.000113,
+      "                                                                                                              \u001b[14;1H~                                                                                                                                                 \u001b[15;1H~                                                                                                                                                 \u001b[16;1H~                                                                                                                                                 \u001b[17;1H~                                                                                                                                                 \u001b[18;1H~                                                                                                                                                 \u001b[19;1H~                                                                                                                                                 \u001b[20;1H~                                                                                                                                                 \u001b[21;1H~                                                                                                                                                 \u001b[22;1H~                                                                                                                                                 \u001b[23;1H~                                                                                                                                                 \u001b[24;1H~                                                                                                                                                 \u001b[25;1H~                                                                                                                                                 \u001b[26;1H~                                                                                             "
+    ],
+    [
+      0.000133,
+      "                                                    \u001b[27;1H~                                                                                                                                                 \u001b[28;1H~                                                                                                                                                 \u001b[29;1H~                                                                                                                                                 \u001b[30;1H~                                                                                                                                                 \u001b[31;1H~                                                                                                                                                 \u001b[32;1H~                                                                                                                                                 \u001b[33;1H~                                                                                                                                                 \u001b[34;1H~                                                                                                                                                 \u001b[35;1H~                                                                                                                                                 \u001b[36;1H~                                                                                                                                                 \u001b[37;1H~                                                                                                                                                 \u001b[38;1H~                                                                                                                                                 \u001b[39;1H~                                                                                                                                                 "
+    ],
+    [
+      0.000136,
+      "\u001b[40;1H~                                                                                                                                                 \u001b[41;1H~                                                                                                                                                 \u001b[42;1H~                                                                                                                                                 \u001b[43;1H~                                                                                                                                                 \u001b[44;1H~                                                                                                                                                 \u001b[45;1H~                                                                                                                                                 \u001b[46;1H~                                                                                                                                                 \u001b[47;1H~                                                                                                                                                 \u001b[48;1H~                                                                                                                                                 \u001b[49;1H~                                                                                                                                                 \u001b[50;1H~                                                                                                                                                 \u001b[51;1H~                                                                                                                                                 \u001b[52;1H~                                                                                                                                                 \u001b[53;1H~                                                  "
+    ],
+    [
+      0.002508,
+      "                                                                                               \u001b[54;1H~                                                                                                                                                 \u001b[55;1H~                                                                                                                                                 \u001b[56;1H~                                                                                                                                                 \u001b[57;1H~                                                                                                                                                 \u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[58;1H\u001b[1m\u001b[38;5;233m\u001b[48;5;186m NORMAL \u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[38;5;186m\u001b[48;5;240m\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[58;10H\u001b[38;5;240m\u001b[48;5;234m\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[58;11H\u001b[38;5;188m\u001b[48;5;234m test.txt                                                                                       \u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[38;5;234m\u001b[48;5;234m\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[58;108H\u001b[38;5;188m\u001b[48;5;234m text \u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[38;5;240m\u001b[48;5;234m\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[58;115H\u001b[38;5;231m\u001b[48;5;240m utf-8[unix] \u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[38;5;186m\u001b[48;5;240m\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[58;129H\u001b[38;5;233m\u001b[48;5;186m  16% \u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[58;136H\u001b[1m\u001b[38;5;233m\u001b[48;5;186m   1\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[38;5;233m\u001b[48;5;186m:  1  \u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[38;5;166m\u001b[48;5;186m\u001b]2;test.txt (~/git/archwomen/playground) - VIM\u0007"
+    ],
+    [
+      0.000233,
+      "\u001b]1;test.txt\u0007"
+    ],
+    [
+      0.001269,
+      "\u001b[1;5H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.000067,
+      "\u001bP+q436f\u001b\\\u001bP+q6b75\u001b\\\u001bP+q6b64\u001b\\\u001bP+q6b72\u001b\\\u001bP+q6b6c\u001b\\\u001bP+q2332\u001b\\\u001bP+q2334\u001b\\\u001bP+q2569\u001b\\\u001bP+q2a37\u001b\\\u001bP+q6b31\u001b\\"
+    ],
+    [
+      8.524071,
+      "\u001b[?25l\u001b[m\u001b[38;5;188m\u001b[48;5;233mhello, this is a text test file\u001b[38;5;240m\u001b[48;5;233m¶\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[1;37H                 \u001b[2;5H=======\u001b[38;5;240m\u001b[48;5;233m¶\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[2;13H                        \u001b[3;5Hhello, this is a test text file\u001b[38;5;240m\u001b[48;5;233m¶\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[4;7Hre is some extra text to add to the test file\u001b[38;5;240m\u001b[48;5;233m¶\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[5;5H\u003e\u003e\u003e\u003e\u003e\u003e\u003e add extra text to the test file\u001b[38;5;240m\u001b[48;5;233m¶\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[5;45H        \r\n\u001b[38;5;240m\u001b[48;5;233m~                                                                                                                                                 \u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[58;20H\u001b[38;5;188m\u001b[48;5;234m[+]\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[108C\u001b[38;5;233m\u001b[48;5;186m20\u001b]2;test.txt + (~/git/archwomen/playground) - VIM\u0007\u001b]1;test.txt\u0007"
+    ],
+    [
+      0.001049,
+      "\u001b[1;5H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.740002,
+      "\u001b[?25l\u001b[58;131H4\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[7C\u001b[1m\u001b[38;5;233m\u001b[48;5;186m2\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[38;5;233m\u001b[48;5;186m:\u001b[2;5H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.670038,
+      "\u001b[?25l\u001b[m\u001b[38;5;188m\u001b[48;5;233mhello, this is a test text file\u001b[38;5;240m\u001b[48;5;233m¶\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[3;7Hre is some extra text to add to the test file\u001b[38;5;240m\u001b[48;5;233m¶\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[4;5H\u003e\u003e\u003e\u003e\u003e\u003e\u003e add extra text to the test file\u001b[38;5;240m\u001b[48;5;233m¶\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[4;45H        \r\n\u001b[38;5;240m\u001b[48;5;233m~                                                                                                                                                 \u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[58;131H\u001b[38;5;233m\u001b[48;5;186m5\u001b[2;5H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.735617,
+      "\u001b[?25l\u001b[m\u001b[38;5;188m\u001b[48;5;233mhere is some extra text to add to the test file\u001b[38;5;240m\u001b[48;5;233m¶\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[3;5H\u003e\u003e\u003e\u003e\u003e\u003e\u003e add extra text to the test file\u001b[38;5;240m\u001b[48;5;233m¶\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[3;45H        \r\n\u001b[38;5;240m\u001b[48;5;233m~                                                                                                                                                 \u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[58;131H\u001b[38;5;233m\u001b[48;5;186m66\u001b[2;5H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.543463,
+      "\u001b[58;130H100\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[6C\u001b[1m\u001b[38;5;233m\u001b[48;5;186m3\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[38;5;233m\u001b[48;5;186m:\u001b[3;5H"
+    ],
+    [
+      0.864452,
+      "\u001b[?25l\u001b[m\u001b[38;5;188m\u001b[48;5;233m\r\u001b[38;5;240m\u001b[48;5;233m~                                                                                                                                                 \u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[58;139H\u001b[1m\u001b[38;5;233m\u001b[48;5;186m2\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[38;5;233m\u001b[48;5;186m:\u001b[2;5H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      4.439123,
+      "\u001b[?25l\u001b[m\u001b[38;5;188m\u001b[48;5;233m\u001b[59;1H\u001b[K\u001b[59;1H:\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.622614,
+      "w\u0008"
+    ],
+    [
+      0.135847,
+      " \u0008wq\u001b[?25l\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.871744,
+      "\r"
+    ],
+    [
+      0.000280,
+      "\u001b[?25l\"test.txt\""
+    ],
+    [
+      0.007112,
+      " 2L, 80C written"
+    ],
+    [
+      0.052172,
+      "\r\u001b]2;termite\u0007\u001b]1;termite\u0007\r\r\n\u001b[39;49m\u001b[?1l\u001b\u003e\u001b[?12l\u001b[?25h\u001b[?1049l"
+    ],
+    [
+      0.003694,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.051161,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mremotes/origin/HEAD \u001b[38;5;161m+ \u001b[01;34m= \u001b[00m ] % "
+    ],
+    [
+      0.000045,
+      "\u001b[K\u001b[55C19:26:15 [\u001b[22;33m0\u001b[00m]\u001b[67D\u001b[?2004h"
+    ],
+    [
+      5.914095,
+      "g"
+    ],
+    [
+      0.103714,
+      "\u0008gi"
+    ],
+    [
+      0.183766,
+      "t"
+    ],
+    [
+      0.136185,
+      " "
+    ],
+    [
+      0.672044,
+      "r"
+    ],
+    [
+      0.103953,
+      "e"
+    ],
+    [
+      0.239976,
+      "b"
+    ],
+    [
+      0.096014,
+      "a"
+    ],
+    [
+      0.136153,
+      "s"
+    ],
+    [
+      0.167113,
+      "e"
+    ],
+    [
+      0.472754,
+      " "
+    ],
+    [
+      0.839772,
+      "-"
+    ],
+    [
+      0.175783,
+      "-"
+    ],
+    [
+      0.304435,
+      "c"
+    ],
+    [
+      0.143984,
+      "o"
+    ],
+    [
+      0.103524,
+      "n"
+    ],
+    [
+      0.568612,
+      "t"
+    ],
+    [
+      0.607531,
+      "i"
+    ],
+    [
+      0.080452,
+      "n"
+    ],
+    [
+      0.519387,
+      "u"
+    ],
+    [
+      0.080555,
+      "e"
+    ],
+    [
+      1.170366,
+      "\u001b[?2004l\r\r\n"
+    ],
+    [
+      0.064944,
+      "test.txt: needs merge\r\n"
+    ],
+    [
+      0.002673,
+      "You must edit all merge conflicts and then\r\nmark them as resolved using git add\r\n"
+    ],
+    [
+      0.000843,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.053309,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mremotes/origin/HEAD \u001b[38;5;161m+ \u001b[01;34m= \u001b[00m ] % \u001b[K\u001b[55C19:26:28 [\u001b[22;33m1\u001b[00m]\u001b[67D\u001b[?2004h"
+    ],
+    [
+      4.307780,
+      "g"
+    ],
+    [
+      0.072178,
+      "\u0008gi"
+    ],
+    [
+      0.136031,
+      "t"
+    ],
+    [
+      0.135470,
+      " "
+    ],
+    [
+      0.232490,
+      "a"
+    ],
+    [
+      0.416016,
+      "d"
+    ],
+    [
+      0.152079,
+      "d"
+    ],
+    [
+      1.152588,
+      " "
+    ],
+    [
+      0.359346,
+      "t"
+    ],
+    [
+      1.280916,
+      "est.txt\u001b[1m \u001b[0m"
+    ],
+    [
+      0.936208,
+      "\u0008\u001b[0m \u0008\u001b[?2004l\r\r\n"
+    ],
+    [
+      0.007673,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.047435,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mremotes/origin/HEAD \u001b[01;34m= \u001b[00m ] % \u001b[K\u001b[57C19:26:37 [\u001b[22;33m0\u001b[00m]\u001b[69D\u001b[?2004h"
+    ],
+    [
+      4.400186,
+      "g"
+    ],
+    [
+      0.071638,
+      "\u0008gi"
+    ],
+    [
+      0.128153,
+      "t"
+    ],
+    [
+      0.088146,
+      " "
+    ],
+    [
+      0.223222,
+      "s"
+    ],
+    [
+      0.096497,
+      "t"
+    ],
+    [
+      0.088023,
+      "a"
+    ],
+    [
+      0.095982,
+      "t"
+    ],
+    [
+      0.159981,
+      "u"
+    ],
+    [
+      0.135995,
+      "s"
+    ],
+    [
+      0.440086,
+      "\u001b[?2004l\r\r\n"
+    ],
+    [
+      0.004474,
+      "\u001b[31mrebase in progress; onto \u001b[mdd908f7\r\n"
+    ],
+    [
+      0.000132,
+      "You are currently rebasing branch 'master' on 'dd908f7'.\r\n  (all conflicts fixed: run \"git rebase --continue\")\r\n\r\nChanges to be committed:\r\n  (use \"git reset HEAD \u003cfile\u003e...\" to unstage)\r\n\r\n\t\u001b[32mmodified:   test.txt\u001b[m\r\n\r\n"
+    ],
+    [
+      0.002203,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.044613,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mremotes/origin/HEAD \u001b[01;34m= \u001b[00m ] % \u001b[K\u001b[57C19:26:43 [\u001b[22;33m0\u001b[00m]\u001b[69D\u001b[?2004h"
+    ],
+    [
+      6.428278,
+      "g"
+    ],
+    [
+      0.088456,
+      "\u0008gi"
+    ],
+    [
+      0.111882,
+      "t"
+    ],
+    [
+      0.087994,
+      " "
+    ],
+    [
+      0.311974,
+      "r"
+    ],
+    [
+      0.091511,
+      "e"
+    ],
+    [
+      0.520604,
+      "b"
+    ],
+    [
+      0.080007,
+      "a"
+    ],
+    [
+      0.151900,
+      "s"
+    ],
+    [
+      0.148488,
+      "e"
+    ],
+    [
+      1.811561,
+      " "
+    ],
+    [
+      0.400043,
+      "-"
+    ],
+    [
+      0.264025,
+      "-"
+    ],
+    [
+      0.400052,
+      "c"
+    ],
+    [
+      0.063875,
+      "o"
+    ],
+    [
+      0.096008,
+      "n"
+    ],
+    [
+      0.448104,
+      "t"
+    ],
+    [
+      0.119803,
+      "i"
+    ],
+    [
+      0.072085,
+      "n"
+    ],
+    [
+      0.264039,
+      "u"
+    ],
+    [
+      0.087975,
+      "e"
+    ],
+    [
+      0.683484,
+      "\u001b[?2004l\r\r\n"
+    ],
+    [
+      0.076664,
+      "Applying: add extra text to the test file\r\n"
+    ],
+    [
+      0.023727,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.048149,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mmaster \u001b[01;33m^ 1 \u001b[01;32m- \u001b[00m ] % \u001b[K\u001b[66C19:26:56 [\u001b[22;33m0\u001b[00m]\u001b[78D\u001b[?2004h"
+    ],
+    [
+      2.448033,
+      "g"
+    ],
+    [
+      0.088043,
+      "\u0008gi"
+    ],
+    [
+      0.112090,
+      "t"
+    ],
+    [
+      0.087946,
+      " "
+    ],
+    [
+      0.199522,
+      "s"
+    ],
+    [
+      0.136466,
+      "t"
+    ],
+    [
+      0.071989,
+      "a"
+    ],
+    [
+      0.071297,
+      "t"
+    ],
+    [
+      0.160813,
+      "u"
+    ],
+    [
+      0.112100,
+      "s"
+    ],
+    [
+      0.591792,
+      "\u001b[?2004l"
+    ],
+    [
+      0.001057,
+      "\r\r\n"
+    ],
+    [
+      0.003177,
+      "On branch master\r\n"
+    ],
+    [
+      0.000572,
+      "Your branch is ahead of 'origin/master' by 1 commit.\r\n  (use \"git push\" to publish your local commits)\r\n"
+    ],
+    [
+      0.000103,
+      "nothing to commit, working directory clean\r\n"
+    ],
+    [
+      0.001002,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.047473,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mmaster \u001b[01;33m^ 1 \u001b[01;32m- \u001b[00m ] % \u001b[K\u001b[66C19:27:00 [\u001b[22;33m0\u001b[00m]\u001b[78D\u001b[?2004h"
+    ],
+    [
+      5.386643,
+      "g"
+    ],
+    [
+      0.072040,
+      "\u0008gi"
+    ],
+    [
+      0.143976,
+      "t"
+    ],
+    [
+      0.087992,
+      " "
+    ],
+    [
+      0.208126,
+      "p"
+    ],
+    [
+      0.183878,
+      "u"
+    ],
+    [
+      0.304010,
+      "s"
+    ],
+    [
+      0.056084,
+      "h"
+    ],
+    [
+      0.360585,
+      "\u001b[?2004l\r\r\n"
+    ],
+    [
+      1.813734,
+      "Counting objects: 3, done.\r\n"
+    ],
+    [
+      0.003309,
+      "Delta compression using up to 2 threads.\r\n"
+    ],
+    [
+      0.000134,
+      "Compressing objects:  33% (1/3)   \r"
+    ],
+    [
+      0.000063,
+      "Compressing objects:  66% (2/3)   \r"
+    ],
+    [
+      0.000196,
+      "Compressing objects: 100% (3/3)   \r"
+    ],
+    [
+      0.000070,
+      "Compressing objects: 100% (3/3), done.\r\n"
+    ],
+    [
+      0.000302,
+      "Writing objects:  33% (1/3)   \r"
+    ],
+    [
+      0.000145,
+      "Writing objects:  66% (2/3)   \r"
+    ],
+    [
+      0.000133,
+      "Writing objects: 100% (3/3)   \r"
+    ],
+    [
+      0.000225,
+      "Writing objects: 100% (3/3), 353 bytes | 0 bytes/s, done.\r\n"
+    ],
+    [
+      0.000129,
+      "Total 3 (delta 0), reused 0 (delta 0)\r\n"
+    ],
+    [
+      0.148344,
+      "To git@archwomen.org:playground\r\n"
+    ],
+    [
+      0.000055,
+      "   dd908f7..c61caa9  master -\u003e master\r\n"
+    ],
+    [
+      0.001027,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.047051,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mmaster \u001b[01;32m- \u001b[00m ] % "
+    ],
+    [
+      0.000141,
+      "\u001b[K\u001b[70C19:27:09 [\u001b[22;33m0\u001b[00m]\u001b[82D\u001b[?2004h"
+    ],
+    [
+      1.968476,
+      "g"
+    ],
+    [
+      0.064039,
+      "\u0008gi"
+    ],
+    [
+      0.119407,
+      "t"
+    ],
+    [
+      0.072468,
+      " "
+    ],
+    [
+      0.255602,
+      "s"
+    ],
+    [
+      0.168785,
+      "t"
+    ],
+    [
+      0.095601,
+      "a"
+    ],
+    [
+      0.111606,
+      "t"
+    ],
+    [
+      0.184423,
+      "u"
+    ],
+    [
+      0.160105,
+      "s"
+    ],
+    [
+      0.495882,
+      "\u001b[?2004l\r\r\n"
+    ],
+    [
+      0.004208,
+      "On branch master\r\n"
+    ],
+    [
+      0.000181,
+      "Your branch is up-to-date with 'origin/master'.\r\n"
+    ],
+    [
+      0.000073,
+      "nothing to commit, working directory clean\r\n"
+    ],
+    [
+      0.003136,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                                 \r \r"
+    ],
+    [
+      0.044727,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;33mmeskarune\u001b[00m@\u001b[01;35meuropa \u001b[01;34m~/git/archwomen/playground\u001b[00m [ \u001b[32m#  \u001b[00mmaster \u001b[01;32m- \u001b[00m ] % "
+    ],
+    [
+      0.000047,
+      "\u001b[K\u001b[70C19:27:12 [\u001b[22;33m0\u001b[00m]\u001b[82D\u001b[?2004h"
+    ],
+    [
+      4.043615,
+      "\u001b[?2004l\r"
+    ],
+    [
+      0.000039,
+      "\r\n"
+    ]
+  ]
+}
