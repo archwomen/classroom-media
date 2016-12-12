@@ -1,0 +1,875 @@
+2016-12-11 14:03:13	@halosghost	============ CLASS BEGINS ============
+2016-12-11 14:03:24	@halosghost	Welcome everyone to “Getting Started with Arch Linux Packaging”
+2016-12-11 14:03:27	jcjordyn120	sweet
+2016-12-11 14:03:39	@halosghost	I'm your host, halosghost, and I'll be banning^Wteaching today
+2016-12-11 14:03:51	epon	everyone drop and give me 20
+2016-12-11 14:04:05	jcjordyn120	20.... what?
+2016-12-11 14:04:10	epon	pushups
+2016-12-11 14:04:14	@halosghost	my fellow teacher, meskarune, was hoping to join us, but due to some very unfortunately timed wifi card issues, may not be around
+2016-12-11 14:04:22	jcjordyn120	:(
+2016-12-11 14:04:27	@halosghost	if she is able to get internet access, she will join us when she can
+2016-12-11 14:04:34	@halosghost	yet the show must go on, so let us begin!
+2016-12-11 14:05:05	@halosghost	As a general overview, here is what you can expect us to cover:
+2016-12-11 14:05:31	@halosghost	1. What a package is; why you might want to make or use one; and the differences between installing from-source or from a package
+2016-12-11 14:05:49	@halosghost	2. what you need to build a package for Arch Linux (or another pacman-based distribution)
+2016-12-11 14:06:20	@halosghost	3. the parts and pieces of a PKGBUILD (the primary ingredient for an Arch Linux package)
+2016-12-11 14:06:21	leofa	we hate antergros :P
+2016-12-11 14:06:31	@halosghost	leofa: ಠ_ಠ
+2016-12-11 14:06:32	 *	Oldiesmann glares at leofa
+2016-12-11 14:06:42	 *	NanoSector stares leofa deeply in the eyes
+2016-12-11 14:07:02	@halosghost	4. information regarding sharing packages with others (e.g., .SRCINFO)
+2016-12-11 14:07:09	leofa	i'm quiet
+2016-12-11 14:07:20	@halosghost	5. How to error-check and validate your packages before sharing/using them
+2016-12-11 14:07:37	@halosghost	and 6. how to actually distribute your packages (namely, through the AUR)
+2016-12-11 14:07:54	@halosghost	Before we jump into point 1, does anyone have any questions or need clarification on anything?
+2016-12-11 14:07:59	 *	jcjordyn120 stares NanoSector  deeply in the eyes
+2016-12-11 14:08:19	 *	NanoSector kicks jcjordyn120 in the balls, be vewy vewy quiet
+2016-12-11 14:08:35	@halosghost	children, don't make me turn this channel around
+2016-12-11 14:08:53	ackermann_12345	thanks for doing this, halosghost 
+2016-12-11 14:08:54	NanoSector	:)
+2016-12-11 14:09:01	 *	jcjordyn120 screams *loudly*
+2016-12-11 14:09:02	ackermann_12345	:^> 
+2016-12-11 14:09:10	NanoSector	yes, thank you indeed, it's very cool arch is giving lectures
+2016-12-11 14:09:11	ralpheeee	do we just ask question and chime in...or at the end of each chapter?
+2016-12-11 14:09:15	ralpheeee	first time here
+2016-12-11 14:09:20	@halosghost	ralpheeee: no worries :)
+2016-12-11 14:09:28	@halosghost	ralpheeee: please feel free to throw out questions when they arise
+2016-12-11 14:09:32	dmc	fsckd, perhaps the riseup version of the notes should be replaced with the rST
+2016-12-11 14:09:35	dmc	in the topic
+2016-12-11 14:09:44	ralpheeee	halosghost: cool
+2016-12-11 14:09:49	@halosghost	I might finish the thought I'm in the middle of, but will circle back to answer your question ASAP
+2016-12-11 14:10:18	@halosghost	for those who would like to follow along with a more up-to-date version of the class notes, please see this gist: https://gist.github.com/meskarune/4879c8338da4b85b98454ffede676558
+2016-12-11 14:10:18	Oldiesmann	Speaking of the notes, there's a typo... "A variable is a way to assign a value to a symbolic name. This is useful so you can use a variable multiple times in a script ..." - that last variable should say "value"
+2016-12-11 14:10:19	phrik	Title: class notes for creating arch packages · GitHub (at gist.github.com)
+2016-12-11 14:10:20	@halosghost	dmc: ^
+2016-12-11 14:10:41	dmc	\o/
+2016-12-11 14:10:46	@halosghost	Oldiesmann: indeed
+2016-12-11 14:10:51	Oldiesmann	:)
+2016-12-11 14:11:12	@halosghost	all right, I will go ahead and jump into section 1; please let me know if/when there are any questions!
+2016-12-11 14:11:17	jcjordyn120	ok :(
+2016-12-11 14:11:18	jcjordyn120	*:)
+2016-12-11 14:11:26	leofa	wiil do
+2016-12-11 14:11:59	@halosghost	so, What is a package? Why would you be foolish enough to use one and what the devil do these developers mean when they say “installing from-source”?
+2016-12-11 14:12:53	@halosghost	Generally speaking, on linux distributions, there are two ways to install software: you can compile/build the software yourself using only what the developer gives you and then manually install the needed files to your system
+2016-12-11 14:13:18	Elieux	"manually" == `make install` most of the time
+2016-12-11 14:13:29	@halosghost	Elieux: not necessarily, but we'll get to that
+2016-12-11 14:13:57	@halosghost	or, someone may have contributed a pre-built version of the software that you can install more simply rather than all the work of setting it all up yourself
+2016-12-11 14:14:18	@halosghost	the first method is often referred to as “manual installation” or “installing from source”
+2016-12-11 14:14:21	-->	somis [somis] (somis) (~somis@149.56.153.177) has joined #archlinux-classroom
+2016-12-11 14:14:54	@halosghost	the second method, the one we are interested in today, is using a package (the pre-made bundle)
+2016-12-11 14:15:40	@halosghost	there are a few reasons why you might prefer to install software from packages rather than from-source
+2016-12-11 14:15:52	@halosghost	perhaps the most obvious being that it is easier
+2016-12-11 14:16:12	jcjordyn120	true
+2016-12-11 14:16:12	@halosghost	in order to install a package, you first need a package manager
+2016-12-11 14:16:37	@halosghost	since this class is focused on Arch Linux and AL-esque distributions, the package manager in-question is pacman
+2016-12-11 14:16:50	leofa	all hail pacman!
+2016-12-11 14:17:02	@halosghost	packages that we work to create during this class will be made specifically for use with pacman
+2016-12-11 14:17:08	jcjordyn120	leofa, agreed
+2016-12-11 14:17:26	@halosghost	for a variety of reasons, there is no universal package format; so you cannot make one package to function for all package managers
+2016-12-11 14:17:45	@halosghost	however, one of the benefits of pacman-based distributions is that making a package is very simple!
+2016-12-11 14:17:48	 *	halosghost throws confetti
+2016-12-11 14:17:56	jcjordyn120	yay :D
+2016-12-11 14:18:13	@halosghost	however, before we jump into the actual nuts and bolts of making a package
+2016-12-11 14:18:45	@halosghost	you need to know how to install the software manually (since packaging essentially just automates this otherwise manual process)
+2016-12-11 14:18:55	-->	adam1 (adam) (~adam@61-69-81-66.syd.static-ipl.aapt.com.au) has joined #archlinux-classroom
+2016-12-11 14:19:03	jcjordyn120	using GNU make :P
+2016-12-11 14:19:11	-->	onnex [onnex] (Onni Hytonen) (hytonen6@mustatilhi.cs.tut.fi) has joined #archlinux-classroom
+2016-12-11 14:19:15	@halosghost	as Elieux mentioned before, for C-based software projects, this is often the traditional `./configure && make && sudo make install`
+2016-12-11 14:19:43	-->	liushuyu [liushuyu] (zxing) (~androirc@nat-5-180.uws.ualberta.ca) has joined #archlinux-classroom
+2016-12-11 14:19:48	@halosghost	however, there are other build systems (e.g., CMake, autotools, tup, waf, ninja, just to name a few)
+2016-12-11 14:20:05	@halosghost	and, different programming languages will often have different install methods pre-defined
+2016-12-11 14:20:06	spider-mario	well, autotools is not technically “other”
+2016-12-11 14:20:09	jcjordyn120	yes
+2016-12-11 14:20:11	spider-mario	it is ./configure
+2016-12-11 14:20:21	@halosghost	spider-mario: that is not true; but we can discuss this later :)
+2016-12-11 14:20:36	spider-mario	well, sure, you can write “configure” scripts in other ways
+2016-12-11 14:20:40	spider-mario	but it’s still the most common
+2016-12-11 14:20:44	@halosghost	for another example, python programs tend to use something to this effect: python setup.py
+2016-12-11 14:20:55	bugabinga[m]	are there statistics about the used build methods on AUR?
+2016-12-11 14:21:08	@halosghost	bugabinga[m]: not to my knowledge; though that is a very interesting idea
+2016-12-11 14:21:33	@halosghost	now, let's take a brief digression to talk about spider-mario's comment and answer any other questions before we move on to what you need to actually make a package for Arch
+2016-12-11 14:21:48	@halosghost	spider-mario: autotools, like CMake, is a layer on top of another build system (namely, make)
+2016-12-11 14:22:03	liushuyu	halosghost: so cmake can generate Makefile or other build file like Ninja build file. So how do we select which to use?
+2016-12-11 14:22:04	spider-mario	yes, but I mean specifically the configure script
+2016-12-11 14:22:08	@halosghost	but it is still a different process (e.g., you may need to deal with autoconf and automake)
+2016-12-11 14:22:09	spider-mario	it is very often generated by autotools
+2016-12-11 14:22:34	@halosghost	liushuyu: that is correct
+2016-12-11 14:22:51	@halosghost	liushuyu: one of the principles of Arch Linux packaging is that a package should be as close to vanilla as possible
+2016-12-11 14:23:22	@halosghost	this means that whichever route the developers recommend is the one you should prefer
+2016-12-11 14:23:55	@halosghost	if they support multiple methods officially, I would personally recommend following whichever route is the simplest :)
+2016-12-11 14:24:18	@halosghost	are there any other questions I can answer before we move on?
+2016-12-11 14:24:19	leofa	aha keep it simple
+2016-12-11 14:24:29	@halosghost	leofa: indeed
+2016-12-11 14:24:34	@halosghost	phrik: indeed
+2016-12-11 14:24:35	phrik	(ò.ô)
+2016-12-11 14:24:44	@halosghost	mm, that's not what I expected it to be, but okay
+2016-12-11 14:25:16	liushuyu	halosghost: so if  they provide cmake file, we'd better use standard GNU Make instead of Ninja……?
+2016-12-11 14:25:31	@halosghost	liushuyu: that would be my recommendation, yes
+2016-12-11 14:25:48	@halosghost	so long as upstream supports that
+2016-12-11 14:26:12	@halosghost	(even if providing CMakeLists, many upstreams might prefer that you use a particular target; in that case, you should use the one they recommend)
+2016-12-11 14:26:36	@halosghost	I will go ahead and move along because we still have a lot of ground to cover, but as always, feel free to stop me if you have any questions!
+2016-12-11 14:26:48	Elieux	(make is part of base-devel, while ninja is not)
+2016-12-11 14:27:04	@halosghost	(^ if you are on Arch)
+2016-12-11 14:27:19	@halosghost	What do you actually need to make a package for Arch?
+2016-12-11 14:27:48	AtomBlau4861A	if you have a weird method for making, that possibly introduces additional dependencies?
+2016-12-11 14:27:58	NanoSector	makedepends
+2016-12-11 14:28:03	@halosghost	AtomBlau4861A: more likely makedepends, but yes
+2016-12-11 14:28:06	liushuyu	halosghost: and for ABS, if a project use git repository and the repository is super large, do we have any parameters to specify the clone depth?
+2016-12-11 14:28:12	-->	tomracing (Tom) (~smuxi@5350E961.cm-6-1d.dynamic.ziggo.nl) has joined #archlinux-classroom
+2016-12-11 14:28:12	@halosghost	and we will get to the difference in deps / makedeps soon
+2016-12-11 14:28:31	Elieux	bsdtar essentially, but makepkg makes it easier.
+2016-12-11 14:29:38	@halosghost	liushuyu: that is a good question
+2016-12-11 14:29:53	@halosghost	I do not know if there is an official method for clone-depth supported
+2016-12-11 14:30:20	bugabinga[m]	why would that be a problem?
+2016-12-11 14:30:36	Elieux	Nothing super easy, but you can bend your PKGBUILD to do that.
+2016-12-11 14:30:40	@halosghost	bugabinga[m]: if you want to avoid downloading a massive repository just to build
+2016-12-11 14:31:01	@halosghost	the most important things you need to build a package are the software itself and a PKGBUILD
+2016-12-11 14:31:09	<--	HyperBaton (~HyperBato@78-22-136-231.access.telenet.be) has quit (Ping timeout: 260 seconds)
+2016-12-11 14:31:19	Elieux	And makepkg?
+2016-12-11 14:31:39	@halosghost	Elieux: covered in the pre-requisites section to the class, but I take your point
+2016-12-11 14:31:53	<--	sepsinn (~sepsinn@2601:141:0:a6::9e6) has left #archlinux-classroom ("WeeChat 1.6")
+2016-12-11 14:31:56	@halosghost	yes, you need makepkg in order to actually build the package :)
+2016-12-11 14:32:06	-->	donatas (donatas) (~donatas@78.61.217.57) has joined #archlinux-classroom
+2016-12-11 14:32:11	@halosghost	a PKGBUILD is essentially just a specially-formatted bash script that describes the build process for a software so that makepkg can create a package for you
+2016-12-11 14:32:27	@halosghost	put more simply, the PKGBUILD is the recipe that you give to makepkg to create the package for you
+2016-12-11 14:33:01	@halosghost	there are a few other things you may find yourself in need of later on: a .install file, a .SRCINFO file, some .patch files
+2016-12-11 14:33:14	@halosghost	but we will talk about those more in-depth a little later on
+2016-12-11 14:33:21	@halosghost	for now, let us get started with the PKGBUILD
+2016-12-11 14:33:57	@halosghost	every PKGBUILD for an Arch Linux package is required to have four special variables and one special function
+2016-12-11 14:34:08	-->	eper3z [eper3z] (edward) (~edward@unaffiliated/eper3z) has joined #archlinux-classroom
+2016-12-11 14:34:43	@halosghost	pkgname, pkgver and pkgrel (the first three variables) are relatively self-explanatory; they are the name of the package, the version of the software and the release number of the package (respectively)
+2016-12-11 14:35:35	@halosghost	for example, if we were to package a bit of software called awesomesauce which just recently hit version 1.0, then we might define the variables like so:
+2016-12-11 14:35:40	@halosghost	pkgname=awesomesauce
+2016-12-11 14:35:43	@halosghost	pkgver=1.0
+2016-12-11 14:35:45	@halosghost	pkgrel=1
+2016-12-11 14:36:09	leofa	awesomesauce :D
+2016-12-11 14:36:21	@halosghost	when you make a new version of a package, but the version number of the software has not changed, you increase the pkgrel number; likewise, when the software version increases, you should reset the pkgrel to 1
+2016-12-11 14:36:25	<--	liushuyu (~androirc@nat-5-180.uws.ualberta.ca) has quit (Read error: Connection reset by peer)
+2016-12-11 14:36:32	-->	liushuyu (zxing) (~androirc@nat-5-180.uws.ualberta.ca) has joined #archlinux-classroom
+2016-12-11 14:36:43	@halosghost	the fourth variable we need is a bit special, as it is an array
+2016-12-11 14:36:57	@halosghost	bash arrays are declared like so: arrname=(element1 element2 element3)
+2016-12-11 14:37:04	-->	Rich1 (realname) (~Rich@2a02:8010:f00f:0:c880:1804:1612:150a) has joined #archlinux-classroom
+2016-12-11 14:37:07	bugabinga[m]	so its the version of the package itself?
+2016-12-11 14:37:16	AtomBlau4861A	is pkgrel integer?
+2016-12-11 14:37:21	NanoSector	AtomBlau4861A: yes
+2016-12-11 14:37:23	@halosghost	bugabinga[m]: pkgrel is the version of the package for the given version of the software
+2016-12-11 14:37:33	@halosghost	yes :)
+2016-12-11 14:37:43	epon	will we be making some kind of helloworld package for this class or just an overview?
+2016-12-11 14:37:46	bugabinga[m]	is it reset with new version of software?
+2016-12-11 14:37:53	NanoSector	bugabinga[m]: you should reset it
+2016-12-11 14:38:06	<--	liushuyu (~androirc@nat-5-180.uws.ualberta.ca) has quit (Read error: Connection reset by peer)
+2016-12-11 14:38:12	@halosghost	bugabinga[m]: as the packager, resetting it is your responsibility :)
+2016-12-11 14:38:13	-->	liushuyu (zxing) (~androirc@nat-5-180.uws.ualberta.ca) has joined #archlinux-classroom
+2016-12-11 14:38:39	@halosghost	epon: one is not planned; but I will gladly stay after class and help people with a small example if anyone is interested
+2016-12-11 14:38:44	jcjordyn120	and I maintain a few aur packages my self :D
+2016-12-11 14:38:54	NanoSector	I do too, hence I'm here
+2016-12-11 14:39:16	@halosghost	this fourth variable is the declaration of which CPU architectures your PKGBUILD can be built for
+2016-12-11 14:39:39	<--	liushuyu (~androirc@nat-5-180.uws.ualberta.ca) has quit (Read error: Connection reset by peer)
+2016-12-11 14:39:42	jcjordyn120	NanoSector, me too :P
+2016-12-11 14:39:44	@halosghost	so, if awesomesauce supported i686 and x86_64, you might declare the array like so:
+2016-12-11 14:39:49	-->	liushuyu (zxing) (~androirc@nat-5-180.uws.ualberta.ca) has joined #archlinux-classroom
+2016-12-11 14:39:49	@halosghost	arch=(i686 x86_64)
+2016-12-11 14:40:16	NanoSector	if you want to set it to 'any' for e.g. a python thingy, can you just leave it empty, or do you need to specify any?
+2016-12-11 14:40:16	@halosghost	note that Arch Linux only officially supports those two platforms, but other distributions may support other platforms
+2016-12-11 14:40:37	@halosghost	indeed, 'any' is a special value for the arch array that declares it is platform agnostic
+2016-12-11 14:40:40	leofa	arch=(any) I hate when people restrict it to an architecture when I can compile it on arm easy
+2016-12-11 14:40:52	@halosghost	you must specify the arch() variable in every PKGBUILD
+2016-12-11 14:41:12	@halosghost	to declare that the PKGBUILD is platform-agnostic, you would use the declaration that leofa mentioned
+2016-12-11 14:41:15	@halosghost	arch=(any)
+2016-12-11 14:41:15	<--	liushuyu (~androirc@nat-5-180.uws.ualberta.ca) has quit (Read error: Connection reset by peer)
+2016-12-11 14:41:20	NanoSector	aight, thanks
+2016-12-11 14:41:25	-->	liushuyu (zxing) (~androirc@nat-5-180.uws.ualberta.ca) has joined #archlinux-classroom
+2016-12-11 14:41:28	@halosghost	you're more than welcome
+2016-12-11 14:41:47	@halosghost	One pitfall you should be mindful of when declaring these and other variables in a PKGBUILD is quoting
+2016-12-11 14:41:58	@halosghost	bash is rather particular about how you quote things
+2016-12-11 14:42:00	bugabinga[m]	should i put the arch i tested myself or the upstream claims to support?
+2016-12-11 14:42:41	liushuyu	Sorry about the s**t network here… i
+2016-12-11 14:42:44	@halosghost	bugabinga[m]: you should put the architectures in the array which you are willing to support as the packager
+2016-12-11 14:43:28	Elieux	I think bash is pretty reasonable with quoting.
+2016-12-11 14:43:30	<--	liushuyu (~androirc@nat-5-180.uws.ualberta.ca) has quit (Read error: Connection reset by peer)
+2016-12-11 14:43:34	@halosghost	bugabinga[m]: so, if upstream claims to support ppc, but you are not willing to support that platform for some reason (perhaps because it's ppc), then I would recommend adding a comment after the array saying that that platform might function but that you do not support it
+2016-12-11 14:43:43	-->	liushuyu (zxing) (~androirc@nat-5-180.uws.ualberta.ca) has joined #archlinux-classroom
+2016-12-11 14:44:09	@halosghost	Quoting controls how text is parsed, meaning either as plain text, multiword text with spaces, or replacing variable names with their assigned values.
+2016-12-11 14:44:23	@halosghost	Generally speaking, if a variable does not include spaces, you do not need to quote it; anything with spaces in it must be quoted or you will get unexpected results. When in doubt, quoting variables should not cause harm.
+2016-12-11 14:44:31	-->	HyperBaton [HyperBaton] (HyperBaton) (~HyperBato@78-22-136-231.access.telenet.be) has joined #archlinux-classroom
+2016-12-11 14:44:31	liushuyu	halosghost: I notice there's `any` architecture, so does that for non-ELF packages?
+2016-12-11 14:44:31	@halosghost	For plain text with spaces you should use single quotes, and double quotes for text with variables.
+2016-12-11 14:45:05	@halosghost	liushuyu: you may have missed the discussion due to your dc's, but 'any' is for packages which are architecture-agnostic
+2016-12-11 14:45:29	@halosghost	liushuyu: note that architecture is not actually related to platform; i.e., the arch=() says nothing about ELF or any other binary format
+2016-12-11 14:45:37	@halosghost	only about what CPU architectures you can build the package for
+2016-12-11 14:46:00	@halosghost	when using variables in text, you may see people surrounding the variable names with {}
+2016-12-11 14:46:18	liushuyu	halosghost: thanks for your kind explanation
+2016-12-11 14:46:21	Elieux	(and even that is just a convention, not intrinsically related to the architecture)
+2016-12-11 14:46:56	@halosghost	often times this is purely for cosmetic effect, but it can be helpful for some fancier bash variable expansions
+2016-12-11 14:47:01	@halosghost	liushuyu: you're welcome
+2016-12-11 14:47:19	@halosghost	the final thing we need in every package build is the package() function
+2016-12-11 14:48:04	Elieux	(note that it's like "${var}", not "{$var}")
+2016-12-11 14:48:05	@halosghost	package() is what makepkg will run at the end to actually create the package file
+2016-12-11 14:48:26	@halosghost	Elieux: correct; $ is not part of a variable name, but rather an operator that gives you the value stored in a variable
+2016-12-11 14:49:03	Elieux	(Coming from other programming languages, the syntax keeps biting me from time to time.)
+2016-12-11 14:49:16	Rich1	${variable} is useful when your variable is part of another string. if you have a variable called a, and a variable called abc, but you want the contents of a followed by the literal 'bc' you could use ${a}bc.. just to give a use case :)
+2016-12-11 14:49:28	@halosghost	Rich1: indeed
+2016-12-11 14:49:39	AtomBlau4861A	nice
+2016-12-11 14:50:27	@halosghost	now, let's talk about functions for a moment
+2016-12-11 14:50:44	@halosghost	the most basic function for a C-based software will look something like this:
+2016-12-11 14:50:50	@halosghost	package() {
+2016-12-11 14:51:01	@halosghost	    cd "$pkgname-$pkgver"
+2016-12-11 14:51:14	@halosghost	    make DESTDIR="$pkgdir" install
+2016-12-11 14:51:15	@halosghost	}
+2016-12-11 14:51:48	@halosghost	this assumes that the source files (with the associated Makefile) are in a folder named "$pkgname-$pkgver"
+2016-12-11 14:52:03	@halosghost	this is a very typical situation and you will see it quite often if you go through packages in the AUR
+2016-12-11 14:52:05	bugabinga[m]	is it ok to cd into directory but not back out?
+2016-12-11 14:52:30	NanoSector	makepkg will always cd into the root directory or another appropriate directory before starting a function iirc
+2016-12-11 14:52:54	@halosghost	bugabinga[m]: at the end of each of the special functions makepkg executes, it cds back to a special directory called $srcdir before continuing
+2016-12-11 14:52:57	Elieux	Into $srcdir.
+2016-12-11 14:53:27	@halosghost	pkgdir and srcdir are special variables that you should never define yourself; makepkg handles these for you
+2016-12-11 14:54:27	@halosghost	I mentioned before that you would need the files for the software you are packaging and now is where they become important!
+2016-12-11 14:54:37	jcjordyn120	what happends if you set pkgdir to blank and readonly :P
+2016-12-11 14:54:46	NanoSector	bad things
+2016-12-11 14:54:47	--	Mode #archlinux-classroom [+q jcjordyn120!*@*] by halosghost
+2016-12-11 14:54:54	@halosghost	jcjordyn120: I quiet you
+2016-12-11 14:54:55	@halosghost	that's what
+2016-12-11 14:54:57	@halosghost	:)
+2016-12-11 14:54:58	NanoSector	lol
+2016-12-11 14:55:06	--	Mode #archlinux-classroom [-q jcjordyn120!*@*] by halosghost
+2016-12-11 14:55:12	@halosghost	now, time to introduce another variable
+2016-12-11 14:55:16	jcjordyn120	halosghost, xD
+2016-12-11 14:55:19	@halosghost	the source array!
+2016-12-11 14:55:32	bugabinga[m]	is the whole PATH available in this script? can i just wget something or patch /usr/bin/ls ...?
+2016-12-11 14:55:52	Elieux	PATH is available.
+2016-12-11 14:55:57	@halosghost	bugabinga[m]: you should not be downloading anything manually inside the functions
+2016-12-11 14:56:20	@halosghost	and no, makepkg will not allow you to run arbitrary code in the functions; but it does give you significant freedom
+2016-12-11 14:56:25	leofa	cd "$srcdir/$pkgname-$pkgver" or cd "$pkgname-$pkgver"?
+2016-12-11 14:56:35	dmc	the latter
+2016-12-11 14:56:35	<--	pkgbuilder (bb43a429@gateway/web/freenode/ip.187.67.164.41) has quit (Ping timeout: 260 seconds)
+2016-12-11 14:56:43	Elieux	Since you're starting in $srcdir, the effect's the same.
+2016-12-11 14:56:44	dmc	don't need quoting, either
+2016-12-11 14:56:50	Elieux	The latter seems to be more idiomatic.
+2016-12-11 14:56:54	@halosghost	leofa: because each function begins in srcdir already, including it is not necessary
+2016-12-11 14:57:19	leofa	ok it's in man PKGBUILD that way
+2016-12-11 14:57:28	@halosghost	indeed
+2016-12-11 14:57:30	leofa	that's why I asked
+2016-12-11 14:57:55	@halosghost	the source array lists all the files you need to build the package; any file you list here pacman will attempt to fetch for you and extract (if it makes sense) with bsdtar
+2016-12-11 14:57:59	leofa	ok understand
+2016-12-11 14:58:28	@halosghost	for example, awesomesauce's developers provide a single tarball which contains everything you need
+2016-12-11 14:58:34	@halosghost	so, our source array will look like so:
+2016-12-11 14:58:41	@meskarune	howdy
+2016-12-11 14:58:46	@halosghost	meskarune: \o/
+2016-12-11 14:58:46	NanoSector	meskarune!
+2016-12-11 14:58:48	@meskarune	I hope I am not too late
+2016-12-11 14:58:51	 *	halosghost showers meskarune in confetti
+2016-12-11 14:58:59	@meskarune	my wireless card is lost in action :)
+2016-12-11 14:59:02	epon	fashionably late
+2016-12-11 14:59:06	@meskarune	hehe
+2016-12-11 14:59:20	@halosghost	meskarune: not at all; we're just getting to the source=() array right before VCS
+2016-12-11 14:59:22	<--	liushuyu (~androirc@nat-5-180.uws.ualberta.ca) has quit (Ping timeout: 256 seconds)
+2016-12-11 14:59:30	@meskarune	oh ok
+2016-12-11 14:59:47	@meskarune	did you mention the proto files in /usr/share/pacman and man PKGBUILD ?
+2016-12-11 14:59:59	@halosghost	meskarune: no; I was planning on dumping link resources at the end :)
+2016-12-11 15:00:04	@meskarune	oh heh
+2016-12-11 15:00:18	@halosghost	but I did post the gist above, so people could follow along and find those resources should they be interested as we go
+2016-12-11 15:00:19	@meskarune	it really helped me to read those side by side while learning the formate of a PKGBUILD and what each thing does
+2016-12-11 15:00:28	@meskarune	halosghost: oh ok :)
+2016-12-11 15:01:05	bugabinga[m]	can you give an example when source needs more than one value?
+2016-12-11 15:01:15	NanoSector	when you're downloading multiple things
+2016-12-11 15:01:17	@halosghost	bugabinga[m]: sure!
+2016-12-11 15:01:35	leofa	wow /usr/share/pacman is full of goodies!
+2016-12-11 15:01:42	bugabinga[m]	NanoSector: ofc, but usually i see only one tarball or something similiar
+2016-12-11 15:01:46	NanoSector	waka waka waka waka... :P
+2016-12-11 15:01:46	@halosghost	bugabinga[m]: if there are several source files upstream needs, that would be one; but another one which we will get to shortly is if the files are signed
+2016-12-11 15:02:05	@halosghost	bugabinga[m]: in which case, you'd need to grab the signatures
+2016-12-11 15:02:30	@meskarune	leofa: the proto files are also in the pacman git repo: https://git.archlinux.org/pacman.git/plain/proto/PKGBUILD.proto
+2016-12-11 15:02:33	NanoSector	bugabinga[m]: sometimes icons are not packaged with the actual tarball, then it's nice to download them anyway and throw them in the /usr/share/icons folder
+2016-12-11 15:02:48	NanoSector	or desktop files, or something like that
+2016-12-11 15:02:50	@halosghost	each file listed in source has two basic parts: the download filename and the URL
+2016-12-11 15:02:54	@halosghost	e.g.:
+2016-12-11 15:03:03	bugabinga[m]	makes sense
+2016-12-11 15:03:28	@halosghost	source("awesomesauce-$pkgver::https://halosgho.st/awesome/sauce.tar.gz")
+2016-12-11 15:03:52	@meskarune	if upstream provides patches that you want to use you could also add that to sources
+2016-12-11 15:03:57	@halosghost	^ indeed
+2016-12-11 15:04:00	@meskarune	but thats farther along when we cover patches lol
+2016-12-11 15:04:37	@halosghost	each filename should be unique (so that makepkg will recognize it needs to download a new file in the case of a new version)
+2016-12-11 15:05:17	@halosghost	if the package you are making uses a VCS for source-code hosting (e.g., git), then you can tell makepkg this explicitly in the source array:
+2016-12-11 15:05:27	@meskarune	has everyone here installed an AUR package manually before?
+2016-12-11 15:06:07	epon	i have
+2016-12-11 15:06:14	NanoSector	yep
+2016-12-11 15:06:18	@halosghost	source=("somefancything-$pkgver::git+https://github.com/fancy/dancy.git#branch=testythings")
+2016-12-11 15:06:19	Elieux	aye
+2016-12-11 15:06:56	leofa	jip
+2016-12-11 15:07:18	Rich1	yeah sometimes mod them if the maintainer hasn't got the latest version too :)
+2016-12-11 15:07:21	@halosghost	by doing so, you don't need to deal with git at all; makepkg will automagically clone the repository for you
+2016-12-11 15:07:31	@meskarune	awesome. If anyone hasn't I highly recomend doing it so you understand the process before writing packages
+2016-12-11 15:07:39	@halosghost	^ ++
+2016-12-11 15:07:56	adriaanzon	but if the source uses cvs, you have to do it manually right?
+2016-12-11 15:07:56	@meskarune	makepkg supports Bazaar, Git, Subversion, and Mercurial
+2016-12-11 15:08:13	@halosghost	adriaanzon: yes, because makepkg does not support CVS (to my knowledge)
+2016-12-11 15:08:14	@meskarune	right, anything else that isn't supported out of box must be cloned manually in the package
+2016-12-11 15:09:03	-->	hai_bar (not_myrealname) (~hai_bar@p2003005DAF26EE3CDF0070255F8F6B59.dip0.t-ipconnect.de) has joined #archlinux-classroom
+2016-12-11 15:09:13	Elieux	e.g. fossil
+2016-12-11 15:09:24	@meskarune	You would use the build() function
+2016-12-11 15:09:32	@halosghost	there are a few other things you need to do for a VCS PKGBUILD: provide a pkgver() function which will update the pkgver() variable on each build, deal with submodules or similar things if you need
+2016-12-11 15:09:33	@meskarune	here is an example: https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=blackbox-cvs
+2016-12-11 15:09:34	phrik	Title: aur.git - AUR Package Repositories (at aur.archlinux.org)
+2016-12-11 15:09:41	bugabinga[m]	why not package()?
+2016-12-11 15:09:55	@halosghost	bugabinga[m]: package() is specifically for building the package
+2016-12-11 15:10:03	Elieux	Bad wording IMO
+2016-12-11 15:10:07	@meskarune	haha
+2016-12-11 15:10:14	@halosghost	meskarune: I'd say that article is hugely out of date; I would recommend using the prepare() function
+2016-12-11 15:10:17	Elieux	package() is for building and build() is for VCS. >D
+2016-12-11 15:10:17	NanoSector	isn't there a prepare() function?
+2016-12-11 15:10:23	@halosghost	NanoSector: yes
+2016-12-11 15:10:25	@meskarune	halosghost: kk
+2016-12-11 15:10:30	NanoSector	halosghost: ninja'd
+2016-12-11 15:10:30	-->	angerctl [Namarrgon] (Namarrgon) (~Namarrgon@archlinux/op/namarrgon) has joined #archlinux-classroom
+2016-12-11 15:10:33	bugabinga[m]	ahem, and build() is not building the package then...? :)
+2016-12-11 15:10:47	@halosghost	bugabinga[m]: build() is for things like compiling
+2016-12-11 15:11:00	NanoSector	that pkgbuild is not a good example then :P
+2016-12-11 15:11:02	@halosghost	bugabinga[m]: prepare() is for getting everything ready for build()
+2016-12-11 15:11:08	@halosghost	NanoSector: I'd agree
+2016-12-11 15:11:33	@meskarune	if you do "man PKGBUILD" look at the section "PACKAGING FUNCTIONS"
+2016-12-11 15:11:42	@meskarune	it lists what each package function is used for
+2016-12-11 15:11:51	@halosghost	the final portion of source files we need to deal with is source file integrity
+2016-12-11 15:12:12	@meskarune	https://www.archlinux.org/pacman/PKGBUILD.5.html#_packaging_functions
+2016-12-11 15:12:13	phrik	Title: PKGBUILD(5) (at www.archlinux.org)
+2016-12-11 15:12:55	-->	geexmmo [geexmmo] (geexmmo) (~geexmmo@212-2-238-213.pppoe.citynet.kg) has joined #archlinux-classroom
+2016-12-11 15:13:02	@halosghost	if upstream provides checksums for the files you download (e.g., sauce.tar.gz as the example above), you should copy them into a checksum array
+2016-12-11 15:13:14	<--	Namarrgon (~Namarrgon@archlinux/op/namarrgon) has quit (Ping timeout: 264 seconds)
+2016-12-11 15:13:23	 *	Oldiesmann has to get ready for work but will catch up on this later thanks to ZNC
+2016-12-11 15:13:29	@halosghost	in this case, sauce.tar.gz's checksum is a sha256 checksum: 0cd79821671b6d39361b07432b8074e0e5175ece4665f47e5166af6d9d436f5e
+2016-12-11 15:13:33	@halosghost	Oldiesmann: o/
+2016-12-11 15:13:47	@halosghost	so, next to the source array, I will add a new array called sha256sums:
+2016-12-11 15:13:53	@halosghost	sha256sums=('0cd79821671b6d39361b07432b8074e0e5175ece4665f47e5166af6d9d436f5e')
+2016-12-11 15:13:54	sharethewisdom	can the authenticity be checked for a VCS package by requiring a signed commit? (is that a dumb question?)
+2016-12-11 15:14:11	NanoSector	if you're cloning against a fixed commit i don't see why not
+2016-12-11 15:14:14	dmc	*cough*512*cough*
+2016-12-11 15:14:30	@halosghost	sharethewisdom: at the moment, verifying signed commits is not supported afaik; but discussions about its support are ongoing
+2016-12-11 15:14:30	@meskarune	fuctions are run in order: prepare() build() check() package()
+2016-12-11 15:14:33	<--	halosghost has kicked dmc (ಠ_ಠ)
+2016-12-11 15:14:37	-->	dmc [polyzen] (Daniel M. Capella) (~dmc@unaffiliated/polyzen) has joined #archlinux-classroom
+2016-12-11 15:14:40	@halosghost	dmc: wb
+2016-12-11 15:14:44	dmc	apparently sha512 is faster than sha256 on x64
+2016-12-11 15:14:47	Elieux	(better example? https://github.com/Alexpux/MINGW-packages/blob/master/mingw-w64-sqlite-analyzer/PKGBUILD)
+2016-12-11 15:14:48	phrik	Title: MINGW-packages/PKGBUILD at master · Alexpux/MINGW-packages · GitHub (at github.com)
+2016-12-11 15:14:52	@halosghost	dmc: it doesn't matter
+2016-12-11 15:14:58	@meskarune	dmc: right now we are teaching based on arch package guildlines
+2016-12-11 15:15:00	@halosghost	dmc: since upstream provides that checksum, that's the one you use
+2016-12-11 15:15:02	NanoSector	Elieux: that looks more sane
+2016-12-11 15:15:09	Elieux	Yay.
+2016-12-11 15:15:36	-->	shellkr [shellkr] (shellkr) (~shellkr@unaffiliated/shellkr) has joined #archlinux-classroom
+2016-12-11 15:15:53	@halosghost	whichever checksums array you use (md5sums, sha1sums, etc.), you should have a member of the array for each source file
+2016-12-11 15:16:14	NanoSector	might be worth noting that they need to be in the same order
+2016-12-11 15:16:17	@halosghost	if upstream does not provide a checksum for the source files, or if you use a VCS source, then you should specify 'SKIP' in the checksums array
+2016-12-11 15:16:34	@halosghost	NanoSector: yes, the order of the checksums array members must line up with the source array
+2016-12-11 15:17:27	@meskarune	oh, did you skip pkgver()?
+2016-12-11 15:17:47	Elieux	(yes)
+2016-12-11 15:17:49	@halosghost	no, but I did not cover it in-depth
+2016-12-11 15:17:56	@meskarune	oh ok
+2016-12-11 15:18:01	@halosghost	14:09:32     @halosghost │ there are a few other things you need to do for a VCS PKGBUILD: provide a pkgver() function which will update the pkgver() variable on each build, deal with submodules or similar things if you need
+2016-12-11 15:18:06	@meskarune	I think the wiki does a good job
+2016-12-11 15:18:19	Elieux	(I must've missed it. Sorry.)
+2016-12-11 15:18:23	-->	knight_corvi [knight_corvi] (Joaquin Mendez) (~knight_co@c-50-173-240-207.hsd1.ca.comcast.net) has joined #archlinux-classroom
+2016-12-11 15:18:27	NanoSector	you should return a string inside pkgver(), correct?
+2016-12-11 15:18:45	@halosghost	yes
+2016-12-11 15:18:52	dmc	meskarune, guidelines specify a checksum to use?
+2016-12-11 15:18:52	Elieux	echo it, to be precies
+2016-12-11 15:19:01	@halosghost	dmc: “upstream's”
+2016-12-11 15:19:04	@halosghost	dmc: yes
+2016-12-11 15:19:05	NanoSector	Elieux: I see, differs per programming language
+2016-12-11 15:19:06	@meskarune	dmc: no, they say to use upstreams
+2016-12-11 15:19:19	dmc	ah
+2016-12-11 15:19:44	@halosghost	some upstreams sign their source files to provide security and integrity for downloads
+2016-12-11 15:19:47	dmc	missed the part where it was upstream's checksum :)
+2016-12-11 15:20:01	@meskarune	a checksum is useless unless its from upstream :P
+2016-12-11 15:20:14	@meskarune	if someone disagrees with what they post, you'd have to contact them
+2016-12-11 15:20:27	bugabinga[m]	I don't get the point of the checksums, whom are they protecting from what? 
+2016-12-11 15:20:28	NanoSector	is using updpkgsums locally therefore discouraged?
+2016-12-11 15:20:30	dmc	it also shows you approve of those sources
+2016-12-11 15:20:39	@halosghost	in these cases, the signatures need to be added to the source array and the signing key needs to be added to the validpgpkeys
+2016-12-11 15:20:51	@meskarune	bugabinga[m]: they don't offer any protection, they just check if the file you downloaded has downloaded without errors
+2016-12-11 15:20:55	dmc	NanoSector, if I'm updating something for myself, usually I --skipchecksums
+2016-12-11 15:21:07	NanoSector	bugabinga[m]: upstream pretty much says "this is how the package is supposed to look", if  you generate a checksum locally you can validate it against that checksum
+2016-12-11 15:21:10	dmc	well, always
+2016-12-11 15:21:12	@halosghost	NanoSector: if you are a packager, you should never use this
+2016-12-11 15:21:25	NanoSector	halosghost: even if upstream itself doesn'tp rovide checksums?
+2016-12-11 15:21:27	@halosghost	you should always use the upstream checksums
+2016-12-11 15:21:39	@halosghost	if upstream provides no checksums, you should use 'SKIP' in the sums array
+2016-12-11 15:21:43	@meskarune	if you are a dev making a package for your own stuff, it could be useful
+2016-12-11 15:21:48	@halosghost	^
+2016-12-11 15:22:22	dmc	yeah, SKIP works too :)
+2016-12-11 15:22:23	NanoSector	is there an alternate way of validating if upstream provides no methods?
+2016-12-11 15:22:37	@halosghost	nope; bug them to provide checksums
+2016-12-11 15:22:39	@halosghost	:)
+2016-12-11 15:22:42	NanoSector	aight
+2016-12-11 15:22:47	dmc	perhaps if they have reproducible builds
+2016-12-11 15:22:53	dmc	wait, these are sources
+2016-12-11 15:22:55	bugabinga[m]	Btw, "official" arch packages are also built this way, correct? Or only those for AUR?
+2016-12-11 15:23:04	NanoSector	bugabinga[m]: check out the arch build system
+2016-12-11 15:23:09	@halosghost	bugabinga[m]: yes, all official packages use PKGBUILDs
+2016-12-11 15:23:25	@meskarune	official packages should be signed
+2016-12-11 15:24:15	 *	NanoSector wonders if github generates checksums for uploaded downloads
+2016-12-11 15:24:18	@halosghost	the gist I posted above (<https://gist.github.com/meskarune/4879c8338da4b85b98454ffede676558>) covers how you would import and verify a source file against a signature
+2016-12-11 15:24:19	phrik	Title: class notes for creating arch packages · GitHub (at gist.github.com)
+2016-12-11 15:24:19	bugabinga[m]	can i skip only specific sources from the source array?
+2016-12-11 15:24:28	@meskarune	https://git.archlinux.org/svntogit/packages.git/tree/trunk/PKGBUILD?h=packages/pacman
+2016-12-11 15:24:28	phrik	Title: svntogit/packages.git - Git clone of the 'packages' repository (at git.archlinux.org)
+2016-12-11 15:24:34	@meskarune	that is pacman's PKGBUILD so you can see
+2016-12-11 15:24:42	@halosghost	bugabinga[m]: yes; if you need to skip all sources, you need to specify SKIP for each source
+2016-12-11 15:25:30	@meskarune	NanoSector: if you use git it has its own checking system, but for download a .zip I have no idea what github does
+2016-12-11 15:25:32	dmc	or just have no *sums()
+2016-12-11 15:25:38	@halosghost	for time's sake, I will jump past the gpg verification here, and move on to the next section; but we can circle back later if anyone is interested
+2016-12-11 15:25:40	@halosghost	dmc: true
+2016-12-11 15:27:02	@meskarune	I made a fake PKGBUILD with source files for people to see https://archwomen.org/~meskarune/lua-weather/
+2016-12-11 15:27:04	phrik	Title: Index of /~meskarune/lua-weather/ (at archwomen.org)
+2016-12-11 15:27:05	AtomBlau4861A	I'm interested in the gpg aspect
+2016-12-11 15:27:17	demize	meskarune: The auto-generated tarballs and zips are generated as-needed and are GCd if not accessed in a long enough time, and are not deterministically built.
+2016-12-11 15:27:28	demize	Which is why project should upload proper release tarballs, but often don't. :/
+2016-12-11 15:27:30	@meskarune	if you look, I post my gpg id
+2016-12-11 15:27:30	sharethewisdom	halosghost: ok, but I'm confused about the latest arch-general topic 'Stronger Hashes for PKGBUILDs' maybe some clarification could be given later...
+2016-12-11 15:27:40	@halosghost	sharethewisdom: I will happily go over that
+2016-12-11 15:27:56	@meskarune	demize: oh thanks
+2016-12-11 15:28:35	@halosghost	sharethewisdom: the authors of that thread are mistaking checksums as being a security method; so they suggest generating your own with a stronger hash algorithm than sha1
+2016-12-11 15:28:41	-->	alad [alad] (Alad Wenter) (~alad@unaffiliated/alad) has joined #archlinux-classroom
+2016-12-11 15:28:47	@meskarune	sharethewisdom: the tldr is hashes are ONLY used to check if a file downloaded sucessfully, it has nothing to do with security and developers should isntead always sign their stuff
+2016-12-11 15:28:56	@halosghost	^
+2016-12-11 15:28:57	alad	sorry I'm late
+2016-12-11 15:29:02	@meskarune	\o
+2016-12-11 15:29:03	@halosghost	alad: I'll never forgive you
+2016-12-11 15:29:10	--	Mode #archlinux-classroom [+vq alad alad!*@*] by halosghost
+2016-12-11 15:29:14	--	Mode #archlinux-classroom [+o alad] by ChanServ
+2016-12-11 15:29:20	@meskarune	;)
+2016-12-11 15:29:23	--	Mode #archlinux-classroom [-vq alad alad!*@*] by halosghost
+2016-12-11 15:29:24	demize	halosghost: (*grumblegrumlbe*nico is...*/grumblegrumble*....)
+2016-12-11 15:29:25	@alad	heh
+2016-12-11 15:29:34	@halosghost	demize: not the time/place
+2016-12-11 15:29:35	jcjordyn120	halosghost, XDXDXDXDXD
+2016-12-11 15:30:22	@halosghost	when it comes time for you to actually share your PKGBUILD, you may want to use something like the AUR (or perhaps you are an archlinux developer and are here because you haven't packaged anything?)
+2016-12-11 15:30:53	bugabinga[m]	meskarune: ah, I was confusing this security/integrity stuff as well, thanks for clearing that up.
+2016-12-11 15:30:57	@halosghost	the repos and the AUR both leverage a file called .SRCINFO to declare various information about the package (rather than having to parse the PKGBUILD which is fraught with peril)
+2016-12-11 15:31:33	@meskarune	bugabinga[m]: I think it can be easy to confuse because people could use those algorithms to encrypt things, but this is not how they are being used in PKGBUILDs
+2016-12-11 15:31:34	@halosghost	you could, if you are a glutton for punishment, manually write this file; but there's no reason to since Arch gives you all the tools to be lazy
+2016-12-11 15:31:39	jcjordyn120	halosghost, and is insecure if it has something like 'VERSION=$(rm -rfv dir here)'
+2016-12-11 15:31:47	demize	(repos don't actually use .SRCINFO at all, though built packages have .PKGINFO)
+2016-12-11 15:31:56	@halosghost	makepkg can automatically generate the .SRCINFO for you: makepkg --printsrcinfo > .SRCINFO
+2016-12-11 15:32:21	NanoSector	can't you do mksrcinfo?
+2016-12-11 15:32:22	@halosghost	demize: oy; this is my and meskarune's class; we get to lie^Wsay whatever we want
+2016-12-11 15:32:30	demize	heh~
+2016-12-11 15:32:34	@halosghost	NanoSector: sure
+2016-12-11 15:32:43	NanoSector	is it different from what you mentioned?
+2016-12-11 15:32:55	@halosghost	demize: ^ ?
+2016-12-11 15:33:08	@meskarune	NanoSector: well makepkg is already installed
+2016-12-11 15:33:16	@meskarune	mksrcinfo has to be installed
+2016-12-11 15:33:22	@meskarune	but people can use whatever works
+2016-12-11 15:33:35	@halosghost	ahh, yes; it's owned by pkgbuild-introspection
+2016-12-11 15:33:37	@halosghost	I forgot
+2016-12-11 15:33:46	demize	It does the same thing, and was only really provided as an interim thing before makepkg could do it.
+2016-12-11 15:33:46	NanoSector	pkgbuild-introspection contains mksrcinfo, which contains a lot of tools useful for package building
+2016-12-11 15:34:08	NanoSector	ah so makepkg's solution is newer
+2016-12-11 15:34:12	@halosghost	yes
+2016-12-11 15:34:28	demize	And these days mksrcinfo actually calls makepkg.
+2016-12-11 15:34:37	@halosghost	moving right along; I mentioned before that you might need .install files and .patch files
+2016-12-11 15:34:44	@meskarune	anyways AtomBlau4861A you wanted to go through the process of verifying a signed package? Did anyone else?
+2016-12-11 15:34:47	@meskarune	oh
+2016-12-11 15:34:58	@halosghost	meskarune: yes; but we should cover that later
+2016-12-11 15:35:01	demize	(<https://github.com/falconindy/pkgbuild-introspection/blob/master/mksrcinfo.in>)
+2016-12-11 15:35:03	phrik	Title: pkgbuild-introspection/mksrcinfo.in at master · falconindy/pkgbuild-introspection · GitHub (at github.com)
+2016-12-11 15:35:14	AtomBlau4861A	at the end, maybe talk about AUR vs Official, Web of Trust + Signing
+2016-12-11 15:35:16	@halosghost	meskarune: the class is meant to be ~2 hours long, and we only have 25 minutes left
+2016-12-11 15:35:25	@meskarune	halosghost: ok well I have my key on a key server and a fake signed source so people can do it to test
+2016-12-11 15:35:32	@meskarune	halosghost: D:
+2016-12-11 15:35:33	@alad	NanoSector: only difference besides that it needs an extra package, is that mksrcinfo is faster
+2016-12-11 15:35:42	NanoSector	alad: aight, thanks
+2016-12-11 15:35:54	@halosghost	meskarune: hence my jumping over it for now
+2016-12-11 15:36:05	@meskarune	it looks like we just have install patch and error checking left
+2016-12-11 15:36:15	@halosghost	and submission
+2016-12-11 15:36:20	@halosghost	and the resource dump
+2016-12-11 15:36:29	@meskarune	https://git.archlinux.org/pacman.git/plain/proto/proto.install
+2016-12-11 15:36:33	@halosghost	and then yeah; questions and examples
+2016-12-11 15:36:40	NanoSector	wdaefgrdbvmnm,,m.,.,./
+2016-12-11 15:36:45	@meskarune	halosghost: well resource is just stuff to read after the class, which I didn't finish writing
+2016-12-11 15:36:52	NanoSector	woops, cat time
+2016-12-11 15:37:01	@halosghost	meskarune: and all the other links in the gist
+2016-12-11 15:37:01	jcjordyn120	NanoSector, kitty time :)
+2016-12-11 15:37:09	@meskarune	yeah :)
+2016-12-11 15:37:21	jcjordyn120	:)
+2016-12-11 15:37:32	@meskarune	I just posted a prototype install file, you should also be able to see that in /usr/share/pacman I think
+2016-12-11 15:37:33	@halosghost	a .install file is a special routine to be run by pacman when the package is installed
+2016-12-11 15:37:49	@halosghost	e.g., it could create a user if needed for the software
+2016-12-11 15:38:44	@meskarune	it can also make changes if you are upgrading from an old version to a new version and need to migrate
+2016-12-11 15:38:57	@halosghost	much like the PKGBUILD itself, it is just a bash script with a few special pieces (as shown in the prototype that meskarune posted)
+2016-12-11 15:39:13	leofa	pacman hooks come here?
+2016-12-11 15:39:24	@alad	typically the migration part consists of echo'ing a message to screen telling the user what to do
+2016-12-11 15:39:25	leofa	if any..
+2016-12-11 15:39:52	<--	tomracing (~smuxi@5350E961.cm-6-1d.dynamic.ziggo.nl) has quit (Read error: Connection reset by peer)
+2016-12-11 15:39:52	Elieux	Hooks are a different way to run stuff upon package installation/removal.
+2016-12-11 15:39:52	<--	Rich1 (~Rich@2a02:8010:f00f:0:c880:1804:1612:150a) has quit (Ping timeout: 250 seconds)
+2016-12-11 15:40:05	bugabinga[m]	why not use the functions in PKGBUILD for those purposes?
+2016-12-11 15:40:06	@halosghost	hooks are far more involved/powerful and are not covered in this class
+2016-12-11 15:40:07	NanoSector	leofa: I think hooks are meant for things that have to happen after every install/upgrade/removal of the package
+2016-12-11 15:40:08	@alad	but other tasks exists for an .install file, e.g. run "systemd-reexec" on a systemd upgrade
+2016-12-11 15:40:17	ackermann_12345	my battery is dying - but will the log of this be made available as usual? 
+2016-12-11 15:40:19	NanoSector	bugabinga[m]: those are run at compile time
+2016-12-11 15:40:28	NanoSector	bugabinga[m]: .install files are run at install time
+2016-12-11 15:40:37	@halosghost	bugabinga[m]: the functions in the PKGBUILD are run to make the package file; the .install file's routines are run when the package is installed
+2016-12-11 15:40:40	geexmmo	hooks are more like personal configs for pkg?
+2016-12-11 15:40:41	@halosghost	yes, as NanoSector said
+2016-12-11 15:40:42	-->	elonus [elonus] (Andreas) (elonus@unaffiliated/elonus) has joined #archlinux-classroom
+2016-12-11 15:40:43	@halosghost	ackermann_12345: yes
+2016-12-11 15:40:49	ackermann_12345	yay, thank you! 
+2016-12-11 15:41:10	@alad	geexmmo: no; hooks present common tasks that need to be run before or after a package is installed
+2016-12-11 15:41:28	@alad	it's sort of like .install files generalized
+2016-12-11 15:41:31	NanoSector	bugabinga[m]: if you were to run those things in the pkgbuild itself they would only affect the system on which the software is compiled but not the system of the end user
+2016-12-11 15:41:51	<--	ackermann_12345 (897a400c@gateway/web/freenode/ip.137.122.64.12) has quit (Quit: Page closed)
+2016-12-11 15:42:05	elonus	Is the class done?
+2016-12-11 15:42:11	@halosghost	any other questions on .install before we move on to patch files
+2016-12-11 15:42:13	@alad	elonus: no, 20 more minutes
+2016-12-11 15:42:16	@halosghost	elonus: no; but we're coming up on the end
+2016-12-11 15:42:17	@meskarune	https://wiki.archlinux.org/index.php/DeveloperWiki:Pacman_Hooks
+2016-12-11 15:42:17	jcjordyn120	alad, aha
+2016-12-11 15:42:19	phrik	Title: DeveloperWiki:Pacman Hooks - ArchWiki (at wiki.archlinux.org)
+2016-12-11 15:42:19	@meskarune	https://wiki.archlinux.org/index.php/User:Allan/Pacman_Hooks
+2016-12-11 15:42:20	phrik	Title: User:Allan/Pacman Hooks - ArchWiki (at wiki.archlinux.org)
+2016-12-11 15:42:23	elonus	K
+2016-12-11 15:42:24	@meskarune	if people want to read a little bit
+2016-12-11 15:42:39	bugabinga[m]	NanoSector: i get it now, was confused, because that is typically the same for AUR builds
+2016-12-11 15:42:41	-->	rlees85 (realname) (~Rich@2a02:8010:f00f:0:c880:1804:1612:150a) has joined #archlinux-classroom
+2016-12-11 15:42:47	NanoSector	bugabinga[m]: :)
+2016-12-11 15:42:58	@alad	also https://github.com/andrewgregory/pachooks
+2016-12-11 15:42:59	phrik	Title: GitHub - andrewgregory/pachooks: Example hooks for pacman/libalpm (at github.com)
+2016-12-11 15:43:10	<--	mugabala (~mugabala@103.4.147.18) has quit (Quit: Bye)
+2016-12-11 15:43:13	@meskarune	most packages don't need a .install file and the file is optional
+2016-12-11 15:43:37	@meskarune	but its good to know in case you ever need to do some extra things on install such as creating a user
+2016-12-11 15:43:52	@halosghost	all right, .patch files
+2016-12-11 15:44:04	@meskarune	you guys should take some time to read through PKGBUILDs on Aur and see how people do things :)
+2016-12-11 15:44:08	leofa	ok, or run mkinitcpio after a kernel build right
+2016-12-11 15:44:12	@meskarune	.patch \o/
+2016-12-11 15:44:41	@alad	leofa: this is now done via a hook
+2016-12-11 15:45:03	@halosghost	leofa: but yes, in principle; that kind of thing could be done by a .install
+2016-12-11 15:45:13	@halosghost	for the most part, you should not need to worry about patch files
+2016-12-11 15:45:20	bugabinga[m]	meskarune: i don't struggle with the 'how', rather the 'why' ;)
+2016-12-11 15:45:26	@alad	leofa: https://git.archlinux.org/svntogit/packages.git/tree/trunk/99-linux.hook?h=packages/linux
+2016-12-11 15:45:27	phrik	Title: svntogit/packages.git - Git clone of the 'packages' repository (at git.archlinux.org)
+2016-12-11 15:45:28	leofa	ha ok 
+2016-12-11 15:45:42	Elieux	I would recommend reading AUR packages with a grain of salt. Official Arch packages will generally be saner and follow the conventions better.
+2016-12-11 15:45:49	@meskarune	bugabinga[m]: https://git.archlinux.org/svntogit/packages.git/tree/trunk/linux.install?h=packages/linux
+2016-12-11 15:45:52	@alad	Elieux: emphasis on "generally"…
+2016-12-11 15:45:54	phrik	Title: svntogit/packages.git - Git clone of the 'packages' repository (at git.archlinux.org)
+2016-12-11 15:45:55	@halosghost	because, as mentioned before, arch packages should be as close to vanilla as possible (and the primary use case for patch files is to add third-party changes to the program)
+2016-12-11 15:45:56	@meskarune	thats the linux kernel arch package's install file
+2016-12-11 15:46:09	@meskarune	you can sorta see all the messages they print out during install and what it does
+2016-12-11 15:46:41	@alad	third-party changes, or backports from upstream (fixes from the software author that weren't released yet, but are important enough to have in the package)
+2016-12-11 15:46:46	@halosghost	however, in the case you need to provide a bug-fix or something for your package that upstream has not added in a release yet; you can use .patch files to apply these fixes
+2016-12-11 15:46:53	@halosghost	alad: right
+2016-12-11 15:47:06	@halosghost	.patch files should be included in the source array just like regular source files
+2016-12-11 15:47:11	@meskarune	you can also use patch files to change things that are hardcoded in a script
+2016-12-11 15:47:20	@meskarune	like file paths so they match arch's system conventions
+2016-12-11 15:47:37	@alad	systemd has some nice examples
+2016-12-11 15:47:39	@alad	https://git.archlinux.org/svntogit/packages.git/tree/trunk/PKGBUILD?h=packages/systemd#n80
+2016-12-11 15:47:40	phrik	Title: svntogit/packages.git - Git clone of the 'packages' repository (at git.archlinux.org)
+2016-12-11 15:47:41	@meskarune	like we use /srv for web files
+2016-12-11 15:48:03	@alad	(also see line 43 above that)
+2016-12-11 15:48:09	@alad	https://git.archlinux.org/svntogit/packages.git/tree/trunk/PKGBUILD?h=packages/systemd#n43
+2016-12-11 15:48:12	phrik	Title: svntogit/packages.git - Git clone of the 'packages' repository (at git.archlinux.org)
+2016-12-11 15:48:22	@halosghost	when you apply the patch, you will use the `patch` utility in the prepare() function
+2016-12-11 15:48:24	NanoSector	if you want to change 1 thing in a file, is a patch file recommended or is a simple sed enough?
+2016-12-11 15:48:33	@halosghost	using the `patch` utility often looks like this:
+2016-12-11 15:48:36	@halosghost	patch -uN file.ext ../file.patch || return 1
+2016-12-11 15:48:43	@halosghost	NanoSector: sure
+2016-12-11 15:49:25	Elieux	Why the return? Won't makepkg exit on error by default?
+2016-12-11 15:49:29	@halosghost	some .patch files might have been made specifically for git sources (with `git diff`); in this case, you can/should use `git apply` rather than `patch`
+2016-12-11 15:49:52	@halosghost	Elieux: actually, I think that example might have been an old hold-over
+2016-12-11 15:50:21	@meskarune	you can manually make a patch by making a copy of the source file, and changing it then run `diff -Naur file.ext file.ext.new > file.patch`
+2016-12-11 15:50:30	@alad	honorary mention to quilt
+2016-12-11 15:50:57	Elieux	I often see lines like `patch -p1 -i fix-that-stuff.patch`.
+2016-12-11 15:51:14	@alad	http://www.shakthimaan.com/downloads/glv/quilt-tutorial/quilt-doc.pdf
+2016-12-11 15:51:46	@meskarune	Elieux: yeah, when you make your own patch you can name it however you like, but probably give it a useful name, and then you use the name in the PKGBUILD
+2016-12-11 15:52:11	Elieux	The name wasn't supposed to be important, rather how patch is invoked.
+2016-12-11 15:52:15	@meskarune	I like to have the package name in the patch name so I can use the pkgname variable lol
+2016-12-11 15:52:23	@meskarune	and be lazy
+2016-12-11 15:52:47	jcjordyn120	what's systemd. xD
+2016-12-11 15:52:52	@halosghost	ಠ_ಠ
+2016-12-11 15:53:14	NanoSector	 not here please
+2016-12-11 15:53:17	@halosghost	Elieux: however you need to apply the patch is how you should :)
+2016-12-11 15:53:19	@meskarune	jcjordyn120: systemd is arch linux's process manager
+2016-12-11 15:53:25	jcjordyn120	meskarune, ah okay
+2016-12-11 15:53:31	Elieux	(kay :)
+2016-12-11 15:53:34	@meskarune	jcjordyn120: its what you use when you do "systemctl start blah"
+2016-12-11 15:53:36	@halosghost	all right; on to the last two bits
+2016-12-11 15:53:38	jcjordyn120	I don't use it though... :P
+2016-12-11 15:53:45	@alad	Elieux: man patch | less -p pnum
+2016-12-11 15:53:47	@halosghost	jcjordyn120: great
+2016-12-11 15:53:52	jcjordyn120	halosghost, yep :P
+2016-12-11 15:54:23	@halosghost	there are a few tools/strategies you can use to check your PKGBUILD and package for errors
+2016-12-11 15:54:30	@meskarune	there are lots of different process managers such as openrc or sysvinit but arch's default is systemd
+2016-12-11 15:54:37	@halosghost	first, there's a great tool in the Arch repos called namcap
+2016-12-11 15:54:45	NanoSector	namcap <3
+2016-12-11 15:54:51	jcjordyn120	:P
+2016-12-11 15:55:06	@halosghost	namcap can take a PKGBUILD or a package file as an argument and will mention problems it finds with them
+2016-12-11 15:55:21	@halosghost	I would strongly recommend all packagers to use namcap
+2016-12-11 15:55:45	@meskarune	namcap PKGBUILD
+2016-12-11 15:55:47	@meskarune	namcap package.pkg.tar.xz
+2016-12-11 15:55:52	@alad	cool kids use "makechrootpkg -n" to both build their package in a chroot and run namcap after that
+2016-12-11 15:55:56	@meskarune	its used like that and gives useful output on what it finds
+2016-12-11 15:56:06	@alad	former helps in finding unexpected dependencies
+2016-12-11 15:56:12	jcjordyn120	I just use "makepkg" to check mine xD
+2016-12-11 15:56:18	@meskarune	https://wiki.archlinux.org/index.php/DeveloperWiki:Building_in_a_Clean_Chroot
+2016-12-11 15:56:19	phrik	Title: DeveloperWiki:Building in a Clean Chroot - ArchWiki (at wiki.archlinux.org)
+2016-12-11 15:56:33	@halosghost	in addition, if you want to make sure that you are not accidentally relying on some dependency that you haven't specified in the PKGBUILD; you can build your package in a clean chroot using `makechrootpkg` from extra/devtools
+2016-12-11 15:56:38	@meskarune	to read about build chroots, they are great for checking that you have included all needed dependancies
+2016-12-11 15:56:38	@halosghost	alad: I was getting there
+2016-12-11 15:56:46	@halosghost	:)
+2016-12-11 15:56:49	jcjordyn120	:):)
+2016-12-11 15:57:34	@meskarune	I would suggest learning how to create a package first before playing with chroots
+2016-12-11 15:57:43	 *	rlees85 has gotta go but will stay connected internet permitting to go over the logs later.... Like the idea of these IRC classes though good work all :)
+2016-12-11 15:57:52	@meskarune	while they are super useful, espeically if you package alot, its not strictly nessesary
+2016-12-11 15:57:53	bugabinga[m]	so basically, use makepkgchroot by default?
+2016-12-11 15:58:00	@alad	halosghost: oh, sorry
+2016-12-11 15:58:01	@halosghost	bugabinga[m]: well, once you're familiar with it, perhaps
+2016-12-11 15:58:05	@halosghost	alad: 's'okay
+2016-12-11 15:58:37	@meskarune	bugabinga[m]: its a good idea to check that your package builds on a base install before uploading to AUR, but if you are just making your own personal PKGBUILDs it probably doesn't matter as much lol
+2016-12-11 15:58:51	@halosghost	finally, when you have your PKGBUILD and .SRCINFO (and .install or other files) setup and you are ready to put them on the AUR, create an AUR account, place your SSH key on your AUR account page, and do the following to create a new, empty package that you can add your files to:
+2016-12-11 15:58:54	@meskarune	or you can just upload anyways and fix errors that people report in comments >.>
+2016-12-11 15:59:04	@meskarune	but people might be annoyed
+2016-12-11 15:59:12	@halosghost	git clone ssh://aur@aur.archlinux.org/the_name_of_your_package.git
+2016-12-11 15:59:17	NanoSector	note that you can add multiple SSH keys to your AUR account by seperating them with a return in the text box
+2016-12-11 15:59:35	NanoSector	took me a while to figure that one out
+2016-12-11 15:59:41	@meskarune	:)
+2016-12-11 15:59:50	@halosghost	then, add your files to the newly cloned repository, commit them, and push
+2016-12-11 15:59:52	@halosghost	tada!
+2016-12-11 16:00:01	-->	Caretaker13 [Caretaker13] (realname) (~default@70-127-135-246.res.bhn.net) has joined #archlinux-classroom
+2016-12-11 16:00:02	sharethewisdom	NanoSector: thnx
+2016-12-11 16:00:37	-->	kishore96 [kishore96] (Kishore G) (~kishore@103.225.103.68) has joined #archlinux-classroom
+2016-12-11 16:00:49	bugabinga[m]	the_name_of_your_package == awesomesauce?
+2016-12-11 16:00:56	NanoSector	yes
+2016-12-11 16:00:56	@halosghost	bugabinga[m]: for our example, yes :)
+2016-12-11 16:00:58	@meskarune	yeah, in the case of that example :)
+2016-12-11 16:01:12	@halosghost	now, I'm going to have to make a package named awesomesauce
+2016-12-11 16:01:12	@meskarune	and if awesomesauce is a git package it would be awesomesauce-git.git
+2016-12-11 16:01:23	@halosghost	the hardest part will be getting that checksum I listed above to actually verify…
+2016-12-11 16:01:33	@meskarune	lol :P
+2016-12-11 16:01:54	@meskarune	is that the end of the official class?
+2016-12-11 16:02:01	@halosghost	now then, I'm going to dump a ton of further reading links
+2016-12-11 16:02:02	@meskarune	do you guys have some questions
+2016-12-11 16:02:11	@meskarune	halosghost: I think the riseup has more
+2016-12-11 16:02:14	@halosghost	then, we will answer questions and officially end the class
+2016-12-11 16:02:22	@halosghost	https://wiki.archlinux.org/index.php/Arch_packaging_standards
+2016-12-11 16:02:23	phrik	Title: Arch packaging standards - ArchWiki (at wiki.archlinux.org)
+2016-12-11 16:02:26	@halosghost	https://git.archlinux.org/pacman.git/plain/proto/PKGBUILD.proto
+2016-12-11 16:02:27	 *	NanoSector claps virtually
+2016-12-11 16:02:31	@halosghost	http://mywiki.wooledge.org/Quotes
+2016-12-11 16:02:33	phrik	Title: Quotes - Greg's Wiki (at mywiki.wooledge.org)
+2016-12-11 16:02:36	@halosghost	https://git.archlinux.org/pacman.git/tree/proto/PKGBUILD-vcs.proto#n33
+2016-12-11 16:02:37	phrik	Title: pacman.git - The official pacman repository (at git.archlinux.org)
+2016-12-11 16:02:39	@halosghost	http://sprunge.us/HKdJ?md
+2016-12-11 16:02:43	@halosghost	https://git-scm.com/book/en/v2/Git-Tools-Submodules
+2016-12-11 16:02:44	phrik	Title: Git - Submodules (at git-scm.com)
+2016-12-11 16:02:46	@halosghost	https://wiki.archlinux.org/index.php/VCS_package_guidelines
+2016-12-11 16:02:48	phrik	Title: VCS package guidelines - ArchWiki (at wiki.archlinux.org)
+2016-12-11 16:03:05	@halosghost	https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=cower and https://pkgbuild.com/~dreisner/sources/cower/ (for an example of signed sources)
+2016-12-11 16:03:06	phrik	Title: aur.git - AUR Package Repositories (at aur.archlinux.org)
+2016-12-11 16:03:10	@halosghost	https://lkml.org/lkml/2016/8/15/445
+2016-12-11 16:03:11	phrik	Title: LKML: <1471274895@i2pmail ...: Fake Linus Torvalds' Key Found in the Wild, No More Short-IDs. (at lkml.org)
+2016-12-11 16:03:15	AtomBlau4861A	nice lecture, thanks for the info. Easy enough process. 
+2016-12-11 16:03:15	@halosghost	https://en.wikipedia.org/wiki/Trust_on_first_use
+2016-12-11 16:03:16	phrik	Title: Trust on first use - Wikipedia (at en.wikipedia.org)
+2016-12-11 16:03:22	bugabinga[m]	thank you for taking the time to teach. i really appreciate this
+2016-12-11 16:03:25	@halosghost	https://git.archlinux.org/pacman.git/plain/proto/proto.install
+2016-12-11 16:03:36	@halosghost	https://www.kernel.org/pub/software/scm/git/docs/git-diff.html and https://www.kernel.org/pub/software/scm/git/docs/git-apply.html
+2016-12-11 16:03:38	phrik	Title: git-diff(1) (at www.kernel.org)
+2016-12-11 16:03:41	@halosghost	https://wiki.archlinux.org/index.php/DeveloperWiki:Building_in_a_Clean_Chroot
+2016-12-11 16:03:41	phrik	Title: DeveloperWiki:Building in a Clean Chroot - ArchWiki (at wiki.archlinux.org)
+2016-12-11 16:03:45	@halosghost	https://wiki.archlinux.org/index.php/Arch_User_Repository#Submitting_packages
+2016-12-11 16:03:46	phrik	Title: Arch User Repository - ArchWiki (at wiki.archlinux.org)
+2016-12-11 16:04:00	@halosghost	cf also: PKGBUILD(5) and makepkg(1)
+2016-12-11 16:04:05	@halosghost	https://www.gnu.org/software/automake/manual/automake.html#Install
+2016-12-11 16:04:07	phrik	Title: automake (at www.gnu.org)
+2016-12-11 16:04:09	@halosghost	https://wiki.archlinux.org/index.php/Makepkg
+2016-12-11 16:04:10	phrik	Title: makepkg - ArchWiki (at wiki.archlinux.org)
+2016-12-11 16:04:14	@halosghost	cool
+2016-12-11 16:04:16	@halosghost	that's my link-dump :)
+2016-12-11 16:04:16	jcjordyn120	woah look at that spam :)
+2016-12-11 16:04:19	sharethewisdom	halosghost: could you cite the resource or discussion on signed commit support?
+2016-12-11 16:04:20	geexmmo	phrik is confused about sprunge.us
+2016-12-11 16:04:21	phrik	Undoubtfully so!
+2016-12-11 16:04:29	jcjordyn120	phrik is confused about me
+2016-12-11 16:04:31	phrik	Without-a-doubt true...
+2016-12-11 16:04:32	jcjordyn120	ha
+2016-12-11 16:04:40	@halosghost	geexmmo: that is an article covering git submodules
+2016-12-11 16:04:55	geexmmo	phrik: hear that?
+2016-12-11 16:04:56	phrik	geexmmo: Tada!
+2016-12-11 16:05:07	@halosghost	sharethewisdom: iirc, verifying signed commits is not yet supported but is being discussed on the Mailing Lists
+2016-12-11 16:05:14	jcjordyn120	phrik can you hear me?
+2016-12-11 16:05:14	phrik	No.
+2016-12-11 16:05:19	jcjordyn120	phrik, haha
+2016-12-11 16:05:19	phrik	oh hell no
+2016-12-11 16:05:29	@halosghost	jcjordyn120: ಠ_ಠ
+2016-12-11 16:05:36	jcjordyn120	halosghost, what is that
+2016-12-11 16:05:42	@halosghost	does anyone have any questions that we can answer before we officially end the class?
+2016-12-11 16:05:47	jcjordyn120	this bot is funny
+2016-12-11 16:05:49	NanoSector	jcjordyn120: you being frowned upon
+2016-12-11 16:05:50	@halosghost	jcjordyn120: the “stop doing that face”
+2016-12-11 16:05:51	@alad	sharethewisdom: i.e. https://lists.archlinux.org/pipermail/pacman-dev/2016-December/021719.html
+2016-12-11 16:05:52	bugabinga[m]	halosghost: have you setup your editor for packaging?
+2016-12-11 16:05:52	phrik	Title: [pacman-dev] makepkg: verify git sources (at lists.archlinux.org)
+2016-12-11 16:05:59	@halosghost	bugabinga[m]: editor?
+2016-12-11 16:06:03	geexmmo	nano
+2016-12-11 16:06:06	jcjordyn120	halosghost, on my end its a few boxes
+2016-12-11 16:06:15	sharethewisdom	alad: thanks!
+2016-12-11 16:06:22	NanoSector	jcjordyn120: time for a better client :P
+2016-12-11 16:06:27	@alad	bugabinga[m]: there's little you need to create pkgbuilds; you're essentially editing a shell script
+2016-12-11 16:06:27	jcjordyn120	its hexchat :P
+2016-12-11 16:06:29	@halosghost	s/client/font/
+2016-12-11 16:06:36	@alad	bugabinga[m]: so anything that has syntax highlighting (e.g.) for shell scripts is handy
+2016-12-11 16:06:43	bugabinga[m]	vim/emacs/nano ...:)
+2016-12-11 16:06:44	@halosghost	bugabinga[m]: you can use any editor of your choice so long as it can make text files
+2016-12-11 16:06:48	@meskarune	jcjordyn120: you need to isntall a font like symbola
+2016-12-11 16:06:53	jcjordyn120	meskarune, ah
+2016-12-11 16:07:14	@meskarune	jcjordyn120: you don't have the glyph install atm
+2016-12-11 16:07:20	bugabinga[m]	alad: ye, i noticed, accidentally by following along,vim with shellcheck is somewhat useful.
+2016-12-11 16:07:21	jcjordyn120	ah
+2016-12-11 16:07:22	NanoSector	if you're installing icons, how should these be placed?
+2016-12-11 16:07:40	@meskarune	NanoSector: you can use install
+2016-12-11 16:07:45	@alad	right, shellcheck is another nice way to check your pkgbuild for common errors :)
+2016-12-11 16:07:46	jcjordyn120	or cp :P
+2016-12-11 16:07:47	NanoSector	sorry, I meant where
+2016-12-11 16:07:49	@meskarune	install should always be used rather than mv or cp
+2016-12-11 16:07:52	@halosghost	jcjordyn120: no
+2016-12-11 16:07:55	jcjordyn120	why
+2016-12-11 16:08:01	@halosghost	jcjordyn120: permissions issues
+2016-12-11 16:08:04	@halosghost	jcjordyn120: use install
+2016-12-11 16:08:12	jcjordyn120	ok cp and chmod and chown :P
+2016-12-11 16:08:16	NanoSector	...
+2016-12-11 16:08:17	<--	halosghost has kicked jcjordyn120 (no)
+2016-12-11 16:08:19	@meskarune	install -m 644 -- license.txt $pkgdir/usr/share/licenses/example-software/license.txt
+2016-12-11 16:08:28	-->	jcjordyn120 [jcjordyn120] (Its GNU/Linux Idiot!) (~jcjordyn1@unaffiliated/jcjordyn120) has joined #archlinux-classroom
+2016-12-11 16:08:29	@meskarune	install will set file permissions
+2016-12-11 16:08:30	jcjordyn120	back
+2016-12-11 16:08:37	@alad	meskarune: don't forget them quotes fam
+2016-12-11 16:08:37	sharethewisdom	halosghost (ed al.): thanks for the class
+2016-12-11 16:08:44	@halosghost	sharethewisdom: you're more than welcome
+2016-12-11 16:08:46	jcjordyn120	well I use them on my PKGBUILDS
+2016-12-11 16:08:46	@meskarune	alad: oh right lol
+2016-12-11 16:09:01	@meskarune	install -m 644 -- license.txt "$pkgdir/usr/share/licenses/example-software/license.txt"
+2016-12-11 16:09:02	bugabinga[m]	well, creating "just bash" is an oxymoron to me. it is complicated to me because i do it rather seldomly
+2016-12-11 16:09:03	NanoSector	but where do icons go? just /usr/share/icons?
+2016-12-11 16:09:05	@alad	\o/
+2016-12-11 16:09:12	jcjordyn120	NanoSector, yep
+2016-12-11 16:09:13	@halosghost	NanoSector: it depends on what they're being used for
+2016-12-11 16:09:18	@halosghost	NanoSector: but yeah; that makes sense
+2016-12-11 16:09:19	NanoSector	like, an application icon
+2016-12-11 16:09:19	jcjordyn120	most of the time.
+2016-12-11 16:09:33	leofa	was good class, thnx to u
+2016-12-11 16:09:33	<--	fgruwqp (bc1c2257@gateway/web/freenode/ip.188.28.34.87) has left #archlinux-classroom
+2016-12-11 16:09:37	@meskarune	NanoSector: so like tint2 has icons in /usr/share/tint2
+2016-12-11 16:09:38	@alad	bugabinga[m]: wooledge's guide is pretty good for anything but the most advanced tasks
+2016-12-11 16:09:38	@alad	bugabinga[m]: http://mywiki.wooledge.org/BashGuide
+2016-12-11 16:09:38	imla	thank you all
+2016-12-11 16:09:39	phrik	Title: BashGuide - Greg's Wiki (at mywiki.wooledge.org)
+2016-12-11 16:09:45	@meskarune	NanoSector: an icon theme is isntalled in /usr/share/icons
+2016-12-11 16:09:55	NanoSector	meskarune: oh so resources for an app should go in /usr/share/[application]/ ?
+2016-12-11 16:10:05	bugabinga[m]	alad: thanks, bookmarked :)
+2016-12-11 16:10:18	@meskarune	NanoSector: it depends on how the app is written, it should be documented somewhere by the dev
+2016-12-11 16:10:24	<--	imla (~imla@41.111.54.163) has quit (Quit: WeeChat 1.6)
+2016-12-11 16:10:30	@meskarune	some apps use icons from installed themes
+2016-12-11 16:10:31	bugabinga[m]	halosghost: can packages be created that install without root?
+2016-12-11 16:10:36	@meskarune	some apps hardcode their icons
+2016-12-11 16:10:44	@halosghost	bugabinga[m]: no
+2016-12-11 16:11:00	@halosghost	well, not with pacman anyway :)
+2016-12-11 16:11:02	@meskarune	normally readme.txt or install.txt has the information you need
+2016-12-11 16:11:05	AtomBlau4861A	AUR requires no signing, but official requires PGP verified by master keys?
+2016-12-11 16:11:17	@halosghost	yes
+2016-12-11 16:11:27	NanoSector	meskarune: I package https://github.com/Soundnode/soundnode-app and it doesn't give much more information on where to put stuff, I place the actual app itself in /opt/soundnode (as per https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=soundnode )
+2016-12-11 16:11:28	@alad	bugabinga[m]: pacman can only be used for packages in system locations, and those typically are only writeable by root
+2016-12-11 16:11:29	phrik	Title: GitHub - Soundnode/soundnode-app: Soundnode App is the Soundcloud for desktop. Built with NW.js, Angular.js and Soundcloud API. (at github.com)
+2016-12-11 16:11:30	Elieux	pacman can install into a user-defined root.
+2016-12-11 16:11:34	@alad	(technically you can use pacman for packages in your home dir, but that's broken and I shall not cover it here)
+2016-12-11 16:11:38	@meskarune	AtomBlau4861A: if upstream signs their packages, you will want to verify and add that to the PKGBUILD for AUR
+2016-12-11 16:11:51	@meskarune	if they don't then you don't need to do it
+2016-12-11 16:12:03	adriaanzon	I have a question about a package i maintain on the AUR, but it's not specifically about the PKGBUILD
+2016-12-11 16:12:11	@halosghost	shoot
+2016-12-11 16:12:12	corburn	 Thank you halosghost, meskarune, and alad. I learned a lot.
+2016-12-11 16:12:19	adriaanzon	someone commented that there's a missing dependency for libselinux, but i have no idea why
+2016-12-11 16:12:34	adriaanzon	this is the package i'm talking about https://aur.archlinux.org/packages/gnome-shell-extension-redshift-native-git/
+2016-12-11 16:12:35	phrik	Title: AUR (en) - gnome-shell-extension-redshift-native-git (at aur.archlinux.org)
+2016-12-11 16:12:40	NanoSector	meskarune: although their own desktop file does mention /usr/share/soundnode and I correct that to /opt/soundnode
+2016-12-11 16:12:51	@halosghost	adriaanzon: welp
+2016-12-11 16:12:52	@halosghost	that's weird
+2016-12-11 16:13:25	@halosghost	adriaanzon: libselinux is not a thing on Arch
+2016-12-11 16:13:31	@halosghost	adriaanzon: so, no idea where that's coming from
+2016-12-11 16:13:40	AtomBlau4861A	what are the risks of / precautions against malicious code hidden in packaging? Is there a history for this happening on Arch Linux?
+2016-12-11 16:13:50	Elieux	Thanks for the class!
+2016-12-11 16:14:11	@halosghost	AtomBlau4861A: well, .install files are run by pacman as-root; so malicious code in a .install file could wreak havoc
+2016-12-11 16:14:16	@halosghost	there is not a history of it
+2016-12-11 16:14:20	@halosghost	but it's definitely a risk
+2016-12-11 16:14:28	@alad	AtomBlau4861A: a common example is aur packages affecting your home dir, e.g. overwriting or deleting files in it
+2016-12-11 16:14:29	NanoSector	if you use an AUR helper it'll prompt you to view the files before it does anything
+2016-12-11 16:14:33	@halosghost	which is why you should always inspect all packages that you download from the AUR
+2016-12-11 16:14:33	@alad	aur pkgbuilds *
+2016-12-11 16:14:48	jcjordyn120	I am a dummy, I always use pacaur --noedit --noconfirm :P
+2016-12-11 16:14:54	NanoSector	jcjordyn120: don't do that
+2016-12-11 16:14:55	AtomBlau4861A	yes, and the reason for use of PGP
+2016-12-11 16:14:56	<--	alad has kicked jcjordyn120 (jcjordyn120)
+2016-12-11 16:15:04	-->	jcjordyn120 [jcjordyn120] (Its GNU/Linux Idiot!) (~jcjordyn1@unaffiliated/jcjordyn120) has joined #archlinux-classroom
+2016-12-11 16:15:06	jcjordyn120	back
+2016-12-11 16:15:09	--	Mode #archlinux-classroom [+b jcjordyn120!*@*] by halosghost
+2016-12-11 16:15:10	@alad	jcjordyn120: this is your last warning
+2016-12-11 16:15:11	@halosghost	jcjordyn120: no you're not
+2016-12-11 16:15:13	<--	halosghost has kicked jcjordyn120 (jcjordyn120)
+2016-12-11 16:15:19	@halosghost	alad: was it though?
+2016-12-11 16:15:24	@alad	halosghost: :)
+2016-12-11 16:15:25	@halosghost	it didn't feel like it
+2016-12-11 16:15:25	NanoSector	heh
+2016-12-11 16:15:59	AtomBlau4861A	as for the arch web of trust, is there a process for reputation building and inclusion?
+2016-12-11 16:16:02	NanoSector	I have to leave now, thanks a lot for the class, I'll be checking these out more often :)
+2016-12-11 16:16:08	@alad	NanoSector: o/
+2016-12-11 16:16:21	adriaanzon	alright, thanks. i was also confused.
+2016-12-11 16:16:22	@halosghost	AtomBlau4861A: not really no
+2016-12-11 16:16:29	adriaanzon	also, thanks for doing the class :)
+2016-12-11 16:16:29	NanoSector	*bouncer mode activated. bloop*
+2016-12-11 16:16:33	@halosghost	AtomBlau4861A: there are the Trusted Users who maintain the [community] repository
+2016-12-11 16:16:44	adam1	halosghost: thanks for the class. What's the recommended equivalent of AUR for internal-only packages?
+2016-12-11 16:16:45	@halosghost	you might assume they are more likely to make decent packages
+2016-12-11 16:16:48	@halosghost	but that is not always the case
+2016-12-11 16:16:55	@halosghost	adam1: how do you mean?
+2016-12-11 16:17:11	@meskarune	AtomBlau4861A: basically, before you install anything on AUR, read through all the files and make sure they won't destroy anything
+2016-12-11 16:17:12	bugabinga[m]	halosghost: is the version of bash fixed, that will run the PKGBUILD? or is it the bash on users system?
+2016-12-11 16:17:24	@halosghost	bugabinga[m]: it's the one on the user's system
+2016-12-11 16:17:35	adam1	for example, if it's for deploying an internal application
+2016-12-11 16:17:42	Elieux	You should stick to the minimum requirements of pacman.
+2016-12-11 16:17:50	adam1	if that makes sense.
+2016-12-11 16:17:56	@alad	bugabinga[m]: arch linux systems in the general case have one version of a given software installed (general case because there are exceptions), bash is one of those
+2016-12-11 16:18:12	Elieux	(ah, pacman doesn't say a minimum version in its package)
+2016-12-11 16:18:13	@halosghost	adam1: ahh, do you mean what should you do if you want to only install something locally (not distribute it)?
+2016-12-11 16:18:18	geexmmo	alad: just dont share it in aur, keep it in private repo?
+2016-12-11 16:18:42	@halosghost	adam1: in that case, you should still build a package for it rather than install manually (to avoid file system conflicts with pacman)
+2016-12-11 16:18:47	@halosghost	but yeah; you don't need to share it :)
+2016-12-11 16:18:48	@meskarune	adam1: you can make your own repo
+2016-12-11 16:18:49	eper3z	private repo!! (thanks alad :P)
+2016-12-11 16:18:59	@meskarune	adam1: or just have them in a private git
+2016-12-11 16:19:10	@meskarune	like a do it yourself aur
+2016-12-11 16:19:22	bugabinga[m]	alad: bash is an exception. meaning pacman uses a different version than the rest of the system?
+2016-12-11 16:19:24	@alad	I have a (WIP) link on that
+2016-12-11 16:19:29	adam1	meskarune: gotcha. So there's nothing special about AUR in that respect? It's just a regular git repo?
+2016-12-11 16:19:36	@alad	bugabinga[m]: no, I mean things like the C compiler (gcc and gcc5)
+2016-12-11 16:19:42	<--	rested92 (6881189b@gateway/web/freenode/ip.104.129.24.155) has left #archlinux-classroom
+2016-12-11 16:19:44	@meskarune	adam1: yeah, it just hosts git repos and has a nice frontend :)
+2016-12-11 16:19:53	@alad	bugabinga[m]: gcc5 is in the repos because broken things like CUDA exist that don't build with the more strict gcc6
+2016-12-11 16:19:55	@meskarune	adam1: but you coudl also just use a webserver
+2016-12-11 16:20:10	@alad	adam1: https://wiki.archlinux.org/index.php/User:Alad/Local_repository
+2016-12-11 16:20:11	phrik	Title: User:Alad/Local repository - ArchWiki (at wiki.archlinux.org)
+2016-12-11 16:20:12	adam1	meskarune: Ah, that's nice. 
+2016-12-11 16:20:18	@meskarune	or ftp
+2016-12-11 16:20:25	@meskarune	just need a way to share the files locally
+2016-12-11 16:20:26	bugabinga[m]	alad: ah, and the java/python messes and so on..
+2016-12-11 16:20:34	@alad	yep
+2016-12-11 16:20:52	@alad	but bash is always at the latest upstream version, being 4.4 as of writing
+2016-12-11 16:21:09	adam1	@alad: ah, that's a great link. thanks
+2016-12-11 16:21:10	@halosghost	all right, I'm gonna go ahead and officially end the class
+2016-12-11 16:21:10	@halosghost	but we'll stick around for a moment to answer any other questions y'all might have!
+2016-12-11 16:21:13	@alad	which also means you can use newer bash constructs in your pkgbuild if you wish
+2016-12-11 16:21:26	sharethewisdom	one more (unrelated) question: is there a way for pacman to buffer messages echoed by post_install(), so that a pacman -Syu would display them all at once when the last package in the list finished?
+2016-12-11 16:21:47	@alad	sharethewisdom: there is, agregory had something like that with a pacman hook
+2016-12-11 16:21:53	@alad	I just have to find where he put it…
+2016-12-11 16:22:02	bugabinga[m]	can i write something like tests for PKGBUILDs? I imagine makechrootpkg with some sort of assertions...?
+2016-12-11 16:22:16	@halosghost	all right, I'm gonna go ahead and officially end the class
+2016-12-11 16:22:18	@halosghost	but we'll stick around for a moment to answer any other questions y'all might have!
+2016-12-11 16:22:20	@halosghost	============  CLASS ENDS  ============
