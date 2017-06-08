@@ -1,0 +1,569 @@
+2017-06-04 17:00:03	@eschwartz	phrik: classbegins?
+2017-06-04 17:00:04	phrik	============ CLASS BEGINS ============
+2017-06-04 17:00:08	@eschwartz	hello all
+2017-06-04 17:00:15	claui	Hi all
+2017-06-04 17:00:16	teogramm	hey
+2017-06-04 17:00:19	aslam	Hi
+2017-06-04 17:00:19	geekodour08	hi
+2017-06-04 17:00:19	temp2	hey
+2017-06-04 17:00:21	melkor333	Hi
+2017-06-04 17:00:22	maddogie	hi
+2017-06-04 17:00:26	@eschwartz	Today we will be learning how to make a PKGBUILD
+2017-06-04 17:00:34	sandman13	Exciting
+2017-06-04 17:00:56	@eschwartz	Who here knows what a PKGBUILD is?
+2017-06-04 17:01:00	justsomeothergee	I
+2017-06-04 17:01:04	 *	guys raises hand
+2017-06-04 17:01:05	geekodour08	i don't know
+2017-06-04 17:01:07	achillion	o/
+2017-06-04 17:01:10	 *	Foxboron pings alad
+2017-06-04 17:01:12	melkor333	moreorless
+2017-06-04 17:01:19	aslam	I don't know.
+2017-06-04 17:01:29	@eschwartz	geekodour08: excellent, sounds like you will learn something useful today
+2017-06-04 17:01:30	 *	alad is summoned
+2017-06-04 17:01:34	 *	Gnome raises hand
+2017-06-04 17:01:54	@eschwartz	PKGBUILDs arer the secret to Arch Linux success when it comes to building software packages
+2017-06-04 17:02:19	@eschwartz	We like software packages because we are lazy and don't like building things by hand
+2017-06-04 17:02:32	@eschwartz	A PKGBUILD is basically a bash script that does this for us!
+2017-06-04 17:02:56	@eschwartz	To begin with, you must know how you would build a piece of software by hand.
+2017-06-04 17:03:11	geekodour08	so it's like Makefile ?
+2017-06-04 17:03:25	@alad	make is a language of its own, pkgbuild is just bash :)
+2017-06-04 17:03:28	@eschwartz	e.g. the traditional `./configure; make; sudo make install` process, exactly
+2017-06-04 17:03:32	@eschwartz	!give geekodour08 cookie
+2017-06-04 17:03:33	phrik	geekodour08: eschwartz wanted you to have this cookie. 🍪
+2017-06-04 17:04:00	aslam	or like modern build systems, like graddle, maven?
+2017-06-04 17:04:01	achillion	So when we say build, we mean "compile from source"..?
+2017-06-04 17:04:15	@eschwartz	A PKGBUILD contains metadata variables in bash, containing the pkgname of the software, it's pkgver (version), etc.
+2017-06-04 17:04:53	@eschwartz	and the build() function, which says to run the commands, in bash:
+2017-06-04 17:04:53	@eschwartz	./configure
+2017-06-04 17:04:53	@eschwartz	make
+2017-06-04 17:04:53	@eschwartz	make DESTDIR=somewhereprivate install
+2017-06-04 17:05:25	@eschwartz	achillion: not necessarily, for instance python modules do not get compiled, unlike C or C++ which does get compiled
+2017-06-04 17:05:37	@eschwartz	some languages merely require being copied
+2017-06-04 17:05:37	AtomBlau4861A	so it seems like, in some sense, PKGBUILD > Makefile
+2017-06-04 17:05:42	cheezsteak	is there a convention for where "somewhereprivate" should be?
+2017-06-04 17:05:44	achillion	right
+2017-06-04 17:06:12	justsomeothergee	aslam: you do something like "makepkg -si"
+2017-06-04 17:06:14	@eschwartz	cheezsteak: excellent question! makepkg also defines some useful locations, like $srcdir where the package sources are downloaded and extracted to
+2017-06-04 17:06:53	@eschwartz	and $pkgdir which is the staging directory where we copy the final software files to before cramming it into a tarball for distribution with pacman
+2017-06-04 17:07:28	justsomeothergee	has $pkgdir a LFS structure?
+2017-06-04 17:07:44	@eschwartz	justsomeothergee: $pkgdir mimics the LFS structure exactly
+2017-06-04 17:07:54	geekodour08	nom nom. yes i get it. So using PKGBUILD we'll be able to make a usable executable of your script/software written in whatever language for arch, right?
+2017-06-04 17:07:58	@eschwartz	so executables go in $pkgdir/usr/bin/
+2017-06-04 17:08:50	@eschwartz	makepkg can be imitated in something as simple as this: https://gist.github.com/Earnestly/bebad057f40a662b5cc3
+2017-06-04 17:08:51	phrik	Title: A brief overview of the process involved in creating a pacman package. · GitHub (at gist.github.com)
+2017-06-04 17:09:38	@eschwartz	basically, all you need is a pkgname, pkgver, pkgrel to define what the package is, a source=() array of source files, and a package() function...
+2017-06-04 17:10:22	@eschwartz	everyone is familiar with the classic ./configure; make; make install routine?
+2017-06-04 17:10:45	 *	achillion nods
+2017-06-04 17:10:50	cheezsteak	somewhat,
+2017-06-04 17:10:57	@eschwartz	or for python modules we might use python setup.py build ; python setup.py install instead
+2017-06-04 17:10:58	 *	justsomeothergee did it one time
+2017-06-04 17:11:06	temp2	i've never used it but i know the basics
+2017-06-04 17:11:09	aslam	eschwartz, I never used it, I just know that it is a build system for unix based system.
+2017-06-04 17:11:30	@eschwartz	so a PKGBUILD lets you define this however you like
+2017-06-04 17:11:32	melkor333	i used it, but doesn't really know what goes on when I run the commands
+2017-06-04 17:12:01	geekodour08	yes
+2017-06-04 17:12:08	AtomBlau4861A	you could also make up your own bash installation script in a non-standard form
+2017-06-04 17:12:13	 *	justsomeothergee doesn't know what .configure does
+2017-06-04 17:12:17	warlorder	So PKGBUILD is an abstraction over the ./configure; make; make install routine?
+2017-06-04 17:12:21	@eschwartz	melkor333: GNU Make knows how to compile the software from C/C++ sources into an executable file with make, and installl it to your system using make install
+2017-06-04 17:12:30	@eschwartz	warlorder: exactly
+2017-06-04 17:12:49	@eschwartz	err, warlorder
+2017-06-04 17:13:02	@eschwartz	justsomeothergee, anyway. something like that
+2017-06-04 17:13:37	@eschwartz	ah, configure will create the Makefile that make uses
+2017-06-04 17:13:52	melkor333	But you could also install like python files with it, which don't need ./configure; etc.?...
+2017-06-04 17:14:03	@eschwartz	there are other competing build systems like Cmake, ninja, and of course python setuptools
+2017-06-04 17:14:38	@eschwartz	./configure helps you "prepare" to build the software, which leads us back to makepkg and the prepare() function.
+2017-06-04 17:14:53	geekodour08	@eschwartz: is there a recommended directory structure for the files?
+2017-06-04 17:14:54	phrik	geekodour08: Error: You must be registered to use this command. If you are already registered, you must either identify (using the identify command) or add a hostmask matching your current hostmask (using the "hostmask add" command).
+2017-06-04 17:15:05	geekodour08	is there a recommended directory structure for the files?
+2017-06-04 17:15:07	cheezsteak	iirc configure is from gnu/autotools which is an additional abstraction over gnu make?
+2017-06-04 17:15:31	@eschwartz	A PKGBUILD has several optional helper functions you can create to separate the steps in building software
+2017-06-04 17:15:46	@eschwartz	prepare() can be seen as a layer over ./configure
+2017-06-04 17:15:48	AtomBlau4861A	Example From Previous Class: https://github.com/bradklee/ArchBuilds/blob/master/PlanePendulum/PKGBUILD
+2017-06-04 17:15:49	phrik	Title: ArchBuilds/PKGBUILD at master · bradklee/ArchBuilds · GitHub (at github.com)
+2017-06-04 17:16:33	@eschwartz	in prepare, you get the software ready to build. Using abstraction layers like autotools ./configure, or applying patches to the source code
+2017-06-04 17:16:35	justsomeothergee	geekodur: the LFS (Linux File System) has to be followed inside $pkgdir
+2017-06-04 17:17:54	@eschwartz	then in build(), you compile from source files to executables, or in general get the software in order as `make` would do, before finally copying everything over to $pkgdir in the package() step as `make install` would do
+2017-06-04 17:18:10	geekodour08	justsomeothergee: okay, i get it
+2017-06-04 17:18:17	@eschwartz	it is then makepkg's job to do boring things like generate pacman metadata and compress the software into a tarball
+2017-06-04 17:18:52	justsomeothergee	so the metadata is generated over envoirement variables?
+2017-06-04 17:19:10	@eschwartz	everything in $pkgdir/usr and $pkgdir/etc and whatever else is in $pkgdir then gets extracted by paman when you *install* the package... directly into /usr and /etc and whatever else is there.
+2017-06-04 17:19:40	@eschwartz	justsomeothergee: metadata is things like the software name and version, which you set via the PKGBUILD variables pkgname and pkgver
+2017-06-04 17:20:03	@eschwartz	and the name of the packager (you) which you can set in /etc/makepkg.conf to control how makepkg itself operates.
+2017-06-04 17:20:13	justsomeothergee	the PKGBUILD is a shell script, so these are envoirement variables?
+2017-06-04 17:20:20	achillion	Are the same files removed when you uninstall with pacman, or are there rules for what gets removed and what stays?
+2017-06-04 17:21:29	@eschwartz	achillion: pacman records a list of all files contained in the package when it installed the package, and can remove it as well -- which is again why we like packages, since it is difficult to keep track on pen and paper which files you don't need when you uninstall the software :D
+2017-06-04 17:22:13	achillion	But a lot of packages leave behind config files, like stuff in /etc. Does that only happen when they're changed from default?
+2017-06-04 17:22:23	justsomeothergee	can you also specify additional files to be removed?
+2017-06-04 17:22:38	cheezsteak	pacman -Rn removes confic files iirc
+2017-06-04 17:23:06	geekodour08	I use makepkg when installing AUR packages, so AUR packages and official packages both built using PKGBUILD? same process.
+2017-06-04 17:23:16	geekodour08	the gist helped a lot
+2017-06-04 17:23:24	dmc	achillion, backup()
+2017-06-04 17:23:24	@eschwartz	achillion: this is advanced usage, which can be controlled by defining the backup=() array in your PKGBUILD -- telling makepkg to mark those files as "things people don't necessarily want always deleted"
+2017-06-04 17:23:42	achillion	Ah. Awesome, thanks.
+2017-06-04 17:23:55	dmc	dunno why I used function syntax ;p
+2017-06-04 17:23:56	@eschwartz	geekodour08: correct. The official repos build packages using PKGBUILDs, which you can retrieve using the "asp" package
+2017-06-04 17:24:02	@eschwartz	phrik: asp
+2017-06-04 17:24:03	phrik	The Arch Build System's younger, smarter cousin. Now available in extra/asp
+2017-06-04 17:24:42	achillion	dmc: :D
+2017-06-04 17:25:31	@eschwartz	so, prepare() and build() and package() will let us use configure; make; make install... but if it were that simple, we could just run make itself, yeah?
+2017-06-04 17:25:42	@eschwartz	Not all software uses configure; make ; make install though
+2017-06-04 17:26:18	geekodour08	for example?
+2017-06-04 17:26:20	@eschwartz	some packages are just bash scripts, so in package we would use `install -Dm755 myscript.sh "$pkgdir"/usr/bin/myscript.sh` to copy it
+2017-06-04 17:26:29	@eschwartz	or python uses setup.py
+2017-06-04 17:26:44	@eschwartz	so you won't need a prepare() for setup.py
+2017-06-04 17:26:55	@eschwartz	but for build() you use python setup.py build
+2017-06-04 17:27:04	sandman13	Nice
+2017-06-04 17:27:21	justsomeothergee	why do you need to split it up in prepare build and package?
+2017-06-04 17:27:33	@eschwartz	using a build function means the PKGBUILD doesn't have to know what the software uses to build itself, since you tell the PKGBUILD
+2017-06-04 17:28:04	justsomeothergee	?
+2017-06-04 17:28:29	dmc	eschwartz, don't need build() there, as `setup.py install` defaults to building
+2017-06-04 17:28:41	@eschwartz	justsomeothergee: by convention, you separate them because they do separate things. you don't *need* to run `sudo make` to build software, and PKGBUILD package() runs in fakeroot which is sort of like a virtual sudo
+2017-06-04 17:28:53	@eschwartz	dmc: and liekwise, make install defaults to building
+2017-06-04 17:29:06	justsomeothergee	okay
+2017-06-04 17:29:27	@eschwartz	the project README will usually tell you what the software uses to build and install
+2017-06-04 17:29:43	geekodour08	okay.. how do we tell PKGBUILD package() to run in fakeroot? 
+2017-06-04 17:29:55	dmc	no need
+2017-06-04 17:29:57	dmc	geekodour08
+2017-06-04 17:29:59	@eschwartz	geekodour08: this is makepkg's job, so you do not have to worry about it
+2017-06-04 17:30:22	j605	justsomeothergee: also, you can just repackage after adding a dependency you forgot in PKGBUILD
+2017-06-04 17:30:26	corner_cubicle	Isn't fakeroot the same as chrooting to some directory and building there? Why do we need a different command?
+2017-06-04 17:30:35	@eschwartz	j605: this is a very good point.
+2017-06-04 17:31:14	@eschwartz	makepkg allows you to run the individual steps of a software build separately, via the --noextract, --nobuild, and --noarchive flags
+2017-06-04 17:32:29	melkor333	so --noextract = ignore prepare(), --nobuild = ignore build() and --noarchive = ignore package()?
+2017-06-04 17:32:52	@eschwartz	python setup.py install --root="$pkgdir" will tell python setup.py to install the files into your staging root for makepkg to put in the package tarball, and likewise make install DESTDIR="$pkgdir" will do the same for make
+2017-06-04 17:33:00	@eschwartz	*This is very important!*
+2017-06-04 17:33:17	alad	corner_cubicle, with fakeroot you just pretend you're root, so your files have the correct permissions (e.g. stuff in /usr owned by root). it doesn't involve chroot
+2017-06-04 17:33:41	dmc	eschwartz, perhaps I'm missing something, but doesn't look like `make install` builds https://ptpb.pw/N1dW.png
+2017-06-04 17:33:49	@eschwartz	If you do not tell the package() commands to install in $pkgdir it will try to install to / and you aren't the root user so you cannot do that (also, it defeats the point of packaging)
+2017-06-04 17:34:27	@eschwartz	dmc: make install will generally depend on the make target for building the software. :)
+2017-06-04 17:34:46	justsomeothergee	dmc: make builds and make install moves it to /usr/bin
+2017-06-04 17:34:54	alad	corner_cubicle, this "pretend" part is important because building as root is frowned upon (e.g. consider if the build process would have a bug that deletes /usr, cf. bumblebee)
+2017-06-04 17:35:18	@eschwartz	melkor333: mostly correct, though --noarchive ignores the tarball step and will run package()
+2017-06-04 17:35:31	alad	corner_cubicle, supplementary material: http://www.linuxfromscratch.org/hints/downloads/files/fakeroot.txt
+2017-06-04 17:35:32	corner_cubicle	alad, I see. So we don't need root at all for building packages
+2017-06-04 17:35:47	@eschwartz	corner_cubicle: correct. In fact, makepkg will not allow you to run as root, at all
+2017-06-04 17:35:48	alad	nope, just to extract those packages to the file system, which is pacman's job
+2017-06-04 17:36:20	@eschwartz	on to sources!
+2017-06-04 17:36:50	@eschwartz	generally, you will want the PKGBUILD to tell you how you get the source files, in order to run your build() and package() stuff
+2017-06-04 17:37:03	@eschwartz	and PKGBUILD has an array for that... source=()
+2017-06-04 17:37:15	teogramm	Can you suggest any programs we can use to practise?
+2017-06-04 17:37:25	geekodour08	just minute, can you tell me where we get ${pkgdir} in https://github.com/bradklee/ArchBuilds/blob/master/PlanePendulum/PKGBUILD
+2017-06-04 17:37:26	phrik	Title: ArchBuilds/PKGBUILD at master · bradklee/ArchBuilds · GitHub (at github.com)
+2017-06-04 17:37:44	@eschwartz	It's a very smart array, and knows how to access http:// files, as well as git:// repositories, subversion and mercurial as well
+2017-06-04 17:38:17	claui	@geekodour08 makepkg sets it for you so you can just assume it’s there
+2017-06-04 17:38:17	phrik	claui: BLEEP BLOOP
+2017-06-04 17:38:24	achillion	badass array
+2017-06-04 17:39:20	melkor333	I see it can even more.. there is also a {,.sig} in https://github.com/bradklee/ArchBuilds/blob/master/PlanePendulum/PKGBUILD
+2017-06-04 17:39:21	phrik	Title: ArchBuilds/PKGBUILD at master · bradklee/ArchBuilds · GitHub (at github.com)
+2017-06-04 17:39:29	@eschwartz	geekodour08: Notice how that PKGBUILD, uses an "inst" bash script, which is modified in the build() step to point OUTBASE to $pkgdir
+2017-06-04 17:39:38	geekodour08	Oh! PKGBUILD is then just a bashscript that we write in a way so that makepkg gets it. the sources array is smart because of the way makepkg interprets it right?
+2017-06-04 17:39:46	@eschwartz	correct
+2017-06-04 17:40:15	@eschwartz	melkor333: that is bash variable expansion which duplicates the source with a .sig extension, to also download a GPG signature.
+2017-06-04 17:40:37	--	aslam is now known as maslam
+2017-06-04 17:40:54	teogramm	and when does it download and verify the signature?
+2017-06-04 17:41:01	justsomeothergee	teogramm: https://github.com/ecktec/helloworld/tree/master
+2017-06-04 17:41:02	phrik	Title: GitHub - ecktec/helloworld (at github.com)
+2017-06-04 17:41:05	@eschwartz	makepkg will download sources from a variety of locations, and then check them to make sure you downloaded them correctly, using the sha256sums=() array
+2017-06-04 17:41:07	AtomBlau4861A	the pendulum example is not spectacular, and some people would call it hacking
+2017-06-04 17:41:22	@eschwartz	this happens during the preliminary makepkg steps
+2017-06-04 17:42:00	alad	AtomBlau4861A, what
+2017-06-04 17:42:08	@eschwartz	AtomBlau4861A: I would certainly agree that pendulum could be better designed. Good upstream developers allow the install script or make install target to look at variables like DESTDIR
+2017-06-04 17:42:31	TheJena	what should we do when we see SKIP in the sums array? is it safe to go on?
+2017-06-04 17:42:41	@eschwartz	DESTDIR makes the lives of we package makers easier
+2017-06-04 17:42:58	AtomBlau4861A	some people = eschwartz & co.
+2017-06-04 17:43:02	@eschwartz	TheJena: SKIP means makepkg should NOT check the download integrity of the file.
+2017-06-04 17:43:04	justsomeothergee	how is the shasum generated with git repositories?
+2017-06-04 17:43:19	@eschwartz	git repositories have their own integrity mechanisms built into git
+2017-06-04 17:43:27	@eschwartz	and therefore do not need checksums
+2017-06-04 17:44:22	@eschwartz	however, any *file* should have a checksum because otherwise you might end up installing cat pictures or website "this file cannot be found" error pages
+2017-06-04 17:44:37	@eschwartz	Or possibly the starbucks internet login page o_O
+2017-06-04 17:45:22	geekodour08	get it 
+2017-06-04 17:45:32	@eschwartz	additionally, when makepkg sees that there is a source.tar.gz.sig file it will automatically try to verify the source.tar.gz file using the magic of gpg(1)
+2017-06-04 17:45:35	justsomeothergee	so, what do need as sha256sums array, when sources=("http://fjdaslhkgahjkl" "git://fdksjögdlksjdgf" "http://klgsdjdlöjdsgdfs")
+2017-06-04 17:46:09	dmc	sha256sums=('checksum here'
+2017-06-04 17:46:21	dmc	<indentation>'SKIP'
+2017-06-04 17:46:36	dmc	<indentation>'anotherchecksumhere')
+2017-06-04 17:46:36	@eschwartz	justsomeothergee: you will then replace the git repo with SKIP, so you end up with sha256sums=('somechecksum' 'SKIP' 'anotherchecksum')
+2017-06-04 17:46:56	justsomeothergee	doI need a skip, if i use only a git repo?
+2017-06-04 17:47:00	dmc	may as well use sha512 while you're at it
+2017-06-04 17:47:18	TheJena	understood
+2017-06-04 17:47:23	@eschwartz	justsomeothergee: yes, makepkg needs to know that you don't want it to check the integrity of the source
+2017-06-04 17:47:45	justsomeothergee	i understand
+2017-06-04 17:47:56	achillion	Will makepkg complain if the number of sources doesn't match the number of checksums?
+2017-06-04 17:48:16	@eschwartz	once makepkg downloads the sources, and clones any git or subversion or mercurial repos that are also in the sources, it will symlink those to $srcdir, which is the PKGBUILD working directory
+2017-06-04 17:48:19	@eschwartz	achillion: yes
+2017-06-04 17:48:23	geekodour08	so we need to have two arrays, sources=() and sha256sums=() and we should match the indexs with the checksums.
+2017-06-04 17:48:24	achillion	good to know
+2017-06-04 17:48:49	teogramm	Does makepkg automatically extract the files?
+2017-06-04 17:48:54	melkor333	so if i have no sums variable it will abort?
+2017-06-04 17:49:14	@eschwartz	It will also extract archives at the same time, yes
+2017-06-04 17:50:38	@eschwartz	melkor333: it should tell you "error, Integrity checks are missing"
+2017-06-04 17:51:21	melkor333	oh ok
+2017-06-04 17:51:33	AtomBlau4861A	geekodour08: it may be more flexible
+2017-06-04 17:51:55	@eschwartz	generally, when using git sources, you will be building a VCS package, which is to say, it is not a stable release and will use the latest developer commits
+2017-06-04 17:52:09	geekodour08	is the md5sums array alternative to sha256sums=() array in the PlanePendulum example?
+2017-06-04 17:52:10	@eschwartz	in which case you will want a pkgver() function as well
+2017-06-04 17:52:15	AtomBlau4861A	geekodour08: I got it to work using md5sums=()
+2017-06-04 17:52:36	@eschwartz	geekodour08: *sums=() are all valid, but md5 is old and should be replaced by modern things like sha256
+2017-06-04 17:52:41	dmc	teogramm, yes. you have to manually tell it not to (though this is not usually needed)
+2017-06-04 17:52:53	j605	if upstream provides checksums use that instead
+2017-06-04 17:52:55	teogramm	What purpose does validpgpkeys serve?
+2017-06-04 17:53:17	@eschwartz	teogramm: in the event that you do not want it to be extracted, PKGBUILD has noextract=() to list files that should not be extracted.
+2017-06-04 17:53:23	dmc	https://wiki.archlinux.org/index.php/PKGBUILD#validpgpkeys
+2017-06-04 17:53:25	phrik	Title: PKGBUILD - ArchWiki (at wiki.archlinux.org)
+2017-06-04 17:53:45	@eschwartz	teogramm: as we mentioned earlier, GPG signatures will be checked by makepkg when downloaded.
+2017-06-04 17:53:46	AtomBlau4861A	can you give a better reason than age for using md5 vs sha256 in this context?
+2017-06-04 17:54:44	teogramm	But in order for the signature to be verified the user must already have it in his system right?
+2017-06-04 17:54:44	@eschwartz	validpgpkeys tells gpg that "this key is the key that should sign my package sources", and anything else is a gpg key failure indicating that your sources have been hacked.
+2017-06-04 17:55:04	@eschwartz	and gpg is responsible for knowing about the key
+2017-06-04 17:55:15	teogramm	*Must have the key in his system
+2017-06-04 17:55:15	@eschwartz	But gpg is smart too, and can automatically get keys!
+2017-06-04 17:55:19	@eschwartz	phrik: nokeys
+2017-06-04 17:55:20	phrik	Add 'keyserver-options auto-key-retrieve' to ~/.gnupg/gpg.conf, to let makepkg download missing keys automatically.
+2017-06-04 17:55:20	claui	@AtomBlau4861A The wiki page has a detailed explanation: https://wiki.archlinux.org/index.php/PKGBUILD#Integrity
+2017-06-04 17:55:21	phrik	claui: Say what?
+2017-06-04 17:57:14	@eschwartz	12:52:11 PM - eschwartz: in which case you will want a pkgver() function as well
+2017-06-04 17:57:14	@eschwartz	As I said, pkgver() allows your git repository to define it's own pkgver= version, because git repositories can *update themselves*
+2017-06-04 17:57:17	alad	claui, please avoid @, besides confusing phrik it's redundant in IRC
+2017-06-04 17:57:30	claui	alad: thanks
+2017-06-04 17:57:51	claui	I was wondering why phrik keeps talking to me :D
+2017-06-04 17:58:29	AtomBlau4861A	claui: interesting link, which says something I think a lot of people understand from experience
+2017-06-04 17:59:24	AtomBlau4861A	claui: md5 possibly provides time advantage
+2017-06-04 17:59:47	alad	the main part to remember that checksums only serve as integrity, unless they are provided by the software authors and are at least sha256sum
+2017-06-04 18:00:02	AtomBlau4861A	if you're worried about malware, I would think that gpg is more reassurance??
+2017-06-04 18:00:10	alad	to emphasize former aspect, you can have sha9001sum in your pkgbuild, if it's not from upstream it's worthless for security purposes
+2017-06-04 18:00:28	alad	and if you're concerned on security, you should always seek to have a gpg signature for the sources from upstream
+2017-06-04 18:00:51	AtomBlau4861A	~cosine~
+2017-06-04 18:00:59	@eschwartz	AtomBlau4861A: this is correct. But what do you do when the developers do not sign their sources (but do provide sha sums and refuse to respond to your request that they use gpg signatures)?
+2017-06-04 18:01:27	AtomBlau4861A	I think you just have to be flexible, tolerant, and most importantly paranoid
+2017-06-04 18:02:45	AtomBlau4861A	(my opinion) the world is running short on integrity
+2017-06-04 18:03:01	AtomBlau4861A	so developers should learn a trust model and get a signature ASAP
+2017-06-04 18:03:01	@eschwartz	AtomBlau4861A: you can also read all the sources yourself to check for Bad Stuff™, or trust the PKGBUILD writer to have done so himself before generating sha sums. FWIW, I an trustworthy in that regard, if you use my AUR packages. :)
+2017-06-04 18:03:27	@eschwartz	Or compare the sha sums posted on the developer website with the ones in the PKGBUILD
+2017-06-04 18:03:51	@eschwartz	But as you say, developers should all use gpg
+2017-06-04 18:03:56	AtomBlau4861A	eschwartz: you seem nice, but I have a serious issue with paranoia, not yr fault.
+2017-06-04 18:04:32	@eschwartz	this is an eminently fair perspective, and I approve greatly. :)
+2017-06-04 18:05:15	AtomBlau4861A	that is one of the issues with pendulum package though
+2017-06-04 18:05:34	AtomBlau4861A	if you ever see something like that it should raise flags quickly
+2017-06-04 18:05:56	@eschwartz	And on that note you may be happy to learn that upcoming releases of makepkg will be capable of verifying gpg signatures for git commits.
+2017-06-04 18:05:56	AtomBlau4861A	because what is in the "inst" file?
+2017-06-04 18:06:12	geekodour08	So it's the responsibility of the package author to check integrity, or else we might just create a malicious package.
+2017-06-04 18:06:15	geekodour08	right?
+2017-06-04 18:06:24	@eschwartz	AtomBlau4861A: whatever the upstream developer put in it
+2017-06-04 18:06:30	jabranham	pacman -Qc linux
+2017-06-04 18:06:42	jabranham	(sorry wrong window)
+2017-06-04 18:07:06	AtomBlau4861A	security is a responsibility all around 
+2017-06-04 18:07:10	@eschwartz	geekodour08: it certainly is. And it is also the responsibility of the PKGBUILD user to look and see that it was done properly (hopefully with gpg)
+2017-06-04 18:07:24	@eschwartz	any questions?
+2017-06-04 18:08:36	 *	justsomeothergee has no questions
+2017-06-04 18:08:46	melkor333	not yet :D
+2017-06-04 18:08:53	@eschwartz	So. Having a PKGBUILD to build your software is all nice and well, but there is more to software than just building it. For instance, what about other software that it needs?
+2017-06-04 18:08:53	claui	eschwartz: as a user, if I want to upgrade an AUR package, is it a reasonable thing to briefly inspect the PKGBUILD every time?
+2017-06-04 18:08:59	@eschwartz	claui: sure.
+2017-06-04 18:09:20	geekodour08	can you provide some reading links or usage of gpg,pgp sha256 etc. I know how they are used, but not quite getting how here sometimes gpg is checked sometimes gpg. I am a liitle confused. it will be great if you can provide some reading links later or now..
+2017-06-04 18:09:20	@eschwartz	Some AUR helpers will even show you the differences between the previous and current PKGBUILD
+2017-06-04 18:09:41	@eschwartz	geekodour08: we can discuss that
+2017-06-04 18:10:17	melkor333	geekodour08: i guess it'll be even helpful to learn more/not forget how it works...
+2017-06-04 18:10:19	@eschwartz	Anyway... dependencies
+2017-06-04 18:10:45	@eschwartz	PKGBUILD has the depends=() field for things that your software needs
+2017-06-04 18:10:58	achillion	DEPENDENCY HELL
+2017-06-04 18:11:30	@eschwartz	and makedepends=() can contain things that the software needs to build, but doesn't need to run.
+2017-06-04 18:11:46	alad	achillion, lol
+2017-06-04 18:12:16	geekodour08	makedepends=() examples?
+2017-06-04 18:12:21	@eschwartz	usually the project README will tell you what software you need to have installed for the package to work
+2017-06-04 18:12:37	alad	geekodour08, trivial but important: git
+2017-06-04 18:12:39	justsomeothergee	geekodour08: gcc
+2017-06-04 18:12:44	@eschwartz	geekodour08: most python modules will need python-setuptools to run the setup.py file
+2017-06-04 18:12:55	@eschwartz	and of course git for any packages that download sources with git
+2017-06-04 18:13:01	hellboy	Q: split package() EG:https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=adwaita-qt hack or poor package wrapper?
+2017-06-04 18:13:02	phrik	Title: PKGBUILD - aur.git - AUR Package Repositories (at aur.archlinux.org)
+2017-06-04 18:13:12	alad	justsomeothergee, well, not exactly since gcc is part of base-devel and by convention, those are assumed to be installed on any system using the aur
+2017-06-04 18:13:13	@eschwartz	justsomeothergee: gcc is *not* a makedepends, but good guess!
+2017-06-04 18:13:29	justsomeothergee	okay
+2017-06-04 18:13:39	@eschwartz	Arch Linux mandates that the base-devel group is installed whenever you use makepkg
+2017-06-04 18:13:45	tigrmesh	^^ 
+2017-06-04 18:13:49	alad	justsomeothergee, however if e.g you had a C app that for some reason would only compile with clang (or some other compiler that's not in base-devel), you'd in fact add 'clang'
+2017-06-04 18:13:50	achillion	How about statically linked libs? Are those build deps?
+2017-06-04 18:14:41	@eschwartz	achillion: statically linked libraries are kind of ugly, and usually appear when a project contains the source code for something else contained in its own tarball, and builds a private copy for itself.
+2017-06-04 18:14:55	achillion	so it's not common at all
+2017-06-04 18:15:06	@eschwartz	not really
+2017-06-04 18:15:07	alad	anything proprietary :P
+2017-06-04 18:15:09	achillion	but does it happen..?
+2017-06-04 18:15:28	tigrmesh	probably
+2017-06-04 18:16:00	alad	because the proprietary author doesn't want to consider external library updates for his software, just he packages everything with his application
+2017-06-04 18:16:03	 *	tigrmesh should have waited for eschwartz's answer
+2017-06-04 18:16:11	@eschwartz	achillion: given that most Arch Linux packages do not contain the static libs (*.a files) for the shared libraries they distribute, you could end up being out of luck, or at least inconvenienced
+2017-06-04 18:16:19	alad	but that can cause issues of its own
+2017-06-04 18:16:54	@eschwartz	more common are proprietary applications that use old versions of *shared* libraries, in which case there are AUR packages for *-compat-libs or similar
+2017-06-04 18:17:27	@eschwartz	see also the openssl-1.0 package that is used in the official repos for software that was not ported to openssl 1.1
+2017-06-04 18:17:56	@eschwartz	but that is implementation details for the most part, very package-specific stuff
+2017-06-04 18:18:23	achillion	right, yeah, seems like an edge case and nothing to worry about generally. thanks for the info
+2017-06-04 18:18:37	@eschwartz	depends and makedepends are often overlooked in part by PKGBUILD writers. Because, if it compiled okay on their machine, it must work, right?
+2017-06-04 18:18:54	achillion	yyyyup
+2017-06-04 18:18:57	achillion	hehe
+2017-06-04 18:18:59	@eschwartz	However, you may have dependencies on your computer from other packages!
+2017-06-04 18:19:34	@eschwartz	it is advised to test your packages in a clean chroot and see if they build, and use the namcap package to look for common mistakes
+2017-06-04 18:20:13	@eschwartz	If it doesn't build in a clean chroot, you may have a missing dependency. The error messages from your build() function will probably give you a clue what you are missing.
+2017-06-04 18:20:36	@eschwartz	clean chroot builds can be done using the `makechrootpkg` program installed as part of devtools
+2017-06-04 18:20:56	@eschwartz	devtools is the official scripts used to create the Arch Linux repositories
+2017-06-04 18:21:58	@eschwartz	namcap is a linting program, which can spot other errors, but is not perfect and can make mistakes.
+2017-06-04 18:22:18	@eschwartz	It is still usually worth looking at the warnings it mentions.
+2017-06-04 18:23:23	@eschwartz	and while we are checking our PKGBUILD, let's check the software too!
+2017-06-04 18:23:55	geekodour08	makedepends and depends, we list the dependencies. it will give errors if not installed. will it not do the same if these arrays were missing in the PKGBUILD?
+2017-06-04 18:24:18	@eschwartz	If your software has a `make check` or other form of unittests for verifying the software performs as expected, you can tell the PKGBUILD about it. Just  like build() will build the software, check() can be used to run the tests.
+2017-06-04 18:24:49	@eschwartz	geekodour08: if a depends is not installed, makepkg -s will install the depends before building the software.
+2017-06-04 18:25:24	@eschwartz	which is better than build() failing with an error because it tried to access the depends and couldn't
+2017-06-04 18:25:45	geekodour08	now i know why i use the -s. thanks!
+2017-06-04 18:25:59	@eschwartz	and likewise, for check() we have checkdepends=() if the testsuite makes use of special testing software
+2017-06-04 18:26:38	@eschwartz	always use check() if the software supports it, because finding errors as soon as possible is good. :)
+2017-06-04 18:26:58	demize	eschwartz: Shared libraries are uglier than statically linked ones technically speaking ;p
+2017-06-04 18:27:04	AtomBlau4861A	I thought it was easy enough to do the clean chroot check first time through
+2017-06-04 18:27:19	@eschwartz	demize: that is a quibble for another time, now stop channeling earnestly :p
+2017-06-04 18:27:25	demize	The way shared libs work is so ugly, and most of the supposed benefits sort of went out the window with versioned symbols ands tops...
+2017-06-04 18:27:34	demize	eschwartz: Pft, I'm channeling myself!
+2017-06-04 18:27:46	melkor333	bytheway I just saw a package containing both md5 and sha256 sums.. Does makepkg automatically take the 'more modern' one?
+2017-06-04 18:27:51	demize	"ands tops" the hell is that supposed to mean, self.
+2017-06-04 18:27:56	achillion	demize: stop the propaganda
+2017-06-04 18:27:59	achillion	:P
+2017-06-04 18:28:03	@eschwartz	melkor333: makepkg uses both, in that case.
+2017-06-04 18:28:09	demize	achillion: FREE THE PENGUINS
+2017-06-04 18:28:14	achillion	\o/
+2017-06-04 18:28:20	AtomBlau4861A	easier now if arch is deprecating i686
+2017-06-04 18:28:25	@eschwartz	I consider it somewhat bad style, as sha256sums means you don't need md5sums at all
+2017-06-04 18:29:12	demize	Well, if both of them were broken, then it's much less likely that it would match both ;)
+2017-06-04 18:29:24	demize	But that's, so far, a very theoretical threat.
+2017-06-04 18:29:31	@eschwartz	demize: sha256 isn't broken though :D
+2017-06-04 18:29:55	j605	does any package use changelog array? I have yet to see an example on how it can be used
+2017-06-04 18:30:00	demize	Indeed.
+2017-06-04 18:30:17	claui	eschwartz: what about the `options=()` array? are there extremely common ones we should memorize?
+2017-06-04 18:30:31	demize	j605: It's not an array, it's just a regular variable pointing to a file that's supposed to contain the changelog.
+2017-06-04 18:30:40	demize	j605: In practice it's not really used, but a few packages use it.
+2017-06-04 18:30:42	@eschwartz	j605: most don't, but you can set it to a file that you include with the details of what changed and pacman will display it to the user when asked.
+2017-06-04 18:31:06	@eschwartz	I use it in https://aur.archlinux.org/packages/fanficfare
+2017-06-04 18:31:08	phrik	Title: AUR (en) - fanficfare (at aur.archlinux.org)
+2017-06-04 18:31:11	achillion	changelog=$(git log master..<last-release>) :P
+2017-06-04 18:31:15	alad	claui, 'debug' is useful for vcs packages, as these tend to be used for debugging so you do not want to remove the respective symbols
+2017-06-04 18:31:34	demize	achillion: well, you'd need to do that in prepare() or somesuch and write it to a file.
+2017-06-04 18:31:38	@eschwartz	claui: options will override the options specified in makepkg.conf
+2017-06-04 18:32:03	@eschwartz	demize: also the changelog file must exist before prepare even if you modify the contents
+2017-06-04 18:32:07	demize	Though it makes more sense to use it for a changelog for the pkgbuild and such overall, but at that point you have the VCS logs now...
+2017-06-04 18:32:12	@eschwartz	you can use a dummy file
+2017-06-04 18:32:59	@eschwartz	Some common mistakes are often made when writing PKGBUILDs
+2017-06-04 18:33:24	@eschwartz	the most common is probably the classic bash issue of forgetting to quote your variables.
+2017-06-04 18:33:34	@eschwartz	$srcdir and $pkgdir can contain spaces!
+2017-06-04 18:33:38	achillion	demize: also, master..<last-release> should probably be reversed?
+2017-06-04 18:34:12	demize	achillion: most likely, though that can be useful sometimes too ;p
+2017-06-04 18:34:35	@eschwartz	If your PKGBUILD is in a folder that has spaces in it, e.g. /home/eschwartz/AUR packages/mypackage" then that space must be quoted
+2017-06-04 18:34:54	achillion	demize: I think A..B prints nothing if A is a child of B
+2017-06-04 18:34:56	geekodour08	what do you mean by can contain spaces? :o oh the paths!
+2017-06-04 18:35:18	demize	achillion: Indeed, but it might not be.
+2017-06-04 18:35:20	@eschwartz	so remember to always quote your "$srcdir" and "$pkgdir"
+2017-06-04 18:35:27	achillion	demize: right
+2017-06-04 18:35:34	j605	demize: it might be nice to have changelogs for releases. I had to go look at the changelogs in github release page to see why something broke. It would be nice if I could just look at the changelogs using pacman
+2017-06-04 18:36:09	melkor333	Namcap doesn't find that error? I guess it would be rather easy to check if those variables are quoted..?
+2017-06-04 18:36:18	demize	j605: Would honestly make more sense to just plop the changelog file in /usr/share somewhere instead in those cases, IMO.
+2017-06-04 18:36:29	@eschwartz	when specifying sources, people often forget to reuse that handy bash variable "pkgver", which means they need to modify it both in the pkgver and in the source=() and often even in the build() and package() functions.
+2017-06-04 18:36:41	@eschwartz	while not strictly a mistake, it sure is inefficient
+2017-06-04 18:37:35	demize	namcap doesn't try to actually parse the shell script itself, so by the time it does its job it's too late.
+2017-06-04 18:38:14	@eschwartz	somewhat more deadly is when they export a variable in prepare() and expect it to be around in build() -- this is not always true, because makepkg --nobuild && makepkg --noextract separaate those into two runs
+2017-06-04 18:38:30	@eschwartz	this is often caught by pacaur, which in fact does just that.
+2017-06-04 18:38:58	@eschwartz	if you set something in one PKGBUILD function, you should probably set it in all of them. ;)
+2017-06-04 18:39:28	geekodour08	why would someone not use "pkgver" ? does that mean the version is hardcoded in some PKDBUILD scripts? and when updating version, we need to write new PKGBUILDs or just updating the version is enough?
+2017-06-04 18:39:49	@eschwartz	geekodour08: they don't use it, because they are absentminded and forget to. :)
+2017-06-04 18:40:29	@eschwartz	Xyne, a Trusted User, forgets this -- so you see it does happen, and even our overlords are still human.
+2017-06-04 18:41:03	achillion	lies
+2017-06-04 18:41:11	achillion	pro-human propaganda
+2017-06-04 18:41:18	@eschwartz	as for variables set in prepare, you will see this often for example in golang packages.
+2017-06-04 18:41:34	demize	He forgets a lot of things, like reason... */cough* ;p
+2017-06-04 18:41:48	@eschwartz	oooh, TU catfight!
+2017-06-04 18:41:50	@eschwartz	:p
+2017-06-04 18:42:05	alad	tacofight *
+2017-06-04 18:42:20	melkor333	but if you wrote a good PKGBUILD and no major changes happen, you can just update the $pkgver variable?
+2017-06-04 18:42:24	demize	Mmm, tacos.
+2017-06-04 18:42:46	@eschwartz	melkor333: correct. you may also need to update the sha256sums though. ;)
+2017-06-04 18:43:01	melkor333	ooh don't you have a pgp key for that?
+2017-06-04 18:43:32	@eschwartz	melkor333: there are two types of checks done on file contents. There is the checksums, and there is gpg
+2017-06-04 18:43:48	@eschwartz	every file must have a checksum, or at least a SKIP checksum in the case of git sources.
+2017-06-04 18:44:14	melkor333	oh right lucky me will always have SKIP in it :P
+2017-06-04 18:44:38	demize	Don't make me have to get out my pitchfork for you!
+2017-06-04 18:44:50	@eschwartz	checksums are usually generated on YOUR (the PKGBUILD author's) machine, after making sure the sources are kosher
+2017-06-04 18:45:16	@eschwartz	(updpkgsums can do this automatically for you)
+2017-06-04 18:45:49	@eschwartz	gpg signatures are always created by the developer and are optional, though highly advised.
+2017-06-04 18:46:17	demize	(Though you're "supposed" to use whatever checksums upstream publish, if they publish any ;p)
+2017-06-04 18:46:32	@eschwartz	demize: after making sure the sources are kosher, yeah
+2017-06-04 18:46:47	demize	Well, before even *shrug*
+2017-06-04 18:47:00	@eschwartz	which can be hard when upstream doesn't even publish checksums
+2017-06-04 18:47:00	demize	Few people actually check for the upstream checksums though, heh.
+2017-06-04 18:47:04	 *	eschwartz shakes pitchfork
+2017-06-04 18:47:36	@eschwartz	any questions?
+2017-06-04 18:47:44	demize	https://produkte.k-m.de/media/images/product/cache/ec756bc1da351e60974cc6d814ddb15d-productpage_super.jpg
+2017-06-04 18:47:49	demize	^ my pitchfork *cough*
+2017-06-04 18:47:57	achillion	lol
+2017-06-04 18:48:11	alad	rekt
+2017-06-04 18:48:18	geekodour08	arn't the PKGBUILD author and the developer generating the checksums the same person?
+2017-06-04 18:48:34	j605	no
+2017-06-04 18:48:51	alad	they may be, but usually not
+2017-06-04 18:48:52	@eschwartz	geekodour08: well, as demize helpfully pointed out, ideally the checksums would be the ones the upstream developer publishes on their website.
+2017-06-04 18:49:14	@eschwartz	unfortunately, many developers don't do that, which means the PKGBUILD author must do that instead.
+2017-06-04 18:49:15	claui	geekodour08: a developer might not even know Arch exists but we still want her or his software as an Arch package
+2017-06-04 18:49:31	alad	j605, e.g. https://aur.archlinux.org/packages/termite-git/
+2017-06-04 18:49:32	phrik	Title: AUR (en) - termite-git (at aur.archlinux.org)
+2017-06-04 18:50:31	j605	the question was about the concept in general. You can't prove it by giving examples
+2017-06-04 18:50:33	j605	:P
+2017-06-04 18:51:29	geekodour08	yes i get it now.
+2017-06-04 18:51:45	justsomeothergee	eschwartz: are you done?
+2017-06-04 18:52:10	@eschwartz	no
+2017-06-04 18:52:10	@eschwartz	once you build a package, occasionally there will be things that must happen at the time the package is installed, for instance when you install software that produces a desktop file you want to update the desktop database
+2017-06-04 18:52:28	@eschwartz	now that pacman 5 is released, we usually use pacman hooks for that
+2017-06-04 18:52:37	@eschwartz	see man alpm-hooks for details
+2017-06-04 18:52:47	alad	j605, your claim is that they are _never_ the same person, which is disproved by said example
+2017-06-04 18:52:59	j605	true
+2017-06-04 18:53:00	@eschwartz	however, traditionally we used install scripts, and sometimes we still do for uncommon tasks
+2017-06-04 18:53:19	@eschwartz	an install script is specified by the PKGBUILD variable "install="
+2017-06-04 18:54:42	justsomeothergee	so the value of install is executed every time some install happens?
+2017-06-04 18:54:42	@eschwartz	common use of this is when a package uses some sort of persistent information, usually in /var/ like a database
+2017-06-04 18:55:09	@eschwartz	install points to a file which is a bash script containing the post_install post_upgrade etc. functions
+2017-06-04 18:55:19	@eschwartz	use this with *great caution*
+2017-06-04 18:55:58	@eschwartz	for example, the "linux" package will run depmod there
+2017-06-04 18:56:20	@eschwartz	and when removing the package, it will remove the generated initramfs that was created with mkinitcpio
+2017-06-04 18:56:43	@eschwartz	these things cannot be done in the package() function, because they depend on the user's machine
+2017-06-04 18:56:48	AtomBlau4861A	what permission level do those functions run at?
+2017-06-04 18:56:54	@eschwartz	they run as root!
+2017-06-04 18:57:02	AtomBlau4861A	oh my
+2017-06-04 18:57:22	@eschwartz	As do alpm-hooks
+2017-06-04 18:57:39	@eschwartz	do not use an install script when a hook exists
+2017-06-04 18:57:40	achillion	AtomBlau4861A: well it's the stage where stuff is copied to its destination; how can it run as non-root?
+2017-06-04 18:57:41	geekodour08	what's the "linux" package? :o
+2017-06-04 18:58:08	@eschwartz	geekodour08: `pacman -Qi linux` -- it's the package containing the kernel you boot
+2017-06-04 18:59:04	AtomBlau4861A	achillion: you're right, at some time an installation program needs to escalate 
+2017-06-04 18:59:07	@eschwartz	there are hooks for most things that used to be done in scripts, for example, adding and removing things from the info(1) database, updating the xdg mime cache and desktop database, generating vim help tags...
+2017-06-04 19:00:19	AtomBlau4861A	achillion: even if you're just experimenting, there's a possibility of system damage  
+2017-06-04 19:00:34	@eschwartz	and occasionally you will see VERY BAD PACKAGES INDEED which try to copy things into the user's home folder, copy files around in /etc/ and chmod stuff
+2017-06-04 19:00:37	geekodour08	the hooks are very helpful then!
+2017-06-04 19:01:13	@eschwartz	the best part about hooks is that they act like install scripts for *all* packages, and you do not have to explicitly create an install script to do them.
+2017-06-04 19:01:29	achillion	oooh
+2017-06-04 19:01:32	achillion	neat
+2017-06-04 19:01:48	claui	eschwartz: copying things into the user’s home folder doesn’t even really make sense. It’s not even clear which user it should be, and new users can come after the package is installed …
+2017-06-04 19:01:48	@eschwartz	any questions?
+2017-06-04 19:02:15	jabranham	eschwartz: thanks for doing this, really appreciate it! 
+2017-06-04 19:02:22	AtomBlau4861A	yes, thanks
+2017-06-04 19:02:22	@eschwartz	claui: it's very gross, and they do ridiculous hacks to try to do it anyway
+2017-06-04 19:02:54	AtomBlau4861A	so what locations are "good" places to write to?
+2017-06-04 19:02:54	@eschwartz	well, then. Now that we have a beautiful PKGBUILD ready for use, we want to share it. Right?
+2017-06-04 19:03:04	@eschwartz	So. The AUR.
+2017-06-04 19:03:11	demize	PSA: If you do find any packages like that, poke me about it and I'll take care of it. ;)
+2017-06-04 19:03:20	@eschwartz	demize: lastpass
+2017-06-04 19:04:06	demize	oh lord
+2017-06-04 19:04:07	@eschwartz	that one is heinous, it uses the value of $USER during makepkg to modify the install script
+2017-06-04 19:04:09	demize	this is awfull
+2017-06-04 19:04:41	alad	ah, a Det pkgbuild. those are always a sight to behold
+2017-06-04 19:04:46	achillion	is there a mechanism in the aur to flag these packages as... filthy?
+2017-06-04 19:04:53	achillion	I mean... should there be?
+2017-06-04 19:04:59	@eschwartz	achillion: file a deletion request, and specify the reason
+2017-06-04 19:05:08	achillion	cool
+2017-06-04 19:05:11	AtomBlau4861A	so is it okay to put files in /opt ?
+2017-06-04 19:05:17	demize	alad: Yeah :|
+2017-06-04 19:05:21	claui	or: adopt the package and improve it :)!
+2017-06-04 19:05:25	@eschwartz	AtomBlau4861A: sure. Many proprietary applications use that
+2017-06-04 19:05:46	@eschwartz	or standalone binaries published by open-source developers
+2017-06-04 19:05:53	achillion	JetBrains stuff, Android dev tools, etc go in /opt iirc
+2017-06-04 19:06:00	@eschwartz	demize: If you give me the lastpass package I can fix it...
+2017-06-04 19:06:18	AtomBlau4861A	ls /tmp
+2017-06-04 19:06:23	geekodour08	one more thing, there's a QT based MIPS simulator for Ubuntu, I can't get it working on my arch machine, there's a AUR package for it. https://www.archlinux.org/packages/community/i686/qtspim/ can't get it working. will writing a proper PKGBUILD solve it, or it might be a issue with the actual software?
+2017-06-04 19:06:25	phrik	Title: Arch Linux - qtspim 9.1.17-2 (i686) (at www.archlinux.org)
+2017-06-04 19:06:28	@eschwartz	I currently maintain a private firefox-extension-lastpass package for that
+2017-06-04 19:06:40	AtomBlau4861A	what about /tmp is this an okay directory to work with? 
+2017-06-04 19:06:52	alad	geekodour08, outside the scope of this class, feel free to jump in #archlinux-aur
+2017-06-04 19:06:54	@eschwartz	geekodour08: that isn't an AUR package, it is a community package
+2017-06-04 19:07:03	alad	also ^
+2017-06-04 19:07:10	alad	just #archlinux then
+2017-06-04 19:07:12	demize	eschwartz: Please file a request about it, these things really need to be done publicly.
+2017-06-04 19:07:21	creshiem	#archlinux-aur
+2017-06-04 19:07:22	@eschwartz	demize: will do in a bit, sure
+2017-06-04 19:07:32	melkor333	isnt there #archlinux-dev ?
+2017-06-04 19:07:42	achillion	eschwartz: is it ok to bug you and demize to review PKGBUILDs in the future? (not constantly, but at least once or twice)
+2017-06-04 19:07:55	@eschwartz	achillion: as on #archlinux-aur, I hang out there
+2017-06-04 19:08:00	achillion	cool
+2017-06-04 19:08:02	achillion	will do
+2017-06-04 19:08:04	demize	achillion: Sure, go ahead.
+2017-06-04 19:08:07	achillion	\o/
+2017-06-04 19:08:11	melkor333	(only like once or twice a week =P)
+2017-06-04 19:08:19	demize	achillion: And you're in my SuperSecretChannel ;)
+2017-06-04 19:08:20	justsomeothergee	so eschwartz, teach us about the AUR
+2017-06-04 19:08:20	@eschwartz	So the AUR is free for all to contribute, and these days you can manage PKGBUILDs in git
+2017-06-04 19:08:22	achillion	melkor333: s/week/day/
+2017-06-04 19:08:22	alad	achillion, you can also ask me since my hair splitting skills are legendary
+2017-06-04 19:08:31	achillion	alad: orite :D
+2017-06-04 19:08:33	@eschwartz	I won't go over the process of getting an account
+2017-06-04 19:08:40	@eschwartz	!grab alad
+2017-06-04 19:08:40	phrik	eschwartz: Tada!
+2017-06-04 19:08:57	achillion	I'll bug demize on Twitter instead
+2017-06-04 19:09:09	demize	hah, I never check twitter ;p
+2017-06-04 19:09:23	achillion	and when you do, you'll have 100 notifications for pkgbuilds
+2017-06-04 19:09:24	@eschwartz	But once your AUR account is set up, you can create packages by making a git repo and pushing it to the AUR
+2017-06-04 19:09:25	demize	Oh, though I do get push notifications to my phone for twitter too, so I guess that /would/ work.
+2017-06-04 19:09:47	achillion	:)
+2017-06-04 19:09:51	@eschwartz	I have a nice automated workflow here: https://github.com/eli-schwartz/pkgbuilds
+2017-06-04 19:09:52	phrik	Title: GitHub - eli-schwartz/pkgbuilds: PKGBUILDs for ArchLinux (at github.com)
+2017-06-04 19:09:57	alad	achillion's personal pkgbuild service
+2017-06-04 19:10:39	@eschwartz	Key points are the git hooks which automatically recreate the .SRCINFO whenever a PKGBUILD is updated, to ensure AUR metadata is always up to date
+2017-06-04 19:10:52	achillion	O_O that looks cool
+2017-06-04 19:10:52	@eschwartz	and the easy git subtree pushing via ./aurpublish
+2017-06-04 19:11:00	 *	achillion clicks on the star
+2017-06-04 19:11:24	@eschwartz	the commit message template is nice too IMHO
+2017-06-04 19:11:34	alad	achillion, estartz
+2017-06-04 19:12:16	@eschwartz	but it's all pretty basic stuff. you can push to aur@aur.archlinux.org/pkgname.git
+2017-06-04 19:12:18	geekodour08	clicks on the star(2)
+2017-06-04 19:12:35	demize	eschwartz: Hah, that prepare-commit-message hook does look rather nice, might steal it ;)
+2017-06-04 19:12:40	alad	eschwartz, btw https://github.com/eli-schwartz/pkgbuilds/blob/master/import-from-aur3.sh#L60 <-- pkgbuild.com mirror is ded
+2017-06-04 19:12:41	phrik	Title: pkgbuilds/import-from-aur3.sh at master · eli-schwartz/pkgbuilds · GitHub (at github.com)
+2017-06-04 19:12:53	@eschwartz	All AUR history is immutable, so you can see everything that was ever pushed and maintainers cannont hide the past
+2017-06-04 19:13:10	@eschwartz	alad: that script was such a hack and I used it a couple times, maybe
+2017-06-04 19:13:19	alad	is it possible to do a git push --force on aur history?
+2017-06-04 19:13:25	@eschwartz	demize: sure, go ahead. Steal everything I own
+2017-06-04 19:13:40	@eschwartz	alad: nope. Not unless you are a Trusted User
+2017-06-04 19:13:42	demize	eschwartz: I will!  Where's your house!
+2017-06-04 19:14:01	alad	eschwartz, 'k
+2017-06-04 19:14:10	@eschwartz	Trusted Users are allowed to do so for administrative purposes, e.g. to comply to legal requests
+2017-06-04 19:14:27	alad	demize, Archanistan, Tacotown, Yaourt Lane 42 :P
+2017-06-04 19:14:52	@eschwartz	demize: 1600 Pennsylvania Ave NW, Washington, DC 20500
+2017-06-04 19:14:55	justsomeothergee	yaourt doesn't work anymore
+2017-06-04 19:15:05	alad	eschwartz, lol
+2017-06-04 19:15:07	@eschwartz	!give demize doit
+2017-06-04 19:15:08	phrik	demize: Dooooooooo eeeeeeeettttttttt
+2017-06-04 19:15:44	demize	And IME most people don't have good reasons for force-pushing, and would end up screwing up things for other people that aren't very git-inclined, so the few times it's a good idea they can just poke us about it.
+2017-06-04 19:15:55	@eschwartz	any last questions?
+2017-06-04 19:15:59	alad	demize, got it
+2017-06-04 19:16:00	demize	eschwartz: But it's inhabited by moldy fruit...
+2017-06-04 19:16:14	@eschwartz	demize: not my fault :(
+2017-06-04 19:16:39	justsomeothergee	eschwartz, thank you for the class, it was very interesting
+2017-06-04 19:17:02	alad	no more questions from me. good work, guy-who-always-refers-to-himself-in-third-person
+2017-06-04 19:17:10	geekodour08	thankyou so much for this. I finally get to know why AUR packages are just one file. I thought they were just the whole thing like cloning a git repo. Thankyou so much!
+2017-06-04 19:17:18	claui	eschwartz: thanks a bunch!
+2017-06-04 19:17:25	alad	geekodour08, they are in fact a "whole thing"
+2017-06-04 19:17:32	melkor333	one more.. the local makepkg.conf, does this have any interesting variables?
+2017-06-04 19:17:35	@eschwartz	geekodour08: they can be more than one file, for example if a patch is needed.
+2017-06-04 19:17:43	alad	melkor333, man makepkg.conf
+2017-06-04 19:17:47	alad	:)
+2017-06-04 19:18:03	geekodour08	yes
+2017-06-04 19:18:04	@eschwartz	melkor333: makepg.conf does things to configure how makepkg works for instance to declare who the PACKAGER=
+2017-06-04 19:18:16	@eschwartz	And the standard C(XX)FLAGS
+2017-06-04 19:18:37	demize	*cough* $XDG_CONFIG_HOME/pacman/makepkg.conf */cough*
+2017-06-04 19:18:41	demize	;)
+2017-06-04 19:19:06	melkor333	okay. Well then, thanks a lot for the course,  learned some interesting stuff =)
+2017-06-04 19:19:16	@eschwartz	Note that you can change the C(XX)FLAGS to use -march=native which builds executables optimized to your specific hardware (and may not work at all on other peoples' hardware)
+2017-06-04 19:19:25	demize	BUILDENV array is also useful for things like enabling ccache support.
+2017-06-04 19:19:35	@eschwartz	^^ ccache, or distcc
+2017-06-04 19:20:49	demize	Oh, and overriding the OPTIONS for things like leaving staticlibs in place is sometimes useful, though you'd want to do that on a per-package basis.
+2017-06-04 19:21:18	achillion	eschwartz: THANKS!!!
+2017-06-04 19:21:29	@eschwartz	you can also change the PKGEXT which can be useful to save time compressing your packages, since it is generally for publicly hosted repos that you compress with xz to save bandwidth
+2017-06-04 19:21:38	demize	SRCDEST is also useful for having all downloaded package sources stored in a single place, so that they're not downloaded more times than necessary :D
+2017-06-04 19:22:18	@eschwartz	LOGDEST for saving the build logs in a central location, like /var/log/makepkg
+2017-06-04 19:22:45	geekodour08	thanks for the class. tata. I'll write my first PKGBUILD soon and put it on AUR. :') btw are SRCDEST,BUILDENV,PKGNXT variables inside makepg.conf? 
+2017-06-04 19:22:46	@eschwartz	(yes, I chmod 777 /var/log/makepkg)
+2017-06-04 19:22:54	@eschwartz	geekodour08: Indeed they are
+2017-06-04 19:23:41	geekodour08	cool :)
+2017-06-04 19:24:09	@eschwartz	and if that is all, then we will end the class now. It's been great teaching you all, thanks for being here! :)
+2017-06-04 19:24:20	@eschwartz	phrik: classends
+2017-06-04 19:24:21	phrik	============ CLASS ENDS ============
